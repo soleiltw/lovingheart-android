@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">DailyKind</string>
+    <string name="title_section1">Today</string>
+    <string name="title_section2">Me</string>
+    <string name="title_section3">Activities</string>
+    <string name="action_settings">Settings</string>
+
+</resources>
