@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">DailyKind</string>
+    <string name="app_name">LovingHeart</string>
     <string name="title_today">Today</string>
     <string name="title_me">Me</string>
-    <string name="title_activities">Activities</string>
+    <string name="title_activities">Deeds</string>
 	<string name="title_now">Now</string>
     <string name="action_settings">Settings</string>
 

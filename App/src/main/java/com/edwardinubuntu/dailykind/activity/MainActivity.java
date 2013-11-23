@@ -1,4 +1,4 @@
-package com.edwardinubuntu.dailykind;
+package com.edwardinubuntu.dailykind.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,12 +11,18 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import com.edwardinubuntu.dailykind.fragment.PlaceholderFragment;
+import com.edwardinubuntu.dailykind.*;
+import com.edwardinubuntu.dailykind.fragment.*;
 import com.parse.*;
 
 import java.util.Locale;
 
 public class MainActivity extends ActionBarActivity implements ActionBar.TabListener {
+
+    private final static int VIEW_PAGER_HOME_POSITION = 0;
+    private final static int VIEW_PAGER_ME_POSITION = 1;
+    private final static int VIEW_PAGER_ACTIVITIES_POSITION = 2;
+    private final static int VIEW_PAGER_NOW_POSITION = 3;
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -36,7 +42,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(com.edwardinubuntu.dailykind.R.layout.activity_main);
 
         Parse.initialize(this, ParseSettings.PARSE_API_TOKEN, ParseSettings.PARSE_API_TOKEN_2);
 
@@ -49,7 +55,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
-        mViewPager = (ViewPager) findViewById(R.id.pager);
+        mViewPager = (ViewPager) findViewById(com.edwardinubuntu.dailykind.R.id.pager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
         // When swiping between different sections, select the corresponding
@@ -93,7 +99,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
     public boolean onCreateOptionsMenu(Menu menu) {
         
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
+        getMenuInflater().inflate(com.edwardinubuntu.dailykind.R.menu.main, menu);
         return true;
     }
 
@@ -103,7 +109,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         switch (item.getItemId()) {
-            case R.id.action_post: {
+            case com.edwardinubuntu.dailykind.R.id.action_post: {
                 Intent intent = new Intent(getApplicationContext(), PostStoryActivity.class);
                 startActivity(intent);
                 break;
@@ -142,7 +148,18 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
-            return PlaceholderFragment.newInstance(position + 1);
+            switch (position) {
+                case VIEW_PAGER_HOME_POSITION:
+                    return HomeFragment.newInstance(position + 1);
+                case VIEW_PAGER_ME_POSITION:
+                    return MeFragment.newInstance(position + 1);
+                case VIEW_PAGER_NOW_POSITION:
+                    return FeedsActivitiesFragment.newInstance(position + 1);
+                case VIEW_PAGER_ACTIVITIES_POSITION:
+                    return UserActivitiesFragment.newInstance(position + 1);
+                default:
+                    return PlaceholderFragment.newInstance(position + 1);
+            }
         }
 
         @Override
@@ -155,14 +172,14 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         public CharSequence getPageTitle(int position) {
             Locale l = Locale.getDefault();
             switch (position) {
-                case 0:
-                    return getString(R.string.title_today).toUpperCase(l);
-                case 1:
-                    return getString(R.string.title_me).toUpperCase(l);
-                case 2:
-                    return getString(R.string.title_activities).toUpperCase(l);
-                case 3:
-                    return getString(R.string.title_now).toUpperCase(l);
+                case VIEW_PAGER_HOME_POSITION:
+                    return getString(com.edwardinubuntu.dailykind.R.string.title_today).toUpperCase(l);
+                case VIEW_PAGER_ME_POSITION:
+                    return getString(com.edwardinubuntu.dailykind.R.string.title_me).toUpperCase(l);
+                case VIEW_PAGER_ACTIVITIES_POSITION:
+                    return getString(com.edwardinubuntu.dailykind.R.string.title_activities).toUpperCase(l);
+                case VIEW_PAGER_NOW_POSITION:
+                    return getString(com.edwardinubuntu.dailykind.R.string.title_now).toUpperCase(l);
             }
             return null;
         }

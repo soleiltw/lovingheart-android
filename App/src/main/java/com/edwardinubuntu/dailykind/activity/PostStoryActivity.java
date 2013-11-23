@@ -1,4 +1,4 @@
-package com.edwardinubuntu.dailykind;
+package com.edwardinubuntu.dailykind.activity;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
@@ -7,6 +7,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import com.edwardinubuntu.dailykind.ParseSettings;
 import com.parse.*;
 
 /**
@@ -25,10 +26,10 @@ public class PostStoryActivity extends ActionBarActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-        setContentView(R.layout.activity_post_story);
+        setContentView(com.edwardinubuntu.dailykind.R.layout.activity_post_story);
 
         dialog = new ProgressDialog(this);
-        dialog.setMessage(getResources().getString(R.string.story_upload_progress));
+        dialog.setMessage(getResources().getString(com.edwardinubuntu.dailykind.R.string.story_upload_progress));
         dialog.setIndeterminate(false);
         dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         dialog.setCancelable(false);
@@ -38,17 +39,17 @@ public class PostStoryActivity extends ActionBarActivity {
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
 
-        findViewById(R.id.post_story_done_button).setOnClickListener(new View.OnClickListener() {
+        findViewById(com.edwardinubuntu.dailykind.R.id.post_story_done_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ParseObject parseObject = new ParseObject("Story");
 
-                EditText helperEditText = (EditText)findViewById(R.id.helper_name_edit_text);
+                EditText helperEditText = (EditText)findViewById(com.edwardinubuntu.dailykind.R.id.helper_name_edit_text);
                 if (helperEditText.getText() != null) {
                     parseObject.put("HelperName", helperEditText.getText().toString());
                 }
 
-                EditText helpedNameEditText = (EditText)findViewById(R.id.helped_name_edit_text);
+                EditText helpedNameEditText = (EditText)findViewById(com.edwardinubuntu.dailykind.R.id.helped_name_edit_text);
                 if (helpedNameEditText.getText() != null) {
                     parseObject.put("HelpedName", helpedNameEditText.getText().toString());
                 }
@@ -56,7 +57,7 @@ public class PostStoryActivity extends ActionBarActivity {
                 // TODO Check user has login
                 parseObject.put("StoryTeller", ParseUser.getCurrentUser());
 
-                EditText contentEditText = (EditText)findViewById(R.id.content_edit_text);
+                EditText contentEditText = (EditText)findViewById(com.edwardinubuntu.dailykind.R.id.content_edit_text);
                 parseObject.put("Content", contentEditText.getText().toString());
 
                 dialog.show();

@@ -34,6 +34,7 @@ android {
 }
 
 dependencies {
+    compile 'org.ocpsoft.prettytime:prettytime:3.1.0.Final'
     compile 'com.android.support:appcompat-v7:18.0.0'
     compile files('libs/Parse-1.3.5.jar')
 }
