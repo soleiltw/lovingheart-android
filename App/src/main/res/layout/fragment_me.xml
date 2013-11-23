@@ -15,12 +15,20 @@
 			android:layout_height="wrap_content"
 			android:hint="Username"
 			android:id="@+id/me_username_text_view"
+			android:textAppearance="?android:attr/textAppearanceMedium"
 			android:layout_alignParentTop="true"
 			android:layout_alignParentLeft="true"/>
 		<TextView
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
+			android:textAppearance="?android:attr/textAppearanceMedium"
 			android:hint="Since"
 			android:id="@+id/me_since_text_view"/>
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:textAppearance="?android:attr/textAppearanceMedium"
+			android:hint="StoriesShare"
+			android:id="@+id/me_stories_share_text_view"/>
 	</LinearLayout>
 </LinearLayout>

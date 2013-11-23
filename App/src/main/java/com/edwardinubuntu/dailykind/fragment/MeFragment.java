@@ -6,12 +6,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import com.edwardinubuntu.dailykind.R;
-import com.parse.ParseUser;
+import com.parse.*;
 
 /**
  * Created by edward_chiang on 2013/11/23.
  */
 public class MeFragment extends PlaceholderFragment {
+
+    private TextView storiesSharedCountTextView;
 
     public static MeFragment newInstance(int sectionNumber) {
         MeFragment fragment = new MeFragment();
@@ -34,6 +36,22 @@ public class MeFragment extends PlaceholderFragment {
             sinceTextView.setText(ParseUser.getCurrentUser().getCreatedAt().toString());
         }
 
+        storiesSharedCountTextView = (TextView)rootView.findViewById(R.id.me_stories_share_text_view);
+
         return rootView;
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        ParseQuery<ParseObject> userQuery = ParseQuery.getQuery("UserImpact");
+        userQuery.whereEqualTo("User", ParseUser.getCurrentUser());
+        userQuery.getFirstInBackground(new GetCallback<ParseObject>() {
+            @Override
+            public void done(ParseObject parseObject, ParseException e) {
+                storiesSharedCountTextView.setText(parseObject.getNumber("sharedStoriesCount") + getString(R.string.me_number_of_stories_shared));
+            }
+        });
     }
 }
