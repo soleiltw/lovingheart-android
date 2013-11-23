@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:padding="5dp"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+	<LinearLayout
+		android:orientation="horizontal"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content">
+
+		<ImageView
+			android:layout_width="48dp"
+			android:layout_height="48dp"
+			android:background="#CFCFCF"
+			android:id="@+id/user_imageView"/>
+
+		<EditText
+			android:layout_width="fill_parent"
+			android:minLines="5"
+			android:hint="What I did"
+			android:gravity="top"
+			android:layout_height="wrap_content"/>
+
+	</LinearLayout>
+	<EditText
+		android:layout_width="fill_parent"
+		android:hint="No. of story"
+		android:layout_height="wrap_content"/>
+
+	<Button
+		android:text="@string/button_done"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"/>
+</LinearLayout>

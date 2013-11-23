@@ -16,6 +16,8 @@ public class PostStoryActivity extends ActionBarActivity {
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
+
+        setContentView(R.layout.activity_post_story);
     }
 
     @Override
