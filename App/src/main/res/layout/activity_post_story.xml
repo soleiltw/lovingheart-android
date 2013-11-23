@@ -35,6 +35,14 @@
 		android:hint="No. of story (Optional)"
 		android:layout_height="wrap_content"/>
 
+	<EditText
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:inputType="date"
+		android:ems="10"
+		android:hint="Date"
+		android:id="@+id/date_edit_text"/>
+
 	<Button
 		android:id="@+id/post_story_done_button"
 		android:text="@string/button_done"

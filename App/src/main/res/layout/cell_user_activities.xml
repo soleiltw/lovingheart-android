@@ -3,24 +3,34 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
               android:layout_width="match_parent"
-              android:layout_height="match_parent"
+              android:layout_height="wrap_content"
+              android:paddingBottom="5dp"
 	>
 
 	<RelativeLayout
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content">
+		
+		<ImageView
+			android:background="@drawable/shape_round"
+			android:src="@drawable/ic_action_user"
+			android:id="@+id/user_avatar_image_view"
+			android:layout_margin="10dp"
+			android:layout_width="48dp"
+			android:layout_height="48dp"/>
 
 		<TextView
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:textAppearance="?android:attr/textAppearanceMedium"
 			android:hint="Name"
+			android:layout_toRightOf="@+id/user_avatar_image_view"
 			android:id="@+id/story_teller_name_text_view"/>
 
 		<LinearLayout
 			android:layout_below="@+id/story_teller_name_text_view"
 			android:orientation="vertical"
-			android:layout_margin="10dp"
+			android:layout_toRightOf="@+id/user_avatar_image_view"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content">
 
@@ -41,6 +51,7 @@
 					android:layout_marginLeft="5dp"
 					android:layout_marginRight="5dp"
 					android:text="helped"
+					android:textAppearance="?android:attr/textAppearanceMedium"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"/>
 

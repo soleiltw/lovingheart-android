@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string name="theme_color_1">#693D3D</string>
-	<string name="theme_color_2">#A43D41</string>
-	<string name="theme_color_3">#F09DA2</string>
-	<string name="theme_color_4">#D1342C</string>
+	<color name="theme_color_1">#693D3D</color>
+	<color name="theme_color_2">#A43D41</color>
+	<color name="theme_color_3">#F09DA2</color>
+	<color name="theme_color_4">#D1342C</color>
+
+	<color name="pressed_lovingheart">#CC33B5E5</color>
 </resources>

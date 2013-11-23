@@ -8,6 +8,8 @@ import android.widget.TextView;
 import com.edwardinubuntu.dailykind.R;
 import com.parse.*;
 
+import java.text.SimpleDateFormat;
+
 /**
  * Created by edward_chiang on 2013/11/23.
  */
@@ -35,7 +37,8 @@ public class MeFragment extends PlaceholderFragment {
 
         TextView sinceTextView = (TextView)rootView.findViewById(R.id.me_since_text_view);
         if (ParseUser.getCurrentUser() != null) {
-            sinceTextView.setText(getString(R.string.me_since_pre_text) + " " + ParseUser.getCurrentUser().getCreatedAt().toString());
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+            sinceTextView.setText(getString(R.string.me_since_pre_text) + " " + dateFormat.format(ParseUser.getCurrentUser().getCreatedAt()));
         }
 
         storiesSharedCountTextView = (TextView)rootView.findViewById(R.id.me_stories_share_text_view);

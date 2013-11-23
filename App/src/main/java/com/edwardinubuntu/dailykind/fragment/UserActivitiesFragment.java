@@ -55,7 +55,7 @@ public class UserActivitiesFragment extends PlaceholderFragment {
 
         ParseQuery<ParseObject> parseQuery = ParseQuery.getQuery("Story");
         parseQuery.include("StoryTeller");
-        parseQuery.orderByDescending("createAt");
+        parseQuery.orderByDescending("createdAt");
         parseQuery.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> parseObjects, ParseException e) {
