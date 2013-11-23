@@ -8,6 +8,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import com.edwardinubuntu.dailykind.R;
 
 /**
@@ -28,6 +29,12 @@ public class DeedContentActivity extends ActionBarActivity {
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
+
+        TextView contentTextView = (TextView)findViewById(R.id.deed_content_text_view);
+        contentTextView.setText(getString(R.string.deed_of_day_sample_1));
+
+        TextView numberOfPeopleTextView = (TextView)findViewById(R.id.number_of_people_involved_text_view);
+        numberOfPeopleTextView.setText(getString(R.string.deed_of_number_of_people));
 
         findViewById(R.id.good_deed_content_now_button).setOnClickListener(new View.OnClickListener() {
             @Override
