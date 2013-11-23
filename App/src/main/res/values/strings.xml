@@ -9,7 +9,7 @@
     <string name="action_settings">Settings</string>
 
 	<string name="action_post">Post</string>
-
+	<string name="action_reload">Reload</string>
 	<string name="button_done">Done</string>
 
 	<string name="story_upload_progress">Loading</string>

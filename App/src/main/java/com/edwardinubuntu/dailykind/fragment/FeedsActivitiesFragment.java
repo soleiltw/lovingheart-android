@@ -1,9 +1,7 @@
 package com.edwardinubuntu.dailykind.fragment;
 
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.*;
 import android.widget.ListView;
 import com.edwardinubuntu.dailykind.R;
 import com.edwardinubuntu.dailykind.adapter.FeedsActivitiesAdapter;
@@ -40,6 +38,14 @@ public class FeedsActivitiesFragment extends PlaceholderFragment {
         feedsActivities = new ArrayList<ParseObject>();
 
         feedsActivitiesAdapter = new FeedsActivitiesAdapter(getActivity(), android.R.layout.simple_list_item_1, feedsActivities);
+
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.fragment_activities, menu);
     }
 
     @Override
