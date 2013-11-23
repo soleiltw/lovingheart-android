@@ -29,11 +29,13 @@ public class MeFragment extends PlaceholderFragment {
         View rootView = inflater.inflate(R.layout.fragment_me, container, false);
 
         TextView userNameTextView = (TextView)rootView.findViewById(R.id.me_username_text_view);
-        userNameTextView.setText(ParseUser.getCurrentUser().getString("username"));
+        if (ParseUser.getCurrentUser() != null) {
+            userNameTextView.setText(ParseUser.getCurrentUser().getString("username"));
+        }
 
         TextView sinceTextView = (TextView)rootView.findViewById(R.id.me_since_text_view);
-        if (ParseUser.getCurrentUser().getCreatedAt() != null) {
-            sinceTextView.setText(ParseUser.getCurrentUser().getCreatedAt().toString());
+        if (ParseUser.getCurrentUser() != null) {
+            sinceTextView.setText(getString(R.string.me_since_pre_text) + " " + ParseUser.getCurrentUser().getCreatedAt().toString());
         }
 
         storiesSharedCountTextView = (TextView)rootView.findViewById(R.id.me_stories_share_text_view);
@@ -50,7 +52,7 @@ public class MeFragment extends PlaceholderFragment {
         userQuery.getFirstInBackground(new GetCallback<ParseObject>() {
             @Override
             public void done(ParseObject parseObject, ParseException e) {
-                storiesSharedCountTextView.setText(parseObject.getNumber("sharedStoriesCount") + getString(R.string.me_number_of_stories_shared));
+                storiesSharedCountTextView.setText(parseObject.getNumber("sharedStoriesCount") + " " + getString(R.string.me_number_of_stories_shared));
             }
         });
     }

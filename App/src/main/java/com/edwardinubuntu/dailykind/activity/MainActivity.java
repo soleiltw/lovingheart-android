@@ -82,9 +82,8 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         // TODO Create user
         if (ParseUser.getCurrentUser() == null) {
             ParseUser user = new ParseUser();
-            user.setUsername("Edward");
-            user.setPassword("edward");
-            user.setEmail("ed_jiang@yahoo.com.tw");
+            user.setUsername("Jonny");
+            user.setPassword("jonny");
             user.signUpInBackground(new SignUpCallback() {
                 @Override
                 public void done(ParseException e) {

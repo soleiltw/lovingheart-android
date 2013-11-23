@@ -26,6 +26,11 @@
             </intent-filter>
         </activity>
 	    <activity android:name=".activity.PostStoryActivity" />
+	    <activity android:name=".activity.DeedCategoriesActivity"
+	              android:label="Good deeds"
+		    />
+	    <activity android:name=".activity.DeedContentActivity"
+                  android:label="Deed of Day" />
     </application>
 
 </manifest>

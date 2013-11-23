@@ -51,6 +51,17 @@ public class UserActivitiesAdapter extends ArrayAdapter<ParseObject> {
         PrettyTime prettyTime = new PrettyTime(new Date());
         createdAtTextView.setText(prettyTime.format(storyObject.getCreatedAt()));
 
+        if (storyObject.getString("HelperName") != null && storyObject.getString("HelpedName") != null) {
+
+            TextView helperNameTextView = (TextView)contentView.findViewById(R.id.helper_name_text_view);
+            helperNameTextView.setText(storyObject.getString("HelperName"));
+
+            TextView helpedNameTextView = (TextView)contentView.findViewById(R.id.helped_name_text_view);
+            helpedNameTextView.setText(storyObject.getString("HelpedName"));
+        } else {
+            contentView.findViewById(R.id.story_who_help_who_layout).setVisibility(View.GONE);
+        }
+
         return contentView;
     }
 }

@@ -13,6 +13,7 @@
 	<string name="button_done">Done</string>
 
 	<string name="story_upload_progress">Loading</string>
-	<string name="me_number_of_stories_shared"> stories shared.</string>
+	<string name="me_number_of_stories_shared">stories shared.</string>
+	<string name="me_since_pre_text">Since</string>
 
 </resources>
