@@ -12,4 +12,6 @@
 
 	<string name="button_done">Done</string>
 
+	<string name="story_upload_progress">Loading</string>
+
 </resources>

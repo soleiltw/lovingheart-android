@@ -6,31 +6,37 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent">
 
-	<LinearLayout
-		android:orientation="horizontal"
+	<EditText
+		android:hint="I"
 		android:layout_width="fill_parent"
-		android:layout_height="wrap_content">
+		android:layout_height="wrap_content"
+		android:id="@+id/helper_name_edit_text"/>
+	<TextView
+		android:text="helped"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:textAppearance="?android:textAppearanceMedium"
+		android:layout_gravity="center_horizontal"/>
+	<EditText
+		android:hint="Some one"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:id="@+id/helped_name_edit_text"/>
 
-		<ImageView
-			android:layout_width="48dp"
-			android:layout_height="48dp"
-			android:background="#CFCFCF"
-			android:id="@+id/user_imageView"/>
-
-		<EditText
-			android:layout_width="fill_parent"
-			android:minLines="5"
-			android:hint="What I did"
-			android:gravity="top"
-			android:layout_height="wrap_content"/>
-
-	</LinearLayout>
 	<EditText
 		android:layout_width="fill_parent"
-		android:hint="No. of story"
+		android:minLines="5"
+		android:id="@+id/content_edit_text"
+		android:hint="What the story goes."
+		android:gravity="top"
+		android:layout_height="wrap_content"/>
+	<EditText
+		android:layout_width="fill_parent"
+		android:hint="No. of story (Optional)"
 		android:layout_height="wrap_content"/>
 
 	<Button
+		android:id="@+id/post_story_done_button"
 		android:text="@string/button_done"
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"/>

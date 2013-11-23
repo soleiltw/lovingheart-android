@@ -12,6 +12,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import com.edwardinubuntu.dailykind.fragment.PlaceholderFragment;
+import com.parse.*;
 
 import java.util.Locale;
 
@@ -36,6 +37,8 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Parse.initialize(this, ParseSettings.PARSE_API_TOKEN, ParseSettings.PARSE_API_TOKEN_2);
 
         // Set up the action bar.
         final ActionBar actionBar = getSupportActionBar();
@@ -69,6 +72,19 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
                     actionBar.newTab()
                             .setText(mSectionsPagerAdapter.getPageTitle(i))
                             .setTabListener(this));
+        }
+        // TODO Create user
+        if (ParseUser.getCurrentUser() == null) {
+            ParseUser user = new ParseUser();
+            user.setUsername("Edward");
+            user.setPassword("edward");
+            user.setEmail("ed_jiang@yahoo.com.tw");
+            user.signUpInBackground(new SignUpCallback() {
+                @Override
+                public void done(ParseException e) {
+
+                }
+            });
         }
     }
 
