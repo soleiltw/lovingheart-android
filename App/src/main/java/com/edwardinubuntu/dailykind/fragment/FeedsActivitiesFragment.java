@@ -60,9 +60,28 @@ public class FeedsActivitiesFragment extends PlaceholderFragment {
     }
 
     @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        switch (item.getItemId()) {
+            case R.id.action_reload: {
+                loadStories();
+                break;
+            }
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        loadStories();
+    }
+
+    private void loadStories() {
         ParseQuery<ParseObject> parseQuery = ParseQuery.getQuery("Story");
         parseQuery.include("StoryTeller");
         parseQuery.orderByDescending("createdAt");

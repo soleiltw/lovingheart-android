@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
               android:padding="5dp"
               android:layout_width="match_parent"
@@ -11,6 +11,7 @@
 		android:layout_height="wrap_content"
 		android:textAppearance="?android:attr/textAppearanceLarge"
 		android:hint="Content"
+		android:layout_centerInParent="true"
 		android:id="@+id/deed_content_text_view"
 		android:layout_gravity="center_horizontal"/>
 
@@ -18,12 +19,15 @@
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:textAppearance="?android:attr/textAppearanceMedium"
-		android:hint="Number of people involved"
-		android:id="@+id/number_of_people_involved_text_view"
-		android:layout_gravity="right"/>
+		android:hint="Number"
+		android:layout_margin="5dp"
+		android:layout_below="@+id/deed_content_text_view"
+		android:layout_alignParentRight="true"
+		android:id="@+id/number_of_people_involved_text_view"/>
 
 	<LinearLayout
 		android:orientation="horizontal"
+android:layout_alignParentBottom="true"
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content">
 	<Button
@@ -42,4 +46,4 @@
 		android:layout_gravity="center_horizontal"/>
 
 	</LinearLayout>
-</LinearLayout>
+</RelativeLayout>

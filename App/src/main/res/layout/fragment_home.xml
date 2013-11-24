@@ -5,10 +5,18 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent">
 
+	<ImageView
+		android:layout_width="fill_parent"
+		android:layout_height="200dp"
+		android:background="@color/theme_color_3"
+		android:id="@+id/imageView"
+		android:layout_gravity="center_horizontal"/>
+
 	<Button
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:text="Good Deed Of Day"
+		android:layout_margin="10dp"
 		android:id="@+id/home_good_deed_of_button"
 		android:layout_gravity="center_horizontal"/>
 </LinearLayout>

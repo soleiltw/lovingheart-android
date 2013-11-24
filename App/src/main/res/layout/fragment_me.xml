@@ -31,4 +31,9 @@
 			android:hint="StoriesShare"
 			android:id="@+id/me_stories_share_text_view"/>
 	</LinearLayout>
+	<LinearLayout
+		android:id="@+id/me_chart_layout"
+		android:orientation="vertical"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"></LinearLayout>
 </LinearLayout>

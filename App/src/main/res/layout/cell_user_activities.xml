@@ -44,7 +44,7 @@
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:textAppearance="?android:attr/textAppearanceMedium"
-					android:hint="Name"
+					android:hint="I"
 					android:id="@+id/helper_name_text_view"/>
 
 				<TextView

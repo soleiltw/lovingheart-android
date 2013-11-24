@@ -4,9 +4,11 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.edwardinubuntu.dailykind.R;
 import com.parse.*;
+import org.achartengine.GraphicalView;
 
 import java.text.SimpleDateFormat;
 
@@ -42,6 +44,22 @@ public class MeFragment extends PlaceholderFragment {
         }
 
         storiesSharedCountTextView = (TextView)rootView.findViewById(R.id.me_stories_share_text_view);
+
+        GraphicalView graphView = new GraphicalView(
+                this // context
+                , new Gr[] {
+                new GraphViewData(1, 2.0d)
+                , new GraphViewData(2, 1.5d)
+                , new GraphViewData(2.5, 3.0d) // another frequency
+                , new GraphViewData(3, 2.5d)
+                , new GraphViewData(4, 1.0d)
+                , new GraphViewData(5, 3.0d)
+        } // data
+                , "GraphViewDemo" // heading
+                , null // dynamic labels
+                , null // dynamic labels
+        );
+        LinearLayout chartLayout = (LinearLayout)rootView.findViewById(R.id.me_chart_layout);
 
         return rootView;
     }
