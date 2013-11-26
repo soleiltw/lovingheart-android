@@ -11,9 +11,13 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import com.edwardinubuntu.dailykind.*;
+import com.edwardinubuntu.dailykind.ParseSettings;
+import com.edwardinubuntu.dailykind.R;
 import com.edwardinubuntu.dailykind.fragment.*;
-import com.parse.*;
+import com.parse.Parse;
+import com.parse.ParseException;
+import com.parse.ParseUser;
+import com.parse.SignUpCallback;
 
 import java.util.Locale;
 
@@ -113,6 +117,15 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
                 startActivity(intent);
                 break;
             }
+            case R.id.action_ask_for_help: {
+                Intent intent = new Intent(getApplicationContext(), AskForHelpActivity.class);
+                startActivity(intent);
+                break;
+            }
+            case R.id.action_nearby:
+                Intent intent = new Intent(getApplicationContext(), NearbyActivity.class);
+                startActivity(intent);
+                break;
         }
 
         return super.onOptionsItemSelected(item);

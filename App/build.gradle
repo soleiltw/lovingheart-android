@@ -17,7 +17,7 @@ android {
     buildToolsVersion '18.1.0'
 
     defaultConfig {
-        minSdkVersion 7
+        minSdkVersion 8
         targetSdkVersion 19
     }
     buildTypes {
@@ -38,5 +38,5 @@ dependencies {
     compile 'com.android.support:appcompat-v7:18.0.0'
     compile files('libs/Parse-1.3.5.jar')
     compile files('libs/achartengine-1.1.0.jar')
-    compile files('libs/achartengine-1.1.0.jar')
+    compile 'com.google.android.gms:play-services:4.0.30'
 }
