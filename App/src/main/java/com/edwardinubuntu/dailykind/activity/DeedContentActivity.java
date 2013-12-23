@@ -10,11 +10,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import com.edwardinubuntu.dailykind.R;
+import com.edwardinubuntu.dailykind.object.Idea;
 
 /**
  * Created by edward_chiang on 2013/11/23.
  */
 public class DeedContentActivity extends ActionBarActivity {
+
+    private Idea idea;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +27,8 @@ public class DeedContentActivity extends ActionBarActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
 
         setContentView(R.layout.activity_good_deed_content);
+
+        idea = (Idea)getIntent().getSerializableExtra("idea");
     }
 
     @Override
@@ -31,7 +36,7 @@ public class DeedContentActivity extends ActionBarActivity {
         super.onPostCreate(savedInstanceState);
 
         TextView contentTextView = (TextView)findViewById(R.id.deed_content_text_view);
-        contentTextView.setText(getString(R.string.deed_of_day_sample_1));
+        contentTextView.setText(idea.getName());
 
         TextView numberOfPeopleTextView = (TextView)findViewById(R.id.number_of_people_involved_text_view);
         numberOfPeopleTextView.setText(getString(R.string.deed_of_number_of_people));

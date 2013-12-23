@@ -55,7 +55,10 @@ public class MeFragment extends PlaceholderFragment {
         userQuery.getFirstInBackground(new GetCallback<ParseObject>() {
             @Override
             public void done(ParseObject parseObject, ParseException e) {
-                storiesSharedCountTextView.setText(parseObject.getNumber("sharedStoriesCount") + " " + getString(R.string.me_number_of_stories_shared));
+                if (parseObject!=null) {
+                    storiesSharedCountTextView.setText(parseObject.getNumber("sharedStoriesCount") + " " + getString(R.string.me_number_of_stories_shared));
+                }
+
             }
         });
     }

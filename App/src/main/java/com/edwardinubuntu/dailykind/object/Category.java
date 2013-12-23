@@ -1,9 +1,11 @@
 package com.edwardinubuntu.dailykind.object;
 
+import java.io.Serializable;
+
 /**
  * Created by edward_chiang on 2013/12/21.
  */
-public class Category {
+public class Category implements Serializable {
 
     private String objectId;
     private String name;

@@ -8,7 +8,7 @@
         android:minSdkVersion="8"
         android:targetSdkVersion="19" />
 
-	<permission      android:name="com.edwardinubuntu.dailykind.permission.MAPS_RECEIVE" android:protectionLevel="signature"/>
+	<permission android:name="com.edwardinubuntu.dailykind.permission.MAPS_RECEIVE" android:protectionLevel="signature"/>
 
 	<uses-permission android:name="com.edwardinubuntu.dailykind.permission.MAPS_RECEIVE" />
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -35,8 +35,13 @@
         </activity>
 	    <activity android:name=".activity.PostStoryActivity" />
 	    <activity android:name=".activity.DeedCategoriesActivity"
+	              android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
 	              android:label="Good deeds"
 		    />
+	    <activity android:name=".activity.DeedCategoryIdeaListActivity"
+	              android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
+	              android:label="Good deeds" />
+	    
 	    <activity android:name=".activity.DeedContentActivity"
                   android:label="Deed of Day" />
 

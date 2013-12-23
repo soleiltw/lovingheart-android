@@ -1,22 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent">
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
 
-	<ImageView
-		android:layout_width="fill_parent"
-		android:layout_height="200dp"
-		android:background="@color/theme_color_3"
-		android:id="@+id/imageView"
-		android:layout_gravity="center_horizontal"/>
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	              android:orientation="vertical"
+	              android:layout_width="match_parent"
+	              android:layout_height="match_parent">
 
-	<Button
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:text="Good Deed Of Day"
-		android:layout_margin="10dp"
-		android:id="@+id/home_good_deed_of_button"
-		android:layout_gravity="center_horizontal"/>
-</LinearLayout>
+		<ImageView
+			android:layout_width="fill_parent"
+			android:layout_height="200dp"
+			android:background="@color/theme_color_3"
+			android:id="@+id/imageView"
+			android:layout_gravity="center_horizontal"/>
+
+		<TextView
+			android:textColor="@color/theme_color_1"
+			android:id="@+id/home_random_idea_text_view"
+			android:hint="Suggest Idea"
+			android:layout_margin="10dp"
+			android:textAppearance="?android:textAppearanceLarge"
+			android:layout_gravity="center_horizontal"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"/>
+
+		<RelativeLayout
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content">
+
+			<Button
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="Good Deed Of Day"
+				android:layout_centerInParent="true"
+				android:layout_margin="10dp"
+				android:id="@+id/home_good_deed_random_of_button" />
+
+			<ProgressBar
+				android:id="@+id/home_good_deed_random_progressBar"
+				android:visibility="gone"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				style="?android:attr/progressBarStyleSmallInverse"
+				android:layout_centerVertical="true"
+				android:layout_toRightOf="@+id/home_good_deed_random_of_button"/>
+
+		</RelativeLayout>
+
+		<Button
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="Check out more"
+			android:layout_margin="10dp"
+			android:id="@+id/home_good_deed_categories_of_button"
+			android:layout_gravity="center_horizontal"/>
+	</LinearLayout>
+</ScrollView>

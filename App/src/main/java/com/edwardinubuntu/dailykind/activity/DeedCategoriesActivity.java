@@ -61,8 +61,8 @@ public class DeedCategoriesActivity extends ActionBarActivity {
         categoriesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(getApplicationContext(), DeedContentActivity.class);
-
+                Intent intent = new Intent(getApplicationContext(), DeedCategoryIdeaListActivity.class);
+                intent.putExtra("category", categoryList.get(position));
                 startActivity(intent);
             }
         });
