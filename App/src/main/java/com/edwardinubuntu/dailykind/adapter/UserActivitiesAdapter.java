@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import com.edwardinubuntu.dailykind.R;
+import com.edwardinubuntu.dailykind.listener.LoadMoreListener;
 import com.parse.ParseObject;
 import org.ocpsoft.prettytime.PrettyTime;
 
@@ -17,6 +18,8 @@ import java.util.List;
  * Created by edward_chiang on 2013/11/23.
  */
 public class UserActivitiesAdapter extends ArrayAdapter<ParseObject> {
+
+    private LoadMoreListener loadMoreListener;
 
     /**
      * Constructor
@@ -62,6 +65,18 @@ public class UserActivitiesAdapter extends ArrayAdapter<ParseObject> {
             contentView.findViewById(R.id.story_who_help_who_layout).setVisibility(View.GONE);
         }
 
+        if (position >= getCount() - 1 && getLoadMoreListener() != null) {
+            getLoadMoreListener().notifyLoadMore();
+        }
+
         return contentView;
+    }
+
+    public LoadMoreListener getLoadMoreListener() {
+        return loadMoreListener;
+    }
+
+    public void setLoadMoreListener(LoadMoreListener loadMoreListener) {
+        this.loadMoreListener = loadMoreListener;
     }
 }

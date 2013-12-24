@@ -19,6 +19,8 @@ import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 
+import com.crashlytics.android.Crashlytics;
+
 import java.util.Locale;
 
 public class MainActivity extends ActionBarActivity implements ActionBar.TabListener {
@@ -49,6 +51,8 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         setContentView(com.edwardinubuntu.dailykind.R.layout.activity_main);
 
         Parse.initialize(this, ParseSettings.PARSE_API_TOKEN, ParseSettings.PARSE_API_TOKEN_2);
+
+        Crashlytics.start(this);
 
         // Set up the action bar.
         final ActionBar actionBar = getSupportActionBar();

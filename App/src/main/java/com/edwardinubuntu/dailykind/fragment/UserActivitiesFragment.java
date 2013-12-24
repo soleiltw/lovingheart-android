@@ -1,14 +1,16 @@
 package com.edwardinubuntu.dailykind.fragment;
 
+import android.annotation.TargetApi;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.*;
 import android.widget.ListView;
+import com.edwardinubuntu.dailykind.DailyKind;
 import com.edwardinubuntu.dailykind.R;
 import com.edwardinubuntu.dailykind.adapter.UserActivitiesAdapter;
-import com.parse.FindCallback;
-import com.parse.ParseException;
-import com.parse.ParseObject;
-import com.parse.ParseQuery;
+import com.edwardinubuntu.dailykind.listener.LoadMoreListener;
+import com.parse.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +23,10 @@ public class UserActivitiesFragment extends PlaceholderFragment {
     private List<ParseObject> userActivities;
 
     private UserActivitiesAdapter userActivitiesAdapter;
+
+    private Menu menu;
+
+    private boolean queryLoading;
 
     public static UserActivitiesFragment newInstance(int sectionNumber) {
         UserActivitiesFragment fragment = new UserActivitiesFragment();
@@ -49,6 +55,13 @@ public class UserActivitiesFragment extends PlaceholderFragment {
         ListView userActivitiesListView = (ListView)rootView.findViewById(R.id.user_activities_list_view);
         userActivitiesListView.setAdapter(userActivitiesAdapter);
 
+        userActivitiesAdapter.setLoadMoreListener(new LoadMoreListener() {
+            @Override
+            public void notifyLoadMore() {
+                loadStories(true);
+            }
+        });
+
         return rootView;
     }
 
@@ -56,6 +69,7 @@ public class UserActivitiesFragment extends PlaceholderFragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.fragment_activities, menu);
+        this.menu = menu;
     }
 
     @Override
@@ -65,7 +79,7 @@ public class UserActivitiesFragment extends PlaceholderFragment {
         // as you specify a parent activity in AndroidManifest.xml.
         switch (item.getItemId()) {
             case R.id.action_reload: {
-                loadStories();
+                loadStories(false);
                 break;
             }
         }
@@ -77,20 +91,71 @@ public class UserActivitiesFragment extends PlaceholderFragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        loadStories();
+        loadStories(false);
     }
 
-    private void loadStories() {
-        ParseQuery<ParseObject> parseQuery = ParseQuery.getQuery("Story");
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+    public void updateRefreshItem() {
+        if (menu != null) {
+            MenuItem refreshItem = menu.findItem(R.id.action_reload);
+            if (refreshItem != null) {
+                if (isQueryLoading()) {
+                    refreshItem.setActionView(R.layout.indeterminate_progress_action);
+                } else {
+                    refreshItem.setActionView(null);
+                }
+            }
+        }
+    }
+
+    private void loadStories(boolean more) {
+        final ParseQuery<ParseObject> parseQuery = ParseQuery.getQuery("Story");
         parseQuery.include("StoryTeller");
         parseQuery.orderByDescending("createdAt");
+        parseQuery.setLimit(10);
+
+        if (more) {
+            ParseQuery.getQuery("Story").countInBackground(new CountCallback() {
+                @Override
+                public void done(int totalCount, ParseException e) {
+                    if (totalCount > userActivities.size()) {
+                        parseQuery.setSkip(userActivities.size());
+                        queryToCallBack(parseQuery);
+                    } else {
+                        Log.d(DailyKind.TAG, "End of query.");
+                    }
+                }
+            });
+
+        } else {
+            userActivities.clear();
+            queryToCallBack(parseQuery);
+        }
+
+    }
+
+    private void queryToCallBack(ParseQuery<ParseObject> parseQuery) {
+
+        setQueryLoading(true);
+        updateRefreshItem();
         parseQuery.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> parseObjects, ParseException e) {
-                userActivities.clear();
+
                 userActivities.addAll(parseObjects);
                 userActivitiesAdapter.notifyDataSetChanged();
+
+                setQueryLoading(false);
+                updateRefreshItem();
             }
         });
+    }
+
+    public boolean isQueryLoading() {
+        return queryLoading;
+    }
+
+    public void setQueryLoading(boolean queryLoading) {
+        this.queryLoading = queryLoading;
     }
 }
