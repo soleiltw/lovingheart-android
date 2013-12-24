@@ -28,6 +28,10 @@ public class HomeFragment extends PlaceholderFragment {
 
     private ProgressBar randomLoadingProgressBar;
 
+    private ImageView suggestImageView;
+
+    private LinearLayout.LayoutParams suggestImageViewLayoutParams;
+
     public static HomeFragment newInstance(int sectionNumber) {
         HomeFragment fragment = new HomeFragment();
         Bundle args = new Bundle();
@@ -43,50 +47,6 @@ public class HomeFragment extends PlaceholderFragment {
         queryRandomIdea();
     }
 
-    private void queryRandomIdea() {
-
-        randomLoadingProgressBar.setVisibility(View.VISIBLE);
-
-        final ParseQuery<ParseObject> randomIdeaQuery = new ParseQuery<ParseObject>("Idea");
-        randomIdeaQuery.addDescendingOrder("Index");
-        randomIdeaQuery.getFirstInBackground(new GetCallback<ParseObject>() {
-            @Override
-            public void done(ParseObject parseObject, ParseException e) {
-                if (parseObject != null) {
-                    int maxIndex = parseObject.getInt("Index");
-                    int randomIndex = (int)(Math.random() * maxIndex);
-
-                    randomIdeaQuery.include("categoryPointer");
-                    randomIdeaQuery.whereEqualTo("Index", randomIndex);
-                    randomIdeaQuery.getFirstInBackground(new GetCallback<ParseObject>() {
-                        @Override
-                        public void done(ParseObject parseObject, ParseException e) {
-                            if (parseObject!= null) {
-                                Idea idea = new Idea();
-
-                                idea.setName(parseObject.getString("Name"));
-                                idea.setIdeaDescription(parseObject.getString("Description"));
-
-                                Category category = new Category();
-                                ParseObject categoryObject = parseObject.getParseObject("categoryPointer");
-                                category.setObjectId(categoryObject.getObjectId());
-                                category.setName(categoryObject.getString("Name"));
-
-                                idea.setCategory(category);
-
-                                randomIdeaTextView.setText(idea.getName());
-
-                            }
-                            randomLoadingProgressBar.setVisibility(View.GONE);
-                        }
-                    });
-                } else {
-                    randomLoadingProgressBar.setVisibility(View.GONE);
-                }
-            }
-        });
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -94,29 +54,14 @@ public class HomeFragment extends PlaceholderFragment {
 
         randomIdeaTextView = (TextView)rootView.findViewById(R.id.home_random_idea_text_view);
 
-        final ImageView suggestImageView = (ImageView)rootView.findViewById(R.id.home_random_suggest_image_view);
+        suggestImageView = (ImageView)rootView.findViewById(R.id.home_random_suggest_image_view);
 
         DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
         int minPixels = Math.min(displayMetrics.widthPixels, displayMetrics.heightPixels);
-        final LinearLayout.LayoutParams suggestImageViewLayoutParams = (LinearLayout.LayoutParams)suggestImageView.getLayoutParams();
+        suggestImageViewLayoutParams = (LinearLayout.LayoutParams)suggestImageView.getLayoutParams();
         suggestImageViewLayoutParams.width = minPixels;
         suggestImageViewLayoutParams.height = minPixels;
         suggestImageView.requestLayout();
-
-        ParseQuery<ParseObject> graphicImageQuery = new ParseQuery<ParseObject>("GraphicImage");
-        graphicImageQuery.getFirstInBackground(new GetCallback<ParseObject>() {
-            @Override
-            public void done(ParseObject parseObject, ParseException e) {
-                String imageUrl = parseObject.getParseFile("imageFile").getUrl();
-
-                Picasso.with(getActivity())
-                        .load(imageUrl)
-                        .resize(suggestImageViewLayoutParams.width, suggestImageViewLayoutParams.height)
-                        .into(suggestImageView);
-            }
-        });
-
-
 
         randomLoadingProgressBar = (ProgressBar)rootView.findViewById(R.id.home_good_deed_random_progressBar);
 
@@ -138,5 +83,63 @@ public class HomeFragment extends PlaceholderFragment {
         });
 
         return rootView;
+    }
+
+    private void queryRandomIdea() {
+
+        randomLoadingProgressBar.setVisibility(View.VISIBLE);
+
+        final ParseQuery<ParseObject> randomIdeaQuery = new ParseQuery<ParseObject>("Idea");
+        randomIdeaQuery.addDescendingOrder("Index");
+        randomIdeaQuery.getFirstInBackground(new GetCallback<ParseObject>() {
+            @Override
+            public void done(ParseObject parseObject, ParseException e) {
+                if (parseObject != null) {
+                    int maxIndex = parseObject.getInt("Index");
+                    int randomIndex = (int)(Math.random() * maxIndex);
+
+                    randomIdeaQuery.include("categoryPointer");
+                    randomIdeaQuery.include("graphicPointer");
+                    randomIdeaQuery.whereEqualTo("Index", randomIndex);
+                    randomIdeaQuery.getFirstInBackground(new GetCallback<ParseObject>() {
+                        @Override
+                        public void done(ParseObject parseObject, ParseException e) {
+                            if (parseObject!= null) {
+                                Idea idea = new Idea();
+
+                                idea.setName(parseObject.getString("Name"));
+                                idea.setIdeaDescription(parseObject.getString("Description"));
+
+                                Category category = new Category();
+                                ParseObject categoryObject = parseObject.getParseObject("categoryPointer");
+                                category.setObjectId(categoryObject.getObjectId());
+                                category.setName(categoryObject.getString("Name"));
+
+                                idea.setCategory(category);
+
+                                randomIdeaTextView.setText(idea.getName());
+
+                                ParseObject graphicObject = parseObject.getParseObject("graphicPointer");
+                                if (graphicObject != null && graphicObject.getParseFile("imageFile") != null) {
+                                    String imageUrl = graphicObject.getParseFile("imageFile").getUrl();
+
+                                    suggestImageView.setImageBitmap(null);
+                                    if (imageUrl!=null) {
+                                        Picasso.with(getActivity())
+                                                .load(imageUrl)
+                                                .resize(suggestImageViewLayoutParams.width, suggestImageViewLayoutParams.height)
+                                                .into(suggestImageView);
+                                    }
+                                }
+
+                            }
+                            randomLoadingProgressBar.setVisibility(View.GONE);
+                        }
+                    });
+                } else {
+                    randomLoadingProgressBar.setVisibility(View.GONE);
+                }
+            }
+        });
     }
 }
