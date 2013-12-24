@@ -2,12 +2,11 @@ package com.edwardinubuntu.dailykind.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ProgressBar;
-import android.widget.TextView;
+import android.widget.*;
 import com.edwardinubuntu.dailykind.R;
 import com.edwardinubuntu.dailykind.activity.DeedCategoriesActivity;
 import com.edwardinubuntu.dailykind.object.Category;
@@ -16,6 +15,7 @@ import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.squareup.picasso.Picasso;
 
 /**
  * Created by edward_chiang on 2013/11/23.
@@ -93,6 +93,30 @@ public class HomeFragment extends PlaceholderFragment {
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
 
         randomIdeaTextView = (TextView)rootView.findViewById(R.id.home_random_idea_text_view);
+
+        final ImageView suggestImageView = (ImageView)rootView.findViewById(R.id.home_random_suggest_image_view);
+
+        DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
+        int minPixels = Math.min(displayMetrics.widthPixels, displayMetrics.heightPixels);
+        final LinearLayout.LayoutParams suggestImageViewLayoutParams = (LinearLayout.LayoutParams)suggestImageView.getLayoutParams();
+        suggestImageViewLayoutParams.width = minPixels;
+        suggestImageViewLayoutParams.height = minPixels;
+        suggestImageView.requestLayout();
+
+        ParseQuery<ParseObject> graphicImageQuery = new ParseQuery<ParseObject>("GraphicImage");
+        graphicImageQuery.getFirstInBackground(new GetCallback<ParseObject>() {
+            @Override
+            public void done(ParseObject parseObject, ParseException e) {
+                String imageUrl = parseObject.getParseFile("imageFile").getUrl();
+
+                Picasso.with(getActivity())
+                        .load(imageUrl)
+                        .resize(suggestImageViewLayoutParams.width, suggestImageViewLayoutParams.height)
+                        .into(suggestImageView);
+            }
+        });
+
+
 
         randomLoadingProgressBar = (ProgressBar)rootView.findViewById(R.id.home_good_deed_random_progressBar);
 

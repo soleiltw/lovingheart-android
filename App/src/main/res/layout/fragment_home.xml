@@ -11,9 +11,10 @@
 
 		<ImageView
 			android:layout_width="fill_parent"
-			android:layout_height="200dp"
+			android:layout_height="wrap_content"
 			android:background="@color/theme_color_3"
-			android:id="@+id/imageView"
+			android:scaleType="centerCrop"
+			android:id="@+id/home_random_suggest_image_view"
 			android:layout_gravity="center_horizontal"/>
 
 		<TextView

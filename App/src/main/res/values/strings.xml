@@ -2,6 +2,7 @@
 <resources>
 
     <string name="app_name">LovingHeart</string>
+	<string name="app_id">778772072139128</string>
     <string name="title_today">Today</string>
     <string name="title_me">Me</string>
     <string name="title_activities">Deeds</string>
