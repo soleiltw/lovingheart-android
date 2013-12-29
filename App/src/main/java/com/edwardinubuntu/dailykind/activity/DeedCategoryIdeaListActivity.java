@@ -11,14 +11,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import com.edwardinubuntu.dailykind.ParseSettings;
 import com.edwardinubuntu.dailykind.R;
 import com.edwardinubuntu.dailykind.adapter.IdeaArrayAdapter;
 import com.edwardinubuntu.dailykind.object.Category;
 import com.edwardinubuntu.dailykind.object.Idea;
-import com.parse.FindCallback;
-import com.parse.ParseException;
-import com.parse.ParseObject;
-import com.parse.ParseQuery;
+import com.edwardinubuntu.dailykind.util.parse.ParseObjectManager;
+import com.parse.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,6 +41,9 @@ public class DeedCategoryIdeaListActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_good_ideas);
+
+        Parse.initialize(this, ParseSettings.PARSE_API_TOKEN, ParseSettings.PARSE_API_TOKEN_2);
+
 
         ideaList = new ArrayList<Idea>();
 
@@ -107,17 +109,11 @@ public class DeedCategoryIdeaListActivity extends ActionBarActivity {
                 ideaList.clear();
 
                 for (ParseObject parseObject: parseObjects) {
-                    Idea idea = new Idea();
 
-                    idea.setName(parseObject.getString("Name"));
-                    idea.setIdeaDescription(parseObject.getString("Description"));
+                    ParseObjectManager parseObjectManager = new ParseObjectManager(parseObject);
 
-                    Category category = new Category();
-                    ParseObject categoryObject = parseObject.getParseObject("categoryPointer");
-                    category.setObjectId(categoryObject.getObjectId());
-                    category.setName(categoryObject.getString("Name"));
-
-                    idea.setCategory(category);
+                    Idea idea = parseObjectManager.getIdea(parseObject);
+                    idea.setCategory(parseObjectManager.getCategory());
 
                     ideaList.add(idea);
                 }

@@ -34,18 +34,16 @@ public class IdeaArrayAdapter extends ArrayAdapter<Idea> {
 
         View rootView = convertView;
         if (rootView == null) {
-            rootView = inflater.inflate(android.R.layout.simple_list_item_2, null);
+            rootView = inflater.inflate(R.layout.cell_idea_with_done, null);
         }
 
         Idea idea = getItem(position);
 
-        TextView nameTextView = (TextView)rootView.findViewById(android.R.id.text1);
+        TextView nameTextView = (TextView)rootView.findViewById(R.id.idea_title_text_view);
         nameTextView.setText(idea.getName());
-        nameTextView.setTextColor(getContext().getResources().getColor(R.color.theme_color_1));
 
-        TextView descriptionTextView = (TextView)rootView.findViewById(android.R.id.text2);
+        TextView descriptionTextView = (TextView)rootView.findViewById(R.id.idea_why_text_view);
         descriptionTextView.setText(idea.getIdeaDescription());
-        descriptionTextView.setTextColor(getContext().getResources().getColor(R.color.theme_color_2));
 
         return rootView;
     }

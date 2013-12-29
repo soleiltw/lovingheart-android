@@ -13,6 +13,10 @@ public class Idea implements Serializable {
 
     private String ideaDescription;
 
+    private Graphic graphic;
+
+    private String objectId;
+
     public Category getCategory() {
         return category;
     }
@@ -35,5 +39,21 @@ public class Idea implements Serializable {
 
     public void setIdeaDescription(String ideaDescription) {
         this.ideaDescription = ideaDescription;
+    }
+
+    public Graphic getGraphic() {
+        return graphic;
+    }
+
+    public void setGraphic(Graphic graphic) {
+        this.graphic = graphic;
+    }
+
+    public String getObjectId() {
+        return objectId;
+    }
+
+    public void setObjectId(String objectId) {
+        this.objectId = objectId;
     }
 }

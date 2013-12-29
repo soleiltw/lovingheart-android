@@ -6,11 +6,19 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.util.DisplayMetrics;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import com.edwardinubuntu.dailykind.ParseSettings;
 import com.edwardinubuntu.dailykind.R;
 import com.edwardinubuntu.dailykind.object.Idea;
+import com.edwardinubuntu.dailykind.util.CircleTransform;
+import com.edwardinubuntu.dailykind.util.parse.ParseObjectManager;
+import com.parse.*;
+import com.squareup.picasso.Picasso;
 
 /**
  * Created by edward_chiang on 2013/11/23.
@@ -19,14 +27,26 @@ public class DeedContentActivity extends ActionBarActivity {
 
     private Idea idea;
 
+    private ImageView contentImageView;
+
+    private LinearLayout.LayoutParams contentImageViewLayoutParams;
+
+    private TextView numberOfPeopleTextView;
+
+    private ImageView orgImageView;
+    private TextView orgTitleTextView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setDisplayUseLogoEnabled(false);
 
         setContentView(R.layout.activity_good_deed_content);
+
+        Parse.initialize(this, ParseSettings.PARSE_API_TOKEN, ParseSettings.PARSE_API_TOKEN_2);
 
         idea = (Idea)getIntent().getSerializableExtra("idea");
     }
@@ -35,11 +55,13 @@ public class DeedContentActivity extends ActionBarActivity {
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
 
-        TextView contentTextView = (TextView)findViewById(R.id.deed_content_text_view);
+        TextView contentTextView = (TextView)findViewById(R.id.deed_content_title_text_view);
         contentTextView.setText(idea.getName());
 
-        TextView numberOfPeopleTextView = (TextView)findViewById(R.id.number_of_people_involved_text_view);
-        numberOfPeopleTextView.setText(getString(R.string.deed_of_number_of_people));
+        TextView contentDescriptionTextView = (TextView)findViewById(R.id.deed_content_description_text_view);
+        contentDescriptionTextView.setText(idea.getIdeaDescription());
+
+        numberOfPeopleTextView = (TextView)findViewById(R.id.number_of_people_involved_text_view);
 
         findViewById(R.id.good_deed_content_now_button).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,6 +87,19 @@ public class DeedContentActivity extends ActionBarActivity {
                 confirmDialog.show();
             }
         });
+
+        contentImageView = (ImageView)findViewById(R.id.deed_content_image_view);
+        DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
+        int minPixels = Math.min(displayMetrics.widthPixels, displayMetrics.heightPixels);
+        contentImageViewLayoutParams = (LinearLayout.LayoutParams)contentImageView.getLayoutParams();
+        contentImageViewLayoutParams.width = minPixels;
+        contentImageViewLayoutParams.height = minPixels;
+        contentImageView.requestLayout();
+
+        orgImageView = (ImageView)findViewById(R.id.good_deed_content_org_avatar_image_view);
+        orgTitleTextView = (TextView)findViewById(R.id.good_deed_content_org_text_view);
+
+        loadIdea();
     }
 
     @Override
@@ -76,5 +111,54 @@ public class DeedContentActivity extends ActionBarActivity {
             }
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void loadIdea() {
+        ParseQuery<ParseObject> queryIdea = new ParseQuery<ParseObject>("Idea");
+        queryIdea.whereEqualTo("objectId", idea.getObjectId());
+        queryIdea.include("graphicPointer");
+        queryIdea.include("categoryPointer");
+        queryIdea.include("OrganizerPointer");
+        queryIdea.getFirstInBackground(new GetCallback<ParseObject>() {
+            @Override
+            public void done(ParseObject parseObject, ParseException e) {
+                if (parseObject != null) {
+                    ParseObjectManager parseObjectManager = new ParseObjectManager(parseObject);
+                    Idea idea = parseObjectManager.getIdea(parseObject);
+                    idea.setCategory(parseObjectManager.getCategory());
+                    idea.setGraphic(parseObjectManager.getGraphic());
+
+                    if (idea.getGraphic() != null && idea.getGraphic().getParseFileUrl() != null) {
+
+                        Picasso.with(getApplicationContext())
+                                .load(idea.getGraphic().getParseFileUrl())
+                                .placeholder(R.drawable.card_default)
+                                .resize(contentImageViewLayoutParams.width, contentImageViewLayoutParams.height)
+                                .into(contentImageView);
+                    }
+                    numberOfPeopleTextView.setText(getString(R.string.deed_of_number_of_people));
+
+                    ParseObject orgParseObject = parseObject.getParseObject("OrganizerPointer");
+                    if (orgParseObject != null) {
+
+                        orgTitleTextView.setText(orgParseObject.getString("name"));
+
+                        ParseObject graphicObject = orgParseObject.getParseObject("graphicPointer");
+                        graphicObject.fetchIfNeededInBackground(new GetCallback<ParseObject>() {
+                            @Override
+                            public void done(ParseObject parseObject, ParseException e) {
+                                if  (parseObject != null) {
+                                    Picasso.with(getApplicationContext())
+                                            .load(parseObject.getParseFile("imageFile").getUrl())
+                                            .placeholder(R.drawable.ic_action_user)
+                                            .transform(new CircleTransform())
+                                            .into(orgImageView);
+                                }
+                            }
+                        });
+                    }
+                }
+            }
+        });
     }
 }

@@ -1,49 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:padding="5dp"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent">
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-	<TextView
-		android:layout_width="fill_parent"
+	<ScrollView
 		android:layout_height="wrap_content"
-		android:textAppearance="?android:attr/textAppearanceLarge"
-		android:hint="Content"
-		android:layout_centerInParent="true"
-		android:id="@+id/deed_content_text_view"
-		android:layout_gravity="center_horizontal"/>
-
-	<TextView
 		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:textAppearance="?android:attr/textAppearanceMedium"
-		android:hint="Number"
-		android:layout_margin="5dp"
-		android:layout_below="@+id/deed_content_text_view"
-		android:layout_alignParentRight="true"
-		android:id="@+id/number_of_people_involved_text_view"/>
+		>
+		<LinearLayout
+			android:orientation="vertical"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content">
+
+			<LinearLayout
+				android:orientation="horizontal"
+				android:gravity="center_vertical"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content">
+
+				<ImageView
+					android:background="@drawable/shape_round"
+					android:src="@drawable/ic_action_user"
+					android:id="@+id/good_deed_content_org_avatar_image_view"
+					android:layout_margin="10dp"
+					android:layout_width="48dp"
+					android:layout_height="48dp"/>
+
+				<TextView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:textAppearance="?android:attr/textAppearanceMedium"
+					android:hint="Name"
+					android:layout_toRightOf="@+id/good_deed_content_org_avatar_image_view"
+					android:id="@+id/good_deed_content_org_text_view"/>
+
+			</LinearLayout>
+
+			<ImageView
+				android:id="@+id/deed_content_image_view"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"/>
+
+			<TextView
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:textAppearance="?android:attr/textAppearanceLarge"
+				android:hint="Content"
+				android:textColor="@color/theme_color_1"
+				android:id="@+id/deed_content_title_text_view"
+				android:layout_gravity="center_horizontal"/>
+			<TextView
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:textAppearance="?android:attr/textAppearanceMedium"
+				android:hint="Content"
+				android:textColor="@color/story_text_color"
+				android:id="@+id/deed_content_description_text_view"
+				android:layout_gravity="center_horizontal"/>
+
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:textAppearance="?android:attr/textAppearanceMedium"
+				android:hint="Number"
+				android:layout_alignParentRight="true"
+				android:id="@+id/number_of_people_involved_text_view"/>
+
+		</LinearLayout>
+	</ScrollView>
+
+
 
 	<LinearLayout
 		android:orientation="horizontal"
-android:layout_alignParentBottom="true"
+		android:layout_alignParentBottom="true"
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content">
-	<Button
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:text="Remind me"
-		android:layout_weight="1"
-		android:id="@+id/good_deed_content_remind_button"/>
+		<Button
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="Remind me"
+			android:layout_weight="1"
+			android:id="@+id/good_deed_content_remind_button"/>
 
-	<Button
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:text="Now"
-		android:layout_weight="1"
-		android:id="@+id/good_deed_content_now_button"
-		android:layout_gravity="center_horizontal"/>
+		<Button
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="Now"
+			android:layout_weight="1"
+			android:id="@+id/good_deed_content_now_button"
+			android:layout_gravity="center_horizontal"/>
 
 	</LinearLayout>
 </RelativeLayout>

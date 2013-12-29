@@ -9,8 +9,10 @@ import android.view.ViewGroup;
 import android.widget.*;
 import com.edwardinubuntu.dailykind.R;
 import com.edwardinubuntu.dailykind.activity.DeedCategoriesActivity;
-import com.edwardinubuntu.dailykind.object.Category;
+import com.edwardinubuntu.dailykind.activity.DeedContentActivity;
+import com.edwardinubuntu.dailykind.listener.ImageViewOnTouchListener;
 import com.edwardinubuntu.dailykind.object.Idea;
+import com.edwardinubuntu.dailykind.util.parse.ParseObjectManager;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -62,6 +64,7 @@ public class HomeFragment extends PlaceholderFragment {
         suggestImageViewLayoutParams.width = minPixels;
         suggestImageViewLayoutParams.height = minPixels;
         suggestImageView.requestLayout();
+        suggestImageView.setOnTouchListener(new ImageViewOnTouchListener());
 
         randomLoadingProgressBar = (ProgressBar)rootView.findViewById(R.id.home_good_deed_random_progressBar);
 
@@ -105,28 +108,35 @@ public class HomeFragment extends PlaceholderFragment {
                         @Override
                         public void done(ParseObject parseObject, ParseException e) {
                             if (parseObject!= null) {
-                                Idea idea = new Idea();
+
+                                suggestImageView.setImageBitmap(null);
+
+                                final Idea idea = new Idea();
+                                ParseObjectManager parseObjectManager = new ParseObjectManager(parseObject);
 
                                 idea.setName(parseObject.getString("Name"));
                                 idea.setIdeaDescription(parseObject.getString("Description"));
 
-                                Category category = new Category();
-                                ParseObject categoryObject = parseObject.getParseObject("categoryPointer");
-                                category.setObjectId(categoryObject.getObjectId());
-                                category.setName(categoryObject.getString("Name"));
-
-                                idea.setCategory(category);
-
+                                idea.setCategory(parseObjectManager.getCategory());
                                 randomIdeaTextView.setText(idea.getName());
 
-                                ParseObject graphicObject = parseObject.getParseObject("graphicPointer");
-                                if (graphicObject != null && graphicObject.getParseFile("imageFile") != null) {
-                                    String imageUrl = graphicObject.getParseFile("imageFile").getUrl();
+                                idea.setGraphic(parseObjectManager.getGraphic());
 
-                                    suggestImageView.setImageBitmap(null);
+                                suggestImageView.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        Intent intent = new Intent(getActivity(), DeedContentActivity.class);
+                                        intent.putExtra("idea", idea);
+                                        startActivity(intent);
+                                    }
+                                });
+
+                                if (idea.getGraphic() != null && idea.getGraphic().getParseFileUrl() != null) {
+                                    String imageUrl = idea.getGraphic().getParseFileUrl();
                                     if (imageUrl!=null) {
                                         Picasso.with(getActivity())
                                                 .load(imageUrl)
+                                                .placeholder(R.drawable.card_default)
                                                 .resize(suggestImageViewLayoutParams.width, suggestImageViewLayoutParams.height)
                                                 .into(suggestImageView);
                                     }
@@ -142,4 +152,6 @@ public class HomeFragment extends PlaceholderFragment {
             }
         });
     }
+
+
 }
