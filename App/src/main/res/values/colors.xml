@@ -5,6 +5,8 @@
 	<color name="theme_color_3">#F09DA2</color>
 	<color name="theme_color_4">#D1342C</color>
 	<color name="theme_background">#FFF3EC</color>
+	
+	<color name="lovingheart_white">#FFFFFF</color>
 
 	<color name="pressed_lovingheart">#CC33B5E5</color>
 </resources>

@@ -1,6 +1,9 @@
 package com.edwardinubuntu.dailykind.activity;
 
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -9,8 +12,12 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Base64;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import com.crashlytics.android.Crashlytics;
+import com.edwardinubuntu.dailykind.DailyKind;
 import com.edwardinubuntu.dailykind.ParseSettings;
 import com.edwardinubuntu.dailykind.R;
 import com.edwardinubuntu.dailykind.fragment.*;
@@ -19,8 +26,8 @@ import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 
-import com.crashlytics.android.Crashlytics;
-
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Locale;
 
 public class MainActivity extends ActionBarActivity implements ActionBar.TabListener {
@@ -99,6 +106,22 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
                 }
             });
         }
+
+        try {
+            PackageInfo info = getPackageManager().getPackageInfo(
+                    "com.edwardinubuntu.dailykind",
+                    PackageManager.GET_SIGNATURES);
+            for (Signature signature : info.signatures) {
+                MessageDigest md = MessageDigest.getInstance("SHA");
+                md.update(signature.toByteArray());
+                Log.d(DailyKind.TAG, "KeyHash:" + Base64.encodeToString(md.digest(), Base64.DEFAULT));
+            }
+        } catch (PackageManager.NameNotFoundException e) {
+            Log.d(DailyKind.TAG, e.getLocalizedMessage());
+
+        } catch (NoSuchAlgorithmException e) {
+            Log.d(DailyKind.TAG, e.getLocalizedMessage());
+        }
     }
 
 
@@ -129,6 +152,11 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
             case R.id.action_nearby:
                 Intent intent = new Intent(getApplicationContext(), NearbyActivity.class);
                 startActivity(intent);
+                break;
+
+            case R.id.action_login:
+                Intent loginIntent = new Intent(getApplicationContext(), LoginActivity.class);
+                startActivity(loginIntent);
                 break;
         }
 

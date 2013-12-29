@@ -5,10 +5,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 import com.edwardinubuntu.dailykind.R;
 import com.edwardinubuntu.dailykind.listener.LoadMoreListener;
+import com.edwardinubuntu.dailykind.util.CircleTransform;
+import com.parse.GetCallback;
+import com.parse.ParseException;
 import com.parse.ParseObject;
+import com.squareup.picasso.Picasso;
 import org.ocpsoft.prettytime.PrettyTime;
 
 import java.util.Date;
@@ -44,8 +49,26 @@ public class UserActivitiesAdapter extends ArrayAdapter<ParseObject> {
 
         ParseObject storyObject = getItem(position);
 
+        final ImageView storyTellerImageView = (ImageView)contentView.findViewById(R.id.user_avatar_image_view);
+        storyTellerImageView.setImageResource(R.drawable.ic_action_user);
+        if (storyObject.getParseObject("StoryTeller").getParseObject("avatar")!=null) {
+            storyObject.getParseObject("StoryTeller").getParseObject("avatar").fetchIfNeededInBackground(new GetCallback<ParseObject>() {
+                @Override
+                public void done(ParseObject parseObject, ParseException e) {
+                    if (parseObject != null) {
+                        Picasso.with(getContext())
+                                .load(parseObject.getString("imageUrl"))
+                                .placeholder(R.drawable.ic_action_user)
+                                .transform(new CircleTransform())
+                                .into(storyTellerImageView);
+                    }
+                }
+            });
+
+        }
+
         TextView storyTellerTextView = (TextView)contentView.findViewById(R.id.story_teller_name_text_view);
-        storyTellerTextView.setText(storyObject.getParseUser("StoryTeller").getString("username"));
+        storyTellerTextView.setText(storyObject.getParseUser("StoryTeller").getString("name"));
 
         TextView storyContentTextView = (TextView)contentView.findViewById(R.id.story_content_text_view);
         storyContentTextView.setText(storyObject.getString("Content"));
@@ -54,7 +77,11 @@ public class UserActivitiesAdapter extends ArrayAdapter<ParseObject> {
         PrettyTime prettyTime = new PrettyTime(new Date());
         createdAtTextView.setText(prettyTime.format(storyObject.getCreatedAt()));
 
-        if (storyObject.getString("HelperName") != null && storyObject.getString("HelpedName") != null) {
+        if (storyObject.getString("HelperName") != null
+                && storyObject.getString("HelperName").length() > 0
+                && storyObject.getString("HelpedName") != null
+                && storyObject.getString("HelpedName").length() > 0
+                ) {
 
             TextView helperNameTextView = (TextView)contentView.findViewById(R.id.helper_name_text_view);
             helperNameTextView.setText(storyObject.getString("HelperName"));

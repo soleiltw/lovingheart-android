@@ -22,4 +22,9 @@
 	      android:title="@string/action_settings"
 	      android:orderInCategory="110"
 	      dailykind:showAsAction="never" />
+
+	<item android:id="@+id/action_login"
+	      android:title="@string/action_login"
+	      android:orderInCategory="115"
+	      dailykind:showAsAction="never" />
 </menu>
