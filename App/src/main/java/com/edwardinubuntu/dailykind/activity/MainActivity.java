@@ -22,9 +22,6 @@ import com.edwardinubuntu.dailykind.ParseSettings;
 import com.edwardinubuntu.dailykind.R;
 import com.edwardinubuntu.dailykind.fragment.*;
 import com.parse.Parse;
-import com.parse.ParseException;
-import com.parse.ParseUser;
-import com.parse.SignUpCallback;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -94,19 +91,11 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
                             .setText(mSectionsPagerAdapter.getPageTitle(i))
                             .setTabListener(this));
         }
-        // TODO Create user
-        if (ParseUser.getCurrentUser() == null) {
-            ParseUser user = new ParseUser();
-            user.setUsername("Jonny");
-            user.setPassword("jonny");
-            user.signUpInBackground(new SignUpCallback() {
-                @Override
-                public void done(ParseException e) {
 
-                }
-            });
-        }
+//        printPackageInfo();
+    }
 
+    private void printPackageInfo() {
         try {
             PackageInfo info = getPackageManager().getPackageInfo(
                     "com.edwardinubuntu.dailykind",

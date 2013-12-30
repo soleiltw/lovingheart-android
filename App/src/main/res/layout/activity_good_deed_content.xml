@@ -2,6 +2,7 @@
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:orientation="vertical"
+                android:background="@color/theme_background"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
@@ -13,64 +14,55 @@
 			android:orientation="vertical"
 			android:layout_width="fill_parent"
 			android:layout_height="wrap_content">
-
 			<LinearLayout
-				android:orientation="horizontal"
-				android:layout_margin="10dp"
-				android:gravity="center_vertical"
+				android:background="@drawable/layout_background_shadow"
+				android:orientation="vertical"
+				android:layout_margin="5dp"
 				android:layout_width="fill_parent"
 				android:layout_height="wrap_content">
 
-				<ImageView
-					android:background="@drawable/shape_round"
-					android:src="@drawable/ic_action_user"
-					android:layout_margin="5dp"
-					android:id="@+id/good_deed_content_org_avatar_image_view"
-					android:layout_width="48dp"
-					android:layout_height="48dp"/>
+				<LinearLayout
+					android:orientation="horizontal"
+					android:gravity="center_vertical"
+					android:layout_width="fill_parent"
+					android:layout_height="wrap_content">
+
+					<ImageView
+						android:background="@drawable/shape_round"
+						android:src="@drawable/ic_action_user"
+						android:layout_margin="5dp"
+						android:id="@+id/good_deed_content_org_avatar_image_view"
+						android:layout_width="48dp"
+						android:layout_height="48dp"/>
+
+					<TextView
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:textAppearance="?android:attr/textAppearanceMedium"
+						android:hint="Name"
+						android:layout_toRightOf="@+id/good_deed_content_org_avatar_image_view"
+						android:id="@+id/good_deed_content_org_text_view"/>
+
+				</LinearLayout>
+
+
 
 				<TextView
-					android:layout_width="wrap_content"
+					android:layout_width="fill_parent"
 					android:layout_height="wrap_content"
 					android:textAppearance="?android:attr/textAppearanceMedium"
-					android:hint="Name"
-					android:layout_toRightOf="@+id/good_deed_content_org_avatar_image_view"
-					android:id="@+id/good_deed_content_org_text_view"/>
+					android:hint="Content"
+					android:layout_margin="3dp"
+					android:textColor="@color/story_text_color"
+					android:id="@+id/deed_content_description_text_view"
+					android:layout_gravity="center_horizontal"/>
 
-			</LinearLayout>
 
-			<LinearLayout
-				android:orientation="vertical"
-				android:layout_marginLeft="10dp"
-				android:layout_marginRight="10dp"
-				android:layout_width="fill_parent"
-				android:layout_height="wrap_content">
+				<ImageView
+					android:id="@+id/deed_content_image_view"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"/>
 
-			<TextView
-				android:layout_width="fill_parent"
-				android:layout_height="wrap_content"
-				android:textAppearance="?android:attr/textAppearanceMedium"
-				android:hint="Content"
-				android:layout_margin="3dp"
-				android:textColor="@color/story_text_color"
-				android:id="@+id/deed_content_description_text_view"
-				android:layout_gravity="center_horizontal"/>
-
-			</LinearLayout>
-
-			<ImageView
-				android:id="@+id/deed_content_image_view"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"/>
-
-			<LinearLayout
-				android:orientation="vertical"
-				android:layout_marginLeft="10dp"
-				android:layout_marginRight="10dp"
-				android:layout_marginBottom="10dp"
-
-				android:layout_width="fill_parent"
-				android:layout_height="wrap_content">
 				<TextView
 					android:layout_width="fill_parent"
 					android:layout_height="wrap_content"
@@ -113,9 +105,6 @@
 				</LinearLayout>
 
 			</LinearLayout>
-
-
-
 		</LinearLayout>
 	</ScrollView>
 
