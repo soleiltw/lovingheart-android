@@ -22,7 +22,8 @@
 		android:layout_height="wrap_content"/>
 
 	<TextView
-		android:hint="Done: 0 times"
+		android:id="@+id/idea_done_text_view"
+		android:hint="Done 0 times"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:layout_gravity="right"/>

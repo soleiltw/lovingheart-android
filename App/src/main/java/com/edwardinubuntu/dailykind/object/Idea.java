@@ -17,6 +17,8 @@ public class Idea implements Serializable {
 
     private String objectId;
 
+    private int doneCount;
+
     public Category getCategory() {
         return category;
     }
@@ -55,5 +57,13 @@ public class Idea implements Serializable {
 
     public void setObjectId(String objectId) {
         this.objectId = objectId;
+    }
+
+    public int getDoneCount() {
+        return doneCount;
+    }
+
+    public void setDoneCount(int doneCount) {
+        this.doneCount = doneCount;
     }
 }

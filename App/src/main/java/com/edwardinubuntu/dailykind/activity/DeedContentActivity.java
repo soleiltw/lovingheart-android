@@ -37,6 +37,8 @@ public class DeedContentActivity extends ActionBarActivity {
     private ImageView orgImageView;
     private TextView orgTitleTextView;
 
+    private Idea idea;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,7 +69,8 @@ public class DeedContentActivity extends ActionBarActivity {
                         .setPositiveButton("Done", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int which) {
-                                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                Intent intent = new Intent(getApplicationContext(), PostStoryActivity.class);
+                                intent.putExtra("idea", idea);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(intent);
                             }
@@ -119,7 +122,7 @@ public class DeedContentActivity extends ActionBarActivity {
                 if (parseObject != null) {
 
                     ParseObjectManager parseObjectManager = new ParseObjectManager(parseObject);
-                    Idea idea = parseObjectManager.getIdea();
+                    idea = parseObjectManager.getIdea();
                     idea.setCategory(parseObjectManager.getCategory());
                     idea.setGraphic(parseObjectManager.getGraphic());
 
@@ -149,7 +152,9 @@ public class DeedContentActivity extends ActionBarActivity {
                     } else {
                         contentImageView.setVisibility(View.GONE);
                     }
-                    numberOfPeopleTextView.setText(getString(R.string.deed_of_number_of_people));
+                    numberOfPeopleTextView.setText(
+                            getString(R.string.deed_of_number_of_people_prefix) +
+                            idea.getDoneCount() + getString(R.string.deed_of_number_of_people_post));
 
                     ParseObject orgParseObject = parseObject.getParseObject("OrganizerPointer");
                     if (orgParseObject != null) {
@@ -169,6 +174,7 @@ public class DeedContentActivity extends ActionBarActivity {
                             }
                         });
                     }
+
                 }
             }
         });

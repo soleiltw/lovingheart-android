@@ -162,7 +162,7 @@ public class HomeFragment extends PlaceholderFragment {
         AudioManager am = (AudioManager)getActivity().getSystemService(Context.AUDIO_SERVICE);
         if  (am.getRingerMode() == AudioManager.RINGER_MODE_NORMAL) {
             Log.d(DailyKind.TAG, "Normal mode");
-            MediaPlayer tabClick = MediaPlayer.create(getActivity(), R.raw.lock_padlock);
+            MediaPlayer tabClick = MediaPlayer.create(getActivity(), R.raw.celebratory_cute_bells_double);
             tabClick.setLooping(false);
             tabClick.start();
         }

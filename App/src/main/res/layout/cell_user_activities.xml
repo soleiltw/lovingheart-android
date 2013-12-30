@@ -35,36 +35,6 @@
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content">
 
-			<LinearLayout
-				android:orientation="horizontal"
-				android:id="@+id/story_who_help_who_layout"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content">
-
-				<TextView
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:textAppearance="?android:attr/textAppearanceMedium"
-					android:hint="I"
-					android:id="@+id/helper_name_text_view"/>
-
-				<TextView
-					android:layout_marginLeft="5dp"
-					android:layout_marginRight="5dp"
-					android:text="helped"
-					android:textAppearance="?android:attr/textAppearanceMedium"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"/>
-
-				<TextView
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:textAppearance="?android:attr/textAppearanceMedium"
-					android:hint="Name"
-					android:id="@+id/helped_name_text_view"/>
-
-
-			</LinearLayout>
 
 			<TextView
 				android:layout_width="wrap_content"

@@ -6,42 +6,24 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent">
 
-	<EditText
-		android:hint="I"
-		android:layout_width="fill_parent"
-		android:layout_height="wrap_content"
-		android:id="@+id/helper_name_edit_text"/>
+	<include
+		layout="@layout/layout_user_image_name" />
+
 	<TextView
-		android:text="helped"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:textAppearance="?android:textAppearanceMedium"
-		android:layout_gravity="center_horizontal"/>
-	<EditText
-		android:hint="Some one"
+		android:id="@+id/content_idea_number_text_view"
 		android:layout_width="fill_parent"
-		android:layout_height="wrap_content"
-		android:id="@+id/helped_name_edit_text"/>
+		android:layout_margin="10dp"
+		android:hint="Idea was"
+		android:layout_height="wrap_content"/>
 
 	<EditText
 		android:layout_width="fill_parent"
 		android:minLines="5"
 		android:id="@+id/content_edit_text"
-		android:hint="What the story goes."
+		android:hint="How the story goes."
 		android:gravity="top"
 		android:layout_height="wrap_content"/>
-	<EditText
-		android:layout_width="fill_parent"
-		android:hint="No. of story (Optional)"
-		android:layout_height="wrap_content"/>
 
-	<EditText
-		android:layout_width="fill_parent"
-		android:layout_height="wrap_content"
-		android:inputType="date"
-		android:ems="10"
-		android:hint="Date"
-		android:id="@+id/date_edit_text"/>
 
 	<Button
 		android:id="@+id/post_story_done_button"
