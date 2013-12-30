@@ -16,7 +16,7 @@ public class ParseObjectManager {
         this.parseObject = parseObject;
     }
 
-    public Idea getIdea(ParseObject parseObject) {
+    public Idea getIdea() {
         Idea idea = new Idea();
         idea.setObjectId(parseObject.getObjectId());
         idea.setName(parseObject.getString("Name"));

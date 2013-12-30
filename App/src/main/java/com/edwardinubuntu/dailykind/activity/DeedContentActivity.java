@@ -7,15 +7,16 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import com.edwardinubuntu.dailykind.DailyKind;
 import com.edwardinubuntu.dailykind.ParseSettings;
 import com.edwardinubuntu.dailykind.R;
 import com.edwardinubuntu.dailykind.object.Idea;
-import com.edwardinubuntu.dailykind.util.CircleTransform;
 import com.edwardinubuntu.dailykind.util.parse.ParseObjectManager;
 import com.parse.*;
 import com.squareup.picasso.Picasso;
@@ -25,7 +26,7 @@ import com.squareup.picasso.Picasso;
  */
 public class DeedContentActivity extends ActionBarActivity {
 
-    private Idea idea;
+    private String ideaObjectId;
 
     private ImageView contentImageView;
 
@@ -41,25 +42,19 @@ public class DeedContentActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
 
         ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayShowHomeEnabled(false);
         actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setDisplayUseLogoEnabled(false);
 
         setContentView(R.layout.activity_good_deed_content);
 
         Parse.initialize(this, ParseSettings.PARSE_API_TOKEN, ParseSettings.PARSE_API_TOKEN_2);
 
-        idea = (Idea)getIntent().getSerializableExtra("idea");
+        ideaObjectId = getIntent().getStringExtra("ideaObjectId");
     }
 
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-
-        TextView contentTextView = (TextView)findViewById(R.id.deed_content_title_text_view);
-        contentTextView.setText(idea.getName());
-
-        TextView contentDescriptionTextView = (TextView)findViewById(R.id.deed_content_description_text_view);
-        contentDescriptionTextView.setText(idea.getIdeaDescription());
 
         numberOfPeopleTextView = (TextView)findViewById(R.id.number_of_people_involved_text_view);
 
@@ -89,12 +84,6 @@ public class DeedContentActivity extends ActionBarActivity {
         });
 
         contentImageView = (ImageView)findViewById(R.id.deed_content_image_view);
-        DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
-        int minPixels = Math.min(displayMetrics.widthPixels, displayMetrics.heightPixels);
-        contentImageViewLayoutParams = (LinearLayout.LayoutParams)contentImageView.getLayoutParams();
-        contentImageViewLayoutParams.width = minPixels;
-        contentImageViewLayoutParams.height = minPixels;
-        contentImageView.requestLayout();
 
         orgImageView = (ImageView)findViewById(R.id.good_deed_content_org_avatar_image_view);
         orgTitleTextView = (TextView)findViewById(R.id.good_deed_content_org_text_view);
@@ -114,8 +103,13 @@ public class DeedContentActivity extends ActionBarActivity {
     }
 
     private void loadIdea() {
+
+        Log.d(DailyKind.TAG, "load Idea with ideaObjectId: " + ideaObjectId);
+
+        if (ideaObjectId == null) return;
+
         ParseQuery<ParseObject> queryIdea = new ParseQuery<ParseObject>("Idea");
-        queryIdea.whereEqualTo("objectId", idea.getObjectId());
+        queryIdea.whereEqualTo("objectId", ideaObjectId);
         queryIdea.include("graphicPointer");
         queryIdea.include("categoryPointer");
         queryIdea.include("OrganizerPointer");
@@ -123,18 +117,37 @@ public class DeedContentActivity extends ActionBarActivity {
             @Override
             public void done(ParseObject parseObject, ParseException e) {
                 if (parseObject != null) {
+
                     ParseObjectManager parseObjectManager = new ParseObjectManager(parseObject);
-                    Idea idea = parseObjectManager.getIdea(parseObject);
+                    Idea idea = parseObjectManager.getIdea();
                     idea.setCategory(parseObjectManager.getCategory());
                     idea.setGraphic(parseObjectManager.getGraphic());
 
+                    TextView contentTextView = (TextView)findViewById(R.id.deed_content_title_text_view);
+                    contentTextView.setText(idea.getName());
+
+                    TextView contentDescriptionTextView = (TextView)findViewById(R.id.deed_content_description_text_view);
+                    contentDescriptionTextView.setText(idea.getIdeaDescription());
+
                     if (idea.getGraphic() != null && idea.getGraphic().getParseFileUrl() != null) {
+                        contentImageView.setVisibility(View.VISIBLE);
+                        DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
+                        int minPixels = Math.min(displayMetrics.widthPixels, displayMetrics.heightPixels);
+                        contentImageViewLayoutParams = (LinearLayout.LayoutParams)contentImageView.getLayoutParams();
+                        contentImageViewLayoutParams.width = minPixels;
+                        contentImageViewLayoutParams.height = minPixels;
+                        contentImageView.requestLayout();
+
+
+                        Log.d(DailyKind.TAG, "Parse File Url: " + idea.getGraphic().getParseFileUrl());
 
                         Picasso.with(getApplicationContext())
                                 .load(idea.getGraphic().getParseFileUrl())
                                 .placeholder(R.drawable.card_default)
                                 .resize(contentImageViewLayoutParams.width, contentImageViewLayoutParams.height)
                                 .into(contentImageView);
+                    } else {
+                        contentImageView.setVisibility(View.GONE);
                     }
                     numberOfPeopleTextView.setText(getString(R.string.deed_of_number_of_people));
 
@@ -151,7 +164,6 @@ public class DeedContentActivity extends ActionBarActivity {
                                     Picasso.with(getApplicationContext())
                                             .load(parseObject.getParseFile("imageFile").getUrl())
                                             .placeholder(R.drawable.ic_action_user)
-                                            .transform(new CircleTransform())
                                             .into(orgImageView);
                                 }
                             }

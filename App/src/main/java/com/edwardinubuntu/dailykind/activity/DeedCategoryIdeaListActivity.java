@@ -67,7 +67,7 @@ public class DeedCategoryIdeaListActivity extends ActionBarActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getApplicationContext(), DeedContentActivity.class);
-                intent.putExtra("idea", ideaList.get(position));
+                intent.putExtra("ideaObjectId", ideaList.get(position).getObjectId());
                 startActivity(intent);
             }
         });
@@ -112,7 +112,7 @@ public class DeedCategoryIdeaListActivity extends ActionBarActivity {
 
                     ParseObjectManager parseObjectManager = new ParseObjectManager(parseObject);
 
-                    Idea idea = parseObjectManager.getIdea(parseObject);
+                    Idea idea = parseObjectManager.getIdea();
                     idea.setCategory(parseObjectManager.getCategory());
 
                     ideaList.add(idea);

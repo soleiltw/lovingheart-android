@@ -1,12 +1,17 @@
 package com.edwardinubuntu.dailykind.fragment;
 
+import android.content.Context;
 import android.content.Intent;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
+import com.edwardinubuntu.dailykind.DailyKind;
 import com.edwardinubuntu.dailykind.R;
 import com.edwardinubuntu.dailykind.activity.DeedCategoriesActivity;
 import com.edwardinubuntu.dailykind.activity.DeedContentActivity;
@@ -111,11 +116,8 @@ public class HomeFragment extends PlaceholderFragment {
 
                                 suggestImageView.setImageBitmap(null);
 
-                                final Idea idea = new Idea();
                                 ParseObjectManager parseObjectManager = new ParseObjectManager(parseObject);
-
-                                idea.setName(parseObject.getString("Name"));
-                                idea.setIdeaDescription(parseObject.getString("Description"));
+                                final Idea idea = parseObjectManager.getIdea();
 
                                 idea.setCategory(parseObjectManager.getCategory());
                                 randomIdeaTextView.setText(idea.getName());
@@ -126,7 +128,7 @@ public class HomeFragment extends PlaceholderFragment {
                                     @Override
                                     public void onClick(View v) {
                                         Intent intent = new Intent(getActivity(), DeedContentActivity.class);
-                                        intent.putExtra("idea", idea);
+                                        intent.putExtra("ideaObjectId", idea.getObjectId());
                                         startActivity(intent);
                                     }
                                 });
@@ -141,6 +143,7 @@ public class HomeFragment extends PlaceholderFragment {
                                                 .into(suggestImageView);
                                     }
                                 }
+                                playLockSound();
 
                             }
                             randomLoadingProgressBar.setVisibility(View.GONE);
@@ -154,4 +157,14 @@ public class HomeFragment extends PlaceholderFragment {
     }
 
 
+    private void playLockSound() {
+        //PLAY SOUND HERE
+        AudioManager am = (AudioManager)getActivity().getSystemService(Context.AUDIO_SERVICE);
+        if  (am.getRingerMode() == AudioManager.RINGER_MODE_NORMAL) {
+            Log.d(DailyKind.TAG, "Normal mode");
+            MediaPlayer tabClick = MediaPlayer.create(getActivity(), R.raw.lock_padlock);
+            tabClick.setLooping(false);
+            tabClick.start();
+        }
+    }
 }
