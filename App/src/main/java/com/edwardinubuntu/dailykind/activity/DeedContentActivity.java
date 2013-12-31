@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 import com.edwardinubuntu.dailykind.DailyKind;
 import com.edwardinubuntu.dailykind.ParseSettings;
 import com.edwardinubuntu.dailykind.R;
@@ -20,6 +21,8 @@ import com.edwardinubuntu.dailykind.object.Idea;
 import com.edwardinubuntu.dailykind.util.parse.ParseObjectManager;
 import com.parse.*;
 import com.squareup.picasso.Picasso;
+
+import java.util.List;
 
 /**
  * Created by edward_chiang on 2013/11/23.
@@ -118,10 +121,10 @@ public class DeedContentActivity extends ActionBarActivity {
         queryIdea.include("OrganizerPointer");
         queryIdea.getFirstInBackground(new GetCallback<ParseObject>() {
             @Override
-            public void done(ParseObject parseObject, ParseException e) {
-                if (parseObject != null) {
+            public void done(final ParseObject ideaParseObject, ParseException e) {
+                if (ideaParseObject != null) {
 
-                    ParseObjectManager parseObjectManager = new ParseObjectManager(parseObject);
+                    ParseObjectManager parseObjectManager = new ParseObjectManager(ideaParseObject);
                     idea = parseObjectManager.getIdea();
                     idea.setCategory(parseObjectManager.getCategory());
                     idea.setGraphic(parseObjectManager.getGraphic());
@@ -130,7 +133,15 @@ public class DeedContentActivity extends ActionBarActivity {
                     contentTextView.setText(idea.getName());
 
                     TextView contentDescriptionTextView = (TextView)findViewById(R.id.deed_content_description_text_view);
-                    contentDescriptionTextView.setText(idea.getIdeaDescription());
+                    if (idea.getIdeaDescription() != null && idea.getIdeaDescription().length() > 0) {
+                        contentDescriptionTextView.setText(idea.getIdeaDescription());
+                    } else {
+                        contentDescriptionTextView.setVisibility(View.GONE);
+                    }
+
+                    final TextView earnDescribeTextView = (TextView)findViewById(R.id.deed_content_earn_description_text_view);
+                    // Hide for default
+                    earnDescribeTextView.setVisibility(View.GONE);
 
                     if (idea.getGraphic() != null && idea.getGraphic().getParseFileUrl() != null) {
                         contentImageView.setVisibility(View.VISIBLE);
@@ -149,14 +160,59 @@ public class DeedContentActivity extends ActionBarActivity {
                                 .placeholder(R.drawable.card_default)
                                 .resize(contentImageViewLayoutParams.width, contentImageViewLayoutParams.height)
                                 .into(contentImageView);
+
+                        // Check if user already have this graphic
+                        // Earn graphic
+                        ParseQuery<ParseObject> graphicsEarnedQuery = new ParseQuery<ParseObject>("GraphicsEarned");
+                        graphicsEarnedQuery.whereEqualTo("userId", ParseUser.getCurrentUser());
+                        graphicsEarnedQuery.getFirstInBackground(new GetCallback<ParseObject>() {
+                            @Override
+                            public void done(final ParseObject parseObject, ParseException e) {
+                                if (parseObject != null) {
+                                    ParseQuery<ParseObject> graphicsEarnedQuery = parseObject.getRelation("graphicsEarned").getQuery();
+                                    graphicsEarnedQuery.findInBackground(new FindCallback<ParseObject>() {
+                                        @Override
+                                        public void done(List<ParseObject> parseObjects, ParseException e) {
+                                            boolean isUserHaveGraphic = false;
+                                            if (parseObjects != null && !parseObjects.isEmpty()) {
+                                                for (ParseObject eachParseObject : parseObjects) {
+                                                    if (eachParseObject.getObjectId().equals(ideaParseObject.getParseObject("graphicPointer").getObjectId())) {
+                                                        isUserHaveGraphic = true;
+                                                        break;
+                                                    }
+                                                }
+                                            }
+
+                                            if (!isUserHaveGraphic) {
+                                                earnDescribeTextView.setText(getString(R.string.deed_content_done_credit));
+                                                earnDescribeTextView.setVisibility(View.VISIBLE);
+                                            } else {
+                                                Toast.makeText(getApplicationContext(), "You have earned the graphic already! Great!", Toast.LENGTH_SHORT).show();
+                                            }
+                                        }
+                                    });
+
+
+
+                                }
+                                if (e!=null) {
+                                    Log.e(DailyKind.TAG, "graphicsEarnedQuery exception: " + e.getLocalizedMessage());
+                                }
+                            }
+                        });
                     } else {
                         contentImageView.setVisibility(View.GONE);
                     }
-                    numberOfPeopleTextView.setText(
-                            getString(R.string.deed_of_number_of_people_prefix) +
-                            idea.getDoneCount() + getString(R.string.deed_of_number_of_people_post));
+                    // If the done has more than 0
+                    if (idea.getDoneCount() > 0) {
+                        numberOfPeopleTextView.setText(
+                                getString(R.string.deed_of_number_of_people_prefix) +
+                                        idea.getDoneCount() + getString(R.string.deed_of_number_of_people_post));
+                    } else {
+                        numberOfPeopleTextView.setText(getString(R.string.deed_content_be_the_first_one));
+                    }
 
-                    ParseObject orgParseObject = parseObject.getParseObject("OrganizerPointer");
+                    ParseObject orgParseObject = ideaParseObject.getParseObject("OrganizerPointer");
                     if (orgParseObject != null) {
 
                         orgTitleTextView.setText(orgParseObject.getString("name"));

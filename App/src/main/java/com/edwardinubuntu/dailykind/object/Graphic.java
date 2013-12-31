@@ -7,6 +7,8 @@ import java.io.Serializable;
  */
 public class Graphic implements Serializable {
 
+    private String objectId;
+
     private String imageUrl;
 
     private String parseFileUrl;
@@ -25,5 +27,13 @@ public class Graphic implements Serializable {
 
     public void setParseFileUrl(String parseFileUrl) {
         this.parseFileUrl = parseFileUrl;
+    }
+
+    public String getObjectId() {
+        return objectId;
+    }
+
+    public void setObjectId(String objectId) {
+        this.objectId = objectId;
     }
 }

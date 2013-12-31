@@ -10,4 +10,5 @@
 
 	<color name="story_text_color">#5d5836</color>
 	<color name="pressed_lovingheart">#CC33B5E5</color>
+	<color name="pressed_clear">#00000000</color>
 </resources>
