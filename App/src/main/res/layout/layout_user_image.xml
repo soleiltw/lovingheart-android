@@ -15,7 +15,7 @@
 			android:background="@drawable/shape_round"
 			android:src="@drawable/ic_action_user"
 			android:id="@+id/user_avatar_image_view"
-			android:layout_margin="10dp"
+			android:layout_margin="5dp"
 			android:layout_width="48dp"
 			android:layout_height="48dp"/>
 	</LinearLayout>

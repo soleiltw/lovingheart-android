@@ -3,6 +3,7 @@ package com.edwardinubuntu.dailykind.util.parse;
 import com.edwardinubuntu.dailykind.object.Category;
 import com.edwardinubuntu.dailykind.object.Graphic;
 import com.edwardinubuntu.dailykind.object.Idea;
+import com.edwardinubuntu.dailykind.object.Story;
 import com.parse.ParseObject;
 
 /**
@@ -16,6 +17,16 @@ public class ParseObjectManager {
         this.parseObject = parseObject;
     }
 
+    public Story getStory() {
+        Story story = new Story();
+        story.setObjectId(parseObject.getObjectId());
+        story.setStoryTeller(parseObject.getParseUser("StoryTeller"));
+        story.setContent(parseObject.getString("Content"));
+        story.setCreatedAt(parseObject.getCreatedAt());
+        story.setUpdatedAt(parseObject.getUpdatedAt());
+        return story;
+    }
+
     public Idea getIdea() {
         Idea idea = new Idea();
         idea.setObjectId(parseObject.getObjectId());
@@ -26,25 +37,26 @@ public class ParseObjectManager {
     }
 
     public Graphic getGraphic() {
-        ParseObject graphicObject = parseObject.getParseObject("graphicPointer");
-        if (graphicObject!=null) {
+        if (parseObject != null) {
             Graphic graphic = new Graphic();
-            if (graphicObject.getParseFile("imageFile") != null) {
-                graphic.setParseFileUrl(graphicObject.getParseFile("imageFile").getUrl());
+            if (parseObject.getParseFile("imageFile") != null) {
+                graphic.setParseFileUrl(parseObject.getParseFile("imageFile").getUrl());
             }
-            graphic.setObjectId(graphicObject.getObjectId());
-            graphic.setImageUrl(graphicObject.getString("imageUrl"));
+            graphic.setObjectId(parseObject.getObjectId());
+            graphic.setImageUrl(parseObject.getString("imageUrl"));
             return graphic;
         }
         return null;
     }
 
     public Category getCategory() {
-        Category category = new Category();
-        ParseObject categoryObject = parseObject.getParseObject("categoryPointer");
-        category.setObjectId(categoryObject.getObjectId());
-        category.setName(categoryObject.getString("Name"));
+        if (parseObject != null) {
+            Category category = new Category();
+            category.setObjectId(parseObject.getObjectId());
+            category.setName(parseObject.getString("Name"));
 
-        return category;
+            return category;
+        }
+        return null;
     }
 }

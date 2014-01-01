@@ -1,15 +1,17 @@
 package com.edwardinubuntu.dailykind.adapter;
 
 import android.content.Context;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.*;
 import com.edwardinubuntu.dailykind.R;
 import com.edwardinubuntu.dailykind.listener.LoadMoreListener;
+import com.edwardinubuntu.dailykind.object.Graphic;
+import com.edwardinubuntu.dailykind.object.Story;
 import com.edwardinubuntu.dailykind.util.CircleTransform;
+import com.edwardinubuntu.dailykind.util.parse.ParseObjectManager;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -47,12 +49,42 @@ public class UserActivitiesAdapter extends ArrayAdapter<ParseObject> {
             contentView = inflater.inflate(R.layout.cell_user_activities, null);
         }
 
+        ImageView storyContentImageView = (ImageView)contentView.findViewById(R.id.story_content_image_view);
+
         ParseObject storyObject = getItem(position);
+        ParseObjectManager parseObjectManager = new ParseObjectManager(storyObject);
+        Story story = parseObjectManager.getStory();
+
+        // Check if have graphic
+        if (storyObject.getParseObject("graphicPointer") != null) {
+            Graphic graphic = new ParseObjectManager(storyObject.getParseObject("graphicPointer")).getGraphic();
+            story.setGraphic(graphic);
+
+            if (story.getGraphic() !=null && story.getGraphic().getParseFileUrl() != null) {
+
+                DisplayMetrics displayMetrics = getContext().getResources().getDisplayMetrics();
+                int minPixels = Math.min(displayMetrics.widthPixels, displayMetrics.heightPixels);
+                LinearLayout.LayoutParams storyContentImageViewLayoutParams = (LinearLayout.LayoutParams)storyContentImageView.getLayoutParams();
+                storyContentImageViewLayoutParams.width = minPixels;
+                storyContentImageViewLayoutParams.height = minPixels;
+                storyContentImageView.requestLayout();
+
+                storyContentImageView.setVisibility(View.VISIBLE);
+
+                Picasso.with(getContext())
+                    .load(story.getGraphic().getParseFileUrl())
+                    .placeholder(R.drawable.card_default)
+                    .resize(storyContentImageViewLayoutParams.width, storyContentImageViewLayoutParams.height)
+                    .into(storyContentImageView);
+            }
+        } else {
+            storyContentImageView.setVisibility(View.GONE);
+        }
 
         final ImageView storyTellerImageView = (ImageView)contentView.findViewById(R.id.user_avatar_image_view);
         storyTellerImageView.setImageResource(R.drawable.ic_action_user);
-        if (storyObject.getParseObject("StoryTeller").getParseObject("avatar")!=null) {
-            storyObject.getParseObject("StoryTeller").getParseObject("avatar").fetchIfNeededInBackground(new GetCallback<ParseObject>() {
+        if (story.getStoryTeller().getParseObject("avatar")!=null) {
+            story.getStoryTeller().getParseObject("avatar").fetchIfNeededInBackground(new GetCallback<ParseObject>() {
                 @Override
                 public void done(ParseObject parseObject, ParseException e) {
                     if (parseObject != null) {
@@ -67,15 +99,15 @@ public class UserActivitiesAdapter extends ArrayAdapter<ParseObject> {
 
         }
 
-        TextView storyTellerTextView = (TextView)contentView.findViewById(R.id.story_teller_name_text_view);
-        storyTellerTextView.setText(storyObject.getParseUser("StoryTeller").getString("name"));
+        TextView storyTellerTextView = (TextView)contentView.findViewById(R.id.user_name_text_view);
+        storyTellerTextView.setText(story.getStoryTeller().getString("name"));
 
         TextView storyContentTextView = (TextView)contentView.findViewById(R.id.story_content_text_view);
-        storyContentTextView.setText(storyObject.getString("Content"));
+        storyContentTextView.setText(story.getContent());
 
         TextView createdAtTextView = (TextView)contentView.findViewById(R.id.created_at_text_view);
         PrettyTime prettyTime = new PrettyTime(new Date());
-        createdAtTextView.setText(prettyTime.format(storyObject.getCreatedAt()));
+        createdAtTextView.setText(prettyTime.format(story.getCreatedAt()));
 
         if (position >= getCount() - 1 && getLoadMoreListener() != null) {
             getLoadMoreListener().notifyLoadMore();

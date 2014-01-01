@@ -116,13 +116,12 @@ public class HomeFragment extends PlaceholderFragment {
 
                                 suggestImageView.setImageBitmap(null);
 
-                                ParseObjectManager parseObjectManager = new ParseObjectManager(parseObject);
-                                final Idea idea = parseObjectManager.getIdea();
+                                final Idea idea = new ParseObjectManager(parseObject).getIdea();
 
-                                idea.setCategory(parseObjectManager.getCategory());
+                                idea.setCategory(new ParseObjectManager(parseObject.getParseObject("categoryPointer")).getCategory());
                                 randomIdeaTextView.setText(idea.getName());
 
-                                idea.setGraphic(parseObjectManager.getGraphic());
+                                idea.setGraphic(new ParseObjectManager(parseObject.getParseObject("graphicPointer")).getGraphic());
 
                                 suggestImageView.setOnClickListener(new View.OnClickListener() {
                                     @Override

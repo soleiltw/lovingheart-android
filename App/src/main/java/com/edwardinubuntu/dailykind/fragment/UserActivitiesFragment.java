@@ -1,13 +1,16 @@
 package com.edwardinubuntu.dailykind.fragment;
 
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.*;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import com.edwardinubuntu.dailykind.DailyKind;
 import com.edwardinubuntu.dailykind.R;
+import com.edwardinubuntu.dailykind.activity.StoryContentActivity;
 import com.edwardinubuntu.dailykind.adapter.UserActivitiesAdapter;
 import com.edwardinubuntu.dailykind.listener.LoadMoreListener;
 import com.parse.*;
@@ -53,6 +56,15 @@ public class UserActivitiesFragment extends PlaceholderFragment {
         View rootView = inflater.inflate(R.layout.fragment_user_activities, container, false);
 
         ListView userActivitiesListView = (ListView)rootView.findViewById(R.id.user_activities_list_view);
+        userActivitiesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent storyContentIntent = new Intent(getActivity(), StoryContentActivity.class);
+                ParseObject activity = userActivities.get(position);
+                storyContentIntent.putExtra("objectId", activity.getObjectId());
+                startActivity(storyContentIntent);
+            }
+        });
         userActivitiesListView.setAdapter(userActivitiesAdapter);
 
         userActivitiesAdapter.setLoadMoreListener(new LoadMoreListener() {
@@ -112,6 +124,8 @@ public class UserActivitiesFragment extends PlaceholderFragment {
         final ParseQuery<ParseObject> parseQuery = ParseQuery.getQuery("Story");
         parseQuery.include("StoryTeller");
         parseQuery.orderByDescending("createdAt");
+        parseQuery.include("ideaPointer");
+        parseQuery.include("graphicPointer");
         parseQuery.setLimit(10);
 
         if (more) {

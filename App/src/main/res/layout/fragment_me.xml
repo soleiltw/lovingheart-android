@@ -10,50 +10,22 @@
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content">
 
+
 		<include layout="@layout/layout_user_image_name" />
+
 		<LinearLayout
-			android:layout_margin="5dp"
+			android:layout_margin="10dp"
 			android:orientation="vertical"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content">
 
-			<LinearLayout
-				android:orientation="vertical"
+			<TextView
+				android:textAppearance="?android:textAppearanceMedium"
+				android:text="@string/stories_last_share_content_text_prefix"
 				android:layout_width="wrap_content"
-				android:layout_height="wrap_content">
+				android:layout_height="wrap_content"/>
 
-				<TextView
-					android:textAppearance="?android:textAppearanceMedium"
-					android:text="@string/stories_last_share_content_text_prefix"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"/>
-
-				<TextView
-					android:textAppearance="?android:textAppearanceMedium"
-					android:hint="Last story content"
-					android:id="@+id/me_stories_last_share_content_text_view"
-					android:textColor="@color/story_text_color"
-					android:maxLines="3"
-					android:ellipsize="end"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"/>
-
-				<TextView
-					android:textAppearance="?android:textAppearanceMedium"
-					android:hint="Inspired from"
-					android:id="@+id/me_stories_last_share_inspired_from_text_view"
-					android:textColor="@color/story_light_text_color"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"/>
-
-				<TextView
-					android:textAppearance="?android:textAppearanceMedium"
-					android:hint="Story on"
-					android:id="@+id/me_stories_last_share_date_Text_view"
-					android:textColor="@color/story_light_text_color"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"/>
-			</LinearLayout>
+			<include layout="@layout/layout_story_content" />
 
 			<TextView
 				android:layout_width="wrap_content"

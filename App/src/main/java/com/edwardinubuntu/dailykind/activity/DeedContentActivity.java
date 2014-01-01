@@ -124,10 +124,9 @@ public class DeedContentActivity extends ActionBarActivity {
             public void done(final ParseObject ideaParseObject, ParseException e) {
                 if (ideaParseObject != null) {
 
-                    ParseObjectManager parseObjectManager = new ParseObjectManager(ideaParseObject);
-                    idea = parseObjectManager.getIdea();
-                    idea.setCategory(parseObjectManager.getCategory());
-                    idea.setGraphic(parseObjectManager.getGraphic());
+                    idea = new ParseObjectManager(ideaParseObject).getIdea();
+                    idea.setCategory(new ParseObjectManager(ideaParseObject.getParseObject("categoryPointer")).getCategory());
+                    idea.setGraphic(new ParseObjectManager(ideaParseObject.getParseObject("graphicPointer")).getGraphic());
 
                     TextView contentTextView = (TextView)findViewById(R.id.deed_content_title_text_view);
                     contentTextView.setText(idea.getName());

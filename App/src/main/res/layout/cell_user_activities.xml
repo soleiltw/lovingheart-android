@@ -1,39 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
-              android:paddingBottom="5dp"
 	>
 
-	<RelativeLayout
-		android:layout_width="fill_parent"
-		android:layout_height="wrap_content">
-		
-		<ImageView
-			android:background="@drawable/shape_round"
-			android:src="@drawable/ic_action_user"
-			android:id="@+id/user_avatar_image_view"
-			android:layout_margin="10dp"
-			android:layout_width="48dp"
-			android:layout_height="48dp"/>
-
-		<TextView
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:textAppearance="?android:attr/textAppearanceMedium"
-			android:hint="Name"
-			android:layout_toRightOf="@+id/user_avatar_image_view"
-			android:id="@+id/story_teller_name_text_view"/>
 
 		<LinearLayout
-			android:layout_below="@+id/story_teller_name_text_view"
 			android:orientation="vertical"
 			android:id="@+id/story_teller_content_layout"
-			android:layout_toRightOf="@+id/user_avatar_image_view"
-			android:layout_width="wrap_content"
+			android:layout_width="fill_parent"
 			android:layout_height="wrap_content">
+
+			<include
+				android:id="@+id/user_activities_layout"
+				layout="@layout/layout_user_image_name" />
 
 
 			<TextView
@@ -43,17 +25,15 @@
 				android:hint="Story Content"
 				android:id="@+id/story_content_text_view"/>
 
-
+			<ImageView
+				android:id="@+id/story_content_image_view"
+				android:background="@drawable/story_image_background"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"/>
 
 		</LinearLayout>
 
-		<ImageView
-			android:id="@+id/story_content_image_view"
-			android:layout_toRightOf="@+id/user_avatar_image_view"
-			android:background="@drawable/story_image_background"
-			android:layout_below="@+id/story_teller_content_layout"
-			android:layout_width="fill_parent"
-			android:layout_height="150dp"/>
+
 
 		<TextView
 			android:layout_width="wrap_content"
@@ -64,4 +44,3 @@
 			android:layout_alignParentRight="true"/>
 
 	</RelativeLayout>
-</LinearLayout>
