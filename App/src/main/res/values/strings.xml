@@ -34,5 +34,8 @@
 	<string name="deed_content_be_the_first_one">Be the first one.</string>
 	
 	<string name="deed_content_done_credit">You will earn this graphic after you have done this.</string>
+	<string name="stories_last_share_content_text_prefix">Last story shared</string>
+	<string name="stories_last_share_date_text_prefix">Shared on</string>
+	<string name="stories_last_share_inspired_by_text_prefix">Inspired from</string>
 
 </resources>

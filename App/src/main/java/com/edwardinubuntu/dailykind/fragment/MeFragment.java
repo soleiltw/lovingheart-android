@@ -13,8 +13,10 @@ import com.edwardinubuntu.dailykind.R;
 import com.edwardinubuntu.dailykind.util.CircleTransform;
 import com.parse.*;
 import com.squareup.picasso.Picasso;
+import org.ocpsoft.prettytime.PrettyTime;
 
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -81,6 +83,38 @@ public class MeFragment extends PlaceholderFragment {
                     updateUserImpact(parseObject);
                 } else {
                     generateUserImpact();
+                }
+            }
+        });
+
+        ParseQuery<ParseObject> parseObjectParseQuery = new ParseQuery<ParseObject>("Story");
+        parseObjectParseQuery.whereEqualTo("StoryTeller", ParseUser.getCurrentUser());
+        parseObjectParseQuery.orderByDescending("createdAt");
+        parseObjectParseQuery.include("ideaPointer");
+        parseObjectParseQuery.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> parseObjects, ParseException e) {
+                // Check Story Number
+
+                // Get first one to update story date
+                if (parseObjects != null && !parseObjects.isEmpty()) {
+                    ParseObject storyParseObject = parseObjects.get(0);
+
+                    TextView lastSharedContentTextView = (TextView)getActivity().findViewById(R.id.me_stories_last_share_content_text_view);
+                    lastSharedContentTextView.setText(storyParseObject.getString("Content"));
+
+                    if (storyParseObject.getParseObject("ideaPointer") != null) {
+                        TextView lastInspiredTextView = (TextView)getActivity().findViewById(R.id.me_stories_last_share_inspired_from_text_view);
+                        lastInspiredTextView.setText(
+                                getActivity().getString(R.string.stories_last_share_inspired_by_text_prefix)+
+                                        getActivity().getString(R.string.space) +
+                                storyParseObject.getParseObject("ideaPointer").getString("Name"));
+                    }
+
+                    TextView lastSharedDateTextView = (TextView)getActivity().findViewById(R.id.me_stories_last_share_date_Text_view);
+                    PrettyTime prettyTime = new PrettyTime(new Date());
+                    lastSharedDateTextView.setText(
+                            prettyTime.format(storyParseObject.getCreatedAt()));
                 }
             }
         });
