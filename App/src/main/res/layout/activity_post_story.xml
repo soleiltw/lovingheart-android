@@ -7,28 +7,37 @@
               android:layout_height="match_parent">
 
 	<include
-		layout="@layout/layout_user_image_name" />
+		android:id="@+id/post_story_user_image_layout"
+		layout="@layout/layout_user_image" />
 
-	<TextView
-		android:id="@+id/content_idea_number_text_view"
-		android:layout_width="fill_parent"
-		android:layout_margin="10dp"
-		android:textAppearance="?android:textAppearanceMedium"
-		android:hint="The Idea was"
-		android:layout_height="wrap_content"/>
+	<LinearLayout android:layout_width="wrap_content"
+	              android:layout_height="wrap_content"
+	              android:orientation="vertical"
+	              android:id="@+id/idea_linear_layout">
 
-	<EditText
-		android:layout_width="fill_parent"
-		android:minLines="5"
-		android:id="@+id/content_edit_text"
-		android:hint="How the story goes."
-		android:gravity="top"
-		android:layout_height="wrap_content"/>
+		<EditText
+			android:minLines="5"
+			android:id="@+id/content_edit_text"
+			android:hint="How the story goes."
+			android:gravity="top"
 
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"/>
 
-	<Button
-		android:id="@+id/post_story_done_button"
-		android:text="@string/button_done"
-		android:layout_width="fill_parent"
-		android:layout_height="wrap_content"/>
+		<TextView
+			android:id="@+id/content_idea_number_text_view"
+			android:layout_width="fill_parent"
+			android:layout_margin="10dp"
+			android:textAppearance="?android:textAppearanceMedium"
+			android:hint="Inspired from"
+			android:layout_height="wrap_content"/>
+
+		<View android:layout_height="1dp"
+		      android:layout_width="fill_parent"
+		      android:background="#A6A6A6"
+		      android:layout_below="@+id/dish_upload_tags_text_view"
+		      android:layout_marginLeft="3dp"
+		      android:layout_marginRight="3dp"/>
+
+	</LinearLayout>
 </LinearLayout>

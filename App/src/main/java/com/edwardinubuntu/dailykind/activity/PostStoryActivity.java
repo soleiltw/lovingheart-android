@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
@@ -67,9 +68,6 @@ public class PostStoryActivity extends ActionBarActivity {
             }
         });
 
-        TextView storyTellerTextView = (TextView)findViewById(R.id.user_name_text_view);
-        storyTellerTextView.setText(parseUser.getString("name"));
-
         TextView ideaWasTextView = (TextView)findViewById(R.id.content_idea_number_text_view);
         if (idea!=null) {
             ideaWasTextView.setText(idea.getName());
@@ -81,89 +79,85 @@ public class PostStoryActivity extends ActionBarActivity {
 
             }
         });
+    }
 
-        findViewById(com.edwardinubuntu.dailykind.R.id.post_story_done_button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final ParseObject parseObject = new ParseObject("Story");
 
-                // TODO Check user has login
-                parseObject.put("StoryTeller", ParseUser.getCurrentUser());
-                EditText contentEditText = (EditText)findViewById(com.edwardinubuntu.dailykind.R.id.content_edit_text);
-                parseObject.put("Content", contentEditText.getText().toString());
+    private void postStory() {
+        final ParseObject parseObject = new ParseObject("Story");
 
-                if (idea != null) {
-                    ParseQuery<ParseObject> ideaQuery = new ParseQuery<ParseObject>("Idea");
-                    ideaQuery.whereEqualTo("objectId", idea.getObjectId());
-                    dialog.show();
-                    ideaQuery.getFirstInBackground(new GetCallback<ParseObject>() {
+        // TODO Check user has login
+        parseObject.put("StoryTeller", ParseUser.getCurrentUser());
+        EditText contentEditText = (EditText)findViewById(R.id.content_edit_text);
+        parseObject.put("Content", contentEditText.getText().toString());
+
+        if (idea != null) {
+            ParseQuery<ParseObject> ideaQuery = new ParseQuery<ParseObject>("Idea");
+            ideaQuery.whereEqualTo("objectId", idea.getObjectId());
+            dialog.show();
+            ideaQuery.getFirstInBackground(new GetCallback<ParseObject>() {
+                @Override
+                public void done(ParseObject ideaObjectCallBack, ParseException e) {
+                    parseObject.put("ideaPointer", ideaObjectCallBack);
+
+                    ideaObjectCallBack.put("doneCount", ideaObjectCallBack.getInt("doneCount") + 1);
+                    ideaObjectCallBack.saveInBackground(new SaveCallback() {
                         @Override
-                        public void done(ParseObject ideaObjectCallBack, ParseException e) {
-                            parseObject.put("ideaPointer", ideaObjectCallBack);
-
-                            ideaObjectCallBack.put("doneCount", ideaObjectCallBack.getInt("doneCount") + 1);
-                            ideaObjectCallBack.saveInBackground(new SaveCallback() {
-                                @Override
-                                public void done(ParseException e) {
-
-                                }
-                            });
-
-                            submit(parseObject);
-
-                            ParseQuery graphicObjectQuery = new ParseQuery<ParseObject>("GraphicImage");
-                            graphicObjectQuery.whereEqualTo("objectId", idea.getGraphic().getObjectId());
-                            ParseObject graphicObject = null;
-                            try {
-                                graphicObject = graphicObjectQuery.getFirst();
-                            } catch (ParseException e1) {
-                                e1.printStackTrace();
-                            }
-
-                            if (graphicObject != null) {
-                                // Earn graphic
-                                ParseQuery<ParseObject> graphicsEarnedQuery = new ParseQuery<ParseObject>("GraphicsEarned");
-                                graphicsEarnedQuery.whereEqualTo("userId", ParseUser.getCurrentUser());
-                                final ParseObject finalGraphicObject = graphicObject;
-                                graphicsEarnedQuery.getFirstInBackground(new GetCallback<ParseObject>() {
-                                    @Override
-                                    public void done(ParseObject parseObject, ParseException e) {
-
-                                        ParseObject graphicsEarnedObject;
-                                        if  (parseObject == null) {
-                                            graphicsEarnedObject = new ParseObject("GraphicsEarned");
-                                            graphicsEarnedObject.put("userId", ParseUser.getCurrentUser());
-
-                                            ParseRelation graphicsRelation = graphicsEarnedObject.getRelation("graphicsEarned");
-                                            graphicsRelation.add(finalGraphicObject);
-
-                                        } else {
-                                            graphicsEarnedObject = parseObject;
-                                            ParseRelation graphicsRelation = graphicsEarnedObject.getRelation("graphicsEarned");
-                                            graphicsRelation.add(finalGraphicObject);
-                                        }
-                                        graphicsEarnedObject.saveInBackground(new SaveCallback() {
-                                            @Override
-                                            public void done(ParseException e) {
-                                                if (e!=null) {
-                                                    Log.e(DailyKind.TAG, "graphicsEarnedObject.saveInBackground: " + e.getLocalizedMessage());
-                                                }
-                                            }
-                                        });
-                                    }
-                                });
-                            }
-
+                        public void done(ParseException e) {
 
                         }
                     });
-                } else {
+
                     submit(parseObject);
+
+                    ParseQuery graphicObjectQuery = new ParseQuery<ParseObject>("GraphicImage");
+                    graphicObjectQuery.whereEqualTo("objectId", idea.getGraphic().getObjectId());
+                    ParseObject graphicObject = null;
+                    try {
+                        graphicObject = graphicObjectQuery.getFirst();
+                    } catch (ParseException e1) {
+                        e1.printStackTrace();
+                    }
+
+                    if (graphicObject != null) {
+                        // Earn graphic
+                        ParseQuery<ParseObject> graphicsEarnedQuery = new ParseQuery<ParseObject>("GraphicsEarned");
+                        graphicsEarnedQuery.whereEqualTo("userId", ParseUser.getCurrentUser());
+                        final ParseObject finalGraphicObject = graphicObject;
+                        graphicsEarnedQuery.getFirstInBackground(new GetCallback<ParseObject>() {
+                            @Override
+                            public void done(ParseObject parseObject, ParseException e) {
+
+                                ParseObject graphicsEarnedObject;
+                                if  (parseObject == null) {
+                                    graphicsEarnedObject = new ParseObject("GraphicsEarned");
+                                    graphicsEarnedObject.put("userId", ParseUser.getCurrentUser());
+
+                                    ParseRelation graphicsRelation = graphicsEarnedObject.getRelation("graphicsEarned");
+                                    graphicsRelation.add(finalGraphicObject);
+
+                                } else {
+                                    graphicsEarnedObject = parseObject;
+                                    ParseRelation graphicsRelation = graphicsEarnedObject.getRelation("graphicsEarned");
+                                    graphicsRelation.add(finalGraphicObject);
+                                }
+                                graphicsEarnedObject.saveInBackground(new SaveCallback() {
+                                    @Override
+                                    public void done(ParseException e) {
+                                        if (e!=null) {
+                                            Log.e(DailyKind.TAG, "graphicsEarnedObject.saveInBackground: " + e.getLocalizedMessage());
+                                        }
+                                    }
+                                });
+                            }
+                        });
+                    }
+
+
                 }
-
-
-            }
-        });
+            });
+        } else {
+            submit(parseObject);
+        }
     }
 
     private void submit(ParseObject parseObject) {
@@ -188,9 +182,17 @@ public class PostStoryActivity extends ActionBarActivity {
                 finish();
                 break;
             }
+            case R.id.action_post: {
+                postStory();
+                break;
+            }
         }
         return super.onOptionsItemSelected(item);
     }
 
-
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.post_story, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
 }

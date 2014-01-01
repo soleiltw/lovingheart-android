@@ -1,14 +1,21 @@
 package com.edwardinubuntu.dailykind.fragment;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+import com.edwardinubuntu.dailykind.DailyKind;
 import com.edwardinubuntu.dailykind.R;
+import com.edwardinubuntu.dailykind.util.CircleTransform;
 import com.parse.*;
+import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
+import java.util.List;
 
 /**
  * Created by edward_chiang on 2013/11/23.
@@ -30,9 +37,9 @@ public class MeFragment extends PlaceholderFragment {
 
         View rootView = inflater.inflate(R.layout.fragment_me, container, false);
 
-        TextView userNameTextView = (TextView)rootView.findViewById(R.id.me_username_text_view);
+        TextView userNameTextView = (TextView)rootView.findViewById(R.id.user_name_text_view);
         if (ParseUser.getCurrentUser() != null) {
-            userNameTextView.setText(ParseUser.getCurrentUser().getString("username"));
+            userNameTextView.setText(ParseUser.getCurrentUser().getString("name"));
         }
 
         TextView sinceTextView = (TextView)rootView.findViewById(R.id.me_since_text_view);
@@ -50,15 +57,84 @@ public class MeFragment extends PlaceholderFragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        ParseObject avatarObject = ParseUser.getCurrentUser().getParseObject("avatar");
+        avatarObject.fetchIfNeededInBackground(new GetCallback<ParseObject>() {
+            @Override
+            public void done(ParseObject parseObject, ParseException e) {
+                ImageView avatarImageView = (ImageView)getActivity().findViewById(R.id.user_avatar_image_view);
+                if (parseObject.getString("imageType").equals("url")) {
+                    Picasso.with(getActivity())
+                            .load(parseObject.getString("imageUrl"))
+                            .transform(new CircleTransform())
+                            .into(avatarImageView);
+                }
+            }
+        });
+
+        // Check if user have report
         ParseQuery<ParseObject> userQuery = ParseQuery.getQuery("UserImpact");
         userQuery.whereEqualTo("User", ParseUser.getCurrentUser());
         userQuery.getFirstInBackground(new GetCallback<ParseObject>() {
             @Override
-            public void done(ParseObject parseObject, ParseException e) {
+            public void done(final ParseObject parseObject, ParseException e) {
                 if (parseObject!=null) {
-                    storiesSharedCountTextView.setText(parseObject.getNumber("sharedStoriesCount") + " " + getString(R.string.me_number_of_stories_shared));
+                    updateUserImpact(parseObject);
+                } else {
+                    generateUserImpact();
+                }
+            }
+        });
+    }
+
+    private void generateUserImpact() {
+        ParseQuery<ParseObject> storyQuery = new ParseQuery<ParseObject>("Story");
+        storyQuery.whereEqualTo("StoryTeller", ParseUser.getCurrentUser());
+        storyQuery.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> parseObjects, ParseException e) {
+
+                if (parseObjects != null && parseObjects.size() > 0) {
+                    int storiesCount = parseObjects.size();
+
+                    storiesSharedCountTextView.setText(storiesCount + " " + getString(R.string.me_number_of_stories_shared));
+
+                    ParseObject userImpactObject = new ParseObject("UserImpact");
+                    userImpactObject.put("User", ParseUser.getCurrentUser());
+                    userImpactObject.put("sharedStoriesCount", storiesCount);
+                    userImpactObject.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            if (e == null) {
+                                Toast.makeText(getActivity(), "Report generated.", Toast.LENGTH_SHORT).show();
+
+                            } else {
+                                Log.e(DailyKind.TAG, "UserImpact save: " + e.getLocalizedMessage());
+                            }
+                        }
+                    });
                 }
 
+            }
+        });
+    }
+
+    private void updateUserImpact(final ParseObject parseObject) {
+        ParseQuery<ParseObject> storyQuery = new ParseQuery<ParseObject>("Story");
+        storyQuery.whereEqualTo("StoryTeller", ParseUser.getCurrentUser());
+        storyQuery.countInBackground(new CountCallback() {
+            @Override
+            public void done(int count, ParseException e) {
+                storiesSharedCountTextView.setText(count + getString(R.string.space) + getString(R.string.me_number_of_stories_shared));
+
+                parseObject.put("sharedStoriesCount", count);
+                parseObject.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if (e == null) {
+                            Toast.makeText(getActivity(), "Report updated.", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
             }
         });
     }
