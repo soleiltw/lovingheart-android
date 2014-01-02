@@ -1,21 +1,23 @@
 package com.edwardinubuntu.dailykind.fragment;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.*;
+import android.view.*;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import com.edwardinubuntu.dailykind.DailyKind;
 import com.edwardinubuntu.dailykind.R;
 import com.edwardinubuntu.dailykind.activity.DeedCategoriesActivity;
 import com.edwardinubuntu.dailykind.activity.DeedContentActivity;
-import com.edwardinubuntu.dailykind.listener.ImageViewOnTouchListener;
 import com.edwardinubuntu.dailykind.object.Idea;
 import com.edwardinubuntu.dailykind.util.parse.ParseObjectManager;
 import com.parse.GetCallback;
@@ -29,7 +31,7 @@ import com.squareup.picasso.Picasso;
  */
 public class HomeFragment extends PlaceholderFragment {
 
-    private Button categoriesDeedButton;
+    private View categoriesDeedLayout;
 
     private TextView randomIdeaTextView;
 
@@ -39,12 +41,22 @@ public class HomeFragment extends PlaceholderFragment {
 
     private LinearLayout.LayoutParams suggestImageViewLayoutParams;
 
+    private Menu menu;
+
+    private boolean queryLoading;
+
     public static HomeFragment newInstance(int sectionNumber) {
         HomeFragment fragment = new HomeFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_SECTION_NUMBER, sectionNumber);
         fragment.setArguments(args);
         return fragment;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -69,20 +81,11 @@ public class HomeFragment extends PlaceholderFragment {
         suggestImageViewLayoutParams.width = minPixels;
         suggestImageViewLayoutParams.height = minPixels;
         suggestImageView.requestLayout();
-        suggestImageView.setOnTouchListener(new ImageViewOnTouchListener());
 
         randomLoadingProgressBar = (ProgressBar)rootView.findViewById(R.id.home_good_deed_random_progressBar);
 
-        Button randomDeedButton = (Button)rootView.findViewById(R.id.home_good_deed_random_of_button);
-        randomDeedButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                queryRandomIdea();
-            }
-        });
-
-        categoriesDeedButton = (Button)rootView.findViewById(R.id.home_good_deed_categories_of_button);
-        categoriesDeedButton.setOnClickListener(new View.OnClickListener() {
+        categoriesDeedLayout = (View)rootView.findViewById(R.id.home_good_deed_categories);
+        categoriesDeedLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), DeedCategoriesActivity.class);
@@ -93,8 +96,46 @@ public class HomeFragment extends PlaceholderFragment {
         return rootView;
     }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.home, menu);
+        this.menu = menu;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        switch (item.getItemId()) {
+            case R.id.action_reload: {
+                queryRandomIdea();
+                break;
+            }
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+    public void updateRefreshItem() {
+        if (menu != null) {
+            MenuItem refreshItem = menu.findItem(R.id.action_reload);
+            if (refreshItem != null) {
+                if (isQueryLoading()) {
+                    refreshItem.setActionView(R.layout.indeterminate_progress_action);
+                } else {
+                    refreshItem.setActionView(null);
+                }
+            }
+        }
+    }
+
     private void queryRandomIdea() {
 
+        setQueryLoading(true);
+        updateRefreshItem();
         randomLoadingProgressBar.setVisibility(View.VISIBLE);
 
         getActivity().findViewById(R.id.home_idea_card_layout).setVisibility(View.GONE);
@@ -116,7 +157,8 @@ public class HomeFragment extends PlaceholderFragment {
                         public void done(ParseObject parseObject, ParseException e) {
                             if (parseObject!= null) {
 
-                                getActivity().findViewById(R.id.home_idea_card_layout).setVisibility(View.VISIBLE);
+                                View cardLayout = getActivity().findViewById(R.id.home_idea_card_layout);
+                                cardLayout.setVisibility(View.VISIBLE);
 
                                 suggestImageView.setImageBitmap(null);
 
@@ -140,7 +182,7 @@ public class HomeFragment extends PlaceholderFragment {
 
                                 idea.setGraphic(new ParseObjectManager(parseObject.getParseObject("graphicPointer")).getGraphic());
 
-                                suggestImageView.setOnClickListener(new View.OnClickListener() {
+                                cardLayout.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
                                         Intent intent = new Intent(getActivity(), DeedContentActivity.class);
@@ -165,6 +207,8 @@ public class HomeFragment extends PlaceholderFragment {
 
                             }
                             randomLoadingProgressBar.setVisibility(View.GONE);
+                            setQueryLoading(false);
+                            updateRefreshItem();
                         }
                     });
                 } else {
@@ -184,5 +228,13 @@ public class HomeFragment extends PlaceholderFragment {
             tabClick.setLooping(false);
             tabClick.start();
         }
+    }
+
+    public boolean isQueryLoading() {
+        return queryLoading;
+    }
+
+    public void setQueryLoading(boolean queryLoading) {
+        this.queryLoading = queryLoading;
     }
 }

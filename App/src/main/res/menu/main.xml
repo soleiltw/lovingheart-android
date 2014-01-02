@@ -3,7 +3,7 @@
       xmlns:dailykind="http://schemas.android.com/apk/res-auto">
 
 	<item android:id="@+id/action_post"
-	      android:orderInCategory="98"
+	      android:orderInCategory="90"
 	      android:icon="@drawable/ic_action_monolog"
 	      dailykind:showAsAction="always"
 	      android:title="@string/action_post" />

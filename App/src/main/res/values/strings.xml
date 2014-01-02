@@ -5,7 +5,7 @@
 	<string name="app_id">778772072139128</string>
     <string name="title_today">Today</string>
     <string name="title_me">Me</string>
-    <string name="title_activities">Deeds</string>
+    <string name="title_latest_activities">Latest</string>
 	<string name="title_now">Now</string>
     <string name="action_settings">Settings</string>
 	<string name="action_login">Login</string>
