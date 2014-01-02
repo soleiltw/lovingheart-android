@@ -24,7 +24,7 @@
 			android:layout_gravity="center_horizontal"/>
 
 		<TextView
-			android:textColor="@color/theme_color_2"
+			android:textColor="@color/icon_red"
 			android:id="@+id/home_random_idea_caption_text_view"
 			android:hint="Idea Title"
 			android:layout_gravity="center_vertical"
@@ -42,6 +42,11 @@
 		android:id="@+id/home_random_suggest_image_view"
 		android:layout_gravity="center_horizontal"/>
 
+	<LinearLayout
+		android:layout_marginTop="10dp"
+		android:background="@drawable/layout_background_shadow"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content">
 	<TextView
 		android:textColor="@color/lovingheart_white"
 		android:id="@+id/home_random_idea_category_text_view"
@@ -49,10 +54,10 @@
 		android:hint="Category"
 		android:padding="5dp"
 		android:textAlignment="center"
-		android:layout_marginTop="10dp"
 		android:textAppearance="?android:textAppearanceSmall"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"/>
+	</LinearLayout>
 
 	<TextView
 		android:textColor="@color/story_title_color"
