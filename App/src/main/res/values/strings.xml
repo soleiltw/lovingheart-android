@@ -29,6 +29,7 @@
 	<string name="facebook_login_activity">Facebook Login</string>
 	<string name="action_facebook_login_loading">Facebook Login...</string>
 	<string name="action_facebook_login_success">Facebook Login Success.</string>
+	<string name="action_username_login_success">User login success.</string>
 
 	<string name="space">&#160;</string>
 	<string name="deed_content_be_the_first_one">Be the first one.</string>
@@ -37,5 +38,13 @@
 	<string name="stories_last_share_content_text_prefix">Last story shared</string>
 	<string name="stories_last_share_date_text_prefix">Shared on</string>
 	<string name="stories_last_share_inspired_by_text_prefix">From</string>
+
+	<string name="login_email_login_email_hint">Email</string>
+	<string name="login_email_login_password_hint">Password</string>
+	<string name="login_email_login_password_confirm_hint">Password confirm</string>
+	<string name="action_login_form_validate_failure">Email or password is invalid.</string>
+
+	<string name="signup_form_username">Username</string>
+	<string name="idea_caption_special_idea">Features idea</string>
 
 </resources>

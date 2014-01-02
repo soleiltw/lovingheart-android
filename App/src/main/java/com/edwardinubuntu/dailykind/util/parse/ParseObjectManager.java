@@ -39,7 +39,7 @@ public class ParseObjectManager {
     public Graphic getGraphic() {
         if (parseObject != null) {
             Graphic graphic = new Graphic();
-            if (parseObject.getParseFile("imageFile") != null) {
+            if (parseObject.has("imageFile") && parseObject.getParseFile("imageFile") != null) {
                 graphic.setParseFileUrl(parseObject.getParseFile("imageFile").getUrl());
             }
             graphic.setObjectId(parseObject.getObjectId());

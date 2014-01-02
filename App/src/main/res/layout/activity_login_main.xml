@@ -1,28 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-            android:orientation="vertical"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
 
-	<LinearLayout
-		android:orientation="vertical"
-		android:layout_gravity="center"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content">
+	<FrameLayout
+		android:id="@+id/login_main_fragment"
+		android:layout_width="fill_parent"
+		android:layout_height="fill_parent" />
 
-		<ImageView
-			android:id="@+id/login_user_avatar_image_view"
-			android:layout_gravity="center_horizontal"
-			android:layout_margin="10dp"
-			android:layout_width="84dp"
-			android:layout_height="84dp"/>
-
-		<com.facebook.widget.LoginButton
-			android:id="@+id/facebook_auth_button"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			/>
-
-	</LinearLayout>
-</ScrollView>
+</LinearLayout>

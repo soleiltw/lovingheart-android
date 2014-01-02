@@ -97,6 +97,8 @@ public class HomeFragment extends PlaceholderFragment {
 
         randomLoadingProgressBar.setVisibility(View.VISIBLE);
 
+        getActivity().findViewById(R.id.home_idea_card_layout).setVisibility(View.GONE);
+
         final ParseQuery<ParseObject> randomIdeaQuery = new ParseQuery<ParseObject>("Idea");
         randomIdeaQuery.addDescendingOrder("Index");
         randomIdeaQuery.getFirstInBackground(new GetCallback<ParseObject>() {
@@ -114,12 +116,27 @@ public class HomeFragment extends PlaceholderFragment {
                         public void done(ParseObject parseObject, ParseException e) {
                             if (parseObject!= null) {
 
+                                getActivity().findViewById(R.id.home_idea_card_layout).setVisibility(View.VISIBLE);
+
                                 suggestImageView.setImageBitmap(null);
 
                                 final Idea idea = new ParseObjectManager(parseObject).getIdea();
 
                                 idea.setCategory(new ParseObjectManager(parseObject.getParseObject("categoryPointer")).getCategory());
                                 randomIdeaTextView.setText(idea.getName());
+
+                                TextView categoryTextView = (TextView)getActivity().findViewById(R.id.home_random_idea_category_text_view);
+                                categoryTextView.setText(idea.getCategory().getName());
+
+                                TextView captionTextView = (TextView)getActivity().findViewById(R.id.home_random_idea_caption_text_view);
+                                captionTextView.setText(getActivity().getResources().getString(R.string.idea_caption_special_idea));
+
+                                TextView descriptionTextView = (TextView)getActivity().findViewById(R.id.home_random_idea_description_text_view);
+                                if (idea.getIdeaDescription() != null && idea.getIdeaDescription().length() > 0) {
+                                    descriptionTextView.setText(idea.getIdeaDescription());
+                                } else {
+                                    descriptionTextView.setVisibility(View.GONE);
+                                }
 
                                 idea.setGraphic(new ParseObjectManager(parseObject.getParseObject("graphicPointer")).getGraphic());
 
@@ -132,9 +149,11 @@ public class HomeFragment extends PlaceholderFragment {
                                     }
                                 });
 
+                                suggestImageView.setVisibility(View.GONE);
                                 if (idea.getGraphic() != null && idea.getGraphic().getParseFileUrl() != null) {
                                     String imageUrl = idea.getGraphic().getParseFileUrl();
                                     if (imageUrl!=null) {
+                                        suggestImageView.setVisibility(View.VISIBLE);
                                         Picasso.with(getActivity())
                                                 .load(imageUrl)
                                                 .placeholder(R.drawable.card_default)

@@ -80,7 +80,7 @@ public class UserActivitiesFragment extends PlaceholderFragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.fragment_activities, menu);
+        inflater.inflate(R.menu.activities, menu);
         this.menu = menu;
     }
 

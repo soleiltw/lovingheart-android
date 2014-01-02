@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_margin="10dp"
+              android:paddingBottom="10dp"
+
+              android:background="@drawable/layout_background_shadow"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+	<LinearLayout
+		android:orientation="horizontal"
+		android:background="@color/lovingheart_white"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content">
+
+		<ImageView
+			android:layout_width="64dp"
+			android:layout_height="64dp"
+			android:padding="5dp"
+			android:scaleType="centerCrop"
+			android:src="@drawable/ic_action_balloon"
+			android:id="@+id/home_random_idea_caption_image_view"
+			android:layout_gravity="center_horizontal"/>
+
+		<TextView
+			android:textColor="@color/theme_color_2"
+			android:id="@+id/home_random_idea_caption_text_view"
+			android:hint="Idea Title"
+			android:layout_gravity="center_vertical"
+			android:textAppearance="?android:textAppearanceLarge"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"/>
+
+		</LinearLayout>
+
+	<ImageView
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:background="@color/theme_color_3"
+		android:scaleType="centerCrop"
+		android:id="@+id/home_random_suggest_image_view"
+
+		android:layout_gravity="center_horizontal"/>
+
+	<TextView
+		android:textColor="@color/lovingheart_white"
+		android:id="@+id/home_random_idea_category_text_view"
+		android:background="@color/theme_color_2"
+		android:hint="Category"
+		android:padding="5dp"
+		android:textAlignment="center"
+		android:layout_marginTop="10dp"
+		android:textAppearance="?android:textAppearanceSmall"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"/>
+
+	<TextView
+		android:textColor="@color/story_title_color"
+		android:id="@+id/home_random_idea_text_view"
+		android:hint="Suggest Idea"
+		android:layout_margin="10dp"
+		android:textAppearance="?android:textAppearanceLarge"
+		android:layout_gravity="center_horizontal"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"/>
+
+	<TextView
+		android:textColor="@color/story_text_color"
+		android:id="@+id/home_random_idea_description_text_view"
+		android:hint="Suggest Idea"
+		android:textAppearance="?android:textAppearanceSmall"
+		android:layout_gravity="center_horizontal"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"/>
+
+</LinearLayout>

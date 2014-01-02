@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+
+	<LinearLayout
+		android:orientation="vertical"
+		android:layout_gravity="center"
+		android:gravity="center"
+		android:layout_margin="10dp"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content">
+
+		<EditText
+			android:inputType="textEmailAddress"
+			android:ems="10"
+			android:maxLines="1"
+
+			android:hint="@string/login_email_login_email_hint"
+			android:id="@+id/signup_email_edit_Text"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"/>
+
+		<EditText
+			android:ems="10"
+			android:maxLines="1"
+			android:hint="@string/signup_form_username"
+			android:id="@+id/signup_username_edit_Text"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"/>
+
+		<EditText
+			android:inputType="textPassword"
+			android:ems="10"
+			android:hint="@string/login_email_login_password_hint"
+			android:maxLines="1"
+			android:id="@+id/signup_password_edit_Text"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"/>
+
+		<EditText
+			android:inputType="textPassword"
+			android:ems="10"
+			android:hint="@string/login_email_login_password_confirm_hint"
+			android:maxLines="1"
+			android:id="@+id/signup_password_confirm_edit_Text"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"/>
+
+		<TextView
+			android:id="@+id/user_signup_exception_text_view"
+			android:textColor="@color/theme_color_2"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"/>
+
+		<ProgressBar
+			android:id="@+id/user_signup_progressBar"
+			android:visibility="gone"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			style="?android:attr/progressBarStyleSmall"
+			android:layout_centerVertical="true"
+			android:layout_toRightOf="@+id/home_good_deed_random_of_button"/>
+
+		<Button
+			android:text="Sign Up"
+			android:id="@+id/user_signup_button"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"/>
+
+	</LinearLayout>
+</ScrollView>

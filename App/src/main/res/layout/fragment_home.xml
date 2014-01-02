@@ -6,26 +6,13 @@
             android:layout_height="match_parent">
 	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	              android:orientation="vertical"
+	              android:background="@color/background_gray_color"
 	              android:layout_width="match_parent"
 	              android:layout_height="match_parent">
 
-		<ImageView
-			android:layout_width="fill_parent"
-			android:layout_height="wrap_content"
-			android:background="@color/theme_color_3"
-			android:scaleType="centerCrop"
-			android:id="@+id/home_random_suggest_image_view"
-			android:layout_gravity="center_horizontal"/>
-
-		<TextView
-			android:textColor="@color/theme_color_1"
-			android:id="@+id/home_random_idea_text_view"
-			android:hint="Suggest Idea"
-			android:layout_margin="10dp"
-			android:textAppearance="?android:textAppearanceLarge"
-			android:layout_gravity="center_horizontal"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"/>
+		<include
+			android:id="@+id/home_idea_card_layout"
+			layout="@layout/layout_idea_card" />
 
 		<RelativeLayout
 			android:layout_width="fill_parent"
