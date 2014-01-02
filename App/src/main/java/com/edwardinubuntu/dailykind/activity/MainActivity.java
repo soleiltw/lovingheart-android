@@ -32,7 +32,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
     private final static int VIEW_PAGER_HOME_POSITION = 0;
     private final static int VIEW_PAGER_ME_POSITION = 1;
     private final static int VIEW_PAGER_LATEST_POSITION = 2;
-    private final static int VIEW_PAGER_NOW_POSITION = 3;
+    private final static int VIEW_PAGER_POPULAR_POSITION = 3;
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -187,10 +187,10 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
                     return HomeFragment.newInstance(position + 1);
                 case VIEW_PAGER_ME_POSITION:
                     return MeFragment.newInstance(position + 1);
-                case VIEW_PAGER_NOW_POSITION:
-                    return FeedsActivitiesFragment.newInstance(position + 1);
+                case VIEW_PAGER_POPULAR_POSITION:
+                    return StoriesPopularFragment.newInstance(position + 1);
                 case VIEW_PAGER_LATEST_POSITION:
-                    return UserActivitiesFragment.newInstance(position + 1);
+                    return StoriesLatestFragment.newInstance(position + 1);
                 default:
                     return PlaceholderFragment.newInstance(position + 1);
             }
@@ -212,8 +212,8 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
                     return getString(com.edwardinubuntu.dailykind.R.string.title_me).toUpperCase(l);
                 case VIEW_PAGER_LATEST_POSITION:
                     return getString(com.edwardinubuntu.dailykind.R.string.title_latest_activities).toUpperCase(l);
-                case VIEW_PAGER_NOW_POSITION:
-                    return getString(com.edwardinubuntu.dailykind.R.string.title_now).toUpperCase(l);
+                case VIEW_PAGER_POPULAR_POSITION:
+                    return getString(com.edwardinubuntu.dailykind.R.string.title_popular_activities).toUpperCase(l);
             }
             return null;
         }

@@ -15,8 +15,8 @@
 		android:layout_height="wrap_content">
 
 		<ImageView
-			android:layout_width="64dp"
-			android:layout_height="64dp"
+			android:layout_width="54dp"
+			android:layout_height="54dp"
 			android:padding="5dp"
 			android:scaleType="centerCrop"
 			android:src="@drawable/ic_action_balloon"
@@ -40,7 +40,6 @@
 		android:background="@color/theme_color_3"
 		android:scaleType="centerCrop"
 		android:id="@+id/home_random_suggest_image_view"
-
 		android:layout_gravity="center_horizontal"/>
 
 	<TextView
@@ -63,7 +62,6 @@
 		android:layout_marginRight="10dp"
 		android:layout_marginTop="10dp"
 		android:textAppearance="?android:textAppearanceLarge"
-		android:layout_gravity="center_horizontal"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"/>
 
@@ -74,7 +72,6 @@
 		android:layout_marginLeft="10dp"
 		android:layout_marginRight="10dp"
 		android:textAppearance="?android:textAppearanceMedium"
-		android:layout_gravity="center_horizontal"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"/>
 

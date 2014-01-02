@@ -21,7 +21,7 @@ import java.util.List;
 /**
  * Created by edward_chiang on 2013/11/23.
  */
-public class UserActivitiesFragment extends PlaceholderFragment {
+public class StoriesLatestFragment extends PlaceholderFragment {
 
     private List<ParseObject> userActivities;
 
@@ -31,8 +31,8 @@ public class UserActivitiesFragment extends PlaceholderFragment {
 
     private boolean queryLoading;
 
-    public static UserActivitiesFragment newInstance(int sectionNumber) {
-        UserActivitiesFragment fragment = new UserActivitiesFragment();
+    public static StoriesLatestFragment newInstance(int sectionNumber) {
+        StoriesLatestFragment fragment = new StoriesLatestFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_SECTION_NUMBER, sectionNumber);
         fragment.setArguments(args);
