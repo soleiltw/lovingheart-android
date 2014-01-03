@@ -11,6 +11,7 @@
 		android:gravity="center"
 		android:layout_margin="10dp"
 		android:layout_width="fill_parent"
+		android:focusableInTouchMode="true"
 		android:layout_height="wrap_content">
 
 		<ImageView
@@ -39,6 +40,7 @@
 			android:ems="10"
 			android:maxLines="1"
 			android:hint="@string/login_email_login_email_hint"
+
 			android:id="@+id/login_email_edit_Text"
 			android:layout_width="fill_parent"
 			android:layout_height="wrap_content"/>
@@ -68,7 +70,7 @@
 			android:layout_toRightOf="@+id/home_good_deed_random_of_button"/>
 
 		<Button
-			android:text="Sign in"
+			android:text="Login"
 			android:id="@+id/user_login_button"
 			android:layout_width="fill_parent"
 			android:layout_height="wrap_content"/>

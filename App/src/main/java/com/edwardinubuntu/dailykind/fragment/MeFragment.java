@@ -30,6 +30,10 @@ public class MeFragment extends PlaceholderFragment {
 
     private Menu menu;
 
+    private TextView userNameTextView;
+
+    private TextView sinceTextView;
+
     public static MeFragment newInstance(int sectionNumber) {
         MeFragment fragment = new MeFragment();
         Bundle args = new Bundle();
@@ -50,25 +54,9 @@ public class MeFragment extends PlaceholderFragment {
 
         View rootView = inflater.inflate(R.layout.fragment_me, container, false);
 
-        final TextView userNameTextView = (TextView)rootView.findViewById(R.id.user_name_text_view);
-        if (ParseUser.getCurrentUser() != null) {
-            userNameTextView.setText(ParseUser.getCurrentUser().getString("name"));
+        userNameTextView = (TextView)rootView.findViewById(R.id.user_name_text_view);
 
-            if (ParseUser.getCurrentUser().getString("name") == null) {
-                ParseUser.getCurrentUser().fetchInBackground(new GetCallback<ParseObject>() {
-                    @Override
-                    public void done(ParseObject parseObject, ParseException e) {
-                        userNameTextView.setText(parseObject.getString("name"));
-                    }
-                });
-            }
-        }
-
-        TextView sinceTextView = (TextView)rootView.findViewById(R.id.me_since_text_view);
-        if (ParseUser.getCurrentUser() != null) {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
-            sinceTextView.setText(getString(R.string.me_since_pre_text) + " " + dateFormat.format(ParseUser.getCurrentUser().getCreatedAt()));
-        }
+        sinceTextView = (TextView)rootView.findViewById(R.id.me_since_text_view);
 
         storiesSharedCountTextView = (TextView)rootView.findViewById(R.id.me_stories_share_text_view);
 
@@ -79,7 +67,26 @@ public class MeFragment extends PlaceholderFragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        refreshProfile();
+    }
+
+    private void refreshProfile() {
         if (ParseUser.getCurrentUser() != null) {
+
+            userNameTextView.setText(ParseUser.getCurrentUser().getString("name"));
+
+            if (ParseUser.getCurrentUser().getString("name") == null) {
+                ParseUser.getCurrentUser().fetchInBackground(new GetCallback<ParseObject>() {
+                    @Override
+                    public void done(ParseObject parseObject, ParseException e) {
+                        userNameTextView.setText(parseObject.getString("name"));
+                    }
+                });
+            }
+
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+            sinceTextView.setText(getString(R.string.me_since_pre_text) + " " + dateFormat.format(ParseUser.getCurrentUser().getCreatedAt()));
+
 
             getActivity().findViewById(R.id.me_profile_layout).setVisibility(View.VISIBLE);
             getActivity().findViewById(R.id.me_ask_login_layout).setVisibility(View.GONE);
@@ -234,6 +241,7 @@ public class MeFragment extends PlaceholderFragment {
         // as you specify a parent activity in AndroidManifest.xml.
         switch (item.getItemId()) {
             case R.id.action_reload: {
+                refreshProfile();
                 break;
             }
         }

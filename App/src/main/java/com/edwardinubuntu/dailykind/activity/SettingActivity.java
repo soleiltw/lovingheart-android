@@ -9,6 +9,7 @@ import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.view.MenuItem;
 import com.edwardinubuntu.dailykind.R;
+import com.facebook.Session;
 import com.parse.ParseUser;
 
 /**
@@ -31,7 +32,11 @@ public class SettingActivity extends PreferenceActivity {
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
         refreshPreference();
     }
 
@@ -49,6 +54,21 @@ public class SettingActivity extends PreferenceActivity {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
                     ParseUser.getCurrentUser().logOut();
+
+                    Session session = Session.getActiveSession();
+                    if (session !=null ){
+                        if (!session.isClosed()) {
+                            session.closeAndClearTokenInformation();
+                            //clear your preferences if saved
+                        }
+                    } else {
+                        session = new Session(getApplicationContext());
+                        Session.setActiveSession(session);
+
+                        session.closeAndClearTokenInformation();
+                        //clear your preferences if saved
+                    }
+
                     refreshPreference();
                     return true;
                 }
