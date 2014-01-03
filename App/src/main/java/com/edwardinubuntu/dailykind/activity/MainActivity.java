@@ -143,10 +143,9 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
                 Intent intent = new Intent(getApplicationContext(), NearbyActivity.class);
                 startActivity(intent);
                 break;
-
-            case R.id.action_login:
-                Intent loginIntent = new Intent(getApplicationContext(), LoginActivity.class);
-                startActivity(loginIntent);
+            case R.id.action_settings:
+                Intent settingsIntent = new Intent(getApplicationContext(), SettingActivity.class);
+                startActivity(settingsIntent);
                 break;
         }
 

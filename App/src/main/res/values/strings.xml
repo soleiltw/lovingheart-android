@@ -46,5 +46,12 @@
 
 	<string name="signup_form_username">Username</string>
 	<string name="idea_caption_special_idea">Feature idea</string>
+	
+	<!-- Settings -->
+	<string name="setting_setting">Settings</string>
+	<string name="setting_user_login_account_ask_logout">Logout</string>
+	<string name="setting_user_login_account_title">Account</string>
+	<string name="semicolon">:</string>
+	<string name="setting_user_login_account_ask_login">Login</string>
 
 </resources>

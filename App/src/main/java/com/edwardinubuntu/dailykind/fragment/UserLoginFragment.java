@@ -39,11 +39,7 @@ public class UserLoginFragment extends PlaceholderFragment {
         @Override
         public void call(Session session, SessionState state, Exception exception) {
             Log.d(DailyKind.TAG, "SessionState: " + state);
-            // Check for an open session
-            if (session != null && session.isOpened()) {
-                // Get the user's data
-                makeMeRequest(session, true);
-            }
+            onSessionStateChange(session, state, exception);
         }
     };
 
@@ -130,6 +126,27 @@ public class UserLoginFragment extends PlaceholderFragment {
     @Override
     public void onResume() {
         super.onResume();
+        Session session = Session.getActiveSession();
+        if (session != null &&
+                (session.isOpened() || session.isClosed()) ) {
+            onSessionStateChange(session, session.getState(), null);
+        }
+        uiHelper.onResume();
+    }
+
+    private void onSessionStateChange(Session session, SessionState state,
+                                      Exception exception) {
+        if (state.isOpened()) {
+            Log.d(DailyKind.TAG, "Logged in...");
+            makeMeRequest(session, true);
+        } else if (state.isClosed()) {
+            Log.d(DailyKind.TAG, "Logged out...");
+        } else {
+            Log.d(DailyKind.TAG, "Unknown state: " + state);
+            if (state == SessionState.OPENING) {
+                makeMeRequest(session, true);
+            }
+        }
     }
 
     @Override
@@ -160,10 +177,14 @@ public class UserLoginFragment extends PlaceholderFragment {
     private void makeMeRequest(final Session session, final boolean askLogin) {
         // Make an API call to get user data and define a
         // new callback to handle the response.
+        Log.d(DailyKind.TAG, "Make request ask to login. " + askLogin);
         Request request = Request.newMeRequest(session,
                 new Request.GraphUserCallback() {
                     @Override
                     public void onCompleted(GraphUser user, Response response) {
+
+                        Log.d(DailyKind.TAG, "response: " + response.toString());
+
                         // If the response is successful
                         if (session == Session.getActiveSession()) {
                             if (user != null) {
@@ -173,6 +194,7 @@ public class UserLoginFragment extends PlaceholderFragment {
 
                                 if (user.getProperty("email") != null) {
                                     Log.d(DailyKind.TAG, "Email:" + user.getProperty("email").toString());
+                                    user.setUsername(user.getProperty("email").toString());
                                 }
                                 Log.d(DailyKind.TAG, "Session on completed: " + response.toString());
                                 if (askLogin) {
@@ -199,7 +221,8 @@ public class UserLoginFragment extends PlaceholderFragment {
                     ParseUser user = new ParseUser();
                     user.setEmail(graphUser.getProperty("email").toString());
                     user.setPassword(graphUser.getId());
-                    user.setUsername(graphUser.getUsername());
+                    user.setUsername(graphUser.getProperty("email").toString());
+                    user.put("name", graphUser.getUsername());
 
                     ParseObject graphic = new ParseObject("GraphicImage");
                     graphic.put("imageUrl", "http://graph.facebook.com/"+graphUser.getId()+"/picture?type=medium");

@@ -5,7 +5,7 @@
     android:versionName="1.0" >
 
     <uses-sdk
-        android:minSdkVersion="8"
+        android:minSdkVersion="11"
         android:targetSdkVersion="19" />
 
 	<permission android:name="com.edwardinubuntu.dailykind.permission.MAPS_RECEIVE" android:protectionLevel="signature"/>
@@ -63,6 +63,10 @@
 	    <activity android:name=".activity.StoryContentActivity"
 	              android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
 	              android:label="Story" />
+
+	    <activity android:name=".activity.SettingActivity"
+	              android:screenOrientation="portrait"
+	              android:label="Settings" />
 
 	    <uses-feature
 		    android:glEsVersion="0x00020000"

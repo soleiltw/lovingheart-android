@@ -46,22 +46,12 @@
 				</LinearLayout>
 
 
-
-				<TextView
-					android:layout_width="fill_parent"
-					android:layout_height="wrap_content"
-					android:textAppearance="?android:attr/textAppearanceMedium"
-					android:hint="Content"
-					android:layout_margin="3dp"
-					android:textColor="@color/story_text_color"
-					android:id="@+id/deed_content_description_text_view"
-					android:layout_gravity="center_horizontal"/>
-
-
 				<ImageView
 					android:id="@+id/deed_content_image_view"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"/>
+
+
 
 				<TextView
 					android:layout_width="fill_parent"
@@ -71,6 +61,16 @@
 					android:layout_margin="3dp"
 					android:textColor="@color/theme_color_1"
 					android:id="@+id/deed_content_title_text_view"
+					android:layout_gravity="center_horizontal"/>
+
+				<TextView
+					android:layout_width="fill_parent"
+					android:layout_height="wrap_content"
+					android:textAppearance="?android:attr/textAppearanceMedium"
+					android:hint="Content"
+					android:layout_margin="3dp"
+					android:textColor="@color/story_text_color"
+					android:id="@+id/deed_content_description_text_view"
 					android:layout_gravity="center_horizontal"/>
 
 				<TextView
