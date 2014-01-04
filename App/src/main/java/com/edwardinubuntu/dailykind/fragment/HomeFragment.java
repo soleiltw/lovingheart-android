@@ -151,7 +151,9 @@ public class HomeFragment extends PlaceholderFragment {
                 ParseObject randomParseObject = parseObjects.get(randomIndex);
 
                 View cardLayout = getActivity().findViewById(R.id.home_idea_card_layout);
-                cardLayout.setVisibility(View.VISIBLE);
+                if (cardLayout!=null) {
+                    cardLayout.setVisibility(View.VISIBLE);
+                }
 
                 suggestImageView.setImageBitmap(null);
 

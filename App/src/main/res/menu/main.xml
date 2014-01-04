@@ -8,15 +8,15 @@
 	      dailykind:showAsAction="always"
 	      android:title="@string/action_post" />
 
-	<item android:id="@+id/action_nearby"
-	      android:title="@string/action_nearby"
-	      android:orderInCategory="100"
-	      dailykind:showAsAction="never" />
+	<!--<item android:id="@+id/action_nearby"-->
+	      <!--android:title="@string/action_nearby"-->
+	      <!--android:orderInCategory="100"-->
+	      <!--dailykind:showAsAction="never" />-->
 
-	<item android:id="@+id/action_ask_for_help"
-	      android:title="@string/action_ask_for_help"
-	      android:orderInCategory="101"
-	      dailykind:showAsAction="never" />
+	<!--<item android:id="@+id/action_ask_for_help"-->
+	      <!--android:title="@string/action_ask_for_help"-->
+	      <!--android:orderInCategory="101"-->
+	      <!--dailykind:showAsAction="never" />-->
 
 	<item android:id="@+id/action_settings"
 	      android:title="@string/action_settings"

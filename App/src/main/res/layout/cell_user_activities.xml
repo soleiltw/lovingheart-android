@@ -2,14 +2,14 @@
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
+              android:padding="10dp"
               android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-	>
-
+              android:layout_height="wrap_content">
 
 		<LinearLayout
 			android:orientation="vertical"
 			android:id="@+id/story_teller_content_layout"
+			android:paddingBottom="10dp"
 			android:layout_width="fill_parent"
 			android:layout_height="wrap_content">
 
@@ -28,12 +28,11 @@
 			<ImageView
 				android:id="@+id/story_content_image_view"
 				android:background="@drawable/story_image_background"
+				android:layout_marginTop="10dp"
 				android:layout_width="fill_parent"
 				android:layout_height="wrap_content"/>
 
 		</LinearLayout>
-
-
 
 		<TextView
 			android:layout_width="wrap_content"

@@ -11,6 +11,8 @@
 		android:id="@+id/idea_title_text_view"
 		android:textColor="@color/theme_color_1"
 		android:textAppearance="?android:textAppearanceLarge"
+		android:maxLines="2"
+		android:ellipsize="end"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"/>
 
@@ -18,6 +20,8 @@
 		android:id="@+id/idea_why_text_view"
 		android:textColor="@color/story_text_color"
 		android:textAppearance="?android:textAppearanceMedium"
+		android:maxLines="5"
+		android:ellipsize="end"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"/>
 

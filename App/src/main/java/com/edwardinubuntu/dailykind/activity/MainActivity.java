@@ -134,15 +134,15 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
                 startActivity(intent);
                 break;
             }
-            case R.id.action_ask_for_help: {
-                Intent intent = new Intent(getApplicationContext(), AskForHelpActivity.class);
-                startActivity(intent);
-                break;
-            }
-            case R.id.action_nearby:
-                Intent intent = new Intent(getApplicationContext(), NearbyActivity.class);
-                startActivity(intent);
-                break;
+//            case R.id.action_ask_for_help: {
+//                Intent intent = new Intent(getApplicationContext(), AskForHelpActivity.class);
+//                startActivity(intent);
+//                break;
+//            }
+//            case R.id.action_nearby:
+//                Intent intent = new Intent(getApplicationContext(), NearbyActivity.class);
+//                startActivity(intent);
+//                break;
             case R.id.action_settings:
                 Intent settingsIntent = new Intent(getApplicationContext(), SettingActivity.class);
                 startActivity(settingsIntent);

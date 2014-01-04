@@ -19,14 +19,14 @@ import com.parse.SignUpCallback;
  */
 public class UserSignUpFragment extends PlaceholderFragment {
 
-    private EditText userIdSignUpEditText;
+    private EditText emailEditText;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         final View rootView = inflater.inflate(R.layout.fragment_user_signup, container, false);
 
-        userIdSignUpEditText = (EditText)rootView.findViewById(R.id.signup_email_edit_Text);
+        emailEditText = (EditText)rootView.findViewById(R.id.signup_email_edit_Text);
 
         final EditText userPasswordSignUpEditText = (EditText)rootView.findViewById(R.id.signup_password_edit_Text);
 
@@ -39,8 +39,8 @@ public class UserSignUpFragment extends PlaceholderFragment {
         rootView.findViewById(R.id.user_signup_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (userIdSignUpEditText.getText() != null
-                        && userIdSignUpEditText.getText().length() > 0
+                if (emailEditText.getText() != null
+                        && emailEditText.getText().length() > 0
                         && userNameEditText.getText() != null
                         && userNameEditText.getText().length() > 0
                         && userPasswordSignUpEditText.getText() != null
@@ -58,9 +58,9 @@ public class UserSignUpFragment extends PlaceholderFragment {
                     rootView.findViewById(R.id.user_signup_progressBar).setVisibility(View.VISIBLE);
 
                     ParseUser user = new ParseUser();
-                    user.setUsername(userNameEditText.getText().toString());
+                    user.setUsername(emailEditText.getText().toString());
                     user.put("name", userNameEditText.getText().toString());
-                    user.setEmail(userIdSignUpEditText.getText().toString());
+                    user.setEmail(emailEditText.getText().toString());
                     user.setPassword(userPasswordSignUpConfirmEditText.getText().toString());
                     user.signUpInBackground(new SignUpCallback() {
                         @Override
@@ -89,6 +89,6 @@ public class UserSignUpFragment extends PlaceholderFragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        userIdSignUpEditText.requestFocus();
+        emailEditText.requestFocus();
     }
 }
