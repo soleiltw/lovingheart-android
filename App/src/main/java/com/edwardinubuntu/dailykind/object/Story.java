@@ -18,6 +18,8 @@ public class Story implements Serializable {
     private Date updatedAt;
     private Graphic graphic;
 
+    private String locationAreaName;
+
     public String getObjectId() {
         return objectId;
     }
@@ -72,5 +74,13 @@ public class Story implements Serializable {
 
     public void setGraphic(Graphic graphic) {
         this.graphic = graphic;
+    }
+
+    public String getLocationAreaName() {
+        return locationAreaName;
+    }
+
+    public void setLocationAreaName(String locationAreaName) {
+        this.locationAreaName = locationAreaName;
     }
 }

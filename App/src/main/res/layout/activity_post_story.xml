@@ -39,5 +39,49 @@
 		      android:layout_marginLeft="3dp"
 		      android:layout_marginRight="3dp"/>
 
+		<LinearLayout
+			android:layout_margin="10dp"
+			android:orientation="horizontal"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content">
+
+			<ImageView
+				android:src="@drawable/ic_action_location"
+				android:id="@+id/content_location_area_image_view"
+				android:padding="3dp"
+				android:layout_width="38dp"
+				android:layout_height="38dp"/>
+
+			<ProgressBar
+				android:id="@+id/content_location_progress_bar"
+				android:visibility="gone"
+				android:layout_margin="10dp"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				style="?android:attr/progressBarStyleSmallInverse"
+				android:layout_gravity="center"/>
+
+
+
+			<TextView
+				android:id="@+id/content_location_progress_text_view"
+				android:text="Loading location..."
+				android:visibility="gone"
+
+				android:layout_gravity="center_vertical"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"/>
+
+
+			<TextView
+				android:id="@+id/content_location_area_text_view"
+				android:layout_width="fill_parent"
+				android:textAppearance="?android:textAppearanceMedium"
+				android:hint="Locality"
+				android:layout_gravity="center_vertical"
+				android:layout_height="wrap_content"/>
+
+		</LinearLayout>
+
 	</LinearLayout>
 </LinearLayout>

@@ -1,6 +1,8 @@
 package com.edwardinubuntu.dailykind.activity;
 
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.location.*;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
@@ -10,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import com.edwardinubuntu.dailykind.DailyKind;
 import com.edwardinubuntu.dailykind.ParseSettings;
@@ -20,6 +23,9 @@ import com.edwardinubuntu.dailykind.util.CircleTransform;
 import com.parse.*;
 import com.squareup.picasso.Picasso;
 
+import java.io.IOException;
+import java.util.Locale;
+
 /**
  * Created by edward_chiang on 2013/11/23.
  */
@@ -28,6 +34,16 @@ public class PostStoryActivity extends ActionBarActivity {
     private ProgressDialog dialog;
 
     private Idea idea;
+
+    private LocationManager locationManager;
+    private LocationListener locationListener;
+
+    private ProgressBar locationLoadingProgressBar;
+    private TextView locationLoadingTextView;
+    private ImageView locationAreaImageView;
+    private TextView locationAreaTextView;
+
+    private Address currentAddress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,16 +95,123 @@ public class PostStoryActivity extends ActionBarActivity {
 
             }
         });
+
+        locationLoadingProgressBar = (ProgressBar)findViewById(R.id.content_location_progress_bar);
+        locationLoadingTextView = (TextView)findViewById(R.id.content_location_progress_text_view);
+        locationAreaImageView = (ImageView)findViewById(R.id.content_location_area_image_view);
+        locationAreaTextView = (TextView)findViewById(R.id.content_location_area_text_view);
+
+        locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
+
+        locationListener = new LocationListener() {
+            @Override
+            public void onLocationChanged(Location location) {
+
+                displayLoadingProgress(false);
+
+                Geocoder geocoder = new Geocoder(getBaseContext(), Locale.getDefault());
+                java.util.List<Address> addressList;
+                try {
+                    addressList = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
+
+                    if (!addressList.isEmpty()) {
+                        currentAddress = addressList.get(0);
+
+                        Log.d(DailyKind.TAG, "getAdminArea: " + currentAddress.getAdminArea());
+                        Log.d(DailyKind.TAG, "getLocality: " + currentAddress.getLocality());
+
+                        locationAreaTextView.setText(getCityNameText(currentAddress.getAdminArea(), currentAddress.getLocality()));
+                    }
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    Log.e(DailyKind.TAG, e.toString());
+                }
+            }
+
+            @Override
+            public void onStatusChanged(String provider, int status, Bundle extras) {
+                Log.d(DailyKind.TAG, "Provider: " + provider + " Status: "+status);
+            }
+
+            @Override
+            public void onProviderEnabled(String provider) {
+                Log.d(DailyKind.TAG, "Provider: " + provider);
+            }
+
+            @Override
+            public void onProviderDisabled(String provider) {
+                Log.e(DailyKind.TAG, "Provider: " + provider);
+            }
+        };
+
+        requestLocationUpdates();
     }
 
+    private StringBuffer getCityNameText(String adminArea, String locality) {
+        StringBuffer cityNamBuffer = new StringBuffer();
+        if (adminArea != null && adminArea.length() > 0) {
+            cityNamBuffer.append(adminArea);
+        }
+        if (locality != null && locality.length() > 0) {
+            cityNamBuffer.append(getString(R.string.comma) + getString(R.string.space));
+            cityNamBuffer.append(locality);
+        }
+        return cityNamBuffer;
+    }
+
+    private void requestLocationUpdates() {
+
+        // TODO Enhance here, GPS vs network
+        if (locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
+            // Update in 5 seconds.
+            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 60000, 100, locationListener);
+
+            displayLoadingProgress(true);
+            return;
+        } else if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            // Update in 5 seconds.
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 60000, 100, locationListener);
+
+            displayLoadingProgress(true);
+        }
+
+
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        locationManager.removeUpdates(locationListener);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        locationManager.removeUpdates(locationListener);
+    }
 
     private void postStory() {
+
+        if (ParseUser.getCurrentUser() == null) {
+            // TODO alert
+            return;
+        }
+
         final ParseObject parseObject = new ParseObject("Story");
 
         // TODO Check user has login
         parseObject.put("StoryTeller", ParseUser.getCurrentUser());
         EditText contentEditText = (EditText)findViewById(R.id.content_edit_text);
         parseObject.put("Content", contentEditText.getText().toString());
+
+        if (currentAddress != null && locationAreaTextView.getText() != null) {
+            ParseGeoPoint parseGeoPoint = new ParseGeoPoint();
+            parseGeoPoint.setLatitude(currentAddress.getLatitude());
+            parseGeoPoint.setLongitude(currentAddress.getLongitude());
+            parseObject.put("geoPoint", parseGeoPoint);
+            parseObject.put("areaName", locationAreaTextView.getText());
+        }
 
         if (idea != null) {
             ParseQuery<ParseObject> ideaQuery = new ParseQuery<ParseObject>("Idea");
@@ -109,49 +232,52 @@ public class PostStoryActivity extends ActionBarActivity {
 
                     submit(parseObject);
 
-                    ParseQuery graphicObjectQuery = new ParseQuery<ParseObject>("GraphicImage");
-                    graphicObjectQuery.whereEqualTo("objectId", idea.getGraphic().getObjectId());
-                    ParseObject graphicObject = null;
-                    try {
-                        graphicObject = graphicObjectQuery.getFirst();
-                    } catch (ParseException e1) {
-                        e1.printStackTrace();
-                    }
+                    if (idea.getGraphic() != null ) {
+                        ParseQuery graphicObjectQuery = new ParseQuery<ParseObject>("GraphicImage");
 
-                    if (graphicObject != null) {
-                        // Earn graphic
-                        ParseQuery<ParseObject> graphicsEarnedQuery = new ParseQuery<ParseObject>("GraphicsEarned");
-                        graphicsEarnedQuery.whereEqualTo("userId", ParseUser.getCurrentUser());
-                        final ParseObject finalGraphicObject = graphicObject;
-                        graphicsEarnedQuery.getFirstInBackground(new GetCallback<ParseObject>() {
-                            @Override
-                            public void done(ParseObject parseObject, ParseException e) {
+                        graphicObjectQuery.whereEqualTo("objectId", idea.getGraphic().getObjectId());
+                        ParseObject graphicObject = null;
+                        try {
+                            graphicObject = graphicObjectQuery.getFirst();
+                        } catch (ParseException e1) {
+                            e1.printStackTrace();
+                        }
 
-                                ParseObject graphicsEarnedObject;
-                                if  (parseObject == null) {
-                                    graphicsEarnedObject = new ParseObject("GraphicsEarned");
-                                    graphicsEarnedObject.put("userId", ParseUser.getCurrentUser());
 
-                                    ParseRelation graphicsRelation = graphicsEarnedObject.getRelation("graphicsEarned");
-                                    graphicsRelation.add(finalGraphicObject);
+                        if (graphicObject != null) {
+                            // Earn graphic
+                            ParseQuery<ParseObject> graphicsEarnedQuery = new ParseQuery<ParseObject>("GraphicsEarned");
+                            graphicsEarnedQuery.whereEqualTo("userId", ParseUser.getCurrentUser());
+                            final ParseObject finalGraphicObject = graphicObject;
+                            graphicsEarnedQuery.getFirstInBackground(new GetCallback<ParseObject>() {
+                                @Override
+                                public void done(ParseObject parseObject, ParseException e) {
 
-                                } else {
-                                    graphicsEarnedObject = parseObject;
-                                    ParseRelation graphicsRelation = graphicsEarnedObject.getRelation("graphicsEarned");
-                                    graphicsRelation.add(finalGraphicObject);
-                                }
-                                graphicsEarnedObject.saveInBackground(new SaveCallback() {
-                                    @Override
-                                    public void done(ParseException e) {
-                                        if (e!=null) {
-                                            Log.e(DailyKind.TAG, "graphicsEarnedObject.saveInBackground: " + e.getLocalizedMessage());
-                                        }
+                                    ParseObject graphicsEarnedObject;
+                                    if  (parseObject == null) {
+                                        graphicsEarnedObject = new ParseObject("GraphicsEarned");
+                                        graphicsEarnedObject.put("userId", ParseUser.getCurrentUser());
+
+                                        ParseRelation graphicsRelation = graphicsEarnedObject.getRelation("graphicsEarned");
+                                        graphicsRelation.add(finalGraphicObject);
+
+                                    } else {
+                                        graphicsEarnedObject = parseObject;
+                                        ParseRelation graphicsRelation = graphicsEarnedObject.getRelation("graphicsEarned");
+                                        graphicsRelation.add(finalGraphicObject);
                                     }
-                                });
-                            }
-                        });
+                                    graphicsEarnedObject.saveInBackground(new SaveCallback() {
+                                        @Override
+                                        public void done(ParseException e) {
+                                            if (e!=null) {
+                                                Log.e(DailyKind.TAG, "graphicsEarnedObject.saveInBackground: " + e.getLocalizedMessage());
+                                            }
+                                        }
+                                    });
+                                }
+                            });
+                        }
                     }
-
 
                 }
             });
@@ -194,5 +320,17 @@ public class PostStoryActivity extends ActionBarActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.post_story, menu);
         return super.onCreateOptionsMenu(menu);
+    }
+
+    private void displayLoadingProgress(boolean loading) {
+        if (loading) {
+            locationLoadingProgressBar.setVisibility(View.VISIBLE);
+            locationLoadingTextView.setVisibility(View.VISIBLE);
+            locationAreaTextView.setVisibility(View.GONE);
+        } else {
+            locationLoadingProgressBar.setVisibility(View.GONE);
+            locationLoadingTextView.setVisibility(View.GONE);
+            locationAreaTextView.setVisibility(View.VISIBLE);
+        }
     }
 }

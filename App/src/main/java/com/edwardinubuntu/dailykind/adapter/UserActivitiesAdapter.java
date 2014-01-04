@@ -68,7 +68,6 @@ public class UserActivitiesAdapter extends ArrayAdapter<ParseObject> {
                 storyContentImageViewLayoutParams.width = minPixels;
                 storyContentImageViewLayoutParams.height = minPixels;
                 storyContentImageView.requestLayout();
-
                 storyContentImageView.setVisibility(View.VISIBLE);
 
                 Picasso.with(getContext())
@@ -80,6 +79,9 @@ public class UserActivitiesAdapter extends ArrayAdapter<ParseObject> {
         } else {
             storyContentImageView.setVisibility(View.GONE);
         }
+
+        TextView locationAreaNameTextView = (TextView)contentView.findViewById(R.id.user_activity_location_area_name_text_view);
+        locationAreaNameTextView.setText(story.getLocationAreaName());
 
         final ImageView storyTellerImageView = (ImageView)contentView.findViewById(R.id.user_avatar_image_view);
         storyTellerImageView.setImageResource(R.drawable.ic_action_user);

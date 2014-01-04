@@ -24,6 +24,7 @@ public class ParseObjectManager {
         story.setContent(parseObject.getString("Content"));
         story.setCreatedAt(parseObject.getCreatedAt());
         story.setUpdatedAt(parseObject.getUpdatedAt());
+        story.setLocationAreaName(parseObject.getString("areaName"));
         return story;
     }
 
