@@ -63,10 +63,9 @@ public class UserActivitiesAdapter extends ArrayAdapter<ParseObject> {
             if (story.getGraphic() !=null && story.getGraphic().getParseFileUrl() != null) {
 
                 DisplayMetrics displayMetrics = getContext().getResources().getDisplayMetrics();
-                int minPixels = Math.min(displayMetrics.widthPixels, displayMetrics.heightPixels);
                 LinearLayout.LayoutParams storyContentImageViewLayoutParams = (LinearLayout.LayoutParams)storyContentImageView.getLayoutParams();
-                storyContentImageViewLayoutParams.width = minPixels;
-                storyContentImageViewLayoutParams.height = minPixels;
+                storyContentImageViewLayoutParams.width = displayMetrics.widthPixels;
+                storyContentImageViewLayoutParams.height = displayMetrics.widthPixels;
                 storyContentImageView.requestLayout();
                 storyContentImageView.setVisibility(View.VISIBLE);
 

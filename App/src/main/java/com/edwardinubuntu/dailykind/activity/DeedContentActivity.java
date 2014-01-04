@@ -145,10 +145,9 @@ public class DeedContentActivity extends ActionBarActivity {
                     if (idea.getGraphic() != null && idea.getGraphic().getParseFileUrl() != null) {
                         contentImageView.setVisibility(View.VISIBLE);
                         DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
-                        int minPixels = Math.min(displayMetrics.widthPixels, displayMetrics.heightPixels);
                         contentImageViewLayoutParams = (LinearLayout.LayoutParams)contentImageView.getLayoutParams();
-                        contentImageViewLayoutParams.width = minPixels;
-                        contentImageViewLayoutParams.height = minPixels;
+                        contentImageViewLayoutParams.width = displayMetrics.widthPixels;
+                        contentImageViewLayoutParams.height = displayMetrics.widthPixels;
                         contentImageView.requestLayout();
 
 

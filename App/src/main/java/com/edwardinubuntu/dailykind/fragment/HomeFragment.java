@@ -75,10 +75,9 @@ public class HomeFragment extends PlaceholderFragment {
         suggestImageView = (ImageView)rootView.findViewById(R.id.home_random_suggest_image_view);
 
         DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
-        int minPixels = Math.min(displayMetrics.widthPixels, displayMetrics.heightPixels);
         suggestImageViewLayoutParams = (LinearLayout.LayoutParams)suggestImageView.getLayoutParams();
-        suggestImageViewLayoutParams.width = minPixels;
-        suggestImageViewLayoutParams.height = minPixels;
+        suggestImageViewLayoutParams.width = displayMetrics.widthPixels;
+        suggestImageViewLayoutParams.height = displayMetrics.widthPixels;
         suggestImageView.requestLayout();
 
         randomLoadingProgressBar = (ProgressBar)rootView.findViewById(R.id.home_good_deed_random_progressBar);
