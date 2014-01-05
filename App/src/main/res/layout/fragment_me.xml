@@ -5,42 +5,38 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent">
 
+
 	<LinearLayout
-		android:id="@+id/me_profile_layout"
+		android:layout_margin="10dp"
 		android:orientation="vertical"
-		android:layout_width="fill_parent"
+		android:id="@+id/me_profile_layout"
+		android:layout_width="wrap_content"
 		android:layout_height="wrap_content">
+
 		<include layout="@layout/layout_user_image_name" />
 
-		<LinearLayout
-			android:layout_margin="10dp"
-			android:orientation="vertical"
+		<TextView
+			android:textAppearance="?android:textAppearanceMedium"
+			android:text="@string/stories_last_share_content_text_prefix"
 			android:layout_width="wrap_content"
-			android:layout_height="wrap_content">
+			android:layout_height="wrap_content"/>
 
-			<TextView
-				android:textAppearance="?android:textAppearanceMedium"
-				android:text="@string/stories_last_share_content_text_prefix"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"/>
+		<include layout="@layout/layout_story_content" />
 
-			<include layout="@layout/layout_story_content" />
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:textAppearance="?android:attr/textAppearanceMedium"
+			android:hint="StoriesShare"
+			android:id="@+id/me_stories_share_text_view"/>
 
-			<TextView
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:textAppearance="?android:attr/textAppearanceMedium"
-				android:hint="StoriesShare"
-				android:id="@+id/me_stories_share_text_view"/>
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:textAppearance="?android:attr/textAppearanceMedium"
+			android:hint="Since"
+			android:id="@+id/me_since_text_view"/>
 
-			<TextView
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:textAppearance="?android:attr/textAppearanceMedium"
-				android:hint="Since"
-				android:id="@+id/me_since_text_view"/>
-
-		</LinearLayout>
 	</LinearLayout>
 
 	<LinearLayout
@@ -63,5 +59,5 @@
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"/>
 
-		</LinearLayout>
+	</LinearLayout>
 </LinearLayout>

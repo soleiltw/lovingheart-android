@@ -17,32 +17,14 @@
 			<LinearLayout
 				android:background="@drawable/layout_background_shadow"
 				android:orientation="vertical"
-				android:layout_margin="5dp"
 				android:layout_width="fill_parent"
 				android:layout_height="wrap_content">
 
 				<LinearLayout
-					android:orientation="horizontal"
-					android:gravity="center_vertical"
-					android:layout_width="fill_parent"
+					android:layout_margin="3dp"
+					android:layout_width="wrap_content"
 					android:layout_height="wrap_content">
-
-					<ImageView
-						android:background="@drawable/shape_round"
-						android:src="@drawable/ic_action_user"
-						android:layout_margin="5dp"
-						android:id="@+id/good_deed_content_org_avatar_image_view"
-						android:layout_width="48dp"
-						android:layout_height="48dp"/>
-
-					<TextView
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:textAppearance="?android:attr/textAppearanceMedium"
-						android:hint="Name"
-						android:layout_toRightOf="@+id/good_deed_content_org_avatar_image_view"
-						android:id="@+id/good_deed_content_org_text_view"/>
-
+					<include layout="@layout/layout_user_image_name" />
 				</LinearLayout>
 
 

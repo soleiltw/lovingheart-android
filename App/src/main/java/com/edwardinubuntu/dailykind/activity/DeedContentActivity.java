@@ -91,8 +91,8 @@ public class DeedContentActivity extends ActionBarActivity {
 
         contentImageView = (ImageView)findViewById(R.id.deed_content_image_view);
 
-        orgImageView = (ImageView)findViewById(R.id.good_deed_content_org_avatar_image_view);
-        orgTitleTextView = (TextView)findViewById(R.id.good_deed_content_org_text_view);
+        orgImageView = (ImageView)findViewById(R.id.user_avatar_image_view);
+        orgTitleTextView = (TextView)findViewById(R.id.user_name_text_view);
 
         loadIdea();
     }

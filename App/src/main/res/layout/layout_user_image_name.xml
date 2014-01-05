@@ -15,7 +15,6 @@
 		android:background="@drawable/shape_round"
 		android:src="@drawable/ic_action_user"
 		android:id="@+id/user_avatar_image_view"
-		android:layout_margin="5dp"
 		android:layout_width="48dp"
 		android:layout_height="48dp"/>
 
@@ -24,6 +23,7 @@
 		android:layout_height="wrap_content"
 		android:layout_gravity="center_vertical"
 		android:textAppearance="?android:attr/textAppearanceMedium"
+		android:layout_marginLeft="5dp"
 		android:hint="Name"
 		android:id="@+id/user_name_text_view"/>
 	</LinearLayout>
