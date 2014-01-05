@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 	<color name="theme_color_1">#693D3D</color>
-	<color name="theme_color_2">#A43D41</color>
+	<color name="theme_color_2">#ac2925</color>
 	<color name="theme_color_3">#F09DA2</color>
-	<color name="theme_color_4">#D1342C</color>
+	<color name="theme_color_4">#d43f3a</color>
 	<color name="theme_background">#FFF3EC</color>
 
 	<color name="icon_red">#ff2e00</color>

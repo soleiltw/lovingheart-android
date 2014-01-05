@@ -30,8 +30,6 @@ import java.util.List;
  */
 public class HomeFragment extends PlaceholderFragment {
 
-    private View categoriesDeedLayout;
-
     private TextView randomIdeaTextView;
 
     private ProgressBar randomLoadingProgressBar;
@@ -82,7 +80,7 @@ public class HomeFragment extends PlaceholderFragment {
 
         randomLoadingProgressBar = (ProgressBar)rootView.findViewById(R.id.home_good_deed_random_progressBar);
 
-        categoriesDeedLayout = (View)rootView.findViewById(R.id.home_good_deed_categories);
+        View categoriesDeedLayout = (View)rootView.findViewById(R.id.browse_idea_button);
         categoriesDeedLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
