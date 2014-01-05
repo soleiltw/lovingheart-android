@@ -24,7 +24,7 @@
 			layout="@layout/layout_idea_card" />
 
 		<include
-			android:id="@+id/home_good_deed_categories"
 		    layout="@layout/layout_browse_idea_cards" />
+
 	</LinearLayout>
 </ScrollView>
