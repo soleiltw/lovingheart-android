@@ -10,20 +10,18 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
-import android.widget.TextView;
+import android.widget.*;
 import com.edwardinubuntu.dailykind.DailyKind;
 import com.edwardinubuntu.dailykind.ParseSettings;
 import com.edwardinubuntu.dailykind.R;
-import com.edwardinubuntu.dailykind.listener.PressedOnTouchLIstener;
 import com.edwardinubuntu.dailykind.object.Idea;
 import com.edwardinubuntu.dailykind.util.CircleTransform;
 import com.parse.*;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -42,6 +40,8 @@ public class PostStoryActivity extends ActionBarActivity {
     private TextView locationLoadingTextView;
     private ImageView locationAreaImageView;
     private TextView locationAreaTextView;
+
+    private EditText contentEditText;
 
     private Address currentAddress;
 
@@ -84,15 +84,32 @@ public class PostStoryActivity extends ActionBarActivity {
             }
         });
 
-        TextView ideaWasTextView = (TextView)findViewById(R.id.content_idea_number_text_view);
+        final ArrayList<String> suggestIdeas = new ArrayList<String>();
+
+        final ArrayAdapter<String> suggestIdeaAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, suggestIdeas);
+        AutoCompleteTextView ideaWasTextView = (AutoCompleteTextView)findViewById(R.id.content_idea_from_text_view);
         if (idea!=null) {
             ideaWasTextView.setText(idea.getName());
         }
-        ideaWasTextView.setOnTouchListener(new PressedOnTouchLIstener());
-        ideaWasTextView.setOnClickListener(new View.OnClickListener() {
+        ideaWasTextView.setAdapter(suggestIdeaAdapter);
+        ideaWasTextView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
-            public void onClick(View v) {
-
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    ParseQuery<ParseObject> ideasQuery = new ParseQuery<ParseObject>("Idea");
+                    ideasQuery.findInBackground(new FindCallback<ParseObject>() {
+                        @Override
+                        public void done(List<ParseObject> parseObjects, ParseException e) {
+                            if (!parseObjects.isEmpty()) {
+                            suggestIdeas.clear();
+                            for (ParseObject eachParseObject : parseObjects) {
+                                suggestIdeas.add(eachParseObject.getString("Name"));
+                            }
+                            suggestIdeaAdapter.notifyDataSetChanged();
+                            }
+                        }
+                    });
+                }
             }
         });
 
@@ -146,6 +163,15 @@ public class PostStoryActivity extends ActionBarActivity {
         };
 
         requestLocationUpdates();
+
+        contentEditText = (EditText)findViewById(R.id.content_edit_text);
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        contentEditText.requestFocus();
     }
 
     private StringBuffer getCityNameText(String adminArea, String locality) {
@@ -202,7 +228,7 @@ public class PostStoryActivity extends ActionBarActivity {
 
         // TODO Check user has login
         parseObject.put("StoryTeller", ParseUser.getCurrentUser());
-        EditText contentEditText = (EditText)findViewById(R.id.content_edit_text);
+
         parseObject.put("Content", contentEditText.getText().toString());
 
         if (currentAddress != null && locationAreaTextView.getText() != null) {
