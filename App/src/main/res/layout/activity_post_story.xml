@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:bootstrapbutton="http://schemas.android.com/apk/res-auto"
               android:orientation="vertical"
               android:padding="5dp"
               android:layout_width="match_parent"
@@ -98,6 +99,17 @@
 				android:layout_height="wrap_content"/>
 
 		</LinearLayout>
+
+		<com.beardedhen.androidbootstrap.BootstrapButton
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:layout_margin="8dp"
+			android:text="Post"
+			android:layout_gravity="center"
+			android:id="@+id/post_story_submit_button"
+			bootstrapbutton:bb_text_gravity="center"
+			bootstrapbutton:bb_roundedCorners="true"
+			bootstrapbutton:bb_type="danger" />
 
 	</LinearLayout>
 </ScrollView>

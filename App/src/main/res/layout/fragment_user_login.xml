@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:bootstrapbutton="http://schemas.android.com/apk/res-auto"
             android:orientation="vertical"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent">
@@ -69,11 +70,14 @@
 			android:layout_centerVertical="true"
 			android:layout_toRightOf="@+id/home_good_deed_random_of_button"/>
 
-		<Button
-			android:text="Login"
-			android:id="@+id/user_login_button"
+		<com.beardedhen.androidbootstrap.BootstrapButton
 			android:layout_width="fill_parent"
-			android:layout_height="wrap_content"/>
+			android:layout_height="wrap_content"
+			android:text="Login"
+			bootstrapbutton:bb_text_gravity="center"
+			android:id="@+id/user_login_button"
+			bootstrapbutton:bb_roundedCorners="true"
+			bootstrapbutton:bb_type="primary" />
 
 		<LinearLayout
 			android:layout_marginTop="30dp"
@@ -89,14 +93,15 @@
 				android:layout_width="fill_parent"
 				android:layout_height="wrap_content" />
 
-		<Button
-			android:text="Sign Up"
-			android:id="@+id/user_signup_button"
-			android:layout_weight="1"
-			android:layout_width="fill_parent"
-			android:layout_height="wrap_content"/>
-
-
+			<com.beardedhen.androidbootstrap.BootstrapButton
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:text="Sign Up"
+				android:layout_weight="1"
+				android:id="@+id/user_signup_button"
+				bootstrapbutton:bb_text_gravity="center"
+				bootstrapbutton:bb_roundedCorners="true"
+				bootstrapbutton:bb_type="success" />
 
 			<TextView
 				android:text="We promise we won't post anything to your wall unless you ask us to."

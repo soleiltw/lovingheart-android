@@ -174,6 +174,12 @@ public class PostStoryActivity extends ActionBarActivity {
 
         contentEditText = (EditText)findViewById(R.id.content_edit_text);
 
+        findViewById(R.id.post_story_submit_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                postStory();
+            }
+        });
     }
 
     @Override
@@ -340,10 +346,6 @@ public class PostStoryActivity extends ActionBarActivity {
         switch (item.getItemId()) {
             case android.R.id.home: {
                 finish();
-                break;
-            }
-            case R.id.action_post: {
-                postStory();
                 break;
             }
         }
