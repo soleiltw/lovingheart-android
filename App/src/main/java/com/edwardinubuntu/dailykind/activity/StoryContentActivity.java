@@ -3,11 +3,14 @@ package com.edwardinubuntu.dailykind.activity;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.util.DisplayMetrics;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.edwardinubuntu.dailykind.R;
+import com.edwardinubuntu.dailykind.object.Graphic;
 import com.edwardinubuntu.dailykind.object.Story;
 import com.edwardinubuntu.dailykind.util.CircleTransform;
 import com.edwardinubuntu.dailykind.util.parse.ParseObjectManager;
@@ -92,6 +95,31 @@ public class StoryContentActivity extends ActionBarActivity {
                         }
                     }
                 });
+
+                ImageView storyContentImageView = (ImageView)findViewById(R.id.me_stories_image_view);
+                // Check if have graphic
+                if (parseObject.getParseObject("graphicPointer") != null) {
+                    Graphic graphic = new ParseObjectManager(parseObject.getParseObject("graphicPointer")).getGraphic();
+                    story.setGraphic(graphic);
+
+                    if (story.getGraphic() !=null && story.getGraphic().getParseFileUrl() != null) {
+
+                        DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
+                        LinearLayout.LayoutParams storyContentImageViewLayoutParams = (LinearLayout.LayoutParams)storyContentImageView.getLayoutParams();
+                        storyContentImageViewLayoutParams.width = displayMetrics.widthPixels;
+                        storyContentImageViewLayoutParams.height = displayMetrics.widthPixels;
+                        storyContentImageView.requestLayout();
+                        storyContentImageView.setVisibility(View.VISIBLE);
+
+                        Picasso.with(getApplicationContext())
+                                .load(story.getGraphic().getParseFileUrl())
+                                .placeholder(R.drawable.card_default)
+                                .resize(storyContentImageViewLayoutParams.width, storyContentImageViewLayoutParams.height)
+                                .into(storyContentImageView);
+                    }
+                } else {
+                    storyContentImageView.setVisibility(View.GONE);
+                }
             }
         });
     }

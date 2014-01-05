@@ -48,12 +48,11 @@ public class UserActivitiesAdapter extends ArrayAdapter<ParseObject> {
             LayoutInflater inflater = (LayoutInflater)getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             contentView = inflater.inflate(R.layout.cell_user_activities, null);
         }
-
-        ImageView storyContentImageView = (ImageView)contentView.findViewById(R.id.story_content_image_view);
-
         ParseObject storyObject = getItem(position);
         ParseObjectManager parseObjectManager = new ParseObjectManager(storyObject);
         Story story = parseObjectManager.getStory();
+
+        ImageView storyContentImageView = (ImageView)contentView.findViewById(R.id.story_content_image_view);
 
         // Check if have graphic
         if (storyObject.getParseObject("graphicPointer") != null) {
