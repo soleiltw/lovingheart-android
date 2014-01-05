@@ -2,6 +2,7 @@ package com.edwardinubuntu.dailykind.activity;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.location.*;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -72,17 +73,24 @@ public class PostStoryActivity extends ActionBarActivity {
         ParseUser parseUser = ParseUser.getCurrentUser();
         final ImageView storyTellerImageView = (ImageView)findViewById(com.edwardinubuntu.dailykind.R.id.user_avatar_image_view);
 
-        ParseObject avatarObject = parseUser.getParseObject("avatar");
-        avatarObject.fetchIfNeededInBackground(new GetCallback<ParseObject>() {
-            @Override
-            public void done(ParseObject parseObject, ParseException e) {
-                Picasso.with(getApplicationContext())
-                        .load(parseObject.getString("imageUrl"))
-                        .placeholder(R.drawable.ic_action_user)
-                        .transform(new CircleTransform())
-                        .into(storyTellerImageView);
-            }
-        });
+        if (parseUser != null) {
+            ParseObject avatarObject = parseUser.getParseObject("avatar");
+            avatarObject.fetchIfNeededInBackground(new GetCallback<ParseObject>() {
+                @Override
+                public void done(ParseObject parseObject, ParseException e) {
+                    Picasso.with(getApplicationContext())
+                            .load(parseObject.getString("imageUrl"))
+                            .placeholder(R.drawable.ic_action_user)
+                            .transform(new CircleTransform())
+                            .into(storyTellerImageView);
+                }
+            });
+        } else {
+            // Ask to login
+            Intent loginIntent = new Intent(this, LoginActivity.class);
+            startActivity(loginIntent);
+        }
+
 
         final ArrayList<String> suggestIdeas = new ArrayList<String>();
 
