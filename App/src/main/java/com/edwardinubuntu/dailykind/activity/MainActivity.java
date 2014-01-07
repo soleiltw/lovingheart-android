@@ -1,9 +1,12 @@
 package com.edwardinubuntu.dailykind.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -49,6 +52,8 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
      */
     ViewPager mViewPager;
 
+    private MediaPlayer tabClick;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,6 +82,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
             @Override
             public void onPageSelected(int position) {
                 actionBar.setSelectedNavigationItem(position);
+                playLockSound();
             }
         });
 
@@ -92,7 +98,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
                             .setTabListener(this));
         }
 
-//        printPackageInfo();
+        tabClick = MediaPlayer.create(this, R.raw.lock_padlock);
     }
 
     private void printPackageInfo() {
@@ -112,7 +118,6 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
             Log.d(DailyKind.TAG, e.getLocalizedMessage());
         }
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -218,4 +223,13 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         }
     }
 
+    private void playLockSound() {
+        //PLAY SOUND HERE
+        AudioManager am = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
+        if  (am.getRingerMode() == AudioManager.RINGER_MODE_NORMAL) {
+
+            tabClick.setLooping(false);
+            tabClick.start();
+        }
+    }
 }

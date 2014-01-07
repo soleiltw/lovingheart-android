@@ -8,19 +8,20 @@ import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.*;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import com.edwardinubuntu.dailykind.DailyKind;
 import com.edwardinubuntu.dailykind.R;
 import com.edwardinubuntu.dailykind.activity.DeedCategoriesActivity;
 import com.edwardinubuntu.dailykind.activity.DeedContentActivity;
 import com.edwardinubuntu.dailykind.object.Idea;
 import com.edwardinubuntu.dailykind.util.parse.ParseObjectManager;
-import com.parse.*;
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -160,7 +161,9 @@ public class HomeFragment extends PlaceholderFragment {
                 randomIdeaTextView.setText(idea.getName());
 
                 TextView categoryTextView = (TextView)getActivity().findViewById(R.id.home_random_idea_category_text_view);
-                categoryTextView.setText(idea.getCategory().getName());
+                if (idea.getCategory() != null && idea.getCategory().getName() != null) {
+                    categoryTextView.setText(idea.getCategory().getName());
+                }
 
                 TextView captionTextView = (TextView)getActivity().findViewById(R.id.home_random_idea_caption_text_view);
                 captionTextView.setText(getActivity().getResources().getString(R.string.idea_caption_special_idea));
@@ -195,7 +198,7 @@ public class HomeFragment extends PlaceholderFragment {
                                 .into(suggestImageView);
                     }
                 }
-                playLockSound();
+                playBellsSound();
 
                 randomLoadingProgressBar.setVisibility(View.GONE);
                 setQueryLoading(false);
@@ -205,11 +208,10 @@ public class HomeFragment extends PlaceholderFragment {
     }
 
 
-    private void playLockSound() {
+    private void playBellsSound() {
         //PLAY SOUND HERE
         AudioManager am = (AudioManager)getActivity().getSystemService(Context.AUDIO_SERVICE);
         if  (am.getRingerMode() == AudioManager.RINGER_MODE_NORMAL) {
-            Log.d(DailyKind.TAG, "Normal mode");
             MediaPlayer tabClick = MediaPlayer.create(getActivity(), R.raw.celebratory_cute_bells_double);
             tabClick.setLooping(false);
             tabClick.start();
