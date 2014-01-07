@@ -1,17 +1,22 @@
 package com.edwardinubuntu.dailykind.activity;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.*;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.*;
+import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.edwardinubuntu.dailykind.DailyKind;
 import com.edwardinubuntu.dailykind.ParseSettings;
 import com.edwardinubuntu.dailykind.R;
@@ -45,6 +50,8 @@ public class PostStoryActivity extends ActionBarActivity {
     private EditText contentEditText;
 
     private Address currentAddress;
+
+    private BootstrapButton submitButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -172,14 +179,33 @@ public class PostStoryActivity extends ActionBarActivity {
 
         requestLocationUpdates();
 
-        contentEditText = (EditText)findViewById(R.id.content_edit_text);
-
-        findViewById(R.id.post_story_submit_button).setOnClickListener(new View.OnClickListener() {
+        submitButton = (BootstrapButton)findViewById(R.id.post_story_submit_button);
+        submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 postStory();
             }
         });
+
+
+        contentEditText = (EditText)findViewById(R.id.content_edit_text);
+        contentEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                submitButton.setEnabled(contentEditText.getText().length() > 0);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        submitButton.setEnabled(contentEditText.getText().length() > 0);
     }
 
     @Override
@@ -238,11 +264,27 @@ public class PostStoryActivity extends ActionBarActivity {
             return;
         }
 
+        if (contentEditText.getText().length() == 0) {
+
+                new AlertDialog.Builder(this)
+                        .setTitle(getResources().getString(R.string.post_story_content_need_title))
+                        .setMessage(getResources().getString(R.string.post_story_content_need_message))
+                        .setPositiveButton(getResources().getString(R.string.go), new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int which) {
+                                dialogInterface.dismiss();
+                            }
+                        })
+                        .setCancelable(true)
+                        .show();
+
+                return;
+        }
+
         final ParseObject parseObject = new ParseObject("Story");
 
         // TODO Check user has login
         parseObject.put("StoryTeller", ParseUser.getCurrentUser());
-
         parseObject.put("Content", contentEditText.getText().toString());
 
         if (currentAddress != null && locationAreaTextView.getText() != null) {

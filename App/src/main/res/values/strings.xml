@@ -47,6 +47,10 @@
 
 	<string name="signup_form_username">Username</string>
 	<string name="idea_caption_special_idea">Feature idea</string>
+
+	<string name="post_story_content_need_title">Story Content</string>
+	<string name="post_story_content_need_message">Please type some words.</string>
+	<string name="go">OK</string>
 	
 	<!-- Settings -->
 	<string name="setting_setting">Settings</string>
