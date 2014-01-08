@@ -9,18 +9,16 @@
 		    android:summary="Account Info"
 		    android:title="Account" />
 
-	</PreferenceCategory>
-
-	<PreferenceCategory android:title="@string/setting_support_languages" >
-		<CheckBoxPreference
+		<SwitchPreference
 			android:key="setting_support_english"
-			android:summary="Display English Content"
-			android:title="English" />
+		    android:summary="Display English Content"
+		    android:title="Support English" />
 
-		<CheckBoxPreference
+		<SwitchPreference
 			android:key="setting_support_chinese"
 			android:summary="顯示中文內容"
-			android:title="中文" />
+			android:title="支援中文" />
+
 	</PreferenceCategory>
 
 	<PreferenceCategory android:title="@string/setting_about" >

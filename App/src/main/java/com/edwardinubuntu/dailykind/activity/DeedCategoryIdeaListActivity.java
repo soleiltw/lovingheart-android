@@ -95,6 +95,9 @@ public class DeedCategoryIdeaListActivity extends ActionBarActivity {
         updateRefreshItem();
 
         ParseQuery<ParseObject> ideasQuery = ParseQuery.getQuery("Idea");
+        ArrayList<String> stringCollection = new ArrayList<String>();
+        stringCollection.add("close");
+        ideasQuery.whereNotContainedIn("status", stringCollection);
         ideasQuery.include("categoryPointer");
 
         ParseObject categoryParseObject = new ParseObject("Category");
@@ -134,6 +137,11 @@ public class DeedCategoryIdeaListActivity extends ActionBarActivity {
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public void updateRefreshItem() {
+        if (isParseLoading()) {
+            findViewById(R.id.good_ideas_progress_bar).setVisibility(View.VISIBLE);
+        } else {
+            findViewById(R.id.good_ideas_progress_bar).setVisibility(View.GONE);
+        }
         if (menu != null) {
             MenuItem refreshItem = menu.findItem(R.id.action_reload);
             if (isParseLoading()) {

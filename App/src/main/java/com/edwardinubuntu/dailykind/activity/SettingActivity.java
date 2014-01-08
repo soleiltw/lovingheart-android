@@ -3,19 +3,24 @@ package com.edwardinubuntu.dailykind.activity;
 import android.annotation.TargetApi;
 import android.app.ActionBar;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
-import android.preference.Preference;
-import android.preference.PreferenceActivity;
+import android.preference.*;
 import android.view.MenuItem;
+import com.edwardinubuntu.dailykind.DailyKind;
 import com.edwardinubuntu.dailykind.R;
 import com.facebook.Session;
 import com.parse.ParseUser;
+
+import java.util.Locale;
 
 /**
  * Created by edward_chiang on 2014/1/3.
  */
 public class SettingActivity extends PreferenceActivity {
+
+    private SharedPreferences preferences;
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     @Override
@@ -27,6 +32,8 @@ public class SettingActivity extends PreferenceActivity {
         actionBar.setDisplayShowTitleEnabled(true);
 
         addPreferencesFromResource(R.xml.settings);
+
+        preferences = PreferenceManager.getDefaultSharedPreferences(this);
     }
 
     @Override
@@ -90,6 +97,84 @@ public class SettingActivity extends PreferenceActivity {
                 }
             });
         }
+
+        Preference settingPreference = findPreference("setting_acknowledgement");
+        settingPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+
+                Intent webIntent = new Intent(getApplicationContext(), WebViewActivity.class);
+                webIntent.putExtra("webUrl", DailyKind.ACKNOWLEDGEMENT_LINK);
+                startActivity(webIntent);
+
+                return true;
+            }
+        });
+
+        boolean englishDefaultValue = Locale.getDefault().getLanguage().contains("en");
+        boolean preferEnglishSaved = preferences.getBoolean(DailyKind.PREFERENCE_SUPPORT_ENGLISH, englishDefaultValue);
+
+        boolean chineseDefaultValue = Locale.getDefault().getLanguage().contains("zh");
+        boolean preferChineseSaved = preferences.getBoolean(DailyKind.PREFERENCE_SUPPORT_CHINESE, chineseDefaultValue);
+
+        if(Build.VERSION.SDK_INT>= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+            SwitchPreference englishSwitchPreference = (SwitchPreference)findPreference("setting_support_english");
+            englishSwitchPreference.setDefaultValue(preferEnglishSaved);
+            englishSwitchPreference.setChecked(preferEnglishSaved);
+            englishSwitchPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object newValue) {
+                    SharedPreferences.Editor editor = preference.getEditor();
+                    editor.putBoolean(DailyKind.PREFERENCE_SUPPORT_ENGLISH,
+                            Boolean.parseBoolean(newValue.toString()));
+                    editor.commit();
+                    return true;
+                }
+            });
+
+            SwitchPreference chineseSwitchPreference = (SwitchPreference)findPreference("setting_support_chinese");
+            chineseSwitchPreference.setDefaultValue(preferChineseSaved);
+            chineseSwitchPreference.setChecked(preferChineseSaved);
+            chineseSwitchPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object newValue) {
+                    SharedPreferences.Editor editor = preference.getEditor();
+                    editor.putBoolean(DailyKind.PREFERENCE_SUPPORT_CHINESE,
+                            Boolean.parseBoolean(newValue.toString()));
+                    editor.commit();
+                    return true;
+                }
+            });
+        } else {
+            CheckBoxPreference englishSwitchPreference = (CheckBoxPreference)findPreference("setting_support_english");
+            englishSwitchPreference.setDefaultValue(preferEnglishSaved);
+            englishSwitchPreference.setChecked(preferEnglishSaved);
+            englishSwitchPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object newValue) {
+                    SharedPreferences.Editor editor = preference.getEditor();
+                    editor.putBoolean(DailyKind.PREFERENCE_SUPPORT_ENGLISH,
+                            Boolean.parseBoolean(newValue.toString()));
+                    editor.commit();
+                    return true;
+                }
+            });
+
+            CheckBoxPreference chineseSwitchPreference = (CheckBoxPreference)findPreference("setting_support_chinese");
+            chineseSwitchPreference.setDefaultValue(preferChineseSaved);
+            chineseSwitchPreference.setChecked(preferChineseSaved);
+            chineseSwitchPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object newValue) {
+                    SharedPreferences.Editor editor = preference.getEditor();
+                    editor.putBoolean(DailyKind.PREFERENCE_SUPPORT_CHINESE,
+                            Boolean.parseBoolean(newValue.toString()));
+                    editor.commit();
+                    return true;
+                }
+            });
+        }
+
     }
 
     @Override

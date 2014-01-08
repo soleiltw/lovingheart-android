@@ -68,6 +68,9 @@
 	              android:screenOrientation="portrait"
 	              android:label="Settings" />
 
+	    <activity android:name=".activity.WebViewActivity"
+	              android:label="Web" />
+
 	    <uses-feature
 		    android:glEsVersion="0x00020000"
 		    android:required="true"/>

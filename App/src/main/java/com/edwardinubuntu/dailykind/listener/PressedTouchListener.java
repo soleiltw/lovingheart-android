@@ -7,7 +7,7 @@ import com.edwardinubuntu.dailykind.R;
 /**
  * Created by edward_chiang on 2013/12/30.
  */
-public class PressedOnTouchLIstener implements View.OnTouchListener {
+public class PressedTouchListener implements View.OnTouchListener {
 
     @Override
     public boolean onTouch(View view, MotionEvent motionEvent) {

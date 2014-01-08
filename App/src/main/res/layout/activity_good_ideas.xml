@@ -3,7 +3,17 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
               android:layout_width="match_parent"
-              android:layout_height="match_parent">
+              android:layout_height="match_parent"
+	>
+
+	<ProgressBar
+		android:id="@+id/good_ideas_progress_bar"
+		android:visibility="gone"
+		android:layout_margin="10dp"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		style="?android:attr/progressBarStyleSmallInverse"
+		android:layout_gravity="center"/>
 
 	<ListView
 		android:id="@+id/deed_idea_list_view"

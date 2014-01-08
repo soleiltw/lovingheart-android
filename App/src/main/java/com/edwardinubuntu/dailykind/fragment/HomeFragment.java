@@ -3,16 +3,19 @@ package com.edwardinubuntu.dailykind.fragment;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.DisplayMetrics;
 import android.view.*;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import com.edwardinubuntu.dailykind.DailyKind;
 import com.edwardinubuntu.dailykind.R;
 import com.edwardinubuntu.dailykind.activity.DeedCategoriesActivity;
 import com.edwardinubuntu.dailykind.activity.DeedContentActivity;
@@ -24,7 +27,9 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by edward_chiang on 2013/11/23.
@@ -43,6 +48,8 @@ public class HomeFragment extends PlaceholderFragment {
 
     private boolean queryLoading;
 
+    private SharedPreferences preferences;
+
     public static HomeFragment newInstance(int sectionNumber) {
         HomeFragment fragment = new HomeFragment();
         Bundle args = new Bundle();
@@ -55,6 +62,8 @@ public class HomeFragment extends PlaceholderFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+
+        preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
     }
 
     @Override
@@ -138,6 +147,18 @@ public class HomeFragment extends PlaceholderFragment {
         getActivity().findViewById(R.id.home_idea_card_layout).setVisibility(View.GONE);
 
         final ParseQuery<ParseObject> randomIdeaQuery = new ParseQuery<ParseObject>("Idea");
+        ArrayList<String> languageCollection = new ArrayList<String>();
+        boolean englishDefaultValue = Locale.getDefault().getLanguage().contains("en");
+        boolean supportEnglish = preferences.getBoolean(DailyKind.PREFERENCE_SUPPORT_ENGLISH, englishDefaultValue);
+        if (supportEnglish) {
+            languageCollection.add("en");
+        }
+        boolean chineseDefaultValue = Locale.getDefault().getLanguage().contains("zh");
+        boolean supportChinese = preferences.getBoolean(DailyKind.PREFERENCE_SUPPORT_CHINESE, chineseDefaultValue);
+        if (supportChinese) {
+            languageCollection.add("zh");
+        }
+        randomIdeaQuery.whereContainedIn("language", languageCollection);
         randomIdeaQuery.include("categoryPointer");
         randomIdeaQuery.include("graphicPointer");
         randomIdeaQuery.findInBackground(new FindCallback<ParseObject>() {
