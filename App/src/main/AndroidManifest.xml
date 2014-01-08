@@ -83,6 +83,17 @@
 	    <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/app_id" />
 	    <meta-data android:name="com.crashlytics.ApiKey" android:value="15a403fd2391de122a3a65c20eda2464f96342de"/>
 
+	    <service android:name="com.parse.PushService" />
+	    <receiver android:name="com.parse.ParseBroadcastReceiver">
+		    <intent-filter>
+			    <action android:name="android.intent.action.BOOT_COMPLETED" />
+			    <action android:name="android.intent.action.USER_PRESENT" />
+		    </intent-filter>
+	    </receiver>
+
+	    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+	    <uses-permission android:name="android.permission.VIBRATE" />
+
     </application>
 
 </manifest>

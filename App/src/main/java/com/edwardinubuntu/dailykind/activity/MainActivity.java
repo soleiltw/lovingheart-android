@@ -24,7 +24,7 @@ import com.edwardinubuntu.dailykind.DailyKind;
 import com.edwardinubuntu.dailykind.ParseSettings;
 import com.edwardinubuntu.dailykind.R;
 import com.edwardinubuntu.dailykind.fragment.*;
-import com.parse.Parse;
+import com.parse.*;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -99,6 +99,18 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         }
 
         tabClick = MediaPlayer.create(this, R.raw.lock_padlock);
+
+        if (ParseUser.getCurrentUser() != null) {
+            // Save the current Installation to Parse.
+            PushService.setDefaultPushCallback(this, DeedCategoriesActivity.class);
+
+            ParseInstallation parseInstallation = ParseInstallation.getCurrentInstallation();
+            parseInstallation.put("language", Locale.getDefault().getLanguage());
+            parseInstallation.saveInBackground();
+
+            ParseAnalytics.trackAppOpened(getIntent());
+        }
+
     }
 
     private void printPackageInfo() {
