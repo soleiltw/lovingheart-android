@@ -109,6 +109,12 @@ public class UserActivitiesAdapter extends ArrayAdapter<ParseObject> {
         PrettyTime prettyTime = new PrettyTime(new Date());
         createdAtTextView.setText(prettyTime.format(story.getCreatedAt()));
 
+        TextView storyImpactTextView = (TextView)contentView.findViewById(R.id.story_view_impact_text_view);
+        storyImpactTextView.setText(
+                story.getViewCount() +
+                getContext().getString(R.string.space) +
+                getContext().getString(R.string.story_impact_views));
+
         if (position >= getCount() - 1 && getLoadMoreListener() != null) {
             getLoadMoreListener().notifyLoadMore();
         }

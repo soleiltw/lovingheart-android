@@ -7,7 +7,6 @@
               android:layout_height="match_parent">
 
 	<TextView
-		android:hint="Title"
 		android:id="@+id/idea_title_text_view"
 		android:textColor="@color/theme_color_1"
 		android:textAppearance="?android:textAppearanceLarge"

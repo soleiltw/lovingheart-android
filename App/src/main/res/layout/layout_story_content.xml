@@ -13,6 +13,12 @@
 		android:id="@+id/me_stories_image_view"
 		android:layout_gravity="center_horizontal"/>
 
+	<LinearLayout
+		android:orientation="vertical"
+		android:padding="5dp"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content">
+
 	<TextView
 		android:textAppearance="?android:textAppearanceMedium"
 		android:hint="Last story content"
@@ -38,5 +44,7 @@
 		android:textColor="@color/story_light_text_color"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"/>
+
+	</LinearLayout>
 
 </LinearLayout>

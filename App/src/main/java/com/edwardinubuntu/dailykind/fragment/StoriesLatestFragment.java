@@ -23,7 +23,7 @@ import java.util.List;
  */
 public class StoriesLatestFragment extends PlaceholderFragment {
 
-    private List<ParseObject> userActivities;
+    protected List<ParseObject> userActivities;
 
     private UserActivitiesAdapter userActivitiesAdapter;
 
@@ -120,7 +120,7 @@ public class StoriesLatestFragment extends PlaceholderFragment {
         }
     }
 
-    private void loadStories(boolean more) {
+    protected void loadStories(boolean more) {
         final ParseQuery<ParseObject> parseQuery = ParseQuery.getQuery("Story");
         parseQuery.include("StoryTeller");
         parseQuery.orderByDescending("createdAt");
@@ -148,7 +148,7 @@ public class StoriesLatestFragment extends PlaceholderFragment {
 
     }
 
-    private void queryToCallBack(ParseQuery<ParseObject> parseQuery) {
+    protected void queryToCallBack(ParseQuery<ParseObject> parseQuery) {
 
         setQueryLoading(true);
         updateRefreshItem();

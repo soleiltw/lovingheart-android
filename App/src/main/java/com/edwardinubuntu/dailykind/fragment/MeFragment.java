@@ -140,17 +140,21 @@ public class MeFragment extends PlaceholderFragment {
                         Story story = parseObjectManager.getStory();
 
                         TextView lastSharedContentTextView = (TextView)getActivity().findViewById(R.id.me_stories_last_share_content_text_view);
-                        lastSharedContentTextView.setText(story.getContent());
+                        if (lastSharedContentTextView !=null) {
+                            lastSharedContentTextView.setText(story.getContent());
+                        }
 
                         if (storyParseObject.getParseObject("ideaPointer") != null) {
 
                             story.setIdea(new ParseObjectManager(storyParseObject.getParseObject("ideaPointer")).getIdea());
 
                             TextView lastInspiredTextView = (TextView)getActivity().findViewById(R.id.me_stories_last_share_inspired_from_text_view);
-                            lastInspiredTextView.setText(
-                                    getActivity().getString(R.string.stories_last_share_inspired_by_text_prefix)+
-                                            getActivity().getString(R.string.space) +
-                                            story.getIdea().getName());
+                            if (lastInspiredTextView != null) {
+                                lastInspiredTextView.setText(
+                                        getActivity().getString(R.string.stories_last_share_inspired_by_text_prefix)+
+                                                getActivity().getString(R.string.space) +
+                                                story.getIdea().getName());
+                            }
                         }
 
                         TextView lastSharedDateTextView = (TextView)getActivity().findViewById(R.id.me_stories_last_share_date_Text_view);

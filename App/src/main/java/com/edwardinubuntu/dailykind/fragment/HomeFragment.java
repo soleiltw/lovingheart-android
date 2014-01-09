@@ -182,7 +182,9 @@ public class HomeFragment extends PlaceholderFragment {
                 randomIdeaTextView.setText(idea.getName());
 
                 TextView categoryTextView = (TextView)getActivity().findViewById(R.id.home_random_idea_category_text_view);
-                if (idea.getCategory() != null && idea.getCategory().getName() != null) {
+                if (categoryTextView!=null &&
+                        idea!=null &&
+                        idea.getCategory() != null && idea.getCategory().getName() != null) {
                     categoryTextView.setText(idea.getCategory().getName());
                 }
 

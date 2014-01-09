@@ -119,9 +119,16 @@ public class DeedContentActivity extends ActionBarActivity {
         queryIdea.include("graphicPointer");
         queryIdea.include("categoryPointer");
         queryIdea.include("OrganizerPointer");
+
+        findViewById(R.id.user_avatar_image_view).setVisibility(View.GONE);
+        findViewById(R.id.good_content_progress_bar).setVisibility(View.VISIBLE);
+
         queryIdea.getFirstInBackground(new GetCallback<ParseObject>() {
             @Override
             public void done(final ParseObject ideaParseObject, ParseException e) {
+
+                findViewById(R.id.good_content_progress_bar).setVisibility(View.GONE);
+
                 if (ideaParseObject != null) {
 
                     idea = new ParseObjectManager(ideaParseObject).getIdea();
@@ -215,6 +222,8 @@ public class DeedContentActivity extends ActionBarActivity {
 
                         orgTitleTextView.setText(orgParseObject.getString("name"));
 
+                        findViewById(R.id.user_avatar_image_view).setVisibility(View.VISIBLE);
+
                         ParseObject graphicObject = orgParseObject.getParseObject("graphicPointer");
                         graphicObject.fetchIfNeededInBackground(new GetCallback<ParseObject>() {
                             @Override
@@ -224,6 +233,8 @@ public class DeedContentActivity extends ActionBarActivity {
                                             .load(parseObject.getParseFile("imageFile").getUrl())
                                             .placeholder(R.drawable.ic_action_user)
                                             .into(orgImageView);
+
+
                                 }
                             }
                         });

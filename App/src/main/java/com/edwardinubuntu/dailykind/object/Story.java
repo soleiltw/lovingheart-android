@@ -18,6 +18,8 @@ public class Story implements Serializable {
     private Date updatedAt;
     private Graphic graphic;
 
+    private int viewCount;
+
     private String locationAreaName;
 
     public String getObjectId() {
@@ -82,5 +84,13 @@ public class Story implements Serializable {
 
     public void setLocationAreaName(String locationAreaName) {
         this.locationAreaName = locationAreaName;
+    }
+
+    public int getViewCount() {
+        return viewCount;
+    }
+
+    public void setViewCount(int viewCount) {
+        this.viewCount = viewCount;
     }
 }
