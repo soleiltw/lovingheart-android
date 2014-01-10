@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import com.edwardinubuntu.dailykind.DailyKind;
 import com.edwardinubuntu.dailykind.ParseSettings;
 import com.edwardinubuntu.dailykind.R;
 import com.edwardinubuntu.dailykind.adapter.IdeaArrayAdapter;
@@ -105,7 +106,8 @@ public class DeedCategoryIdeaListActivity extends ActionBarActivity {
         ideasQuery.whereEqualTo("categoryPointer", categoryParseObject);
 
         ideasQuery.orderByDescending("updatedAt");
-        ideasQuery.setCachePolicy(ParseQuery.CachePolicy.NETWORK_ELSE_CACHE);
+        ideasQuery.setCachePolicy(ParseQuery.CachePolicy.CACHE_ELSE_NETWORK);
+        ideasQuery.setMaxCacheAge(DailyKind.QUERY_AT_LEAST_CACHE_AGE);
         ideasQuery.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> parseObjects, ParseException e) {

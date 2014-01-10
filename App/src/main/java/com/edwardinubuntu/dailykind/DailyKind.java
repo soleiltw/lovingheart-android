@@ -12,4 +12,7 @@ public class DailyKind {
     public static String PREFERENCE_SUPPORT_CHINESE = "support_chinese";
 
     public static String ACKNOWLEDGEMENT_LINK = "https://dailylovingheart.wordpress.com/acknowledgement/";
+
+    public static long QUERY_MAX_CACHE_AGE = 60 * 60;
+    public static long QUERY_AT_LEAST_CACHE_AGE = 60;
 }

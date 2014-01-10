@@ -101,7 +101,8 @@ public class DeedCategoriesActivity extends ActionBarActivity {
         }
         parseQuery.whereContainedIn("language", languageCollection);
         parseQuery.whereNotContainedIn("status", stringCollection);
-        parseQuery.setCachePolicy(ParseQuery.CachePolicy.NETWORK_ELSE_CACHE);
+        parseQuery.setCachePolicy(ParseQuery.CachePolicy.CACHE_ELSE_NETWORK);
+        parseQuery.setMaxCacheAge(DailyKind.QUERY_MAX_CACHE_AGE);
         parseQuery.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> parseObjects, ParseException e) {

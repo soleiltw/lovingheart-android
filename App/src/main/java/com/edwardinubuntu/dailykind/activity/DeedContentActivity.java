@@ -183,7 +183,7 @@ public class DeedContentActivity extends ActionBarActivity {
                             public void done(final ParseObject parseObject, ParseException e) {
                                 if (parseObject != null) {
                                     ParseQuery<ParseObject> graphicsEarnedQuery = parseObject.getRelation("graphicsEarned").getQuery();
-                                    graphicsEarnedQuery.setCachePolicy(ParseQuery.CachePolicy.NETWORK_ELSE_CACHE);
+                                    graphicsEarnedQuery.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
                                     graphicsEarnedQuery.findInBackground(new FindCallback<ParseObject>() {
                                         @Override
                                         public void done(List<ParseObject> parseObjects, ParseException e) {
