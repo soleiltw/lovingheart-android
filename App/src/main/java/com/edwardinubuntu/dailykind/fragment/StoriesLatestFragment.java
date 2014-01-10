@@ -152,6 +152,7 @@ public class StoriesLatestFragment extends PlaceholderFragment {
 
         setQueryLoading(true);
         updateRefreshItem();
+        parseQuery.setCachePolicy(ParseQuery.CachePolicy.NETWORK_ELSE_CACHE);
         parseQuery.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> parseObjects, ParseException e) {

@@ -105,7 +105,7 @@ public class DeedCategoryIdeaListActivity extends ActionBarActivity {
         ideasQuery.whereEqualTo("categoryPointer", categoryParseObject);
 
         ideasQuery.orderByDescending("updatedAt");
-
+        ideasQuery.setCachePolicy(ParseQuery.CachePolicy.NETWORK_ELSE_CACHE);
         ideasQuery.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> parseObjects, ParseException e) {

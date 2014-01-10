@@ -3,23 +3,30 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:bootstrapbutton="http://schemas.android.com/apk/res-auto"
                 android:orientation="vertical"
-                android:background="@color/theme_background"
+
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
 	<ScrollView
-		android:layout_height="wrap_content"
-		android:layout_width="fill_parent"
+		android:layout_height="match_parent"
+		android:layout_width="match_parent"
 		>
-		<LinearLayout
-			android:orientation="vertical"
-			android:layout_width="fill_parent"
-			android:layout_height="wrap_content">
 			<LinearLayout
-				android:background="@drawable/layout_background_shadow"
 				android:orientation="vertical"
-				android:layout_width="fill_parent"
-				android:layout_height="wrap_content">
+				android:layout_width="match_parent"
+				android:layout_height="match_parent">
+
+
+
+				<LinearLayout
+					android:layout_margin="5dp"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content">
+					<include
+						layout="@layout/layout_user_image_name" />
+				</LinearLayout>
+
+				<include layout="@layout/layout_idea_content" />
 
 				<ProgressBar
 					android:id="@+id/good_content_progress_bar"
@@ -30,52 +37,21 @@
 					style="?android:attr/progressBarStyleSmall"
 					android:layout_gravity="center"/>
 
-				<LinearLayout
-					android:layout_margin="5dp"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content">
-					<include
-						layout="@layout/layout_user_image_name" />
-				</LinearLayout>
-
-
-				<ImageView
-					android:id="@+id/deed_content_image_view"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"/>
-
-
-
-				<TextView
-					android:layout_width="fill_parent"
-					android:layout_height="wrap_content"
-					android:textAppearance="?android:attr/textAppearanceLarge"
-					android:layout_margin="5dp"
-					android:textColor="@color/theme_color_1"
-					android:id="@+id/deed_content_title_text_view"
-					android:layout_gravity="center_horizontal"/>
-
-				<TextView
-					android:layout_width="fill_parent"
-					android:layout_height="wrap_content"
-					android:textAppearance="?android:attr/textAppearanceMedium"
-					android:layout_margin="5dp"
-					android:textColor="@color/story_text_color"
-					android:id="@+id/deed_content_description_text_view"
-					android:layout_gravity="center_horizontal"/>
-
 				<TextView
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
-					android:layout_margin="5dp"
-					android:textAppearance="?android:attr/textAppearanceMedium"
+					android:layout_marginLeft="10dp"
+					android:layout_marginRight="10dp"
+					android:textAppearance="?android:attr/textAppearanceSmall"
 					android:layout_alignParentRight="true"
 					android:id="@+id/number_of_people_involved_text_view"/>
 
 				<TextView
-					android:layout_margin="5dp"
+					android:layout_marginLeft="10dp"
+					android:layout_marginRight="10dp"
 					android:textAppearance="?android:textAppearanceSmall"
 					android:id="@+id/deed_content_earn_description_text_view"
+					android:visibility="gone"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"/>
 
@@ -110,7 +86,6 @@
 				</LinearLayout>
 
 			</LinearLayout>
-		</LinearLayout>
 	</ScrollView>
 
 

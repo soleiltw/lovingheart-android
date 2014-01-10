@@ -5,7 +5,7 @@
               android:layout_margin="5dp"
               android:background="@drawable/layout_background_shadow"
               android:layout_width="match_parent"
-              android:layout_height="match_parent">
+              android:layout_height="wrap_content">
 
 	<LinearLayout
 		android:layout_margin="5dp"
@@ -15,6 +15,15 @@
 	<include layout="@layout/layout_user_image_name" />
 
 	</LinearLayout>
+
+	<ProgressBar
+		android:id="@+id/story_content_progress_bar"
+		android:visibility="gone"
+		android:layout_margin="10dp"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		style="?android:attr/progressBarStyleSmall"
+		android:layout_gravity="center"/>
 
 	<include layout="@layout/layout_story_content" />
 

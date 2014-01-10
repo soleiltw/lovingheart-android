@@ -89,7 +89,7 @@ public class DeedContentActivity extends ActionBarActivity {
             }
         });
 
-        contentImageView = (ImageView)findViewById(R.id.deed_content_image_view);
+        contentImageView = (ImageView)findViewById(R.id.idea_content_image_view);
 
         orgImageView = (ImageView)findViewById(R.id.user_avatar_image_view);
         orgTitleTextView = (TextView)findViewById(R.id.user_name_text_view);
@@ -135,14 +135,22 @@ public class DeedContentActivity extends ActionBarActivity {
                     idea.setCategory(new ParseObjectManager(ideaParseObject.getParseObject("categoryPointer")).getCategory());
                     idea.setGraphic(new ParseObjectManager(ideaParseObject.getParseObject("graphicPointer")).getGraphic());
 
-                    TextView contentTextView = (TextView)findViewById(R.id.deed_content_title_text_view);
+                    TextView contentTextView = (TextView)findViewById(R.id.idea_content_title_text_view);
                     contentTextView.setText(idea.getName());
 
-                    TextView contentDescriptionTextView = (TextView)findViewById(R.id.deed_content_description_text_view);
+                    TextView contentDescriptionTextView = (TextView)findViewById(R.id.idea_content_description_text_view);
                     if (idea.getIdeaDescription() != null && idea.getIdeaDescription().length() > 0) {
                         contentDescriptionTextView.setText(idea.getIdeaDescription());
                     } else {
                         contentDescriptionTextView.setVisibility(View.GONE);
+                    }
+
+                    TextView categoryTextView = (TextView)findViewById(R.id.idea_content_category_text_view);
+                    if (categoryTextView!=null &&
+                            idea!=null &&
+                            idea.getCategory() != null && idea.getCategory().getName() != null) {
+                        categoryTextView.setVisibility(View.VISIBLE);
+                        categoryTextView.setText(idea.getCategory().getName());
                     }
 
                     final TextView earnDescribeTextView = (TextView)findViewById(R.id.deed_content_earn_description_text_view);
@@ -175,6 +183,7 @@ public class DeedContentActivity extends ActionBarActivity {
                             public void done(final ParseObject parseObject, ParseException e) {
                                 if (parseObject != null) {
                                     ParseQuery<ParseObject> graphicsEarnedQuery = parseObject.getRelation("graphicsEarned").getQuery();
+                                    graphicsEarnedQuery.setCachePolicy(ParseQuery.CachePolicy.NETWORK_ELSE_CACHE);
                                     graphicsEarnedQuery.findInBackground(new FindCallback<ParseObject>() {
                                         @Override
                                         public void done(List<ParseObject> parseObjects, ParseException e) {
@@ -212,7 +221,13 @@ public class DeedContentActivity extends ActionBarActivity {
                     if (idea.getDoneCount() > 0) {
                         numberOfPeopleTextView.setText(
                                 getString(R.string.deed_of_number_of_people_prefix) +
-                                        idea.getDoneCount() + getString(R.string.deed_of_number_of_people_post));
+                                        getString(R.string.space) +
+                                        idea.getDoneCount() +
+                                        getString(R.string.space) +
+                                        (idea.getDoneCount() > 1 ?
+                                                getString(R.string.deed_of_number_of_people_post_times) :
+                                                getString(R.string.deed_of_number_of_people_post_time))
+                        );
                     } else {
                         numberOfPeopleTextView.setText(getString(R.string.deed_content_be_the_first_one));
                     }

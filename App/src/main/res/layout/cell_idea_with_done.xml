@@ -26,7 +26,8 @@
 
 	<TextView
 		android:id="@+id/idea_done_text_view"
-		android:hint="Done 0 times"
+		android:hint="Done 0 time"
+		android:textColor="@color/theme_color_3"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:layout_gravity="right"/>

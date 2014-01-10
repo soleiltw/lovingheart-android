@@ -35,6 +35,7 @@ public class ParseObjectManager {
         idea.setName(parseObject.getString("Name"));
         idea.setIdeaDescription(parseObject.getString("Description"));
         idea.setDoneCount(parseObject.getInt("doneCount"));
+
         return idea;
     }
 

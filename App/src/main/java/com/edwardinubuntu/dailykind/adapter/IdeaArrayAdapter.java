@@ -48,7 +48,13 @@ public class IdeaArrayAdapter extends ArrayAdapter<Idea> {
         TextView doneTextView = (TextView)rootView.findViewById(R.id.idea_done_text_view);
         doneTextView.setText(
                 getContext().getString(R.string.deed_of_number_of_people_prefix) +
-                        idea.getDoneCount() + getContext().getString(R.string.deed_of_number_of_people_post));
+                        getContext().getString(R.string.space) +
+                        idea.getDoneCount() +
+                        getContext().getString(R.string.space) +
+                        (idea.getDoneCount() > 1 ?
+                                getContext().getString(R.string.deed_of_number_of_people_post_times) :
+                                getContext().getString(R.string.deed_of_number_of_people_post_time))
+                        );
 
         return rootView;
     }

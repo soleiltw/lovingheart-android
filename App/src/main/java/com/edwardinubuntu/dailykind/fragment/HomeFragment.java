@@ -78,9 +78,9 @@ public class HomeFragment extends PlaceholderFragment {
 
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
 
-        randomIdeaTextView = (TextView)rootView.findViewById(R.id.home_random_idea_text_view);
+        randomIdeaTextView = (TextView)rootView.findViewById(R.id.idea_content_title_text_view);
 
-        suggestImageView = (ImageView)rootView.findViewById(R.id.home_random_suggest_image_view);
+        suggestImageView = (ImageView)rootView.findViewById(R.id.idea_content_image_view);
 
         DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
         suggestImageViewLayoutParams = (LinearLayout.LayoutParams)suggestImageView.getLayoutParams();
@@ -181,17 +181,20 @@ public class HomeFragment extends PlaceholderFragment {
                 idea.setCategory(new ParseObjectManager(randomParseObject.getParseObject("categoryPointer")).getCategory());
                 randomIdeaTextView.setText(idea.getName());
 
-                TextView categoryTextView = (TextView)getActivity().findViewById(R.id.home_random_idea_category_text_view);
+                TextView categoryTextView = (TextView)getActivity().findViewById(R.id.idea_content_category_text_view);
                 if (categoryTextView!=null &&
                         idea!=null &&
                         idea.getCategory() != null && idea.getCategory().getName() != null) {
+                    categoryTextView.setVisibility(View.VISIBLE);
                     categoryTextView.setText(idea.getCategory().getName());
                 }
 
                 TextView captionTextView = (TextView)getActivity().findViewById(R.id.home_random_idea_caption_text_view);
-                captionTextView.setText(getActivity().getResources().getString(R.string.idea_caption_special_idea));
+                if (captionTextView!=null) {
+                    captionTextView.setText(getActivity().getResources().getString(R.string.idea_caption_special_idea));
+                }
 
-                TextView descriptionTextView = (TextView)getActivity().findViewById(R.id.home_random_idea_description_text_view);
+                TextView descriptionTextView = (TextView)getActivity().findViewById(R.id.idea_content_description_text_view);
                 if (idea.getIdeaDescription() != null && idea.getIdeaDescription().length() > 0) {
                     descriptionTextView.setText(idea.getIdeaDescription());
                 } else {

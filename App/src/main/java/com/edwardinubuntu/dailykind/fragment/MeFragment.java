@@ -127,6 +127,7 @@ public class MeFragment extends PlaceholderFragment {
             parseObjectParseQuery.orderByDescending("createdAt");
             parseObjectParseQuery.include("ideaPointer");
             parseObjectParseQuery.include("StoryTeller");
+            parseObjectParseQuery.setCachePolicy(ParseQuery.CachePolicy.NETWORK_ELSE_CACHE);
             parseObjectParseQuery.findInBackground(new FindCallback<ParseObject>() {
                 @Override
                 public void done(List<ParseObject> parseObjects, ParseException e) {
@@ -188,6 +189,7 @@ public class MeFragment extends PlaceholderFragment {
     private void generateUserImpact() {
         ParseQuery<ParseObject> storyQuery = new ParseQuery<ParseObject>("Story");
         storyQuery.whereEqualTo("StoryTeller", ParseUser.getCurrentUser());
+        storyQuery.setCachePolicy(ParseQuery.CachePolicy.NETWORK_ELSE_CACHE);
         storyQuery.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> parseObjects, ParseException e) {

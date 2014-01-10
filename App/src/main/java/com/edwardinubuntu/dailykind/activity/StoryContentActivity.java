@@ -52,6 +52,7 @@ public class StoryContentActivity extends ActionBarActivity {
     }
 
     private void loadStory() {
+        findViewById(R.id.story_content_progress_bar).setVisibility(View.VISIBLE);
         ParseQuery<ParseObject> storyQuery = new ParseQuery<ParseObject>("Story");
         storyQuery.include("ideaPointer");
         storyQuery.include("StoryTeller");
@@ -60,6 +61,8 @@ public class StoryContentActivity extends ActionBarActivity {
         storyQuery.getFirstInBackground(new GetCallback<ParseObject>() {
             @Override
             public void done(final ParseObject parseObject, ParseException e) {
+
+                findViewById(R.id.story_content_progress_bar).setVisibility(View.GONE);
 
                 ParseObjectManager parseObjectManager = new ParseObjectManager(parseObject);
                 Story story = parseObjectManager.getStory();
@@ -72,12 +75,20 @@ public class StoryContentActivity extends ActionBarActivity {
                 if (parseObject.getParseObject("ideaPointer") != null) {
                     story.setIdea(new ParseObjectManager(parseObject.getParseObject("ideaPointer")).getIdea());
 
+                    if (parseObject.getParseObject("ideaPointer").getParseObject("categoryPointer") != null) {
+                        ParseObject categoryObject = parseObject.getParseObject("ideaPointer").getParseObject("categoryPointer");
+                        try {
+                            categoryObject.fetchIfNeeded();
+                            story.getIdea().setCategory(
+                                    new ParseObjectManager(categoryObject).getCategory());
+                        } catch (ParseException e1) {
+                            Log.e(DailyKind.TAG, e1.getLocalizedMessage());
+                        }
+                    }
+
                     if (story.getIdea().getName().length() > 0) {
 
-                    lastInspiredTextView.setText(
-                            getString(R.string.stories_last_share_inspired_by_text_prefix)+
-                                    getString(R.string.space) +
-                                    story.getIdea().getName());
+                        lastInspiredTextView.setText( story.getIdea().getName());
                         lastInspiredTextView.setVisibility(View.VISIBLE);
                     }
                 }
@@ -91,6 +102,15 @@ public class StoryContentActivity extends ActionBarActivity {
                 if (story.getStoryTeller() != null) {
                     userNameTextView.setText(story.getStoryTeller().getString("name"));
                 }
+
+                TextView categoryTextView = (TextView)findViewById(R.id.story_content_category_text_view);
+                if (categoryTextView!=null &&
+                        story.getIdea()!=null &&
+                        story.getIdea().getCategory() != null && story.getIdea().getCategory().getName() != null) {
+                    categoryTextView.setVisibility(View.VISIBLE);
+                    categoryTextView.setText(story.getIdea().getCategory().getName());
+                }
+
                 ParseObject avatarObject = story.getStoryTeller().getParseObject("avatar");
                 avatarObject.fetchIfNeededInBackground(new GetCallback<ParseObject>() {
                     @Override
