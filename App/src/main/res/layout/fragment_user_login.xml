@@ -55,7 +55,7 @@
 		
 		<TextView
 			android:layout_margin="10dp"
-			android:text="OR"
+			android:text="@string/user_login_or"
 			android:gravity="center"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
@@ -89,7 +89,7 @@
 		<com.beardedhen.androidbootstrap.BootstrapButton
 			android:layout_width="fill_parent"
 			android:layout_height="wrap_content"
-			android:text="Login"
+			android:text="@string/user_login_login"
 			bootstrapbutton:bb_text_gravity="center"
 			android:id="@+id/user_login_button"
 			bootstrapbutton:bb_roundedCorners="true"
@@ -102,7 +102,7 @@
 			android:layout_height="wrap_content">
 
 			<TextView
-				android:text="Not a member yet?"
+				android:text="@string/user_login_not_a_member"
 				android:layout_margin="10dp"
 				android:gravity="center"
 				android:textAppearance="?android:textAppearanceSmall"
@@ -112,7 +112,7 @@
 			<com.beardedhen.androidbootstrap.BootstrapButton
 				android:layout_width="fill_parent"
 				android:layout_height="wrap_content"
-				android:text="Sign Up"
+				android:text="@string/user_login_sign_up"
 				android:layout_weight="1"
 				android:id="@+id/user_signup_button"
 				bootstrapbutton:bb_text_gravity="center"
@@ -120,7 +120,7 @@
 				bootstrapbutton:bb_type="success" />
 
 			<TextView
-				android:text="We promise we won't post anything to your wall unless you ask us to."
+				android:text="@string/user_login_promise"
 				android:textAppearance="?android:textAppearanceSmall"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"

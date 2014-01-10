@@ -62,5 +62,19 @@
 	<string name="setting_about">About</string>
 	<string name="setting_support_languages">Supporting Language</string>
 	<string name="story_impact_views">views</string>
+	<string name="idea_cards_browse_more">Explore more idea</string>
+	<string name="good_deed_content_remind_me">Remind me</string>
+	<string name="good_deed_content_do_it_now">Do It Now</string>
+	<string name="post_story_loading_location">Loading location...</string>
+	<string name="post_story_post">Post</string>
+	<string name="me_graphic_gallery">Graphic Gallery</string>
+	<string name="user_login_or">OR</string>
+	<string name="user_login_login">Login</string>
+	<string name="user_login_not_a_member">Not a member yet?</string>
+	<string name="user_login_sign_up">Sign Up</string>
+	<string name="user_login_promise">We promise we won\'t post anything to your wall unless you ask us to.</string>
+	<string name="user_signup_sign_up">Sign Up</string>
+	<string name="ask_login_get_your_profile">Get your personal profile today!</string>
+	<string name="ask_login_take_me_login">Take me to login</string>
 
 </resources>

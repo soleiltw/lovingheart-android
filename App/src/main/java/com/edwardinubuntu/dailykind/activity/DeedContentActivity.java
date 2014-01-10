@@ -1,7 +1,5 @@
 package com.edwardinubuntu.dailykind.activity;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -68,26 +66,10 @@ public class DeedContentActivity extends ActionBarActivity {
         findViewById(R.id.good_deed_content_now_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final AlertDialog confirmDialog = new AlertDialog.Builder(DeedContentActivity.this)
-                        .setTitle("Deed")
-                        .setMessage("I have done this.")
-                        .setPositiveButton("Done", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int which) {
-                                Intent intent = new Intent(getApplicationContext(), PostStoryActivity.class);
-                                intent.putExtra("idea", idea);
-                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                startActivity(intent);
-                            }
-                        })
-                        .setNegativeButton("Not now", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        })
-                        .setCancelable(false).create();
-                confirmDialog.show();
+                Intent intent = new Intent(getApplicationContext(), PostStoryActivity.class);
+                intent.putExtra("idea", idea);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
             }
         });
 

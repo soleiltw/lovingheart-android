@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">LovingHeart</string>
+	<string name="app_id">778772072139128</string>
+    <string name="title_today">今日</string>
+    <string name="title_me">我的</string>
+    <string name="title_latest_activities">最新</string>
+	<string name="title_popular_activities">熱門</string>
+    <string name="action_settings">設定</string>
+	<string name="action_login">登入</string>
+
+	<string name="action_nearby">附近</string>
+	<string name="action_post">張貼</string>
+	<string name="action_reload">重新整理</string>
+	<string name="button_done">完成</string>
+	<string name="action_ask_for_help">Ask for help</string>
+
+	<string name="story_upload_progress">載入中</string>
+	<string name="me_number_of_stories_shared">故事分享</string>
+	<string name="me_since_pre_text">自從</string>
+
+	<string name="deed_of_number_of_people_prefix">完成</string>
+	<string name="deed_of_number_of_people_post_time">次</string>
+	<string name="deed_of_number_of_people_post_times">次</string>
+
+	<string name="action_facebook_login">Facebook 登入</string>
+	<string name="facebook_login_activity">Facebook 登入</string>
+	<string name="action_facebook_login_loading">Facebook 登入中...</string>
+	<string name="action_facebook_login_success">Facebook 登入成功</string>
+	<string name="action_username_login_success">登入成功</string>
+
+	<string name="space">&#160;</string>
+	<string name="comma">,</string>
+	<string name="deed_content_be_the_first_one">成為第一個</string>
+	
+	<string name="deed_content_done_credit">完成後，您可以獲得這張貼圖。</string>
+	<string name="stories_last_share_content_text_prefix">最新分享</string>
+	<string name="stories_last_share_date_text_prefix">分享於</string>
+	<string name="stories_last_share_inspired_by_text_prefix">來自</string>
+
+	<string name="login_email_login_email_hint">Email</string>
+	<string name="login_email_login_password_hint">密碼</string>
+	<string name="login_email_login_password_confirm_hint">密碼確認</string>
+	<string name="action_login_form_validate_failure">Email 或者 password 輸入有誤</string>
+
+	<string name="signup_form_username">使用者名稱</string>
+	<string name="idea_caption_special_idea">嚴選推薦</string>
+
+	<string name="post_story_content_need_title">故事內容</string>
+	<string name="post_story_content_need_message">請輸入文字內容</string>
+	<string name="go">OK</string>
+	
+	<!-- Settings -->
+	<string name="setting_setting">設定</string>
+	<string name="setting_user_login_account_ask_logout">登出</string>
+	<string name="setting_user_login_account_title">帳號</string>
+	<string name="semicolon">：</string>
+	<string name="setting_user_login_account_ask_login">登入</string>
+	<string name="setting_about">關於</string>
+	<string name="setting_support_languages">支援語系</string>
+	<string name="story_impact_views">觀看次數</string>
+
+
+	<string name="idea_cards_browse_more">觀看更多</string>
+	<string name="good_deed_content_remind_me">提醒</string>
+	<string name="good_deed_content_do_it_now">記錄完成</string>
+	<string name="post_story_post">發佈</string>
+	<string name="me_graphic_gallery">相簿</string>
+	<string name="user_login_or">或</string>
+	<string name="user_login_not_a_member">立即成為會員？</string>
+	<string name="user_login_sign_up">註冊</string>
+	<string name="user_login_promise">我們不會未經您允許隨意發佈您的訊息</string>
+	<string name="user_signup_sign_up">註冊</string>
+	<string name="ask_login_get_your_profile">開始建立個人檔案！</string>
+	<string name="ask_login_take_me_login">前往登入</string>
+
+</resources>

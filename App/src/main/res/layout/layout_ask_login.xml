@@ -11,14 +11,14 @@
 	android:layout_height="fill_parent">
 
 	<TextView
-		android:text="Get your personal profile today!"
+		android:text="@string/ask_login_get_your_profile"
 		android:textAppearance="?android:textAppearanceLarge"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"/>
 
 	<com.beardedhen.androidbootstrap.BootstrapButton
 		android:id="@+id/me_ask_login_button"
-		android:text="Take me to login"
+		android:text="@string/ask_login_take_me_login"
 		android:layout_margin="10dp"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"

@@ -10,7 +10,7 @@
 		android:layout_width="fill_parent"
 		android:layout_height="48dp"
 		android:layout_margin="8dp"
-		android:text="Explore more idea"
+		android:text="@string/idea_cards_browse_more"
 		android:layout_gravity="center"
 		android:id="@+id/browse_idea_button"
 		bootstrapbutton:bb_icon_right="fa-chevron-circle-right"

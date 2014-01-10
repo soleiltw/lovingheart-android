@@ -82,7 +82,7 @@
 			android:layout_toRightOf="@+id/home_good_deed_random_of_button"/>
 
 		<com.beardedhen.androidbootstrap.BootstrapButton
-			android:text="Sign Up"
+			android:text="@string/user_signup_sign_up"
 			bootstrapbutton:bb_text_gravity="center"
 			android:id="@+id/user_signup_button"
 			android:layout_width="fill_parent"
