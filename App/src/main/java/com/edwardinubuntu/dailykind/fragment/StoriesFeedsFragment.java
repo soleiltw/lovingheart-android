@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.view.*;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import com.edwardinubuntu.dailykind.DailyKind;
 import com.edwardinubuntu.dailykind.R;
 import com.edwardinubuntu.dailykind.activity.StoryContentActivity;
 import com.edwardinubuntu.dailykind.adapter.UserActivitiesAdapter;
@@ -129,14 +128,15 @@ public class StoriesFeedsFragment extends PlaceholderFragment {
 
         setQueryLoading(true);
         updateRefreshItem();
-        parseQuery.setCachePolicy(ParseQuery.CachePolicy.CACHE_ELSE_NETWORK);
-        parseQuery.setMaxCacheAge(DailyKind.QUERY_AT_LEAST_CACHE_AGE);
+        parseQuery.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
         parseQuery.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> parseObjects, ParseException e) {
 
-                userActivities.addAll(parseObjects);
-                userActivitiesAdapter.notifyDataSetChanged();
+                if (parseObjects!=null) {
+                    userActivities.addAll(parseObjects);
+                    userActivitiesAdapter.notifyDataSetChanged();
+                }
 
                 setQueryLoading(false);
                 updateRefreshItem();

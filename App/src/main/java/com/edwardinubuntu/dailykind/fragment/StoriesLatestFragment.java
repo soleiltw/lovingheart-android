@@ -1,5 +1,6 @@
 package com.edwardinubuntu.dailykind.fragment;
 
+import android.os.Bundle;
 import android.util.Log;
 import com.edwardinubuntu.dailykind.DailyKind;
 import com.parse.CountCallback;
@@ -11,6 +12,14 @@ import com.parse.ParseQuery;
  * Created by edward_chiang on 2014/1/10.
  */
 public class StoriesLatestFragment extends StoriesFeedsFragment {
+
+    public static StoriesLatestFragment newInstance(int sectionNumber) {
+        StoriesLatestFragment fragment = new StoriesLatestFragment();
+        Bundle args = new Bundle();
+        args.putInt(ARG_SECTION_NUMBER, sectionNumber);
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
     protected void loadStories(boolean more) {

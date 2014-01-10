@@ -13,7 +13,7 @@ import com.parse.ParseQuery;
  */
 public class StoriesPopularFragment extends StoriesFeedsFragment {
 
-    public static StoriesFeedsFragment newInstance(int sectionNumber) {
+    public static StoriesPopularFragment newInstance(int sectionNumber) {
         StoriesPopularFragment fragment = new StoriesPopularFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_SECTION_NUMBER, sectionNumber);

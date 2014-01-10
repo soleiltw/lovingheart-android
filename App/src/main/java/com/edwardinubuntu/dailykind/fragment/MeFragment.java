@@ -98,7 +98,7 @@ public class MeFragment extends PlaceholderFragment {
                     @Override
                     public void done(ParseObject parseObject, ParseException e) {
                         ImageView avatarImageView = (ImageView)getActivity().findViewById(R.id.user_avatar_image_view);
-                        if (parseObject.getString("imageType").equals("url")) {
+                        if (parseObject!=null && parseObject.getString("imageType").equals("url")) {
                             Picasso.with(getActivity())
                                     .load(parseObject.getString("imageUrl"))
                                     .transform(new CircleTransform())
@@ -111,6 +111,7 @@ public class MeFragment extends PlaceholderFragment {
             // Check if user have report
             ParseQuery<ParseObject> userQuery = ParseQuery.getQuery("UserImpact");
             userQuery.whereEqualTo("User", ParseUser.getCurrentUser());
+            userQuery.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
             userQuery.getFirstInBackground(new GetCallback<ParseObject>() {
                 @Override
                 public void done(final ParseObject parseObject, ParseException e) {
@@ -128,7 +129,6 @@ public class MeFragment extends PlaceholderFragment {
             parseObjectParseQuery.include("ideaPointer");
             parseObjectParseQuery.include("StoryTeller");
             parseObjectParseQuery.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
-            parseObjectParseQuery.setMaxCacheAge(DailyKind.QUERY_MAX_CACHE_AGE);
             parseObjectParseQuery.findInBackground(new FindCallback<ParseObject>() {
                 @Override
                 public void done(List<ParseObject> parseObjects, ParseException e) {
@@ -191,7 +191,6 @@ public class MeFragment extends PlaceholderFragment {
         ParseQuery<ParseObject> storyQuery = new ParseQuery<ParseObject>("Story");
         storyQuery.whereEqualTo("StoryTeller", ParseUser.getCurrentUser());
         storyQuery.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
-        storyQuery.setMaxCacheAge(DailyKind.QUERY_MAX_CACHE_AGE);
         storyQuery.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> parseObjects, ParseException e) {

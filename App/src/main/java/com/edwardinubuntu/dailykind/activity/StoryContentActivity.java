@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.edwardinubuntu.dailykind.DailyKind;
 import com.edwardinubuntu.dailykind.R;
+import com.edwardinubuntu.dailykind.object.Category;
 import com.edwardinubuntu.dailykind.object.Graphic;
 import com.edwardinubuntu.dailykind.object.Story;
 import com.edwardinubuntu.dailykind.util.CircleTransform;
@@ -58,106 +59,114 @@ public class StoryContentActivity extends ActionBarActivity {
         storyQuery.include("StoryTeller");
         storyQuery.include("graphicPointer");
         storyQuery.whereEqualTo("objectId", this.objectId);
+        storyQuery.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
         storyQuery.getFirstInBackground(new GetCallback<ParseObject>() {
             @Override
             public void done(final ParseObject parseObject, ParseException e) {
 
-                findViewById(R.id.story_content_progress_bar).setVisibility(View.GONE);
+                if (parseObject!=null) {
 
-                ParseObjectManager parseObjectManager = new ParseObjectManager(parseObject);
-                Story story = parseObjectManager.getStory();
+                    findViewById(R.id.story_content_progress_bar).setVisibility(View.GONE);
 
-                TextView lastSharedContentTextView = (TextView)findViewById(R.id.me_stories_last_share_content_text_view);
-                lastSharedContentTextView.setText(story.getContent());
+                    ParseObjectManager parseObjectManager = new ParseObjectManager(parseObject);
+                    Story story = parseObjectManager.getStory();
 
-                TextView lastInspiredTextView = (TextView)findViewById(R.id.me_stories_last_share_inspired_from_text_view);
-                lastInspiredTextView.setVisibility(View.GONE);
-                if (parseObject.getParseObject("ideaPointer") != null) {
-                    story.setIdea(new ParseObjectManager(parseObject.getParseObject("ideaPointer")).getIdea());
+                    TextView lastSharedContentTextView = (TextView)findViewById(R.id.me_stories_last_share_content_text_view);
+                    lastSharedContentTextView.setText(story.getContent());
 
-                    if (parseObject.getParseObject("ideaPointer").getParseObject("categoryPointer") != null) {
-                        ParseObject categoryObject = parseObject.getParseObject("ideaPointer").getParseObject("categoryPointer");
-                        try {
-                            categoryObject.fetchIfNeeded();
-                            story.getIdea().setCategory(
-                                    new ParseObjectManager(categoryObject).getCategory());
-                        } catch (ParseException e1) {
-                            Log.e(DailyKind.TAG, e1.getLocalizedMessage());
+                    TextView lastInspiredTextView = (TextView)findViewById(R.id.me_stories_last_share_inspired_from_text_view);
+                    lastInspiredTextView.setVisibility(View.GONE);
+                    if (parseObject.getParseObject("ideaPointer") != null) {
+                        story.setIdea(new ParseObjectManager(parseObject.getParseObject("ideaPointer")).getIdea());
+
+                        if (parseObject.getParseObject("ideaPointer").getParseObject("categoryPointer") != null) {
+                            ParseObject categoryObject = parseObject.getParseObject("ideaPointer").getParseObject("categoryPointer");
+
+                            ParseQuery<ParseObject> categoryQuery = new ParseQuery<ParseObject>("Category");
+                            categoryQuery.whereEqualTo("objectId", categoryObject.getObjectId());
+                            categoryQuery.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
+                            categoryQuery.getFirstInBackground(new GetCallback<ParseObject>() {
+                                @Override
+                                public void done(ParseObject parseObject, ParseException e) {
+                                    if (parseObject !=null) {
+                                        Category category = new ParseObjectManager(parseObject).getCategory();
+
+                                        TextView categoryTextView = (TextView)findViewById(R.id.story_content_category_text_view);
+                                        if (category.getName() != null) {
+                                            categoryTextView.setVisibility(View.VISIBLE);
+                                            categoryTextView.setText(category.getName());
+                                        }
+                                    }
+                                }
+                            });
+                        }
+
+                        if (story.getIdea().getName().length() > 0) {
+                            lastInspiredTextView.setText( story.getIdea().getName());
+                            lastInspiredTextView.setVisibility(View.VISIBLE);
                         }
                     }
 
-                    if (story.getIdea().getName().length() > 0) {
+                    TextView lastSharedDateTextView = (TextView)findViewById(R.id.me_stories_last_share_date_Text_view);
+                    PrettyTime prettyTime = new PrettyTime(new Date());
+                    lastSharedDateTextView.setText(
+                            prettyTime.format(story.getCreatedAt()));
 
-                        lastInspiredTextView.setText( story.getIdea().getName());
-                        lastInspiredTextView.setVisibility(View.VISIBLE);
+                    TextView userNameTextView = (TextView)findViewById(R.id.user_name_text_view);
+                    if (story.getStoryTeller() != null) {
+                        userNameTextView.setText(story.getStoryTeller().getString("name"));
                     }
-                }
 
-                TextView lastSharedDateTextView = (TextView)findViewById(R.id.me_stories_last_share_date_Text_view);
-                PrettyTime prettyTime = new PrettyTime(new Date());
-                lastSharedDateTextView.setText(
-                        prettyTime.format(story.getCreatedAt()));
+                    ParseObject avatarObject = story.getStoryTeller().getParseObject("avatar");
+                    avatarObject.fetchIfNeededInBackground(new GetCallback<ParseObject>() {
+                        @Override
+                        public void done(ParseObject parseObject, ParseException e) {
+                            ImageView avatarImageView = (ImageView)findViewById(R.id.user_avatar_image_view);
+                            if (parseObject.getString("imageType").equals("url")) {
+                                Picasso.with(getApplicationContext())
+                                        .load(parseObject.getString("imageUrl"))
+                                        .transform(new CircleTransform())
+                                        .into(avatarImageView);
+                            }
+                        }
+                    });
 
-                TextView userNameTextView = (TextView)findViewById(R.id.user_name_text_view);
-                if (story.getStoryTeller() != null) {
-                    userNameTextView.setText(story.getStoryTeller().getString("name"));
-                }
+                    ImageView storyContentImageView = (ImageView)findViewById(R.id.me_stories_image_view);
+                    // Check if have graphic
+                    if (parseObject.getParseObject("graphicPointer") != null) {
+                        Graphic graphic = new ParseObjectManager(parseObject.getParseObject("graphicPointer")).getGraphic();
+                        story.setGraphic(graphic);
 
-                TextView categoryTextView = (TextView)findViewById(R.id.story_content_category_text_view);
-                if (categoryTextView!=null &&
-                        story.getIdea()!=null &&
-                        story.getIdea().getCategory() != null && story.getIdea().getCategory().getName() != null) {
-                    categoryTextView.setVisibility(View.VISIBLE);
-                    categoryTextView.setText(story.getIdea().getCategory().getName());
-                }
+                        if (story.getGraphic() !=null && story.getGraphic().getParseFileUrl() != null) {
 
-                ParseObject avatarObject = story.getStoryTeller().getParseObject("avatar");
-                avatarObject.fetchIfNeededInBackground(new GetCallback<ParseObject>() {
-                    @Override
-                    public void done(ParseObject parseObject, ParseException e) {
-                        ImageView avatarImageView = (ImageView)findViewById(R.id.user_avatar_image_view);
-                        if (parseObject.getString("imageType").equals("url")) {
+                            DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
+                            LinearLayout.LayoutParams storyContentImageViewLayoutParams = (LinearLayout.LayoutParams)storyContentImageView.getLayoutParams();
+                            storyContentImageViewLayoutParams.width = displayMetrics.widthPixels;
+                            storyContentImageViewLayoutParams.height = displayMetrics.widthPixels;
+                            storyContentImageView.requestLayout();
+                            storyContentImageView.setVisibility(View.VISIBLE);
+
                             Picasso.with(getApplicationContext())
-                                    .load(parseObject.getString("imageUrl"))
-                                    .transform(new CircleTransform())
-                                    .into(avatarImageView);
+                                    .load(story.getGraphic().getParseFileUrl())
+                                    .placeholder(R.drawable.card_default)
+                                    .resize(storyContentImageViewLayoutParams.width, storyContentImageViewLayoutParams.height)
+                                    .into(storyContentImageView);
                         }
+                    } else {
+                        storyContentImageView.setVisibility(View.GONE);
                     }
-                });
 
-                ImageView storyContentImageView = (ImageView)findViewById(R.id.me_stories_image_view);
-                // Check if have graphic
-                if (parseObject.getParseObject("graphicPointer") != null) {
-                    Graphic graphic = new ParseObjectManager(parseObject.getParseObject("graphicPointer")).getGraphic();
-                    story.setGraphic(graphic);
+                    TextView locationAreaNameTextView = (TextView)findViewById(R.id.user_activity_location_area_name_text_view);
+                    locationAreaNameTextView.setText(story.getLocationAreaName());
 
-                    if (story.getGraphic() !=null && story.getGraphic().getParseFileUrl() != null) {
-
-                        DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
-                        LinearLayout.LayoutParams storyContentImageViewLayoutParams = (LinearLayout.LayoutParams)storyContentImageView.getLayoutParams();
-                        storyContentImageViewLayoutParams.width = displayMetrics.widthPixels;
-                        storyContentImageViewLayoutParams.height = displayMetrics.widthPixels;
-                        storyContentImageView.requestLayout();
-                        storyContentImageView.setVisibility(View.VISIBLE);
-
-                        Picasso.with(getApplicationContext())
-                                .load(story.getGraphic().getParseFileUrl())
-                                .placeholder(R.drawable.card_default)
-                                .resize(storyContentImageViewLayoutParams.width, storyContentImageViewLayoutParams.height)
-                                .into(storyContentImageView);
-                    }
-                } else {
-                    storyContentImageView.setVisibility(View.GONE);
+                    ParseEventTrackingManager.event(
+                            ParseUser.getCurrentUser(),
+                            parseObject,
+                            ParseEventTrackingManager.ACTION_VIEW_STORY,
+                            1
+                    );
+                    updateStoryViewCount(parseObject);
                 }
-
-                ParseEventTrackingManager.event(
-                        ParseUser.getCurrentUser(),
-                        parseObject,
-                        ParseEventTrackingManager.ACTION_VIEW_STORY,
-                        1
-                );
-                updateStoryViewCount(parseObject);
-
 
             }
         });
@@ -168,6 +177,7 @@ public class StoryContentActivity extends ActionBarActivity {
         ParseQuery<ParseObject> viewEventQuery = new ParseQuery<ParseObject>("Event");
         viewEventQuery.whereEqualTo("story", parseObject);
         viewEventQuery.whereEqualTo("action", ParseEventTrackingManager.ACTION_VIEW_STORY);
+
         viewEventQuery.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> parseObjects, ParseException e) {

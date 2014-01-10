@@ -38,29 +38,40 @@
 
 		<TextView
 			android:textAppearance="?android:textAppearanceMedium"
-			android:hint="Inspired from"
 			android:id="@+id/me_stories_last_share_inspired_from_text_view"
 			android:textColor="@color/story_light_text_color"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"/>
 
-	<TextView
-		android:textAppearance="?android:textAppearanceMedium"
-		android:hint="Last story content"
-		android:id="@+id/me_stories_last_share_content_text_view"
-		android:textColor="@color/story_text_color"
-		android:maxLines="3"
-		android:ellipsize="end"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"/>
+		<TextView
+			android:textAppearance="?android:textAppearanceMedium"
+			android:id="@+id/me_stories_last_share_content_text_view"
+			android:textColor="@color/story_text_color"
+			android:maxLines="3"
+			android:ellipsize="end"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"/>
 
-	<TextView
-		android:textAppearance="?android:textAppearanceSmall"
-		android:hint="Story on"
-		android:id="@+id/me_stories_last_share_date_Text_view"
-		android:textColor="@color/story_light_text_color"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"/>
+		<RelativeLayout
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content">
+
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:textAppearance="?android:attr/textAppearanceSmall"
+				android:hint="Date"
+				android:id="@+id/me_stories_last_share_date_Text_view"
+				android:layout_alignParentRight="true"/>
+
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:textAppearance="?android:attr/textAppearanceSmall"
+				android:id="@+id/user_activity_location_area_name_text_view"
+				android:layout_alignParentLeft="true"/>
+
+		</RelativeLayout>
 
 	</LinearLayout>
 

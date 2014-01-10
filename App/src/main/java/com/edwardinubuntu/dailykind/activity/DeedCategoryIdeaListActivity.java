@@ -11,7 +11,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import com.edwardinubuntu.dailykind.DailyKind;
 import com.edwardinubuntu.dailykind.ParseSettings;
 import com.edwardinubuntu.dailykind.R;
 import com.edwardinubuntu.dailykind.adapter.IdeaArrayAdapter;
@@ -106,23 +105,24 @@ public class DeedCategoryIdeaListActivity extends ActionBarActivity {
         ideasQuery.whereEqualTo("categoryPointer", categoryParseObject);
 
         ideasQuery.orderByDescending("updatedAt");
-        ideasQuery.setCachePolicy(ParseQuery.CachePolicy.CACHE_ELSE_NETWORK);
-        ideasQuery.setMaxCacheAge(DailyKind.QUERY_AT_LEAST_CACHE_AGE);
+        ideasQuery.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
         ideasQuery.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> parseObjects, ParseException e) {
-                ideaList.clear();
+                if (parseObjects != null) {
+                    ideaList.clear();
 
-                for (ParseObject parseObject: parseObjects) {
+                    for (ParseObject parseObject: parseObjects) {
 
-                    ParseObjectManager parseObjectManager = new ParseObjectManager(parseObject);
+                        ParseObjectManager parseObjectManager = new ParseObjectManager(parseObject);
 
-                    Idea idea = parseObjectManager.getIdea();
-                    idea.setCategory(parseObjectManager.getCategory());
+                        Idea idea = parseObjectManager.getIdea();
+                        idea.setCategory(parseObjectManager.getCategory());
 
-                    ideaList.add(idea);
+                        ideaList.add(idea);
+                    }
+                    ideaArrayAdapter.notifyDataSetChanged();
                 }
-                ideaArrayAdapter.notifyDataSetChanged();
 
                 setParseLoading(false);
                 updateRefreshItem();

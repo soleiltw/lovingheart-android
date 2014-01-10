@@ -164,6 +164,7 @@ public class HomeFragment extends PlaceholderFragment {
         randomIdeaQuery.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> parseObjects, ParseException e) {
+                if  (parseObjects!=null) {
                 int maxIndex = parseObjects.size();
                 int randomIndex = (int)(Math.random() * maxIndex);
 
@@ -225,6 +226,7 @@ public class HomeFragment extends PlaceholderFragment {
                     }
                 }
                 playBellsSound();
+                }
 
                 randomLoadingProgressBar.setVisibility(View.GONE);
                 setQueryLoading(false);

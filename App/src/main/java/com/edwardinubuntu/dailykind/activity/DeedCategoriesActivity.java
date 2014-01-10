@@ -101,20 +101,21 @@ public class DeedCategoriesActivity extends ActionBarActivity {
         }
         parseQuery.whereContainedIn("language", languageCollection);
         parseQuery.whereNotContainedIn("status", stringCollection);
-        parseQuery.setCachePolicy(ParseQuery.CachePolicy.CACHE_ELSE_NETWORK);
-        parseQuery.setMaxCacheAge(DailyKind.QUERY_MAX_CACHE_AGE);
+        parseQuery.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
         parseQuery.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> parseObjects, ParseException e) {
 
-                categoryList.clear();
-                for (ParseObject parseObject : parseObjects) {
-                    Category category = new Category();
-                    category.setObjectId(parseObject.getObjectId());
-                    category.setName(parseObject.getString("Name"));
-                    categoryList.add(category);
+                if (parseObjects != null) {
+                    categoryList.clear();
+                    for (ParseObject parseObject : parseObjects) {
+                        Category category = new Category();
+                        category.setObjectId(parseObject.getObjectId());
+                        category.setName(parseObject.getString("Name"));
+                        categoryList.add(category);
+                    }
+                    categoriesAdapter.notifyDataSetChanged();
                 }
-                categoriesAdapter.notifyDataSetChanged();
 
                 if (e != null && getApplicationContext() != null) {
                     Toast.makeText(getApplicationContext(), e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
