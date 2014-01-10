@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.edwardinubuntu.dailykind.R;
@@ -23,8 +22,6 @@ import java.util.Arrays;
  * Created by edward_chiang on 2014/1/2.
  */
 public class UserLoginFragment extends PlaceholderFragment {
-
-    private ImageView userAvatarImageView;
 
     private EditText userIdLoginEditText;
 
@@ -43,12 +40,6 @@ public class UserLoginFragment extends PlaceholderFragment {
 
         LoginButton loginButton = (LoginButton)rootView.findViewById(R.id.facebook_auth_button);
         loginButton.setReadPermissions(Arrays.asList("email"));
-
-        userAvatarImageView = (ImageView)rootView.findViewById(R.id.login_user_avatar_image_view);
-
-        if (ParseUser.getCurrentUser() != null && ParseUser.getCurrentUser().isAuthenticated()) {
-//            refreshUserProfile();
-        }
 
         userIdLoginEditText = (EditText)rootView.findViewById(R.id.login_email_edit_Text);
 
@@ -105,27 +96,4 @@ public class UserLoginFragment extends PlaceholderFragment {
 
         return rootView;
     }
-
-
-//    private void refreshUserProfile() {
-//        ParseQuery<ParseUser> parseUserQuery = new ParseQuery<ParseUser>(ParseUser.class);
-//        parseUserQuery.include("avatar");
-//        parseUserQuery.whereEqualTo("objectId", ParseUser.getCurrentUser().getObjectId());
-//        parseUserQuery.getFirstInBackground(new GetCallback<ParseUser>() {
-//            @Override
-//            public void done(ParseUser parseUser, ParseException e) {
-//                if (parseUser.has("avatar")) {
-//                ParseObject graphic = parseUser.getParseObject("avatar");
-//
-//                if (graphic.getString("imageUrl") != null) {
-//                    Log.d(DailyKind.TAG, graphic.getString("imageUrl"));
-//                    Picasso.with(getActivity())
-//                            .load(graphic.getString("imageUrl"))
-//                            .transform(new CircleTransform())
-//                            .into(userAvatarImageView);
-//                }
-//                }
-//            }
-//        });
-//    }
 }

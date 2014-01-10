@@ -6,6 +6,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.Window;
 import android.widget.Toast;
 import com.edwardinubuntu.dailykind.DailyKind;
@@ -158,10 +159,17 @@ public class LoginActivity extends ActionBarActivity {
     }
 
     private void loginParseAccount(final GraphUser graphUser) {
+
+        findViewById(R.id.user_login_layout).setVisibility(View.GONE);
+        findViewById(R.id.user_login_progressBar).setVisibility(View.VISIBLE);
+
         ParseUser.logOut();
         ParseUser.logInInBackground(graphUser.getUsername(), graphUser.getId(), new LogInCallback() {
             @Override
             public void done(ParseUser parseUser, ParseException e) {
+
+                findViewById(R.id.user_login_progressBar).setVisibility(View.GONE);
+
                 if (e!= null) {
                     Log.d(DailyKind.TAG, "Parse Exception: " + e.getLocalizedMessage());
                     ParseUser user = new ParseUser();
@@ -184,6 +192,8 @@ public class LoginActivity extends ActionBarActivity {
                         public void done(ParseException e) {
                             if (e != null) {
                                 Log.d(DailyKind.TAG, "Sign up done: " + e.getLocalizedMessage());
+
+                                findViewById(R.id.user_login_layout).setVisibility(View.VISIBLE);
                             } else {
                                 finish();
                             }

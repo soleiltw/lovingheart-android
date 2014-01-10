@@ -14,6 +14,21 @@
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content">
 
+		<LinearLayout
+			android:layout_marginTop="50dp"
+			android:layout_marginBottom="80dp"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content">
+
+			<TextView
+				android:text="LovingHeart"
+				android:textColor="@color/icon_red"
+				android:textStyle="bold"
+				android:textSize="44dp"
+				android:layout_width="wrap_content"
+				android:layout_height="fill_parent"/>
+		</LinearLayout>
+
 		<EditText
 			android:inputType="textEmailAddress"
 			android:ems="10"
