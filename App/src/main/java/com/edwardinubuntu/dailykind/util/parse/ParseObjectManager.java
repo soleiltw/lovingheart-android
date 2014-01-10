@@ -45,6 +45,7 @@ public class ParseObjectManager {
             if (parseObject.has("imageFile") && parseObject.getParseFile("imageFile") != null) {
                 graphic.setParseFileUrl(parseObject.getParseFile("imageFile").getUrl());
             }
+            graphic.setFileType(parseObject.getString("imageType"));
             graphic.setObjectId(parseObject.getObjectId());
             graphic.setImageUrl(parseObject.getString("imageUrl"));
             return graphic;

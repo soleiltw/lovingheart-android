@@ -13,6 +13,8 @@ public class Graphic implements Serializable {
 
     private String parseFileUrl;
 
+    private String fileType;
+
     public String getImageUrl() {
         return imageUrl;
     }
@@ -35,5 +37,13 @@ public class Graphic implements Serializable {
 
     public void setObjectId(String objectId) {
         this.objectId = objectId;
+    }
+
+    public String getFileType() {
+        return fileType;
+    }
+
+    public void setFileType(String fileType) {
+        this.fileType = fileType;
     }
 }

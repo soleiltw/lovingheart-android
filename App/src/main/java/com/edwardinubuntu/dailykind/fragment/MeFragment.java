@@ -10,14 +10,18 @@ import android.widget.Toast;
 import com.edwardinubuntu.dailykind.DailyKind;
 import com.edwardinubuntu.dailykind.R;
 import com.edwardinubuntu.dailykind.activity.LoginActivity;
+import com.edwardinubuntu.dailykind.adapter.GalleryArrayAdapter;
+import com.edwardinubuntu.dailykind.object.Graphic;
 import com.edwardinubuntu.dailykind.object.Story;
 import com.edwardinubuntu.dailykind.util.CircleTransform;
 import com.edwardinubuntu.dailykind.util.parse.ParseObjectManager;
+import com.edwardinubuntu.dailykind.view.ExpandableGridView;
 import com.parse.*;
 import com.squareup.picasso.Picasso;
 import org.ocpsoft.prettytime.PrettyTime;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -34,6 +38,12 @@ public class MeFragment extends PlaceholderFragment {
 
     private TextView sinceTextView;
 
+    private ExpandableGridView galleryGridView;
+
+    private GalleryArrayAdapter galleryArrayAdapter;
+
+    private List<Graphic> userGraphicsList;
+
     public static MeFragment newInstance(int sectionNumber) {
         MeFragment fragment = new MeFragment();
         Bundle args = new Bundle();
@@ -47,6 +57,9 @@ public class MeFragment extends PlaceholderFragment {
         super.onCreate(savedInstanceState);
 
         setHasOptionsMenu(true);
+
+        userGraphicsList = new ArrayList<Graphic>();
+        galleryArrayAdapter = new GalleryArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, userGraphicsList);
     }
 
     @Override
@@ -59,6 +72,11 @@ public class MeFragment extends PlaceholderFragment {
         sinceTextView = (TextView)rootView.findViewById(R.id.me_since_text_view);
 
         storiesSharedCountTextView = (TextView)rootView.findViewById(R.id.me_stories_share_text_view);
+
+        galleryGridView = (ExpandableGridView)rootView.findViewById(R.id.me_graphic_gallery_grid_view);
+        galleryGridView.setExpand(true);
+        galleryGridView.setNumColumns(3);
+        galleryGridView.setAdapter(galleryArrayAdapter);
 
         return rootView;
     }
@@ -107,65 +125,9 @@ public class MeFragment extends PlaceholderFragment {
                     }
                 });
             }
-
-            // Check if user have report
-            ParseQuery<ParseObject> userQuery = ParseQuery.getQuery("UserImpact");
-            userQuery.whereEqualTo("User", ParseUser.getCurrentUser());
-            userQuery.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
-            userQuery.getFirstInBackground(new GetCallback<ParseObject>() {
-                @Override
-                public void done(final ParseObject parseObject, ParseException e) {
-                    if (parseObject!=null) {
-                        updateUserImpact(parseObject);
-                    } else {
-                        generateUserImpact();
-                    }
-                }
-            });
-
-            ParseQuery<ParseObject> parseObjectParseQuery = new ParseQuery<ParseObject>("Story");
-            parseObjectParseQuery.whereEqualTo("StoryTeller", ParseUser.getCurrentUser());
-            parseObjectParseQuery.orderByDescending("createdAt");
-            parseObjectParseQuery.include("ideaPointer");
-            parseObjectParseQuery.include("StoryTeller");
-            parseObjectParseQuery.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
-            parseObjectParseQuery.findInBackground(new FindCallback<ParseObject>() {
-                @Override
-                public void done(List<ParseObject> parseObjects, ParseException e) {
-                    // Check Story Number
-
-                    // Get first one to update story date
-                    if (parseObjects != null && !parseObjects.isEmpty()) {
-                        ParseObject storyParseObject = parseObjects.get(0);
-
-                        ParseObjectManager parseObjectManager = new ParseObjectManager(storyParseObject);
-                        Story story = parseObjectManager.getStory();
-
-                        TextView lastSharedContentTextView = (TextView)getActivity().findViewById(R.id.me_stories_last_share_content_text_view);
-                        if (lastSharedContentTextView !=null) {
-                            lastSharedContentTextView.setText(story.getContent());
-                        }
-
-                        if (storyParseObject.getParseObject("ideaPointer") != null) {
-
-                            story.setIdea(new ParseObjectManager(storyParseObject.getParseObject("ideaPointer")).getIdea());
-
-                            TextView lastInspiredTextView = (TextView)getActivity().findViewById(R.id.me_stories_last_share_inspired_from_text_view);
-                            if (lastInspiredTextView != null) {
-                                lastInspiredTextView.setText(
-                                        getActivity().getString(R.string.stories_last_share_inspired_by_text_prefix)+
-                                                getActivity().getString(R.string.space) +
-                                                story.getIdea().getName());
-                            }
-                        }
-
-                        TextView lastSharedDateTextView = (TextView)getActivity().findViewById(R.id.me_stories_last_share_date_Text_view);
-                        PrettyTime prettyTime = new PrettyTime(new Date());
-                        lastSharedDateTextView.setText(
-                                prettyTime.format(story.getCreatedAt()));
-                    }
-                }
-            });
+            loadUserImpact();
+            loadStory();
+            loadGraphicEarned();
         } else {
             getActivity().findViewById(R.id.me_profile_layout).setVisibility(View.GONE);
             getActivity().findViewById(R.id.me_ask_login_layout).setVisibility(View.VISIBLE);
@@ -180,6 +142,97 @@ public class MeFragment extends PlaceholderFragment {
         }
     }
 
+    private void loadStory() {
+        ParseQuery<ParseObject> parseObjectParseQuery = new ParseQuery<ParseObject>("Story");
+        parseObjectParseQuery.whereEqualTo("StoryTeller", ParseUser.getCurrentUser());
+        parseObjectParseQuery.orderByDescending("createdAt");
+        parseObjectParseQuery.include("ideaPointer");
+        parseObjectParseQuery.include("StoryTeller");
+        parseObjectParseQuery.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
+        parseObjectParseQuery.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> parseObjects, ParseException e) {
+                // Check Story Number
+
+                // Get first one to update story date
+                if (parseObjects != null && !parseObjects.isEmpty()) {
+                    ParseObject storyParseObject = parseObjects.get(0);
+
+                    ParseObjectManager parseObjectManager = new ParseObjectManager(storyParseObject);
+                    Story story = parseObjectManager.getStory();
+
+                    TextView lastSharedContentTextView = (TextView)getActivity().findViewById(R.id.me_stories_last_share_content_text_view);
+                    if (lastSharedContentTextView !=null) {
+                        lastSharedContentTextView.setText(story.getContent());
+                    }
+
+                    if (storyParseObject.getParseObject("ideaPointer") != null) {
+
+                        story.setIdea(new ParseObjectManager(storyParseObject.getParseObject("ideaPointer")).getIdea());
+
+                        TextView lastInspiredTextView = (TextView)getActivity().findViewById(R.id.me_stories_last_share_inspired_from_text_view);
+                        if (lastInspiredTextView != null) {
+                            lastInspiredTextView.setText(
+                                    getActivity().getString(R.string.stories_last_share_inspired_by_text_prefix)+
+                                            getActivity().getString(R.string.space) +
+                                            story.getIdea().getName());
+                        }
+                    }
+
+                    TextView lastSharedDateTextView = (TextView)getActivity().findViewById(R.id.me_stories_last_share_date_Text_view);
+                    PrettyTime prettyTime = new PrettyTime(new Date());
+                    lastSharedDateTextView.setText(
+                            prettyTime.format(story.getCreatedAt()));
+                }
+            }
+        });
+    }
+
+    private void loadGraphicEarned() {
+        ParseQuery<ParseObject> graphicsEarnedQuery = ParseQuery.getQuery("GraphicsEarned");
+        graphicsEarnedQuery.whereEqualTo("userId", ParseUser.getCurrentUser());
+        graphicsEarnedQuery.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
+        graphicsEarnedQuery.getFirstInBackground(new GetCallback<ParseObject>() {
+            @Override
+            public void done(ParseObject parseObject, ParseException e) {
+                if (parseObject!=null) {
+                    ParseRelation graphicsRelation = parseObject.getRelation("graphicsEarned");
+                    ParseQuery<ParseObject> graphicsEarnedQuery = graphicsRelation.getQuery();
+                    graphicsEarnedQuery.findInBackground(new FindCallback<ParseObject>() {
+                        @Override
+                        public void done(List<ParseObject> parseObjects, ParseException e) {
+                            if (parseObjects!=null) {
+                                userGraphicsList.clear();
+                                for (ParseObject eachGraphicObject : parseObjects) {
+                                    Graphic graphic = new ParseObjectManager(eachGraphicObject).getGraphic();
+                                    userGraphicsList.add(graphic);
+                                }
+                                galleryArrayAdapter.notifyDataSetChanged();
+                            }
+                        }
+                    });
+                }
+            }
+        });
+    }
+
+    private void loadUserImpact() {
+        // Check if user have report
+        ParseQuery<ParseObject> userQuery = ParseQuery.getQuery("UserImpact");
+        userQuery.whereEqualTo("User", ParseUser.getCurrentUser());
+        userQuery.setCachePolicy(ParseQuery.CachePolicy.CACHE_ELSE_NETWORK);
+        userQuery.getFirstInBackground(new GetCallback<ParseObject>() {
+            @Override
+            public void done(final ParseObject parseObject, ParseException e) {
+                if (parseObject!=null) {
+                    updateUserImpact(parseObject);
+                } else {
+                    generateUserImpact();
+                }
+            }
+        });
+    }
+
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
@@ -191,6 +244,7 @@ public class MeFragment extends PlaceholderFragment {
         ParseQuery<ParseObject> storyQuery = new ParseQuery<ParseObject>("Story");
         storyQuery.whereEqualTo("StoryTeller", ParseUser.getCurrentUser());
         storyQuery.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
+        storyQuery.setMaxCacheAge(DailyKind.QUERY_MAX_CACHE_AGE);
         storyQuery.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> parseObjects, ParseException e) {

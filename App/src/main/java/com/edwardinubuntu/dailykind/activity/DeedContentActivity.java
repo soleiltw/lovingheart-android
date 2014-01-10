@@ -13,7 +13,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 import com.edwardinubuntu.dailykind.DailyKind;
 import com.edwardinubuntu.dailykind.ParseSettings;
 import com.edwardinubuntu.dailykind.R;
@@ -38,7 +37,10 @@ public class DeedContentActivity extends ActionBarActivity {
     private TextView numberOfPeopleTextView;
 
     private ImageView orgImageView;
+
     private TextView orgTitleTextView;
+
+    private TextView earnDescribeTextView;
 
     private Idea idea;
 
@@ -94,6 +96,9 @@ public class DeedContentActivity extends ActionBarActivity {
         orgImageView = (ImageView)findViewById(R.id.user_avatar_image_view);
         orgTitleTextView = (TextView)findViewById(R.id.user_name_text_view);
 
+        earnDescribeTextView = (TextView)findViewById(R.id.deed_content_earn_description_text_view);
+
+
         loadIdea();
     }
 
@@ -114,15 +119,16 @@ public class DeedContentActivity extends ActionBarActivity {
 
         if (ideaObjectId == null) return;
 
+        findViewById(R.id.user_avatar_image_view).setVisibility(View.GONE);
+        findViewById(R.id.good_content_progress_bar).setVisibility(View.VISIBLE);
+
         ParseQuery<ParseObject> queryIdea = new ParseQuery<ParseObject>("Idea");
         queryIdea.whereEqualTo("objectId", ideaObjectId);
         queryIdea.include("graphicPointer");
         queryIdea.include("categoryPointer");
         queryIdea.include("OrganizerPointer");
 
-        findViewById(R.id.user_avatar_image_view).setVisibility(View.GONE);
-        findViewById(R.id.good_content_progress_bar).setVisibility(View.VISIBLE);
-
+        queryIdea.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
         queryIdea.getFirstInBackground(new GetCallback<ParseObject>() {
             @Override
             public void done(final ParseObject ideaParseObject, ParseException e) {
@@ -153,7 +159,6 @@ public class DeedContentActivity extends ActionBarActivity {
                         categoryTextView.setText(idea.getCategory().getName());
                     }
 
-                    final TextView earnDescribeTextView = (TextView)findViewById(R.id.deed_content_earn_description_text_view);
                     // Hide for default
                     earnDescribeTextView.setVisibility(View.GONE);
 
@@ -173,47 +178,9 @@ public class DeedContentActivity extends ActionBarActivity {
                                 .placeholder(R.drawable.card_default)
                                 .resize(contentImageViewLayoutParams.width, contentImageViewLayoutParams.height)
                                 .into(contentImageView);
-
-                        // Check if user already have this graphic
-                        // Earn graphic
-                        ParseQuery<ParseObject> graphicsEarnedQuery = new ParseQuery<ParseObject>("GraphicsEarned");
-                        graphicsEarnedQuery.whereEqualTo("userId", ParseUser.getCurrentUser());
-                        graphicsEarnedQuery.getFirstInBackground(new GetCallback<ParseObject>() {
-                            @Override
-                            public void done(final ParseObject parseObject, ParseException e) {
-                                if (parseObject != null) {
-                                    ParseQuery<ParseObject> graphicsEarnedQuery = parseObject.getRelation("graphicsEarned").getQuery();
-                                    graphicsEarnedQuery.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
-                                    graphicsEarnedQuery.findInBackground(new FindCallback<ParseObject>() {
-                                        @Override
-                                        public void done(List<ParseObject> parseObjects, ParseException e) {
-                                            boolean isUserHaveGraphic = false;
-                                            if (parseObjects != null && !parseObjects.isEmpty()) {
-                                                for (ParseObject eachParseObject : parseObjects) {
-                                                    if (eachParseObject.getObjectId().equals(ideaParseObject.getParseObject("graphicPointer").getObjectId())) {
-                                                        isUserHaveGraphic = true;
-                                                        break;
-                                                    }
-                                                }
-                                            }
-
-                                            if (!isUserHaveGraphic) {
-                                                earnDescribeTextView.setText(getString(R.string.deed_content_done_credit));
-                                                earnDescribeTextView.setVisibility(View.VISIBLE);
-                                            } else {
-                                                Toast.makeText(getApplicationContext(), "You have earned the graphic already! Great!", Toast.LENGTH_SHORT).show();
-                                            }
-                                        }
-                                    });
+                        loadCheckIfEarnedGraphic(ideaParseObject);
 
 
-
-                                }
-                                if (e!=null) {
-                                    Log.e(DailyKind.TAG, "graphicsEarnedQuery exception: " + e.getLocalizedMessage());
-                                }
-                            }
-                        });
                     } else {
                         contentImageView.setVisibility(View.GONE);
                     }
@@ -255,6 +222,46 @@ public class DeedContentActivity extends ActionBarActivity {
                         });
                     }
 
+                }
+            }
+        });
+    }
+
+    private void loadCheckIfEarnedGraphic(final ParseObject ideaParseObject) {
+        // Check if user already have this graphic
+        // Earn graphic
+        ParseQuery<ParseObject> graphicsEarnedQuery = new ParseQuery<ParseObject>("GraphicsEarned");
+        graphicsEarnedQuery.whereEqualTo("userId", ParseUser.getCurrentUser());
+        graphicsEarnedQuery.setCachePolicy(ParseQuery.CachePolicy.CACHE_ELSE_NETWORK);
+        graphicsEarnedQuery.setMaxCacheAge(DailyKind.QUERY_MAX_CACHE_AGE);
+        graphicsEarnedQuery.getFirstInBackground(new GetCallback<ParseObject>() {
+            @Override
+            public void done(final ParseObject parseObject, ParseException e) {
+                if (parseObject != null) {
+                    ParseQuery<ParseObject> graphicsEarnedQuery = parseObject.getRelation("graphicsEarned").getQuery();
+                    graphicsEarnedQuery.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
+                    graphicsEarnedQuery.findInBackground(new FindCallback<ParseObject>() {
+                        @Override
+                        public void done(List<ParseObject> parseObjects, ParseException e) {
+                            boolean isUserHaveGraphic = false;
+                            if (parseObjects != null && !parseObjects.isEmpty()) {
+                                for (ParseObject eachParseObject : parseObjects) {
+                                    if (eachParseObject.getObjectId().equals(ideaParseObject.getParseObject("graphicPointer").getObjectId())) {
+                                        isUserHaveGraphic = true;
+                                        break;
+                                    }
+                                }
+                            }
+
+                            if (!isUserHaveGraphic) {
+                                earnDescribeTextView.setText(getString(R.string.deed_content_done_credit));
+                                earnDescribeTextView.setVisibility(View.VISIBLE);
+                            }
+                        }
+                    });
+                }
+                if (e!=null) {
+                    Log.e(DailyKind.TAG, "graphicsEarnedQuery exception: " + e.getLocalizedMessage());
                 }
             }
         });

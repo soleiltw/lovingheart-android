@@ -1,69 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:bootstrapbutton="http://schemas.android.com/apk/res-auto"
+
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
 
 
-	<LinearLayout
-		android:layout_margin="10dp"
-		android:orientation="vertical"
-		android:id="@+id/me_profile_layout"
-		android:layout_width="fill_parent"
-		android:layout_height="wrap_content">
-
-		<include layout="@layout/layout_user_image_name" />
-
-		<TextView
-			android:textAppearance="?android:textAppearanceMedium"
-			android:text="@string/stories_last_share_content_text_prefix"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"/>
-
-		<include layout="@layout/layout_story_content" />
-
-		<TextView
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:textAppearance="?android:attr/textAppearanceMedium"
-			android:hint="StoriesShare"
-			android:id="@+id/me_stories_share_text_view"/>
-
-		<TextView
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:textAppearance="?android:attr/textAppearanceMedium"
-			android:hint="Since"
-			android:id="@+id/me_since_text_view"/>
-
-	</LinearLayout>
-
-	<LinearLayout
-		android:id="@+id/me_ask_login_layout"
-		android:gravity="center"
-		android:orientation="vertical"
-		android:layout_margin="10dp"
-		android:layout_width="fill_parent"
-		android:layout_height="fill_parent">
-
-		<TextView
-			android:text="Get your personal profile today!"
-			android:textAppearance="?android:textAppearanceLarge"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"/>
-
-		<com.beardedhen.androidbootstrap.BootstrapButton
-			android:id="@+id/me_ask_login_button"
-			android:text="Take me to login"
+	<ScrollView
+		android:layout_width="match_parent"
+		android:layout_height="match_parent">
+		<LinearLayout
 			android:layout_margin="10dp"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			bootstrapbutton:bb_text_gravity="center"
-			bootstrapbutton:bb_roundedCorners="true"
-			bootstrapbutton:bb_type="primary"
-			/>
+			android:orientation="vertical"
+			android:id="@+id/me_profile_layout"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content">
 
-	</LinearLayout>
+			<include layout="@layout/layout_user_image_name" />
+
+			<TextView
+				android:textAppearance="?android:textAppearanceMedium"
+				android:text="@string/stories_last_share_content_text_prefix"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"/>
+
+			<include layout="@layout/layout_story_content" />
+
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:textAppearance="?android:attr/textAppearanceMedium"
+				android:hint="StoriesShare"
+				android:id="@+id/me_stories_share_text_view"/>
+
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:textAppearance="?android:attr/textAppearanceMedium"
+				android:hint="Since"
+				android:id="@+id/me_since_text_view"/>
+
+			<LinearLayout
+				android:orientation="vertical"
+				android:layout_marginTop="10dp"
+				android:layout_marginBottom="10dp"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content">
+
+				<TextView
+					android:text="Graphic Gallery"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"/>
+
+			<com.edwardinubuntu.dailykind.view.ExpandableGridView
+				android:id="@+id/me_graphic_gallery_grid_view"
+				android:horizontalSpacing="5dp"
+				android:verticalSpacing="5dp"
+				android:gravity="center"
+				android:layout_width="fill_parent"
+				android:layout_height="fill_parent" />
+
+			</LinearLayout>
+
+		</LinearLayout>
+	</ScrollView>
+
+	<include layout="@layout/layout_ask_login" />
 </LinearLayout>
