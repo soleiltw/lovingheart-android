@@ -31,7 +31,7 @@ public class StoriesPopularFragment extends StoriesFeedsFragment {
         parseQuery.include("ideaPointer");
         parseQuery.include("graphicPointer");
         parseQuery.setLimit(10);
-
+        parseQuery.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
         if (more) {
             ParseQuery.getQuery("Story").countInBackground(new CountCallback() {
                 @Override

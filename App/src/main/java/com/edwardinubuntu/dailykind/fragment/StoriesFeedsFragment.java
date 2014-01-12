@@ -4,9 +4,11 @@ import android.annotation.TargetApi;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.*;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import com.edwardinubuntu.dailykind.DailyKind;
 import com.edwardinubuntu.dailykind.R;
 import com.edwardinubuntu.dailykind.activity.StoryContentActivity;
 import com.edwardinubuntu.dailykind.adapter.StoryArrayAdapter;
@@ -128,14 +130,32 @@ public class StoriesFeedsFragment extends PlaceholderFragment {
 
         setQueryLoading(true);
         updateRefreshItem();
-        parseQuery.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
         parseQuery.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> parseObjects, ParseException e) {
 
                 if (parseObjects!=null) {
-                    userActivities.addAll(parseObjects);
-                    storyArrayAdapter.notifyDataSetChanged();
+
+                    boolean dataHasChange = false;
+                    for (ParseObject eachParseObject : parseObjects) {
+                        boolean hasAdd = false;
+                        // If use cache then network, then done will be call 2 times.
+                        for (ParseObject addedParseObject : userActivities) {
+                            if (eachParseObject.getObjectId().equals(addedParseObject.getObjectId())) {
+                                hasAdd = true;
+                                break;
+                            }
+                        }
+                        if (!hasAdd) {
+                            dataHasChange = true;
+                            userActivities.add(eachParseObject);
+                        } else {
+                            Log.d(DailyKind.TAG, "CachePolicy Skip object: " + eachParseObject.getObjectId());
+                        }
+                    }
+                    if (dataHasChange) {
+                        storyArrayAdapter.notifyDataSetChanged();
+                    }
                 }
 
                 setQueryLoading(false);
