@@ -9,7 +9,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import com.edwardinubuntu.dailykind.R;
 import com.edwardinubuntu.dailykind.activity.StoryContentActivity;
-import com.edwardinubuntu.dailykind.adapter.StorieyArrayAdapter;
+import com.edwardinubuntu.dailykind.adapter.StoryArrayAdapter;
 import com.edwardinubuntu.dailykind.listener.LoadMoreListener;
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -26,7 +26,7 @@ public class StoriesFeedsFragment extends PlaceholderFragment {
 
     protected List<ParseObject> userActivities;
 
-    private StorieyArrayAdapter storieyArrayAdapter;
+    private StoryArrayAdapter storyArrayAdapter;
 
     private Menu menu;
 
@@ -46,7 +46,7 @@ public class StoriesFeedsFragment extends PlaceholderFragment {
 
         userActivities = new ArrayList<ParseObject>();
 
-        storieyArrayAdapter = new StorieyArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, userActivities);
+        storyArrayAdapter = new StoryArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, userActivities);
 
         setHasOptionsMenu(true);
     }
@@ -66,9 +66,9 @@ public class StoriesFeedsFragment extends PlaceholderFragment {
                 startActivity(storyContentIntent);
             }
         });
-        userActivitiesListView.setAdapter(storieyArrayAdapter);
+        userActivitiesListView.setAdapter(storyArrayAdapter);
 
-        storieyArrayAdapter.setLoadMoreListener(new LoadMoreListener() {
+        storyArrayAdapter.setLoadMoreListener(new LoadMoreListener() {
             @Override
             public void notifyLoadMore() {
                 loadStories(true);
@@ -135,7 +135,7 @@ public class StoriesFeedsFragment extends PlaceholderFragment {
 
                 if (parseObjects!=null) {
                     userActivities.addAll(parseObjects);
-                    storieyArrayAdapter.notifyDataSetChanged();
+                    storyArrayAdapter.notifyDataSetChanged();
                 }
 
                 setQueryLoading(false);

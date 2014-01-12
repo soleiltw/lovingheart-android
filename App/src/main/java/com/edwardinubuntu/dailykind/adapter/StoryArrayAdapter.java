@@ -24,7 +24,7 @@ import java.util.List;
 /**
  * Created by edward_chiang on 2013/11/23.
  */
-public class StorieyArrayAdapter extends ArrayAdapter<ParseObject> {
+public class StoryArrayAdapter extends ArrayAdapter<ParseObject> {
 
     private LoadMoreListener loadMoreListener;
 
@@ -36,7 +36,7 @@ public class StorieyArrayAdapter extends ArrayAdapter<ParseObject> {
      *                 instantiating views.
      * @param objects  The objects to represent in the ListView.
      */
-    public StorieyArrayAdapter(Context context, int resource, List<ParseObject> objects) {
+    public StoryArrayAdapter(Context context, int resource, List<ParseObject> objects) {
         super(context, resource, objects);
     }
 
