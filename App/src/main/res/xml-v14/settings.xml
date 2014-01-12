@@ -25,8 +25,8 @@
 
 		<Preference
 			android:key="setting_acknowledgement"
-			android:summary="Thanks to the people and group for helping us."
-			android:title="Acknowledgement" />
+			android:summary="@string/setting_acknowledgement_summary"
+			android:title="@string/setting_acknowledgement_title" />
 
 	</PreferenceCategory>
 

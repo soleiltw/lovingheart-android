@@ -101,6 +101,14 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         tabClick = MediaPlayer.create(this, R.raw.lock_padlock);
 
         if (ParseUser.getCurrentUser() != null) {
+
+            ParseUser.enableAutomaticUser();
+            ParseACL defaultACL = new ParseACL();
+            // Optionally enable public read access while disabling public write access.
+            defaultACL.setPublicReadAccess(true);
+            defaultACL.setPublicWriteAccess(false);
+            ParseACL.setDefaultACL(defaultACL, true);
+
             // Save the current Installation to Parse.
             PushService.setDefaultPushCallback(this, DeedCategoriesActivity.class);
 

@@ -1,6 +1,7 @@
 package com.edwardinubuntu.dailykind.activity;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -11,6 +12,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -60,6 +62,7 @@ public class PostStoryActivity extends ActionBarActivity {
         Parse.initialize(this, ParseSettings.PARSE_API_TOKEN, ParseSettings.PARSE_API_TOKEN_2);
 
         ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayShowHomeEnabled(false);
         actionBar.setDisplayHomeAsUpEnabled(true);
 
         setContentView(com.edwardinubuntu.dailykind.R.layout.activity_post_story);
@@ -105,28 +108,68 @@ public class PostStoryActivity extends ActionBarActivity {
         AutoCompleteTextView ideaWasTextView = (AutoCompleteTextView)findViewById(R.id.content_idea_from_text_view);
         if (idea!=null) {
             ideaWasTextView.setText(idea.getName());
-        }
-        ideaWasTextView.setAdapter(suggestIdeaAdapter);
-        ideaWasTextView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus) {
-                    ParseQuery<ParseObject> ideasQuery = new ParseQuery<ParseObject>("Idea");
-                    ideasQuery.findInBackground(new FindCallback<ParseObject>() {
-                        @Override
-                        public void done(List<ParseObject> parseObjects, ParseException e) {
-                            if (!parseObjects.isEmpty()) {
-                            suggestIdeas.clear();
-                            for (ParseObject eachParseObject : parseObjects) {
-                                suggestIdeas.add(eachParseObject.getString("Name"));
+
+            ideaWasTextView.setAdapter(suggestIdeaAdapter);
+            ideaWasTextView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                @Override
+                public void onFocusChange(View v, boolean hasFocus) {
+                    if (hasFocus) {
+                        ParseQuery<ParseObject> ideasQuery = new ParseQuery<ParseObject>("Idea");
+                        ideasQuery.findInBackground(new FindCallback<ParseObject>() {
+                            @Override
+                            public void done(List<ParseObject> parseObjects, ParseException e) {
+                                if (!parseObjects.isEmpty()) {
+                                    suggestIdeas.clear();
+                                    for (ParseObject eachParseObject : parseObjects) {
+                                        suggestIdeas.add(eachParseObject.getString("Name"));
+                                    }
+                                    suggestIdeaAdapter.notifyDataSetChanged();
+                                }
                             }
-                            suggestIdeaAdapter.notifyDataSetChanged();
-                            }
-                        }
-                    });
+                        });
+                    }
                 }
+            });
+
+            ImageView contentImageView = (ImageView)findViewById(R.id.idea_content_image_view);
+
+            contentImageView.setVisibility(View.VISIBLE);
+            DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
+            LinearLayout.LayoutParams contentImageViewLayoutParams = (LinearLayout.LayoutParams)contentImageView.getLayoutParams();
+            contentImageViewLayoutParams.width = displayMetrics.widthPixels;
+            contentImageViewLayoutParams.height = displayMetrics.widthPixels;
+            contentImageView.requestLayout();
+
+
+            Log.d(DailyKind.TAG, "Parse File Url: " + idea.getGraphic().getParseFileUrl());
+
+            Picasso.with(getApplicationContext())
+                    .load(idea.getGraphic().getParseFileUrl())
+                    .placeholder(R.drawable.card_default)
+                    .resize(contentImageViewLayoutParams.width, contentImageViewLayoutParams.height)
+                    .into(contentImageView);
+        } else {
+            findViewById(R.id.content_idea_from_layout).setVisibility(View.GONE);
+        }
+
+        findViewById(R.id.post_story_photo_picker_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final Dialog dialog = new Dialog(PostStoryActivity.this);
+                dialog.setContentView(R.layout.layout_photo_picker);
+                dialog.setTitle("Pick a photo");
+
+                dialog.findViewById(R.id.post_story_photo_cancel_button).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+
+                dialog.show();
             }
         });
+
 
         locationLoadingProgressBar = (ProgressBar)findViewById(R.id.content_location_progress_bar);
         locationLoadingTextView = (TextView)findViewById(R.id.content_location_progress_text_view);

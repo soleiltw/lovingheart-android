@@ -74,5 +74,7 @@
 	<string name="user_signup_sign_up">註冊</string>
 	<string name="ask_login_get_your_profile">開始建立個人檔案！</string>
 	<string name="ask_login_take_me_login">前往登入</string>
+	<string name="setting_acknowledgement_summary">特別感謝社群大家的支持</string>
+	<string name="setting_acknowledgement_title">感謝名單</string>
 
 </resources>

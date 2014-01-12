@@ -38,7 +38,32 @@
 
 		</LinearLayout>
 
+		<ImageView
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:background="@color/theme_color_3"
+			android:scaleType="centerCrop"
+			android:id="@+id/idea_content_image_view"
+			android:layout_gravity="center_horizontal"/>
+
 		<LinearLayout
+			android:orientation="horizontal"
+			android:layout_width="fill_parent"
+			android:gravity="right"
+			android:layout_height="wrap_content">
+
+			<com.beardedhen.androidbootstrap.BootstrapButton
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_margin="8dp"
+				android:id="@+id/post_story_photo_picker_button"
+				bootstrapbutton:bb_icon_left="fa-camera"
+				bootstrapbutton:bb_type="primary" />
+
+		</LinearLayout>
+
+		<LinearLayout
+			android:id="@+id/content_idea_from_layout"
 			android:orientation="horizontal"
 			android:layout_width="fill_parent"
 			android:layout_height="wrap_content">
@@ -102,20 +127,7 @@
 
 		</LinearLayout>
 
-		<LinearLayout
-			android:orientation="horizontal"
-			android:padding="10dp"
-			android:layout_width="fill_parent"
-			android:layout_height="wrap_content">
 
-			<com.beardedhen.androidbootstrap.BootstrapButton
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:id="@+id/post_story_photo_picker_button"
-				bootstrapbutton:bb_icon_left="fa-picture-o"
-				bootstrapbutton:bb_type="info" />
-
-			</LinearLayout>
 
 		<com.beardedhen.androidbootstrap.BootstrapButton
 			android:layout_width="fill_parent"

@@ -111,6 +111,8 @@ public class SettingActivity extends PreferenceActivity {
             }
         });
 
+        Locale locale =  Locale.getDefault();
+
         boolean englishDefaultValue = Locale.getDefault().getLanguage().contains("en");
         boolean preferEnglishSaved = preferences.getBoolean(DailyKind.PREFERENCE_SUPPORT_ENGLISH, englishDefaultValue);
 

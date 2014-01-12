@@ -76,5 +76,7 @@
 	<string name="user_signup_sign_up">Sign Up</string>
 	<string name="ask_login_get_your_profile">Get your personal profile today!</string>
 	<string name="ask_login_take_me_login">Take me to login</string>
+	<string name="setting_acknowledgement_summary">Thanks to the communities for helping us.</string>
+	<string name="setting_acknowledgement_title">Acknowledgement</string>
 
 </resources>
