@@ -39,14 +39,14 @@
 	    <activity android:name=".activity.PostStoryActivity" />
 	    <activity android:name=".activity.DeedCategoriesActivity"
 	              android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
-	              android:label="Good deeds"
+	              android:label="@string/activity_post_story"
 		    />
 	    <activity android:name=".activity.DeedCategoryIdeaListActivity"
 	              android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
-	              android:label="Good deeds" />
+	              android:label="@string/activity_deed_category" />
 	    
 	    <activity android:name=".activity.DeedContentActivity"
-                  android:label="Deed of Day" />
+                  android:label="@string/activity_deed_content" />
 
 	    <activity android:name=".activity.AskForHelpActivity"
 		    android:label="Ask for help"
@@ -62,11 +62,11 @@
 
 	    <activity android:name=".activity.StoryContentActivity"
 	              android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
-	              android:label="Story" />
+	              android:label="@string/activity_story" />
 
 	    <activity android:name=".activity.SettingActivity"
 	              android:screenOrientation="portrait"
-	              android:label="Settings" />
+	              android:label="@string/activity_settings" />
 
 	    <activity android:name=".activity.WebViewActivity"
 	              android:label="Web" />

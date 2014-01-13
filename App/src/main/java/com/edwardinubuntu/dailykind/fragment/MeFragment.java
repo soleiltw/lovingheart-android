@@ -103,7 +103,9 @@ public class MeFragment extends PlaceholderFragment {
             }
 
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
-            sinceTextView.setText(getString(R.string.me_since_pre_text) + " " + dateFormat.format(ParseUser.getCurrentUser().getCreatedAt()));
+            if  (sinceTextView!=null && ParseUser.getCurrentUser().getCreatedAt()!=null) {
+                sinceTextView.setText(getString(R.string.me_since_pre_text) + " " + dateFormat.format(ParseUser.getCurrentUser().getCreatedAt()));
+            }
 
 
             getActivity().findViewById(R.id.me_profile_layout).setVisibility(View.VISIBLE);

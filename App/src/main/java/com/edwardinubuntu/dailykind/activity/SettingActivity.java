@@ -49,7 +49,7 @@ public class SettingActivity extends PreferenceActivity {
 
     private void refreshPreference() {
         Preference userLoginPreference = findPreference("setting_user_login");
-        if (ParseUser.getCurrentUser() != null) {
+        if (ParseUser.getCurrentUser() != null && ParseUser.getCurrentUser().getString("name") != null) {
             userLoginPreference.setTitle(
                     getString(R.string.setting_user_login_account_title) +
                     getString(R.string.semicolon) +
@@ -110,8 +110,6 @@ public class SettingActivity extends PreferenceActivity {
                 return true;
             }
         });
-
-        Locale locale =  Locale.getDefault();
 
         boolean englishDefaultValue = Locale.getDefault().getLanguage().contains("en");
         boolean preferEnglishSaved = preferences.getBoolean(DailyKind.PREFERENCE_SUPPORT_ENGLISH, englishDefaultValue);
