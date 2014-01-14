@@ -1,10 +1,12 @@
 package com.edwardinubuntu.dailykind.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -32,6 +34,12 @@ public class StoryContentActivity extends ActionBarActivity {
 
     private String objectId;
 
+    private Menu menu;
+
+    private Story story;
+
+    private int STORY_CONTENT_EDIT = 100;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,6 +60,15 @@ public class StoryContentActivity extends ActionBarActivity {
         loadStory();
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == STORY_CONTENT_EDIT && resultCode == RESULT_OK) {
+            loadStory();
+        }
+    }
+
     private void loadStory() {
         findViewById(R.id.story_content_progress_bar).setVisibility(View.VISIBLE);
         ParseQuery<ParseObject> storyQuery = new ParseQuery<ParseObject>("Story");
@@ -69,7 +86,7 @@ public class StoryContentActivity extends ActionBarActivity {
                     findViewById(R.id.story_content_progress_bar).setVisibility(View.GONE);
 
                     ParseObjectManager parseObjectManager = new ParseObjectManager(parseObject);
-                    Story story = parseObjectManager.getStory();
+                    story = parseObjectManager.getStory();
 
                     TextView lastSharedContentTextView = (TextView)findViewById(R.id.me_stories_last_share_content_text_view);
                     lastSharedContentTextView.setText(story.getContent());
@@ -115,6 +132,16 @@ public class StoryContentActivity extends ActionBarActivity {
                     TextView userNameTextView = (TextView)findViewById(R.id.user_name_text_view);
                     if (story.getStoryTeller() != null) {
                         userNameTextView.setText(story.getStoryTeller().getString("name"));
+
+                        // Display edit button
+                        if (ParseUser.getCurrentUser() != null &&
+                                story.getStoryTeller().getObjectId().equals(ParseUser.getCurrentUser().getObjectId())) {
+
+                            if (menu != null) {
+                                MenuItem editStoryItem = menu.findItem(R.id.action_edit_story);
+                                editStoryItem.setVisible(true);
+                            }
+                        }
                     }
 
                     ParseObject avatarObject = story.getStoryTeller().getParseObject("avatar");
@@ -203,10 +230,34 @@ public class StoryContentActivity extends ActionBarActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.story_content, menu);
+        this.menu = menu;
+        return true;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home: {
                 finish();
+                break;
+            }
+            case R.id.action_edit_story: {
+                if ( story!=null ) {
+                    Intent editStoryIntent = new Intent(this, EditStoryActivity.class);
+
+                    Story editStoryObject = new Story();
+                    editStoryObject.setGraphic(this.story.getGraphic());
+                    editStoryObject.setIdea(this.story.getIdea());
+                    editStoryObject.setContent(this.story.getContent());
+                    editStoryObject.setObjectId(this.story.getObjectId());
+
+                    editStoryIntent.putExtra("storyContent", editStoryObject);
+
+                    startActivityForResult(editStoryIntent, STORY_CONTENT_EDIT);
+                }
                 break;
             }
         }

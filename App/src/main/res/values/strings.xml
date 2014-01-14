@@ -16,7 +16,7 @@
 	<string name="button_done">Done</string>
 	<string name="action_ask_for_help">Ask for help</string>
 
-	<string name="story_upload_progress">Loading</string>
+	<string name="story_upload_progress">Sending...</string>
 	<string name="me_number_of_stories_shared">stories shared.</string>
 	<string name="me_since_pre_text">Since</string>
 	
@@ -83,10 +83,13 @@
 	<string name="photo_picker_graphic_gallery">Graphic Gallery</string>
 	<string name="photo_picker_photo_library">Photo Library</string>
 	<string name="photo_picker_take_photo">Take Photo</string>
+
+	<!-- Activity -->
 	<string name="activity_settings">Settings</string>
 	<string name="activity_story">Story</string>
 	<string name="activity_deed_content">Deed of Day</string>
 	<string name="activity_post_story">Good deeds</string>
 	<string name="activity_deed_category">Good deeds</string>
+	<string name="activity_story_edit">Edit Story</string>
 
 </resources>

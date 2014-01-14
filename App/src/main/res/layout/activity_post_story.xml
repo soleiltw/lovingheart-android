@@ -27,12 +27,20 @@
 				android:layout_width="32dp"
 				android:layout_height="32dp"/>
 
+			<LinearLayout
+				android:id="@+id/loading_progress_layout"
+				android:visibility="gone"
+				android:layout_gravity="center"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content">
+				<include layout="@layout/indeterminate_progress_action" />
+			</LinearLayout>
+
 			<EditText
 				android:minLines="3"
 				android:id="@+id/content_edit_text"
 				android:hint="How the story goes."
 				android:gravity="top"
-
 				android:layout_width="fill_parent"
 				android:layout_height="wrap_content"/>
 
@@ -85,6 +93,7 @@
 		</LinearLayout>
 
 		<LinearLayout
+			android:id="@+id/content_location_area_layout"
 			android:orientation="horizontal"
 			android:layout_width="fill_parent"
 			android:layout_height="wrap_content">

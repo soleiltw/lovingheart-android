@@ -16,7 +16,7 @@
 	<string name="button_done">完成</string>
 	<string name="action_ask_for_help">Ask for help</string>
 
-	<string name="story_upload_progress">載入中</string>
+	<string name="story_upload_progress">記錄中...</string>
 	<string name="me_number_of_stories_shared">故事分享</string>
 	<string name="me_since_pre_text">自從</string>
 
@@ -81,11 +81,12 @@
 	<string name="photo_picker_graphic_gallery">插畫藝廊</string>
 	<string name="photo_picker_photo_library">選自相簿</string>
 	<string name="photo_picker_take_photo">拍攝照片</string>
+
+	<!-- Activity -->
 	<string name="activity_settings">設定</string>
 	<string name="activity_story">故事</string>
 	<string name="activity_deed_content">日行一善</string>
 	<string name="activity_post_story">日行一善分類</string>
 	<string name="activity_deed_category">日行一善分類</string>
-
-
+	<string name="activity_story_edit">故事編輯</string>
 </resources>

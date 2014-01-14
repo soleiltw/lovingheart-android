@@ -47,6 +47,10 @@
 	    
 	    <activity android:name=".activity.DeedContentActivity"
                   android:label="@string/activity_deed_content" />
+	    
+	    <activity android:name=".activity.EditStoryActivity"
+	              android:label="@string/activity_story_edit"
+		    />
 
 	    <activity android:name=".activity.AskForHelpActivity"
 		    android:label="Ask for help"

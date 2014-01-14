@@ -37,7 +37,7 @@ import java.util.Locale;
  */
 public class PostStoryActivity extends ActionBarActivity {
 
-    private ProgressDialog dialog;
+    protected ProgressDialog storyPostingDialog;
 
     private Idea idea;
 
@@ -47,9 +47,9 @@ public class PostStoryActivity extends ActionBarActivity {
     private ProgressBar locationLoadingProgressBar;
     private TextView locationLoadingTextView;
     private ImageView locationAreaImageView;
-    private TextView locationAreaTextView;
+    protected TextView locationAreaTextView;
 
-    private EditText contentEditText;
+    protected EditText contentEditText;
 
     private Address currentAddress;
 
@@ -67,11 +67,11 @@ public class PostStoryActivity extends ActionBarActivity {
 
         setContentView(com.edwardinubuntu.dailykind.R.layout.activity_post_story);
 
-        dialog = new ProgressDialog(this);
-        dialog.setMessage(getResources().getString(com.edwardinubuntu.dailykind.R.string.story_upload_progress));
-        dialog.setIndeterminate(false);
-        dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        dialog.setCancelable(false);
+        storyPostingDialog = new ProgressDialog(this);
+        storyPostingDialog.setMessage(getResources().getString(com.edwardinubuntu.dailykind.R.string.story_upload_progress));
+        storyPostingDialog.setIndeterminate(false);
+        storyPostingDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        storyPostingDialog.setCancelable(false);
 
         idea = (Idea)getIntent().getSerializableExtra("idea");
     }
@@ -155,18 +155,18 @@ public class PostStoryActivity extends ActionBarActivity {
         findViewById(R.id.post_story_photo_picker_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final Dialog dialog = new Dialog(PostStoryActivity.this);
-                dialog.setContentView(R.layout.layout_photo_picker);
-                dialog.setTitle(getString(R.string.post_story_pick_photo));
+                final Dialog askPickerDialog = new Dialog(PostStoryActivity.this);
+                askPickerDialog.setContentView(R.layout.layout_photo_picker);
+                askPickerDialog.setTitle(getString(R.string.post_story_pick_photo));
 
-                dialog.findViewById(R.id.post_story_photo_cancel_button).setOnClickListener(new View.OnClickListener() {
+                askPickerDialog.findViewById(R.id.post_story_photo_cancel_button).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        dialog.dismiss();
+                        askPickerDialog.dismiss();
                     }
                 });
 
-                dialog.show();
+                askPickerDialog.show();
             }
         });
 
@@ -300,7 +300,7 @@ public class PostStoryActivity extends ActionBarActivity {
         locationManager.removeUpdates(locationListener);
     }
 
-    private void postStory() {
+    protected void postStory() {
 
         if (ParseUser.getCurrentUser() == null) {
             // TODO alert
@@ -341,7 +341,7 @@ public class PostStoryActivity extends ActionBarActivity {
         if (idea != null) {
             ParseQuery<ParseObject> ideaQuery = new ParseQuery<ParseObject>("Idea");
             ideaQuery.whereEqualTo("objectId", idea.getObjectId());
-            dialog.show();
+            storyPostingDialog.show();
             ideaQuery.getFirstInBackground(new GetCallback<ParseObject>() {
                 @Override
                 public void done(ParseObject ideaObjectCallBack, ParseException e) {
@@ -411,15 +411,15 @@ public class PostStoryActivity extends ActionBarActivity {
         }
     }
 
-    private void submit(ParseObject parseObject) {
-        if (!dialog.isShowing()) {
-            dialog.show();
+    protected void submit(ParseObject parseObject) {
+        if (!storyPostingDialog.isShowing()) {
+            storyPostingDialog.show();
         }
         parseObject.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
-                if (dialog.isShowing()) {
-                    dialog.dismiss();
+                if (storyPostingDialog.isShowing()) {
+                    storyPostingDialog.dismiss();
                 }
                 finish();
             }

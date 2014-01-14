@@ -22,6 +22,7 @@ public class Story implements Serializable {
 
     private String locationAreaName;
 
+
     public String getObjectId() {
         return objectId;
     }

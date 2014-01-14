@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:dailykind="http://schemas.android.com/apk/res-auto"
+	>
+
+	<item android:id="@+id/action_edit_story"
+	      android:title="@string/activity_story_edit"
+	      android:icon="@drawable/ic_action_edit"
+	      android:visible="false"
+	      android:orderInCategory="80"
+	      dailykind:showAsAction="ifRoom" />
+
+</menu>
