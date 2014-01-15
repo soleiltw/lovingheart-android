@@ -16,15 +16,13 @@
 			android:id="@+id/user_activities_layout"
 			layout="@layout/layout_user_image_name" />
 
-
 		<TextView
+			android:layout_marginTop="5dp"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:textAppearance="?android:attr/textAppearanceMedium"
 			android:hint="Story Content"
 			android:id="@+id/story_content_text_view"/>
-
-
 
 		<RelativeLayout
 			android:layout_width="fill_parent"
@@ -52,22 +50,5 @@
 		android:id="@+id/story_content_image_view"
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"/>
-
-	<LinearLayout
-		android:orientation="vertical"
-		android:layout_marginRight="10dp"
-		android:layout_marginBottom="10dp"
-		android:layout_width="fill_parent"
-		android:layout_height="wrap_content">
-
-	<TextView
-		android:layout_gravity="right"
-		android:id="@+id/story_view_impact_text_view"
-		android:textAppearance="?android:attr/textAppearanceSmall"
-		android:hint="impact"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"/>
-
-	</LinearLayout>
 
 </LinearLayout>

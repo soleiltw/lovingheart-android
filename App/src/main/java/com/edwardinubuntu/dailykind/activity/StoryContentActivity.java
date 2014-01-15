@@ -145,18 +145,20 @@ public class StoryContentActivity extends ActionBarActivity {
                     }
 
                     ParseObject avatarObject = story.getStoryTeller().getParseObject("avatar");
-                    avatarObject.fetchIfNeededInBackground(new GetCallback<ParseObject>() {
-                        @Override
-                        public void done(ParseObject parseObject, ParseException e) {
-                            ImageView avatarImageView = (ImageView)findViewById(R.id.user_avatar_image_view);
-                            if (parseObject.getString("imageType").equals("url")) {
-                                Picasso.with(getApplicationContext())
-                                        .load(parseObject.getString("imageUrl"))
-                                        .transform(new CircleTransform())
-                                        .into(avatarImageView);
+                    if (avatarObject != null) {
+                        avatarObject.fetchIfNeededInBackground(new GetCallback<ParseObject>() {
+                            @Override
+                            public void done(ParseObject parseObject, ParseException e) {
+                                ImageView avatarImageView = (ImageView)findViewById(R.id.user_avatar_image_view);
+                                if (parseObject.getString("imageType").equals("url")) {
+                                    Picasso.with(getApplicationContext())
+                                            .load(parseObject.getString("imageUrl"))
+                                            .transform(new CircleTransform())
+                                            .into(avatarImageView);
+                                }
                             }
-                        }
-                    });
+                        });
+                    }
 
                     ImageView storyContentImageView = (ImageView)findViewById(R.id.me_stories_image_view);
                     // Check if have graphic

@@ -2,6 +2,7 @@ package com.edwardinubuntu.dailykind.fragment;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import com.edwardinubuntu.dailykind.DailyKind;
 import com.parse.CountCallback;
 import com.parse.ParseException;
@@ -19,6 +20,12 @@ public class StoriesLatestFragment extends StoriesFeedsFragment {
         args.putInt(ARG_SECTION_NUMBER, sectionNumber);
         fragment.setArguments(args);
         return fragment;
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
     }
 
     @Override

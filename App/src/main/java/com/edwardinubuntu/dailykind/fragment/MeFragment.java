@@ -12,17 +12,14 @@ import com.edwardinubuntu.dailykind.R;
 import com.edwardinubuntu.dailykind.activity.LoginActivity;
 import com.edwardinubuntu.dailykind.adapter.GalleryArrayAdapter;
 import com.edwardinubuntu.dailykind.object.Graphic;
-import com.edwardinubuntu.dailykind.object.Story;
 import com.edwardinubuntu.dailykind.util.CircleTransform;
 import com.edwardinubuntu.dailykind.util.parse.ParseObjectManager;
 import com.edwardinubuntu.dailykind.view.ExpandableGridView;
 import com.parse.*;
 import com.squareup.picasso.Picasso;
-import org.ocpsoft.prettytime.PrettyTime;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -128,7 +125,6 @@ public class MeFragment extends PlaceholderFragment {
                 });
             }
             loadUserImpact();
-            loadStory();
             loadGraphicEarned();
         } else {
             getActivity().findViewById(R.id.me_profile_layout).setVisibility(View.GONE);
@@ -142,52 +138,6 @@ public class MeFragment extends PlaceholderFragment {
                 }
             });
         }
-    }
-
-    private void loadStory() {
-        ParseQuery<ParseObject> parseObjectParseQuery = new ParseQuery<ParseObject>("Story");
-        parseObjectParseQuery.whereEqualTo("StoryTeller", ParseUser.getCurrentUser());
-        parseObjectParseQuery.orderByDescending("createdAt");
-        parseObjectParseQuery.include("ideaPointer");
-        parseObjectParseQuery.include("StoryTeller");
-        parseObjectParseQuery.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
-        parseObjectParseQuery.findInBackground(new FindCallback<ParseObject>() {
-            @Override
-            public void done(List<ParseObject> parseObjects, ParseException e) {
-                // Check Story Number
-
-                // Get first one to update story date
-                if (parseObjects != null && !parseObjects.isEmpty()) {
-                    ParseObject storyParseObject = parseObjects.get(0);
-
-                    ParseObjectManager parseObjectManager = new ParseObjectManager(storyParseObject);
-                    Story story = parseObjectManager.getStory();
-
-                    TextView lastSharedContentTextView = (TextView)getActivity().findViewById(R.id.me_stories_last_share_content_text_view);
-                    if (lastSharedContentTextView !=null) {
-                        lastSharedContentTextView.setText(story.getContent());
-                    }
-
-                    if (storyParseObject.getParseObject("ideaPointer") != null) {
-
-                        story.setIdea(new ParseObjectManager(storyParseObject.getParseObject("ideaPointer")).getIdea());
-
-                        TextView lastInspiredTextView = (TextView)getActivity().findViewById(R.id.me_stories_last_share_inspired_from_text_view);
-                        if (lastInspiredTextView != null) {
-                            lastInspiredTextView.setText(
-                                    getActivity().getString(R.string.stories_last_share_inspired_by_text_prefix)+
-                                            getActivity().getString(R.string.space) +
-                                            story.getIdea().getName());
-                        }
-                    }
-
-                    TextView lastSharedDateTextView = (TextView)getActivity().findViewById(R.id.me_stories_last_share_date_Text_view);
-                    PrettyTime prettyTime = new PrettyTime(new Date());
-                    lastSharedDateTextView.setText(
-                            prettyTime.format(story.getCreatedAt()));
-                }
-            }
-        });
     }
 
     private void loadGraphicEarned() {

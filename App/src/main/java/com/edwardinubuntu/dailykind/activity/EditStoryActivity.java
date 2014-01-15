@@ -3,9 +3,10 @@ package com.edwardinubuntu.dailykind.activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Toast;
+import com.edwardinubuntu.dailykind.DailyKind;
 import com.edwardinubuntu.dailykind.ParseSettings;
 import com.edwardinubuntu.dailykind.R;
 import com.edwardinubuntu.dailykind.object.Story;
@@ -53,9 +54,7 @@ public class EditStoryActivity extends PostStoryActivity {
                     storyObject = parseObject;
                     contentEditText.setText(parseObject.getString("Content"));
 
-                    if(contentEditText.requestFocus()) {
-                        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
-                    }
+                    contentEditText.requestFocus();
                 }
             }
         });
@@ -98,14 +97,15 @@ public class EditStoryActivity extends PostStoryActivity {
         parseObject.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
-                if (e!=null) {
+                if (e == null) {
                     if (storyPostingDialog.isShowing()) {
                         storyPostingDialog.dismiss();
                     }
                     setResult(RESULT_OK);
                     finish();
                 } else {
-                    Toast.makeText(getApplication(), e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+                    Log.e(DailyKind.TAG, "ParseObject.saveInBackground: " + e.getLocalizedMessage());
+                    Toast.makeText(EditStoryActivity.this, e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
                 }
             }
         });
