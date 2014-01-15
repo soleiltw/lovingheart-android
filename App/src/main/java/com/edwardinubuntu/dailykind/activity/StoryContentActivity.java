@@ -61,28 +61,29 @@ public class StoryContentActivity extends ActionBarActivity {
         super.onPostCreate(savedInstanceState);
 
         if (ParseUser.getCurrentUser() != null) {
-        findViewById(R.id.story_content_review_button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+            findViewById(R.id.story_content_review_button).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 
-                // Load user
-                ParseQuery reviewStoryQuery = new ParseQuery("Event");
-                reviewStoryQuery.whereEqualTo("user", ParseUser.getCurrentUser());
-                reviewStoryQuery.whereEqualTo("action", ParseEventTrackingManager.ACTION_REVIEW_STORY);
-                final ProgressDialog dialog = new ProgressDialog(StoryContentActivity.this);
-                dialog.setMessage(getString(R.string.loading));
-                dialog.show();
-                reviewStoryQuery.getFirstInBackground(new GetCallback() {
-                    @Override
-                    public void done(ParseObject parseObject, ParseException e) {
-                        dialog.dismiss();
-                        openRatingDialog(parseObject);
-                    }
-                });
+                    // Load user
+                    ParseQuery reviewStoryQuery = new ParseQuery("Event");
+                    reviewStoryQuery.whereEqualTo("user", ParseUser.getCurrentUser());
+                    reviewStoryQuery.whereEqualTo("action", ParseEventTrackingManager.ACTION_REVIEW_STORY);
+                    reviewStoryQuery.whereEqualTo("story", storyObject);
+                    final ProgressDialog dialog = new ProgressDialog(StoryContentActivity.this);
+                    dialog.setMessage(getString(R.string.loading));
+                    dialog.show();
+                    reviewStoryQuery.getFirstInBackground(new GetCallback() {
+                        @Override
+                        public void done(ParseObject parseObject, ParseException e) {
+                            dialog.dismiss();
+                            openRatingDialog(parseObject);
+                        }
+                    });
 
 
-            }
-        });
+                }
+            });
         } else {
             findViewById(R.id.story_content_review_button).setVisibility(View.GONE);
         }
@@ -247,7 +248,7 @@ public class StoryContentActivity extends ActionBarActivity {
                             Log.e(DailyKind.TAG, e.getLocalizedMessage());
                         } else {
                             Log.d(DailyKind.TAG, "Parse event saved. " + ParseEventTrackingManager.ACTION_REVIEW_STORY + " on " + storyObject.getObjectId());
-
+                            loadRatings();
                         }
                     }
                 });
@@ -262,6 +263,40 @@ public class StoryContentActivity extends ActionBarActivity {
         if (requestCode == STORY_CONTENT_EDIT && resultCode == RESULT_OK) {
             loadStory();
         }
+    }
+
+    private void loadRatings() {
+
+        ParseQuery<ParseObject> ratingsQuery = new ParseQuery<ParseObject>("Event");
+        ratingsQuery.whereEqualTo("story", storyObject);
+        ratingsQuery.whereEqualTo("action", ParseEventTrackingManager.ACTION_REVIEW_STORY);
+        ratingsQuery.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> parseObjects, ParseException e) {
+
+                findViewById(R.id.story_impact_card_layout).setVisibility(View.VISIBLE);
+
+                if (parseObjects != null && !parseObjects.isEmpty()) {
+
+                    findViewById(R.id.ratings_empty_ask_text_view).setVisibility(View.GONE);
+                    findViewById(R.id.ratings_stat_group_layout).setVisibility(View.VISIBLE);
+
+                    int ratingCount = 0;
+                    for (ParseObject eachEvent : parseObjects) {
+                        ratingCount += eachEvent.getInt("value");
+                    }
+                    TextView ratingsCountTextView = (TextView)findViewById(R.id.ratings_total_stars_text_view);
+                    ratingsCountTextView.setText(String.valueOf(ratingCount));
+
+                    TextView ratingUsersCountTextView = (TextView)findViewById(R.id.ratings_users_numbers_text_view);
+                    ratingUsersCountTextView.setText(String.valueOf(parseObjects.size()));
+                } else {
+                    // Ask to be the first one
+                    findViewById(R.id.ratings_empty_ask_text_view).setVisibility(View.VISIBLE);
+                    findViewById(R.id.ratings_stat_group_layout).setVisibility(View.GONE);
+                }
+            }
+        });
     }
 
     private void loadStory() {
@@ -279,8 +314,10 @@ public class StoryContentActivity extends ActionBarActivity {
                 if (parseObject!=null) {
 
                     storyObject = parseObject;
+                    loadRatings();
 
                     findViewById(R.id.story_content_progress_bar).setVisibility(View.GONE);
+                    findViewById(R.id.story_content_review_button).setVisibility(View.VISIBLE);
 
                     ParseObjectManager parseObjectManager = new ParseObjectManager(parseObject);
                     story = parseObjectManager.getStory();

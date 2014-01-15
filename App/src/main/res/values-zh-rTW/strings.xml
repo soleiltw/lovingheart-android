@@ -91,5 +91,8 @@
 	<string name="activity_story_edit">故事編輯</string>
 	<string name="story_content_encourage_ratings">給予鼓勵</string>
 	<string name="submit">送出</string>
-	<string name="loading">Loading</string>
+	<string name="loading">請稍後</string>
+	<string name="story_content_story_impacts">影響度</string>
+	<string name="story_content_encourage_yet_empty">還沒鼓勵，成為第一個！</string>
+	<string name="story_ratings_comment_hint">留言</string>
 </resources>

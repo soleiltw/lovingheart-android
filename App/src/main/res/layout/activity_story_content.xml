@@ -40,10 +40,47 @@
 				<include layout="@layout/layout_story_content" />
 			</LinearLayout>
 
+			<LinearLayout
+				android:layout_margin="5dp"
+				android:background="@drawable/layout_background_shadow"
+				android:id="@+id/story_impact_card_layout"
+				android:visibility="gone"
+				android:orientation="vertical"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content">
+				<TextView
+					android:text="@string/story_content_story_impacts"
+					android:background="@color/theme_color_2"
+					android:textColor="@color/lovingheart_white"
+					android:padding="5dp"
+					android:textAlignment="center"
+					android:textAppearance="?android:textAppearanceSmall"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"/>
+
+				<LinearLayout
+					android:id="@+id/ratings_stat_group_layout"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content">
+				<include layout="@layout/layout_ratings_stat" />
+				</LinearLayout>
+
+				<TextView
+					android:padding="5dp"
+					android:layout_gravity="center_horizontal"
+					android:text="@string/story_content_encourage_yet_empty"
+					android:id="@+id/ratings_empty_ask_text_view"
+					android:textAppearance="?android:textAppearanceSmall"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"/>
+
+			</LinearLayout>
+
 			<com.beardedhen.androidbootstrap.BootstrapButton
 				android:layout_width="fill_parent"
 				android:layout_height="wrap_content"
 				android:layout_margin="5dp"
+				android:visibility="gone"
 				android:text="@string/story_content_encourage_ratings"
 				android:layout_gravity="center"
 				android:id="@+id/story_content_review_button"

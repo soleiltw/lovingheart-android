@@ -94,5 +94,8 @@
 	<string name="story_content_encourage_ratings">Encourage</string>
 	<string name="submit">Submit</string>
 	<string name="loading">Loading</string>
+	<string name="story_content_story_impacts">Story Impacts</string>
+	<string name="story_content_encourage_yet_empty">Haven\'t encourage yet, be the first one.</string>
+	<string name="story_ratings_comment_hint">Leave message</string>
 
 </resources>
