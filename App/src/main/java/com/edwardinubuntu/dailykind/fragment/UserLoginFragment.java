@@ -1,5 +1,6 @@
 package com.edwardinubuntu.dailykind.fragment;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
@@ -71,6 +72,8 @@ public class UserLoginFragment extends PlaceholderFragment {
                             if (parseUser != null) {
                                 // Hooray! The user logged in.
                                 Toast.makeText(getActivity(), getResources().getText(R.string.action_username_login_success), Toast.LENGTH_SHORT).show();
+
+                                getActivity().setResult(Activity.RESULT_OK);
                                 getActivity().finish();
                             } else {
                                 // Sign up failed.

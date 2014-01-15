@@ -196,7 +196,7 @@ public class HomeFragment extends PlaceholderFragment {
                 }
 
                 TextView descriptionTextView = (TextView)getActivity().findViewById(R.id.idea_content_description_text_view);
-                if (idea.getIdeaDescription() != null && idea.getIdeaDescription() != null) {
+                if (descriptionTextView != null && idea.getIdeaDescription() != null && idea.getIdeaDescription() != null) {
                     descriptionTextView.setText(idea.getIdeaDescription());
                 } else {
                     descriptionTextView.setVisibility(View.GONE);
@@ -241,7 +241,6 @@ public class HomeFragment extends PlaceholderFragment {
         AudioManager am = (AudioManager)getActivity().getSystemService(Context.AUDIO_SERVICE);
         if  (am.getRingerMode() == AudioManager.RINGER_MODE_NORMAL) {
             MediaPlayer tabClick = MediaPlayer.create(getActivity(), R.raw.celebratory_cute_bells_double);
-            tabClick.setLooping(false);
             tabClick.start();
         }
     }

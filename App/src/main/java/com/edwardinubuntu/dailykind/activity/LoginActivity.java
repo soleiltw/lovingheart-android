@@ -195,12 +195,14 @@ public class LoginActivity extends ActionBarActivity {
 
                                 findViewById(R.id.user_login_layout).setVisibility(View.VISIBLE);
                             } else {
+                                setResult(RESULT_OK);
                                 finish();
                             }
                         }
                     });
                 } else {
                     Toast.makeText(getApplicationContext(), "Login Success", Toast.LENGTH_SHORT).show();
+                    setResult(RESULT_OK);
                     finish();
                 }
             }

@@ -60,7 +60,7 @@ public class SettingActivity extends PreferenceActivity {
             userLoginPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
-                    ParseUser.getCurrentUser().logOut();
+                    ParseUser.logOut();
 
                     Session session = Session.getActiveSession();
                     if (session !=null ){

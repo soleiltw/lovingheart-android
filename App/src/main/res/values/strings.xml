@@ -97,5 +97,7 @@
 	<string name="story_content_story_impacts">Story Impacts</string>
 	<string name="story_content_encourage_yet_empty">Haven\'t encourage yet, be the first one.</string>
 	<string name="story_ratings_comment_hint">Leave message</string>
+	<string name="cancel">Cancel</string>
+	<string name="story_content_ask_login_dialog_message">Need to login to give encourage. Take you to login?</string>
 
 </resources>
