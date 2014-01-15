@@ -11,15 +11,19 @@
 		android:layout_height="match_parent"
 		android:layout_width="match_parent"
 		>
+		<LinearLayout
+			android:orientation="vertical"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent">
+
 			<LinearLayout
 				android:orientation="vertical"
+				android:layout_margin="5dp"
+				android:background="@drawable/layout_background_shadow"
 				android:layout_width="match_parent"
 				android:layout_height="match_parent">
-
-
-
 				<LinearLayout
-					android:layout_margin="5dp"
+					android:padding="5dp"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content">
 					<include
@@ -84,8 +88,8 @@
 						bootstrapbutton:bb_type="danger" />
 
 				</LinearLayout>
-
 			</LinearLayout>
+		</LinearLayout>
 	</ScrollView>
 
 

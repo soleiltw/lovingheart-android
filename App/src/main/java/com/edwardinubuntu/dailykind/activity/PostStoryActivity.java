@@ -140,9 +140,6 @@ public class PostStoryActivity extends ActionBarActivity {
             contentImageViewLayoutParams.height = displayMetrics.widthPixels;
             contentImageView.requestLayout();
 
-
-            Log.d(DailyKind.TAG, "Parse File Url: " + idea.getGraphic().getParseFileUrl());
-
             Picasso.with(getApplicationContext())
                     .load(idea.getGraphic().getParseFileUrl())
                     .placeholder(R.drawable.card_default)
@@ -309,19 +306,19 @@ public class PostStoryActivity extends ActionBarActivity {
 
         if (contentEditText.getText().length() == 0) {
 
-                new AlertDialog.Builder(this)
-                        .setTitle(getResources().getString(R.string.post_story_content_need_title))
-                        .setMessage(getResources().getString(R.string.post_story_content_need_message))
-                        .setPositiveButton(getResources().getString(R.string.go), new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int which) {
-                                dialogInterface.dismiss();
-                            }
-                        })
-                        .setCancelable(true)
-                        .show();
+            new AlertDialog.Builder(this)
+                    .setTitle(getResources().getString(R.string.post_story_content_need_title))
+                    .setMessage(getResources().getString(R.string.post_story_content_need_message))
+                    .setPositiveButton(getResources().getString(R.string.go), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int which) {
+                            dialogInterface.dismiss();
+                        }
+                    })
+                    .setCancelable(true)
+                    .show();
 
-                return;
+            return;
         }
 
         final ParseObject parseObject = new ParseObject("Story");
@@ -329,6 +326,19 @@ public class PostStoryActivity extends ActionBarActivity {
         // TODO Check user has login
         parseObject.put("StoryTeller", ParseUser.getCurrentUser());
         parseObject.put("Content", contentEditText.getText().toString());
+
+        if (idea.getGraphic() != null && idea.getGraphic().getObjectId() != null) {
+            ParseQuery<ParseObject> imageQuery = new ParseQuery<ParseObject>("GraphicImage");
+            imageQuery.whereEqualTo("objectId", idea.getGraphic().getObjectId());
+            try {
+                ParseObject imageObject = imageQuery.getFirst();
+                parseObject.put("graphicPointer", imageObject);
+            } catch (ParseException e) {
+                e.printStackTrace();
+                Log.e(DailyKind.TAG, e.getLocalizedMessage());
+            }
+
+        }
 
         if (currentAddress != null && locationAreaTextView.getText() != null) {
             ParseGeoPoint parseGeoPoint = new ParseGeoPoint();
@@ -355,7 +365,6 @@ public class PostStoryActivity extends ActionBarActivity {
                         }
                     });
 
-                    submit(parseObject);
 
                     if (idea.getGraphic() != null ) {
                         ParseQuery graphicObjectQuery = new ParseQuery<ParseObject>("GraphicImage");
@@ -404,6 +413,8 @@ public class PostStoryActivity extends ActionBarActivity {
                         }
                     }
 
+                    submit(parseObject);
+
                 }
             });
         } else {
@@ -411,17 +422,26 @@ public class PostStoryActivity extends ActionBarActivity {
         }
     }
 
-    protected void submit(ParseObject parseObject) {
+    protected void submit(final ParseObject parseObject) {
         if (!storyPostingDialog.isShowing()) {
             storyPostingDialog.show();
         }
         parseObject.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
-                if (storyPostingDialog.isShowing()) {
-                    storyPostingDialog.dismiss();
+                if (e == null) {
+                    if (storyPostingDialog.isShowing()) {
+                        storyPostingDialog.dismiss();
+                    }
+                    Intent storyIntent = new Intent(PostStoryActivity.this, StoryContentActivity.class);
+                    storyIntent.putExtra("objectId", parseObject.getObjectId());
+                    storyIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(storyIntent);
+                    finish();
+                } else {
+                    Log.e(DailyKind.TAG, e.getLocalizedMessage());
+                    Toast.makeText(PostStoryActivity.this, e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
                 }
-                finish();
             }
         });
     }
