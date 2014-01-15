@@ -1,5 +1,7 @@
 package com.edwardinubuntu.dailykind.activity;
 
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -9,9 +11,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+import android.widget.*;
+import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.edwardinubuntu.dailykind.DailyKind;
 import com.edwardinubuntu.dailykind.R;
 import com.edwardinubuntu.dailykind.object.Category;
@@ -38,6 +39,8 @@ public class StoryContentActivity extends ActionBarActivity {
 
     private Story story;
 
+    private ParseObject storyObject;
+
     private int STORY_CONTENT_EDIT = 100;
 
     @Override
@@ -57,7 +60,199 @@ public class StoryContentActivity extends ActionBarActivity {
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
 
+        if (ParseUser.getCurrentUser() != null) {
+        findViewById(R.id.story_content_review_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                // Load user
+                ParseQuery reviewStoryQuery = new ParseQuery("Event");
+                reviewStoryQuery.whereEqualTo("user", ParseUser.getCurrentUser());
+                reviewStoryQuery.whereEqualTo("action", ParseEventTrackingManager.ACTION_REVIEW_STORY);
+                final ProgressDialog dialog = new ProgressDialog(StoryContentActivity.this);
+                dialog.setMessage(getString(R.string.loading));
+                dialog.show();
+                reviewStoryQuery.getFirstInBackground(new GetCallback() {
+                    @Override
+                    public void done(ParseObject parseObject, ParseException e) {
+                        dialog.dismiss();
+                        openRatingDialog(parseObject);
+                    }
+                });
+
+
+            }
+        });
+        } else {
+            findViewById(R.id.story_content_review_button).setVisibility(View.GONE);
+        }
+
         loadStory();
+    }
+
+    private void openRatingDialog(final ParseObject parseObject) {
+        int ratingValue = 0;
+        if (parseObject!=null && parseObject.has("value")) {
+            ratingValue = parseObject.getInt("value");
+        }
+
+        final Dialog askRatingsDialog = new Dialog(StoryContentActivity.this);
+        askRatingsDialog.setContentView(R.layout.layout_story_ratings);
+        askRatingsDialog.setTitle(getString(R.string.story_content_encourage_ratings));
+        askRatingsDialog.show();
+
+        final ParseUser parseUser = ParseUser.getCurrentUser();
+        TextView userNameTextView = (TextView)askRatingsDialog.findViewById(R.id.user_name_text_view);
+        userNameTextView.setText(parseUser.getString("name"));
+
+        ParseObject avatarObject = parseUser.getParseObject("avatar");
+        if (avatarObject != null) {
+            avatarObject.fetchIfNeededInBackground(new GetCallback<ParseObject>() {
+                @Override
+                public void done(ParseObject parseObject, ParseException e) {
+                    ImageView avatarImageView = (ImageView)askRatingsDialog.findViewById(R.id.user_avatar_image_view);
+                    if (parseObject.getString("imageType").equals("url")) {
+                        Picasso.with(getApplicationContext())
+                                .load(parseObject.getString("imageUrl"))
+                                .transform(new CircleTransform())
+                                .into(avatarImageView);
+                    }
+                }
+            });
+        }
+
+        final ImageButton rating1Button = (ImageButton)askRatingsDialog.findViewById(R.id.rating_stars_1);
+        final ImageButton rating2Button = (ImageButton)askRatingsDialog.findViewById(R.id.rating_stars_2);
+        final ImageButton rating3Button = (ImageButton)askRatingsDialog.findViewById(R.id.rating_stars_3);
+        final ImageButton rating4Button = (ImageButton)askRatingsDialog.findViewById(R.id.rating_stars_4);
+        final ImageButton rating5Button = (ImageButton)askRatingsDialog.findViewById(R.id.rating_stars_5);
+
+        final int[] finalRatingValue = {ratingValue};
+        rating1Button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                rating1Button.setImageResource(R.drawable.ic_action_star_10);
+                rating2Button.setImageResource(R.drawable.ic_action_star_0);
+                rating3Button.setImageResource(R.drawable.ic_action_star_0);
+                rating4Button.setImageResource(R.drawable.ic_action_star_0);
+                rating5Button.setImageResource(R.drawable.ic_action_star_0);
+                finalRatingValue[0] = 1;
+            }
+        });
+
+        rating2Button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                rating1Button.setImageResource(R.drawable.ic_action_star_10);
+                rating2Button.setImageResource(R.drawable.ic_action_star_10);
+                rating3Button.setImageResource(R.drawable.ic_action_star_0);
+                rating4Button.setImageResource(R.drawable.ic_action_star_0);
+                rating5Button.setImageResource(R.drawable.ic_action_star_0);
+                finalRatingValue[0] = 2;
+            }
+        });
+
+        rating3Button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                rating1Button.setImageResource(R.drawable.ic_action_star_10);
+                rating2Button.setImageResource(R.drawable.ic_action_star_10);
+                rating3Button.setImageResource(R.drawable.ic_action_star_10);
+                rating4Button.setImageResource(R.drawable.ic_action_star_0);
+                rating5Button.setImageResource(R.drawable.ic_action_star_0);
+                finalRatingValue[0] = 3;
+            }
+        });
+
+        rating4Button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                rating1Button.setImageResource(R.drawable.ic_action_star_10);
+                rating2Button.setImageResource(R.drawable.ic_action_star_10);
+                rating3Button.setImageResource(R.drawable.ic_action_star_10);
+                rating4Button.setImageResource(R.drawable.ic_action_star_10);
+                rating5Button.setImageResource(R.drawable.ic_action_star_0);
+                finalRatingValue[0] = 4;
+            }
+        });
+
+        rating5Button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                rating1Button.setImageResource(R.drawable.ic_action_star_10);
+                rating2Button.setImageResource(R.drawable.ic_action_star_10);
+                rating3Button.setImageResource(R.drawable.ic_action_star_10);
+                rating4Button.setImageResource(R.drawable.ic_action_star_10);
+                rating5Button.setImageResource(R.drawable.ic_action_star_10);
+                finalRatingValue[0] = 5;
+            }
+        });
+
+        switch (ratingValue) {
+            case 1:
+                rating1Button.performClick();
+                break;
+            case 2:
+                rating2Button.performClick();
+                break;
+            case 3:
+                rating3Button.performClick();
+                break;
+            case 4:
+                rating4Button.performClick();
+                break;
+            case 5:
+                rating5Button.performClick();
+                break;
+        }
+
+        final EditText commentText = (EditText)askRatingsDialog.findViewById(R.id.story_ratings_comment_edit_text);
+        if (parseObject!=null && parseObject.getString("description") != null ){
+            commentText.setText(parseObject.getString("description"));
+        }
+
+        BootstrapButton submitButton = (BootstrapButton)askRatingsDialog.findViewById(R.id.story_ratings_submit_button);
+
+        submitButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ParseObject eventObject;
+
+                if (parseObject != null) {
+                    eventObject = parseObject;
+                } else {
+                    eventObject = new ParseObject("Event");
+
+                    // Maybe user has not login.
+                    if (parseUser != null) {
+                        eventObject.put("user", parseUser);
+                    }
+
+
+                    eventObject.put("story", storyObject);
+                    eventObject.put("action", ParseEventTrackingManager.ACTION_REVIEW_STORY);
+                }
+
+                eventObject.put("value", finalRatingValue[0]);
+
+                if (commentText.getText() != null) {
+                    eventObject.put("description", commentText.getText().toString());
+                }
+                eventObject.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+
+                        askRatingsDialog.dismiss();
+                        if (e != null) {
+                            Log.e(DailyKind.TAG, e.getLocalizedMessage());
+                        } else {
+                            Log.d(DailyKind.TAG, "Parse event saved. " + ParseEventTrackingManager.ACTION_REVIEW_STORY + " on " + storyObject.getObjectId());
+
+                        }
+                    }
+                });
+            }
+        });
     }
 
     @Override
@@ -82,6 +277,8 @@ public class StoryContentActivity extends ActionBarActivity {
             public void done(final ParseObject parseObject, ParseException e) {
 
                 if (parseObject!=null) {
+
+                    storyObject = parseObject;
 
                     findViewById(R.id.story_content_progress_bar).setVisibility(View.GONE);
 

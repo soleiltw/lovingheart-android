@@ -155,7 +155,6 @@ public class PostStoryActivity extends ActionBarActivity {
                 final Dialog askPickerDialog = new Dialog(PostStoryActivity.this);
                 askPickerDialog.setContentView(R.layout.layout_photo_picker);
                 askPickerDialog.setTitle(getString(R.string.post_story_pick_photo));
-
                 askPickerDialog.findViewById(R.id.post_story_photo_cancel_button).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

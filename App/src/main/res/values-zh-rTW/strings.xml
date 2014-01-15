@@ -89,4 +89,7 @@
 	<string name="activity_post_story">日行一善分類</string>
 	<string name="activity_deed_category">日行一善分類</string>
 	<string name="activity_story_edit">故事編輯</string>
+	<string name="story_content_encourage_ratings">給予鼓勵</string>
+	<string name="submit">送出</string>
+	<string name="loading">Loading</string>
 </resources>

@@ -13,6 +13,7 @@ import com.parse.SaveCallback;
 public class ParseEventTrackingManager {
 
     public static String ACTION_VIEW_STORY = "view_story";
+    public static String ACTION_REVIEW_STORY = "review_story";
 
     public static void event(ParseUser parseUser, final ParseObject storyObject, final String action, final int value) {
         ParseObject eventObject = new ParseObject("Event");

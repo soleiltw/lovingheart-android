@@ -196,7 +196,7 @@ public class HomeFragment extends PlaceholderFragment {
                 }
 
                 TextView descriptionTextView = (TextView)getActivity().findViewById(R.id.idea_content_description_text_view);
-                if (idea.getIdeaDescription() != null && idea.getIdeaDescription().length() > 0) {
+                if (idea.getIdeaDescription() != null && idea.getIdeaDescription() != null) {
                     descriptionTextView.setText(idea.getIdeaDescription());
                 } else {
                     descriptionTextView.setVisibility(View.GONE);

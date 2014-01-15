@@ -91,5 +91,8 @@
 	<string name="activity_post_story">Good deeds</string>
 	<string name="activity_deed_category">Good deeds</string>
 	<string name="activity_story_edit">Edit Story</string>
+	<string name="story_content_encourage_ratings">Encourage</string>
+	<string name="submit">Submit</string>
+	<string name="loading">Loading</string>
 
 </resources>
