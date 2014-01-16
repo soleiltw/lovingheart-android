@@ -3,7 +3,7 @@
 
     <string name="app_name">LovingHeart</string>
 	<string name="app_id">778772072139128</string>
-    <string name="title_today">友善推薦</string>
+    <string name="title_today">行善推薦</string>
     <string name="title_me">我的記錄</string>
     <string name="title_latest_activities">最新故事</string>
 	<string name="title_popular_activities">熱門故事</string>
@@ -86,8 +86,8 @@
 	<string name="activity_settings">設定</string>
 	<string name="activity_story">故事</string>
 	<string name="activity_deed_content">日行一善</string>
-	<string name="activity_post_story">日行一善分類</string>
-	<string name="activity_deed_category">日行一善分類</string>
+	<string name="activity_post_story">行善分類</string>
+	<string name="activity_deed_category">行善分類</string>
 	<string name="activity_story_edit">故事編輯</string>
 	<string name="story_content_encourage_ratings">給予鼓勵</string>
 	<string name="submit">送出</string>

@@ -140,11 +140,13 @@ public class PostStoryActivity extends ActionBarActivity {
             contentImageViewLayoutParams.height = displayMetrics.widthPixels;
             contentImageView.requestLayout();
 
-            Picasso.with(getApplicationContext())
-                    .load(idea.getGraphic().getParseFileUrl())
-                    .placeholder(R.drawable.card_default)
-                    .resize(contentImageViewLayoutParams.width, contentImageViewLayoutParams.height)
-                    .into(contentImageView);
+            if (idea.getGraphic()!=null && idea.getGraphic().getParseFileUrl()!=null) {
+                Picasso.with(getApplicationContext())
+                        .load(idea.getGraphic().getParseFileUrl())
+                        .placeholder(R.drawable.card_default)
+                        .resize(contentImageViewLayoutParams.width, contentImageViewLayoutParams.height)
+                        .into(contentImageView);
+            }
         } else {
             findViewById(R.id.content_idea_from_layout).setVisibility(View.GONE);
         }

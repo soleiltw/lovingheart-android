@@ -45,9 +45,11 @@ public class HomeIdeaFragment extends Fragment {
         cardLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), DeedContentActivity.class);
-                intent.putExtra("ideaObjectId", idea.getObjectId());
-                startActivity(intent);
+                if  (getActivity() != null) {
+                    Intent intent = new Intent(getActivity(), DeedContentActivity.class);
+                    intent.putExtra("ideaObjectId", idea.getObjectId());
+                    startActivity(intent);
+                }
             }
         });
 

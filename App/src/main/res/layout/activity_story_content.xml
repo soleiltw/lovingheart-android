@@ -69,6 +69,7 @@
 					android:padding="5dp"
 					android:layout_gravity="center_horizontal"
 					android:text="@string/story_content_encourage_yet_empty"
+					android:visibility="gone"
 					android:id="@+id/ratings_empty_ask_text_view"
 					android:textAppearance="?android:textAppearanceSmall"
 					android:layout_width="wrap_content"
