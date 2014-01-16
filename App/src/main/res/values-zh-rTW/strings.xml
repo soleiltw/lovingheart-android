@@ -70,9 +70,9 @@
 	<string name="me_graphic_gallery">相簿</string>
 	<string name="user_login_or">或</string>
 	<string name="user_login_not_a_member">今天起註冊開始記錄自己正向故事！</string>
-	<string name="user_login_sign_up">註冊</string>
+	<string name="user_login_sign_up">Email 註冊</string>
 	<string name="user_login_promise">我們不會未經您允許隨意發佈您的訊息到其他社交平台</string>
-	<string name="user_signup_sign_up">註冊</string>
+	<string name="user_signup_sign_up">Email 註冊</string>
 	<string name="ask_login_get_your_profile">開始建立個人檔案！</string>
 	<string name="ask_login_take_me_login">前往登入</string>
 	<string name="setting_acknowledgement_summary">特別感謝社群大家的支持</string>
@@ -99,4 +99,7 @@
 	<string name="cancel">Cancel</string>
 	<string name="story_content_ask_login_dialog_message">給予鼓勵需要會員登入，帶您前往登入。</string>
 	<string name="idea_caption_latest_idea">最新推薦</string>
+
+	<string name="setting_version_summary">版本編號</string>
+	<string name="setting_version_title">版本</string>
 </resources>

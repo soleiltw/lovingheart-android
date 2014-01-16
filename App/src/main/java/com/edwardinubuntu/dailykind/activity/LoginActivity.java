@@ -168,7 +168,9 @@ public class LoginActivity extends ActionBarActivity {
             @Override
             public void done(ParseUser parseUser, ParseException e) {
 
-                findViewById(R.id.user_login_progressBar).setVisibility(View.GONE);
+                if (findViewById(R.id.user_login_progressBar) != null) {
+                    findViewById(R.id.user_login_progressBar).setVisibility(View.GONE);
+                }
 
                 if (e!= null) {
                     Log.d(DailyKind.TAG, "Parse Exception: " + e.getLocalizedMessage());

@@ -11,48 +11,50 @@
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content">
 		<LinearLayout
-			android:layout_margin="10dp"
 			android:orientation="vertical"
 			android:id="@+id/me_profile_layout"
 			android:layout_width="fill_parent"
 			android:layout_height="wrap_content">
 
-			<include layout="@layout/layout_user_image_name" />
-
-			<TextView
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:textAppearance="?android:attr/textAppearanceMedium"
-				android:hint="StoriesShare"
-				android:id="@+id/me_stories_share_text_view"/>
-
-			<TextView
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:textAppearance="?android:attr/textAppearanceMedium"
-				android:hint="Since"
-				android:id="@+id/me_since_text_view"/>
-
 			<LinearLayout
 				android:orientation="vertical"
-				android:layout_marginTop="10dp"
-				android:layout_marginBottom="10dp"
-				android:layout_width="fill_parent"
+				android:padding="10dp"
+				android:layout_margin="10dp"
+				android:background="@drawable/layout_background_shadow"
+				android:layout_width="match_parent"
 				android:layout_height="wrap_content">
 
+			<include layout="@layout/layout_user_image_name" />
+
 				<TextView
-					android:text="@string/me_graphic_gallery"
 					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"/>
+					android:layout_height="wrap_content"
+					android:textAppearance="?android:attr/textAppearanceMedium"
+					android:hint="Since"
+					android:id="@+id/me_since_text_view"/>
 
-			<com.edwardinubuntu.dailykind.view.ExpandableGridView
-				android:id="@+id/me_graphic_gallery_grid_view"
-				android:horizontalSpacing="5dp"
-				android:verticalSpacing="5dp"
-				android:gravity="center"
-				android:layout_width="fill_parent"
-				android:layout_height="fill_parent" />
+			<include layout="@layout/layout_user_impact_stat" />
 
+			</LinearLayout>
+
+			<LinearLayout
+				android:padding="10dp"
+				android:layout_marginLeft="10dp"
+				android:layout_marginRight="10dp"
+				android:id="@+id/me_graphic_gallery_layout"
+				android:visibility="gone"
+				android:background="@drawable/layout_background_shadow"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content">
+
+
+					<com.edwardinubuntu.dailykind.view.ExpandableGridView
+						android:id="@+id/me_graphic_gallery_grid_view"
+						android:horizontalSpacing="5dp"
+						android:verticalSpacing="5dp"
+						android:gravity="center"
+						android:layout_width="fill_parent"
+						android:layout_height="fill_parent" />
 			</LinearLayout>
 
 		</LinearLayout>

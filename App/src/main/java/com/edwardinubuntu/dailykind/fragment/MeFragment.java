@@ -29,6 +29,8 @@ public class MeFragment extends PlaceholderFragment {
 
     private TextView storiesSharedCountTextView;
 
+    private TextView graphicEarnedCountTextView;
+
     private Menu menu;
 
     private TextView userNameTextView;
@@ -68,7 +70,8 @@ public class MeFragment extends PlaceholderFragment {
 
         sinceTextView = (TextView)rootView.findViewById(R.id.me_since_text_view);
 
-        storiesSharedCountTextView = (TextView)rootView.findViewById(R.id.me_stories_share_text_view);
+        storiesSharedCountTextView = (TextView)rootView.findViewById(R.id.user_impact_stories_share_text_view);
+        graphicEarnedCountTextView = (TextView)rootView.findViewById(R.id.user_impact_graphic_earned_text_view);
 
         galleryGridView = (ExpandableGridView)rootView.findViewById(R.id.me_graphic_gallery_grid_view);
         galleryGridView.setExpand(true);
@@ -154,6 +157,13 @@ public class MeFragment extends PlaceholderFragment {
                         @Override
                         public void done(List<ParseObject> parseObjects, ParseException e) {
                             if (parseObjects!=null) {
+
+                                graphicEarnedCountTextView.setText(String.valueOf(parseObjects.size()));
+
+                                if (!parseObjects.isEmpty()) {
+                                    getActivity().findViewById(R.id.me_graphic_gallery_layout).setVisibility(View.VISIBLE);
+                                }
+
                                 userGraphicsList.clear();
                                 for (ParseObject eachGraphicObject : parseObjects) {
                                     Graphic graphic = new ParseObjectManager(eachGraphicObject).getGraphic();
@@ -204,7 +214,7 @@ public class MeFragment extends PlaceholderFragment {
                 if (parseObjects != null && parseObjects.size() > 0) {
                     int storiesCount = parseObjects.size();
 
-                    storiesSharedCountTextView.setText(storiesCount + " " + getString(R.string.me_number_of_stories_shared));
+                    storiesSharedCountTextView.setText(storiesCount);
 
                     ParseObject userImpactObject = new ParseObject("UserImpact");
                     userImpactObject.put("User", ParseUser.getCurrentUser());
@@ -232,7 +242,7 @@ public class MeFragment extends PlaceholderFragment {
         storyQuery.countInBackground(new CountCallback() {
             @Override
             public void done(int count, ParseException e) {
-                storiesSharedCountTextView.setText(count + getString(R.string.space) + getString(R.string.me_number_of_stories_shared));
+                storiesSharedCountTextView.setText(String.valueOf(count));
 
                 parseObject.put("sharedStoriesCount", count);
                 parseObject.saveInBackground(new SaveCallback() {

@@ -4,9 +4,11 @@ import android.annotation.TargetApi;
 import android.app.ActionBar;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.*;
+import android.util.Log;
 import android.view.MenuItem;
 import com.edwardinubuntu.dailykind.DailyKind;
 import com.edwardinubuntu.dailykind.R;
@@ -22,6 +24,8 @@ public class SettingActivity extends PreferenceActivity {
 
     private SharedPreferences preferences;
 
+    private static String PREFERENCES_KEY_APP_VERSION = "PREFERENCES_KEY_APP_VERSION";
+
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +38,17 @@ public class SettingActivity extends PreferenceActivity {
         addPreferencesFromResource(R.xml.settings);
 
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+        try {
+            String appVersion = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
+
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putString(PREFERENCES_KEY_APP_VERSION, appVersion);
+            editor.commit();
+
+        } catch (PackageManager.NameNotFoundException e) {
+            Log.e(DailyKind.TAG, e.getLocalizedMessage());
+        }
     }
 
     @Override
@@ -174,6 +189,11 @@ public class SettingActivity extends PreferenceActivity {
                 }
             });
         }
+
+        // Version
+        Preference versionPreference = findPreference("setting_version_key");
+        versionPreference.setSummary(this.preferences.getString(PREFERENCES_KEY_APP_VERSION, ""));
+
 
     }
 

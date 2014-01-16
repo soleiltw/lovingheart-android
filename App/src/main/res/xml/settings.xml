@@ -26,6 +26,11 @@
 	<PreferenceCategory android:title="@string/setting_about" >
 
 		<Preference
+			android:key="setting_version_key"
+			android:summary="@string/setting_version_summary"
+			android:title="@string/setting_version_title" />
+
+		<Preference
 			android:key="setting_acknowledgement"
 			android:summary="@string/setting_acknowledgement_summary"
 			android:title="@string/setting_acknowledgement_title" />

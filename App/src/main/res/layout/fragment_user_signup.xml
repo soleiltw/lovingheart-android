@@ -88,7 +88,7 @@
 			android:layout_width="fill_parent"
 			android:layout_height="wrap_content"
 			bootstrapbutton:bb_roundedCorners="true"
-			bootstrapbutton:bb_type="primary"
+			bootstrapbutton:bb_type="success"
 			/>
 
 	</LinearLayout>

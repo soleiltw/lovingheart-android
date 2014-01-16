@@ -52,6 +52,8 @@
 	<string name="post_story_content_need_title">Story Content</string>
 	<string name="post_story_content_need_message">Please type some words.</string>
 	<string name="go">OK</string>
+
+	<string name="user_login_login">Login</string>
 	
 	<!-- Settings -->
 	<string name="setting_setting">Settings</string>
@@ -99,5 +101,8 @@
 	<string name="cancel">Cancel</string>
 	<string name="story_content_ask_login_dialog_message">Need to login to give encourage. Take you to login?</string>
 	<string name="idea_caption_latest_idea">Latest Idea</string>
+	
+	<string name="setting_version_summary">Version Number</string>
+	<string name="setting_version_title">Version</string>
 
 </resources>
