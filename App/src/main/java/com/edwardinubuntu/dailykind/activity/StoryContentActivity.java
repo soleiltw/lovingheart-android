@@ -181,6 +181,13 @@ public class StoryContentActivity extends ActionBarActivity {
                     for (ParseObject eachEvent : parseObjects) {
                         ratingCount += eachEvent.getInt("value");
                     }
+                    storyObject.put("reviewImpact", ratingCount);
+                    storyObject.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                        }
+                    });
+
                     TextView ratingsCountTextView = (TextView)findViewById(R.id.ratings_total_stars_text_view);
                     ratingsCountTextView.setText(String.valueOf(ratingCount));
 
@@ -330,7 +337,6 @@ public class StoryContentActivity extends ActionBarActivity {
         ParseQuery<ParseObject> viewEventQuery = new ParseQuery<ParseObject>("Event");
         viewEventQuery.whereEqualTo("story", parseObject);
         viewEventQuery.whereEqualTo("action", ParseEventTrackingManager.ACTION_VIEW_STORY);
-
         viewEventQuery.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> parseObjects, ParseException e) {
@@ -340,17 +346,6 @@ public class StoryContentActivity extends ActionBarActivity {
                     viewCount += eventObject.getInt("value");
                 }
 
-                parseObject.put("viewCount", viewCount);
-
-                final int finalViewCount = viewCount;
-                parseObject.saveInBackground(new SaveCallback() {
-                    @Override
-                    public void done(ParseException e) {
-                        if (e==null) {
-                            Log.d(DailyKind.TAG, "Story view count update: " + finalViewCount);
-                        }
-                    }
-                });
             }
         });
     }

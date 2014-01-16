@@ -9,6 +9,7 @@ import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.app.FragmentManager;
 import android.view.*;
 import android.widget.ProgressBar;
 import com.edwardinubuntu.dailykind.DailyKind;
@@ -152,7 +153,8 @@ public class HomeFragment extends PlaceholderFragment {
                     HomeIdeaFragment homeIdeaFragment = new HomeIdeaFragment(randomParseObject);
                     homeIdeaFragment.setTitle(getActivity().getResources().getString(R.string.idea_caption_special_idea));
                     homeIdeaFragment.setTitleImageResource(R.drawable.ic_action_balloon);
-                    getFragmentManager().beginTransaction().replace(R.id.home_random_idea_card_layout, homeIdeaFragment).commit();
+                    FragmentManager fragmentManager = getFragmentManager();
+                    fragmentManager.beginTransaction().replace(R.id.home_random_idea_card_layout, homeIdeaFragment).commit();
 
                     HomeIdeaFragment latestIdeaFragment = new HomeIdeaFragment(parseObjects.get(0));
                     latestIdeaFragment.setTitle(getActivity().getResources().getString(R.string.idea_caption_latest_idea));

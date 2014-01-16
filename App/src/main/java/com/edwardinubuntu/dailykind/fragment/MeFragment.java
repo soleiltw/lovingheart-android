@@ -2,12 +2,9 @@ package com.edwardinubuntu.dailykind.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.*;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-import com.edwardinubuntu.dailykind.DailyKind;
 import com.edwardinubuntu.dailykind.R;
 import com.edwardinubuntu.dailykind.activity.LoginActivity;
 import com.edwardinubuntu.dailykind.adapter.GalleryArrayAdapter;
@@ -127,7 +124,7 @@ public class MeFragment extends PlaceholderFragment {
                     }
                 });
             }
-            loadUserImpact();
+            loadStories();
             loadGraphicEarned();
         } else {
             getActivity().findViewById(R.id.me_profile_layout).setVisibility(View.GONE);
@@ -142,6 +139,38 @@ public class MeFragment extends PlaceholderFragment {
             });
         }
     }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.me, menu);
+        this.menu = menu;
+    }
+      
+    private void loadStories() {
+        ParseQuery<ParseObject> storyQuery = new ParseQuery<ParseObject>("Story");
+        storyQuery.whereEqualTo("StoryTeller", ParseUser.getCurrentUser());
+        storyQuery.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> parseObjects, ParseException e) {
+                if (parseObjects != null) {
+
+                    storiesSharedCountTextView.setText(String.valueOf(parseObjects.size()));
+
+                    int reviewImpactCount = 0;
+                    for (ParseObject eachStory : parseObjects) {
+                        if (eachStory.has("reviewImpact")) {
+                            reviewImpactCount += eachStory.getInt("reviewImpact");
+                        }
+                    }
+                    TextView reviewStarsTextView = (TextView)getActivity().findViewById(R.id.user_impact_review_stars_text_view);
+                    reviewStarsTextView.setText(String.valueOf(reviewImpactCount));
+
+                }
+            }
+        });
+    }
+
 
     private void loadGraphicEarned() {
         ParseQuery<ParseObject> graphicsEarnedQuery = ParseQuery.getQuery("GraphicsEarned");
@@ -174,85 +203,6 @@ public class MeFragment extends PlaceholderFragment {
                         }
                     });
                 }
-            }
-        });
-    }
-
-    private void loadUserImpact() {
-        // Check if user have report
-        ParseQuery<ParseObject> userQuery = ParseQuery.getQuery("UserImpact");
-        userQuery.whereEqualTo("User", ParseUser.getCurrentUser());
-        userQuery.setCachePolicy(ParseQuery.CachePolicy.CACHE_ELSE_NETWORK);
-        userQuery.getFirstInBackground(new GetCallback<ParseObject>() {
-            @Override
-            public void done(final ParseObject parseObject, ParseException e) {
-                if (parseObject!=null) {
-                    updateUserImpact(parseObject);
-                } else {
-                    generateUserImpact();
-                }
-            }
-        });
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.me, menu);
-        this.menu = menu;
-    }
-
-    private void generateUserImpact() {
-        ParseQuery<ParseObject> storyQuery = new ParseQuery<ParseObject>("Story");
-        storyQuery.whereEqualTo("StoryTeller", ParseUser.getCurrentUser());
-        storyQuery.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
-        storyQuery.setMaxCacheAge(DailyKind.QUERY_MAX_CACHE_AGE);
-        storyQuery.findInBackground(new FindCallback<ParseObject>() {
-            @Override
-            public void done(List<ParseObject> parseObjects, ParseException e) {
-
-                if (parseObjects != null && parseObjects.size() > 0) {
-                    int storiesCount = parseObjects.size();
-
-                    storiesSharedCountTextView.setText(storiesCount);
-
-                    ParseObject userImpactObject = new ParseObject("UserImpact");
-                    userImpactObject.put("User", ParseUser.getCurrentUser());
-                    userImpactObject.put("sharedStoriesCount", storiesCount);
-                    userImpactObject.saveInBackground(new SaveCallback() {
-                        @Override
-                        public void done(ParseException e) {
-                            if (e == null) {
-                                Toast.makeText(getActivity(), "Report generated.", Toast.LENGTH_SHORT).show();
-
-                            } else {
-                                Log.e(DailyKind.TAG, "UserImpact save: " + e.getLocalizedMessage());
-                            }
-                        }
-                    });
-                }
-
-            }
-        });
-    }
-
-    private void updateUserImpact(final ParseObject parseObject) {
-        ParseQuery<ParseObject> storyQuery = new ParseQuery<ParseObject>("Story");
-        storyQuery.whereEqualTo("StoryTeller", ParseUser.getCurrentUser());
-        storyQuery.countInBackground(new CountCallback() {
-            @Override
-            public void done(int count, ParseException e) {
-                storiesSharedCountTextView.setText(String.valueOf(count));
-
-                parseObject.put("sharedStoriesCount", count);
-                parseObject.saveInBackground(new SaveCallback() {
-                    @Override
-                    public void done(ParseException e) {
-                        if (e == null) {
-                            Toast.makeText(getActivity(), "Report updated.", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
             }
         });
     }

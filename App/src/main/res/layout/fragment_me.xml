@@ -26,19 +26,26 @@
 
 			<include layout="@layout/layout_user_image_name" />
 
+				<LinearLayout
+					android:layout_marginTop="5dp"
+					android:layout_marginBottom="5dp"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content">
+				<include layout="@layout/layout_user_impact_stat" />
+				</LinearLayout>
+
 				<TextView
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:textAppearance="?android:attr/textAppearanceMedium"
 					android:hint="Since"
-					android:id="@+id/me_since_text_view"/>
-
-			<include layout="@layout/layout_user_impact_stat" />
+					android:id="@+id/me_since_text_view"
+					android:layout_gravity="right"/>
 
 			</LinearLayout>
 
 			<LinearLayout
-				android:padding="10dp"
+				android:padding="5dp"
 				android:layout_marginLeft="10dp"
 				android:layout_marginRight="10dp"
 				android:id="@+id/me_graphic_gallery_layout"

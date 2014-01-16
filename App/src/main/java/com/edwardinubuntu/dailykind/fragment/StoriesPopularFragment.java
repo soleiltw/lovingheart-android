@@ -27,7 +27,7 @@ public class StoriesPopularFragment extends StoriesFeedsFragment {
 
         final ParseQuery<ParseObject> parseQuery = ParseQuery.getQuery("Story");
         parseQuery.include("StoryTeller");
-        parseQuery.orderByDescending("viewCount");
+        parseQuery.orderByDescending("reviewImpact");
         parseQuery.include("ideaPointer");
         parseQuery.include("graphicPointer");
         parseQuery.setLimit(10);

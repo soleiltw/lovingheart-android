@@ -25,7 +25,9 @@
 
 		<EditText
 			android:hint="@string/story_ratings_comment_hint"
-			android:lines="3"
+			android:inputType="textCapSentences|textMultiLine"
+			android:maxLength="200"
+			android:maxLines="4"
 			android:id="@+id/story_ratings_comment_edit_text"
 			android:layout_width="fill_parent"
 			android:layout_height="wrap_content"/>

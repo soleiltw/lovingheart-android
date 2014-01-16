@@ -37,10 +37,12 @@
 			</LinearLayout>
 
 			<EditText
-				android:minLines="3"
 				android:id="@+id/content_edit_text"
 				android:hint="How the story goes."
 				android:gravity="top"
+				android:inputType="textCapSentences|textMultiLine"
+				android:maxLength="200"
+				android:maxLines="4"
 				android:layout_width="fill_parent"
 				android:layout_height="wrap_content"/>
 

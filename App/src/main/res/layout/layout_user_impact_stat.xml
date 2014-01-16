@@ -17,14 +17,13 @@
 			android:layout_height="wrap_content">
 
 			<ImageView
-				android:src="@drawable/ic_action_heart"
+				android:src="@drawable/ic_action_edit_red"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"/>
 
 			<TextView
 				android:hint="0"
 				android:textAppearance="?android:textAppearanceMedium"
-				android:textColor="@color/theme_color_2"
 				android:id="@+id/user_impact_stories_share_text_view"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"/>
@@ -45,8 +44,28 @@
 			<TextView
 				android:hint="0"
 				android:textAppearance="?android:textAppearanceMedium"
-				android:textColor="@color/theme_color_2"
 				android:id="@+id/user_impact_graphic_earned_text_view"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"/>
+
+		</LinearLayout>
+
+		<LinearLayout
+			android:orientation="horizontal"
+			android:layout_weight="1"
+			android:gravity="center_vertical"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content">
+
+			<ImageView
+				android:src="@drawable/ic_action_star_10"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"/>
+
+			<TextView
+				android:hint="0"
+				android:textAppearance="?android:textAppearanceMedium"
+				android:id="@+id/user_impact_review_stars_text_view"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"/>
 
