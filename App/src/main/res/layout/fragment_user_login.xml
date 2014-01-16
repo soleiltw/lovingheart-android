@@ -49,17 +49,15 @@
 		<com.facebook.widget.LoginButton
 			android:gravity="center"
 			android:id="@+id/facebook_auth_button"
-			android:layout_width="wrap_content"
+			android:layout_width="fill_parent"
 			android:layout_height="wrap_content"
 			android:layout_gravity="center_horizontal"/>
 		
-		<TextView
+		<View
+			android:background="#CFCFCF"
 			android:layout_margin="10dp"
-			android:text="@string/user_login_or"
-			android:gravity="center"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_gravity="center_horizontal"/>
+			android:layout_width="fill_parent"
+			android:layout_height="1dp" />
 
 		<EditText
 			android:inputType="textEmailAddress"
@@ -124,6 +122,7 @@
 				android:textAppearance="?android:textAppearanceSmall"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
+				android:layout_margin="10dp"
 				android:gravity="center"/>
 
 		</LinearLayout>

@@ -118,13 +118,13 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
 
             ParseAnalytics.trackAppOpened(getIntent());
         }
-
+        printPackageInfo();
     }
 
     private void printPackageInfo() {
         try {
             PackageInfo info = getPackageManager().getPackageInfo(
-                    "com.edwardinubuntu.dailykind",
+                    this.getPackageName(),
                     PackageManager.GET_SIGNATURES);
             for (Signature signature : info.signatures) {
                 MessageDigest md = MessageDigest.getInstance("SHA");

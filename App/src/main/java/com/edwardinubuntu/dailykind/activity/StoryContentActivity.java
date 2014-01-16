@@ -46,6 +46,10 @@ public class StoryContentActivity extends ActionBarActivity {
 
     private ParseObject storyObject;
 
+    private LinearLayout.LayoutParams storyContentImageViewLayoutParams;
+
+    private ImageView storyContentImageView;
+
     private int STORY_CONTENT_EDIT = 100;
     private int ASK_USER_LOGIN = 110;
 
@@ -65,6 +69,16 @@ public class StoryContentActivity extends ActionBarActivity {
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
+
+        storyContentImageView = (ImageView)findViewById(R.id.me_stories_image_view);
+
+        DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
+
+        storyContentImageViewLayoutParams = (LinearLayout.LayoutParams)storyContentImageView.getLayoutParams();
+        storyContentImageViewLayoutParams.width = displayMetrics.widthPixels;
+        storyContentImageViewLayoutParams.height = displayMetrics.widthPixels;
+        storyContentImageView.requestLayout();
+
         storyReviewSetup();
         loadStory();
     }
@@ -276,7 +290,6 @@ public class StoryContentActivity extends ActionBarActivity {
                         });
                     }
 
-                    ImageView storyContentImageView = (ImageView)findViewById(R.id.me_stories_image_view);
                     // Check if have graphic
                     if (parseObject.getParseObject("graphicPointer") != null) {
                         Graphic graphic = new ParseObjectManager(parseObject.getParseObject("graphicPointer")).getGraphic();
@@ -284,11 +297,6 @@ public class StoryContentActivity extends ActionBarActivity {
 
                         if (story.getGraphic() !=null && story.getGraphic().getParseFileUrl() != null) {
 
-                            DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
-                            LinearLayout.LayoutParams storyContentImageViewLayoutParams = (LinearLayout.LayoutParams)storyContentImageView.getLayoutParams();
-                            storyContentImageViewLayoutParams.width = displayMetrics.widthPixels;
-                            storyContentImageViewLayoutParams.height = displayMetrics.widthPixels;
-                            storyContentImageView.requestLayout();
                             storyContentImageView.setVisibility(View.VISIBLE);
 
                             Picasso.with(getApplicationContext())

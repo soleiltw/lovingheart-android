@@ -24,15 +24,22 @@ android {
         minSdkVersion 11
         targetSdkVersion 19
     }
+
+    signingConfigs {
+        releaseConfig {
+            storeFile file ("../lovingheart.keystore")
+            storePassword StorePassword
+            keyAlias KeyAlias
+            keyPassword KeyPassword
+        }
+    }
+
     buildTypes {
         release {
             runProguard true
             proguardFile getDefaultProguardFile('proguard-android-optimize.txt')
-        }
-    }
-    productFlavors {
-        defaultFlavor {
-            proguardFile 'proguard-rules.txt'
+            signingConfig signingConfigs.releaseConfig
+            proguardFile '../proguard.cfg'
         }
     }
 }

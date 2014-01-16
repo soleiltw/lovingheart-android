@@ -33,6 +33,7 @@
 	<string name="space">&#160;</string>
 	<string name="comma">,</string>
 	<string name="deed_content_be_the_first_one">成為第一個</string>
+	<string name="user_login_login">登入</string>
 	
 	<string name="deed_content_done_credit">完成後，您可以獲得這張貼圖。</string>
 	<string name="stories_last_share_content_text_prefix">最新分享</string>
@@ -68,9 +69,9 @@
 	<string name="post_story_post">發佈</string>
 	<string name="me_graphic_gallery">相簿</string>
 	<string name="user_login_or">或</string>
-	<string name="user_login_not_a_member">立即成為會員？</string>
+	<string name="user_login_not_a_member">今天起註冊開始記錄自己正向故事！</string>
 	<string name="user_login_sign_up">註冊</string>
-	<string name="user_login_promise">我們不會未經您允許隨意發佈您的訊息</string>
+	<string name="user_login_promise">我們不會未經您允許隨意發佈您的訊息到其他社交平台</string>
 	<string name="user_signup_sign_up">註冊</string>
 	<string name="ask_login_get_your_profile">開始建立個人檔案！</string>
 	<string name="ask_login_take_me_login">前往登入</string>

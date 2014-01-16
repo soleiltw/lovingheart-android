@@ -69,10 +69,9 @@
 	<string name="post_story_post">Post</string>
 	<string name="me_graphic_gallery">Graphic Gallery</string>
 	<string name="user_login_or">OR</string>
-	<string name="user_login_login">Login</string>
-	<string name="user_login_not_a_member">Not a member yet?</string>
+	<string name="user_login_not_a_member">Become a member today!</string>
 	<string name="user_login_sign_up">Sign Up</string>
-	<string name="user_login_promise">We promise we won\'t post anything to your wall unless you ask us to.</string>
+	<string name="user_login_promise">We promise we won\'t post anything to your social wall unless you ask us to.</string>
 	<string name="user_signup_sign_up">Sign Up</string>
 	<string name="ask_login_get_your_profile">Get your personal profile today!</string>
 	<string name="ask_login_take_me_login">Take me to login</string>
