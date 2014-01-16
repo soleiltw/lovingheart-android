@@ -125,10 +125,12 @@ public class DeedContentActivity extends ActionBarActivity {
 
                     TextView contentTextView = (TextView)findViewById(R.id.idea_content_title_text_view);
                     contentTextView.setText(idea.getName());
+                    contentTextView.setMaxLines(99);
 
                     TextView contentDescriptionTextView = (TextView)findViewById(R.id.idea_content_description_text_view);
                     if (idea.getIdeaDescription() != null && idea.getIdeaDescription().length() > 0) {
                         contentDescriptionTextView.setText(idea.getIdeaDescription());
+                        contentDescriptionTextView.setMaxLines(99);
                     } else {
                         contentDescriptionTextView.setVisibility(View.GONE);
                     }
