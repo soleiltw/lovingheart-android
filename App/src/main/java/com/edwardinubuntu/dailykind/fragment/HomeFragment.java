@@ -9,23 +9,15 @@ import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.util.DisplayMetrics;
 import android.view.*;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import com.edwardinubuntu.dailykind.DailyKind;
 import com.edwardinubuntu.dailykind.R;
 import com.edwardinubuntu.dailykind.activity.DeedCategoriesActivity;
-import com.edwardinubuntu.dailykind.activity.DeedContentActivity;
-import com.edwardinubuntu.dailykind.object.Idea;
-import com.edwardinubuntu.dailykind.util.parse.ParseObjectManager;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,13 +28,8 @@ import java.util.Locale;
  */
 public class HomeFragment extends PlaceholderFragment {
 
-    private TextView randomIdeaTextView;
 
     private ProgressBar randomLoadingProgressBar;
-
-    private ImageView suggestImageView;
-
-    private LinearLayout.LayoutParams suggestImageViewLayoutParams;
 
     private Menu menu;
 
@@ -78,19 +65,11 @@ public class HomeFragment extends PlaceholderFragment {
 
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
 
-        randomIdeaTextView = (TextView)rootView.findViewById(R.id.idea_content_title_text_view);
 
-        suggestImageView = (ImageView)rootView.findViewById(R.id.idea_content_image_view);
-
-        DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
-        suggestImageViewLayoutParams = (LinearLayout.LayoutParams)suggestImageView.getLayoutParams();
-        suggestImageViewLayoutParams.width = displayMetrics.widthPixels;
-        suggestImageViewLayoutParams.height = displayMetrics.widthPixels;
-        suggestImageView.requestLayout();
 
         randomLoadingProgressBar = (ProgressBar)rootView.findViewById(R.id.home_good_deed_random_progressBar);
 
-        View categoriesDeedLayout = (View)rootView.findViewById(R.id.browse_idea_button);
+        View categoriesDeedLayout = rootView.findViewById(R.id.browse_idea_button);
         categoriesDeedLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -144,8 +123,6 @@ public class HomeFragment extends PlaceholderFragment {
         updateRefreshItem();
         randomLoadingProgressBar.setVisibility(View.VISIBLE);
 
-        getActivity().findViewById(R.id.home_idea_card_layout).setVisibility(View.GONE);
-
         final ParseQuery<ParseObject> randomIdeaQuery = new ParseQuery<ParseObject>("Idea");
         ArrayList<String> languageCollection = new ArrayList<String>();
         boolean englishDefaultValue = Locale.getDefault().getLanguage().contains("en");
@@ -161,72 +138,30 @@ public class HomeFragment extends PlaceholderFragment {
         randomIdeaQuery.whereContainedIn("language", languageCollection);
         randomIdeaQuery.include("categoryPointer");
         randomIdeaQuery.include("graphicPointer");
+        randomIdeaQuery.orderByDescending("createdAt");
         randomIdeaQuery.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> parseObjects, ParseException e) {
-                if  (parseObjects!=null) {
-                int maxIndex = parseObjects.size();
-                int randomIndex = (int)(Math.random() * maxIndex);
+                if  (parseObjects!=null && parseObjects.size() > 0) {
 
-                ParseObject randomParseObject = parseObjects.get(randomIndex);
+                    int maxIndex = parseObjects.size();
+                    int randomIndex = (int)(Math.random() * maxIndex);
 
-                View cardLayout = getActivity().findViewById(R.id.home_idea_card_layout);
-                if (cardLayout!=null) {
-                    cardLayout.setVisibility(View.VISIBLE);
+                    ParseObject randomParseObject = parseObjects.get(randomIndex);
+
+                    HomeIdeaFragment homeIdeaFragment = new HomeIdeaFragment(randomParseObject);
+                    homeIdeaFragment.setTitle(getActivity().getResources().getString(R.string.idea_caption_special_idea));
+                    homeIdeaFragment.setTitleImageResource(R.drawable.ic_action_balloon);
+                    getFragmentManager().beginTransaction().replace(R.id.home_random_idea_card_layout, homeIdeaFragment).commit();
+
+                    HomeIdeaFragment latestIdeaFragment = new HomeIdeaFragment(parseObjects.get(0));
+                    latestIdeaFragment.setTitle(getActivity().getResources().getString(R.string.idea_caption_latest_idea));
+                    latestIdeaFragment.setTitleImageResource(R.drawable.ic_action_emo_basic);
+                    getFragmentManager().beginTransaction().replace(R.id.home_latest_idea_card_layout, latestIdeaFragment).commit();
+
                 }
 
-                suggestImageView.setImageBitmap(null);
-
-                final Idea idea = new ParseObjectManager(randomParseObject).getIdea();
-
-                idea.setCategory(new ParseObjectManager(randomParseObject.getParseObject("categoryPointer")).getCategory());
-                randomIdeaTextView.setText(idea.getName());
-
-                TextView categoryTextView = (TextView)getActivity().findViewById(R.id.idea_content_category_text_view);
-                if (categoryTextView!=null &&
-                        idea!=null &&
-                        idea.getCategory() != null && idea.getCategory().getName() != null) {
-                    categoryTextView.setVisibility(View.VISIBLE);
-                    categoryTextView.setText(idea.getCategory().getName());
-                }
-
-                TextView captionTextView = (TextView)getActivity().findViewById(R.id.home_random_idea_caption_text_view);
-                if (captionTextView!=null) {
-                    captionTextView.setText(getActivity().getResources().getString(R.string.idea_caption_special_idea));
-                }
-
-                TextView descriptionTextView = (TextView)getActivity().findViewById(R.id.idea_content_description_text_view);
-                if (descriptionTextView != null && idea.getIdeaDescription() != null && idea.getIdeaDescription() != null) {
-                    descriptionTextView.setText(idea.getIdeaDescription());
-                } else {
-                    descriptionTextView.setVisibility(View.GONE);
-                }
-
-                idea.setGraphic(new ParseObjectManager(randomParseObject.getParseObject("graphicPointer")).getGraphic());
-
-                cardLayout.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent = new Intent(getActivity(), DeedContentActivity.class);
-                        intent.putExtra("ideaObjectId", idea.getObjectId());
-                        startActivity(intent);
-                    }
-                });
-
-                suggestImageView.setVisibility(View.GONE);
-                if (idea.getGraphic() != null && idea.getGraphic().getParseFileUrl() != null) {
-                    String imageUrl = idea.getGraphic().getParseFileUrl();
-                    if (imageUrl!=null) {
-                        suggestImageView.setVisibility(View.VISIBLE);
-                        Picasso.with(getActivity())
-                                .load(imageUrl)
-                                .placeholder(R.drawable.card_default)
-                                .resize(suggestImageViewLayoutParams.width, suggestImageViewLayoutParams.height)
-                                .into(suggestImageView);
-                    }
-                }
                 playBellsSound();
-                }
 
                 randomLoadingProgressBar.setVisibility(View.GONE);
                 setQueryLoading(false);

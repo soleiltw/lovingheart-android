@@ -99,5 +99,6 @@
 	<string name="story_ratings_comment_hint">Leave message</string>
 	<string name="cancel">Cancel</string>
 	<string name="story_content_ask_login_dialog_message">Need to login to give encourage. Take you to login?</string>
+	<string name="idea_caption_latest_idea">Latest Idea</string>
 
 </resources>

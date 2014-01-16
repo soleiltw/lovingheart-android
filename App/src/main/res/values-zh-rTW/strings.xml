@@ -97,4 +97,5 @@
 	<string name="story_ratings_comment_hint">留言</string>
 	<string name="cancel">Cancel</string>
 	<string name="story_content_ask_login_dialog_message">給予鼓勵需要會員登入，帶您前往登入。</string>
+	<string name="idea_caption_latest_idea">最新推薦</string>
 </resources>

@@ -19,9 +19,15 @@
 			style="?android:attr/progressBarStyleSmallInverse"
 			android:layout_gravity="center"/>
 
-		<include
-			android:id="@+id/home_idea_card_layout"
-			layout="@layout/layout_idea_card" />
+		<FrameLayout
+			android:id="@+id/home_random_idea_card_layout"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content" />
+
+		<FrameLayout
+			android:id="@+id/home_latest_idea_card_layout"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content" />
 
 		<include
 		    layout="@layout/layout_browse_idea_cards" />
