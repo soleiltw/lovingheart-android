@@ -48,19 +48,19 @@
 
 		</LinearLayout>
 
-		<ImageView
-			android:layout_width="fill_parent"
-			android:layout_height="wrap_content"
-			android:background="@color/theme_color_3"
-			android:scaleType="centerCrop"
-			android:id="@+id/idea_content_image_view"
-			android:layout_gravity="center_horizontal"/>
-
 		<LinearLayout
-			android:orientation="horizontal"
+			android:orientation="vertical"
 			android:layout_width="fill_parent"
 			android:gravity="right"
 			android:layout_height="wrap_content">
+
+			<ImageView
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:background="@color/theme_color_3"
+				android:scaleType="centerCrop"
+				android:id="@+id/idea_content_image_view"
+				android:layout_gravity="center_horizontal"/>
 
 			<com.beardedhen.androidbootstrap.BootstrapButton
 				android:layout_width="wrap_content"

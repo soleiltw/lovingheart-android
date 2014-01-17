@@ -47,7 +47,7 @@
 	<string name="action_login_form_validate_failure">Email or password is invalid.</string>
 
 	<string name="signup_form_username">Username</string>
-	<string name="idea_caption_special_idea">Feature idea</string>
+	<string name="idea_caption_special_idea">Feature Idea</string>
 
 	<string name="post_story_content_need_title">Story Content</string>
 	<string name="post_story_content_need_message">Please type some words.</string>

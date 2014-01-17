@@ -148,14 +148,19 @@ public class HomeFragment extends PlaceholderFragment {
         if (supportChinese) {
             languageCollection.add("zh");
         }
+        ArrayList<String> stringCollection = new ArrayList<String>();
+        stringCollection.add("close");
         randomIdeaQuery.whereContainedIn("language", languageCollection);
         randomIdeaQuery.include("categoryPointer");
         randomIdeaQuery.include("graphicPointer");
+        randomIdeaQuery.whereNotContainedIn("status", stringCollection);
         randomIdeaQuery.orderByDescending("createdAt");
         randomIdeaQuery.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> parseObjects, ParseException e) {
                 if  (parseObjects!=null && parseObjects.size() > 0) {
+
+                    ideaObjectList.clear();
 
                     int maxIndex = parseObjects.size();
                     int randomIndex = (int)(Math.random() * maxIndex);

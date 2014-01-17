@@ -22,8 +22,9 @@
 				android:layout_height="wrap_content"/>
 
 			<TextView
-				android:hint="0"
+				android:text="0"
 				android:padding="10dp"
+				android:textAlignment="center"
 				android:textAppearance="?android:textAppearanceMedium"
 				android:id="@+id/user_impact_stories_share_text_view"
 				android:layout_width="wrap_content"
@@ -31,7 +32,6 @@
 
 			<TextView
 				android:text="post"
-				android:layout_margin="5dp"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"/>
 
@@ -49,15 +49,15 @@
 				android:layout_height="wrap_content"/>
 
 			<TextView
-				android:hint="0"
 				android:padding="10dp"
+				android:textAlignment="center"
+				android:text="0"
 				android:textAppearance="?android:textAppearanceMedium"
 				android:id="@+id/user_impact_graphic_earned_text_view"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"/>
 
 			<TextView
-				android:layout_margin="5dp"
 				android:text="graphic earned"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"/>
@@ -77,8 +77,9 @@
 				android:layout_height="wrap_content"/>
 
 			<TextView
-				android:hint="0"
+				android:text="0"
 				android:padding="10dp"
+				android:textAlignment="center"
 				android:textAppearance="?android:textAppearanceMedium"
 				android:id="@+id/user_impact_review_stars_text_view"
 				android:layout_width="wrap_content"
@@ -86,7 +87,6 @@
 
 			<TextView
 				android:text="encouragement"
-				android:layout_margin="5dp"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"/>
 

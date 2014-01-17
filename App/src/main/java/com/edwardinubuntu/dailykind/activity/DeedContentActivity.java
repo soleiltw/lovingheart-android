@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 import com.edwardinubuntu.dailykind.DailyKind;
 import com.edwardinubuntu.dailykind.ParseSettings;
 import com.edwardinubuntu.dailykind.R;
@@ -70,6 +71,13 @@ public class DeedContentActivity extends ActionBarActivity {
                 intent.putExtra("idea", idea);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
+            }
+        });
+
+        findViewById(R.id.good_deed_content_remind_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(DeedContentActivity.this, "Coming soon.", Toast.LENGTH_SHORT).show();
             }
         });
 

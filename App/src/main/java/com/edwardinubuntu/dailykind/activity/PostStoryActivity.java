@@ -136,8 +136,8 @@ public class PostStoryActivity extends ActionBarActivity {
             contentImageView.setVisibility(View.VISIBLE);
             DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
             LinearLayout.LayoutParams contentImageViewLayoutParams = (LinearLayout.LayoutParams)contentImageView.getLayoutParams();
-            contentImageViewLayoutParams.width = displayMetrics.widthPixels;
-            contentImageViewLayoutParams.height = displayMetrics.widthPixels;
+            contentImageViewLayoutParams.width = displayMetrics.widthPixels / 2;
+            contentImageViewLayoutParams.height = displayMetrics.widthPixels / 2;
             contentImageView.requestLayout();
 
             if (idea.getGraphic()!=null && idea.getGraphic().getParseFileUrl()!=null) {
@@ -157,6 +157,24 @@ public class PostStoryActivity extends ActionBarActivity {
                 final Dialog askPickerDialog = new Dialog(PostStoryActivity.this);
                 askPickerDialog.setContentView(R.layout.layout_photo_picker);
                 askPickerDialog.setTitle(getString(R.string.post_story_pick_photo));
+                askPickerDialog.findViewById(R.id.post_story_photo_picker_button).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(PostStoryActivity.this, "Coming soon.", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                askPickerDialog.findViewById(R.id.post_story_photo_taken_button).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(PostStoryActivity.this, "Coming soon.", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                askPickerDialog.findViewById(R.id.post_story_photo_gallery_button).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(PostStoryActivity.this, "Coming soon.", Toast.LENGTH_SHORT).show();
+                    }
+                });
                 askPickerDialog.findViewById(R.id.post_story_photo_cancel_button).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
