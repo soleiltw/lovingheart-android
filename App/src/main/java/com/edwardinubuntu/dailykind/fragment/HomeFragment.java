@@ -9,12 +9,14 @@ import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v4.app.FragmentManager;
 import android.view.*;
 import android.widget.ProgressBar;
 import com.edwardinubuntu.dailykind.DailyKind;
 import com.edwardinubuntu.dailykind.R;
 import com.edwardinubuntu.dailykind.activity.DeedCategoriesActivity;
+import com.edwardinubuntu.dailykind.adapter.IdeaCardArrayAdapter;
+import com.edwardinubuntu.dailykind.object.IdeaObject;
+import com.edwardinubuntu.dailykind.view.ExpandableListView;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -38,6 +40,10 @@ public class HomeFragment extends PlaceholderFragment {
 
     private SharedPreferences preferences;
 
+    private IdeaCardArrayAdapter ideaCardArrayAdapter;
+
+    private List<IdeaObject> ideaObjectList;
+
     public static HomeFragment newInstance(int sectionNumber) {
         HomeFragment fragment = new HomeFragment();
         Bundle args = new Bundle();
@@ -52,6 +58,8 @@ public class HomeFragment extends PlaceholderFragment {
         setHasOptionsMenu(true);
 
         preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+
+        ideaObjectList = new ArrayList<IdeaObject>();
     }
 
     @Override
@@ -66,7 +74,11 @@ public class HomeFragment extends PlaceholderFragment {
 
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
 
+        ExpandableListView cardListView = (ExpandableListView)rootView.findViewById(R.id.home_group_idea_card_layout);
+        cardListView.setExpand(true);
 
+        ideaCardArrayAdapter = new IdeaCardArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, ideaObjectList);
+        cardListView.setAdapter(ideaCardArrayAdapter);
 
         randomLoadingProgressBar = (ProgressBar)rootView.findViewById(R.id.home_good_deed_random_progressBar);
 
@@ -150,17 +162,18 @@ public class HomeFragment extends PlaceholderFragment {
 
                     ParseObject randomParseObject = parseObjects.get(randomIndex);
 
-                    HomeIdeaFragment homeIdeaFragment = new HomeIdeaFragment(randomParseObject);
-                    homeIdeaFragment.setTitle(getActivity().getResources().getString(R.string.idea_caption_special_idea));
-                    homeIdeaFragment.setTitleImageResource(R.drawable.ic_action_balloon);
-                    FragmentManager fragmentManager = getFragmentManager();
-                    fragmentManager.beginTransaction().replace(R.id.home_random_idea_card_layout, homeIdeaFragment).commit();
 
-                    HomeIdeaFragment latestIdeaFragment = new HomeIdeaFragment(parseObjects.get(0));
-                    latestIdeaFragment.setTitle(getActivity().getResources().getString(R.string.idea_caption_latest_idea));
-                    latestIdeaFragment.setTitleImageResource(R.drawable.ic_action_emo_basic);
-                    getFragmentManager().beginTransaction().replace(R.id.home_latest_idea_card_layout, latestIdeaFragment).commit();
+                    IdeaObject ideaRandomObject = new IdeaObject(randomParseObject);
+                    ideaRandomObject.setTitle(getActivity().getResources().getString(R.string.idea_caption_special_idea));
+                    ideaRandomObject.setTitleImageResource(R.drawable.ic_action_balloon);
+                    ideaObjectList.add(ideaRandomObject);
 
+                    IdeaObject ideaLatestObject = new IdeaObject(parseObjects.get(0));
+                    ideaLatestObject.setTitle(getActivity().getResources().getString(R.string.idea_caption_latest_idea));
+                    ideaLatestObject.setTitleImageResource(R.drawable.ic_action_emo_basic);
+                    ideaObjectList.add(ideaLatestObject);
+
+                    ideaCardArrayAdapter.notifyDataSetChanged();
                 }
 
                 playBellsSound();

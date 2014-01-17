@@ -1,5 +1,7 @@
 package com.edwardinubuntu.dailykind.object;
 
+import com.parse.ParseObject;
+
 import java.io.Serializable;
 
 /**
@@ -18,6 +20,7 @@ public class Idea implements Serializable {
     private String objectId;
 
     private int doneCount;
+
 
     public Category getCategory() {
         return category;

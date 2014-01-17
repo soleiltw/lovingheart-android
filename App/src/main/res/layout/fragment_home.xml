@@ -19,14 +19,10 @@
 			style="?android:attr/progressBarStyleSmallInverse"
 			android:layout_gravity="center"/>
 
-		<FrameLayout
-			android:id="@+id/home_random_idea_card_layout"
-			android:layout_width="fill_parent"
-			android:layout_height="wrap_content" />
-
-		<FrameLayout
-			android:id="@+id/home_latest_idea_card_layout"
-			android:layout_width="fill_parent"
+		<com.edwardinubuntu.dailykind.view.ExpandableListView
+			android:id="@+id/home_group_idea_card_layout"
+			android:divider="@color/pressed_clear"
+			android:layout_width="match_parent"
 			android:layout_height="wrap_content" />
 
 		<include
