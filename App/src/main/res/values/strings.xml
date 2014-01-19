@@ -54,6 +54,7 @@
 	<string name="go">OK</string>
 
 	<string name="user_login_login">Login</string>
+	<string name="ask_login_dialog_message">Before this, take you to login?</string>
 	
 	<!-- Settings -->
 	<string name="setting_setting">Settings</string>

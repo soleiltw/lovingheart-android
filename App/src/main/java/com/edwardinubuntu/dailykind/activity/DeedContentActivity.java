@@ -1,5 +1,7 @@
 package com.edwardinubuntu.dailykind.activity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -43,6 +45,40 @@ public class DeedContentActivity extends ActionBarActivity {
 
     private Idea idea;
 
+    private int ASK_USER_LOGIN = 110;
+
+    private View.OnClickListener askUserLoginListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+
+            AlertDialog alertDialog = null;
+
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(DeedContentActivity.this);
+
+            final AlertDialog finalAlertDialog = alertDialog;
+            alertDialogBuilder.setMessage(getString(R.string.ask_login_dialog_message))
+                    .setPositiveButton(getString(R.string.go), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Intent loginIntent = new Intent(DeedContentActivity.this, LoginActivity.class);
+                            startActivityForResult(loginIntent, ASK_USER_LOGIN);
+                        }
+                    })
+                    .setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            if (finalAlertDialog != null) {
+                                finalAlertDialog.dismiss();
+                            }
+                        }
+                    })
+            ;
+            alertDialog = alertDialogBuilder.create();
+            alertDialog.show();
+
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,25 +95,27 @@ public class DeedContentActivity extends ActionBarActivity {
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == ASK_USER_LOGIN && resultCode == RESULT_OK) {
+            actionButtonSetup();
+        }
+    }
+
+    @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
 
         numberOfPeopleTextView = (TextView)findViewById(R.id.number_of_people_involved_text_view);
 
-        findViewById(R.id.good_deed_content_now_button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), PostStoryActivity.class);
-                intent.putExtra("idea", idea);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
-            }
-        });
+        actionButtonSetup();
+
 
         findViewById(R.id.good_deed_content_remind_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(DeedContentActivity.this, "Coming soon.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(DeedContentActivity.this, "Coming soon", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -90,6 +128,22 @@ public class DeedContentActivity extends ActionBarActivity {
 
 
         loadIdea();
+    }
+
+    private void actionButtonSetup() {
+        if (ParseUser.getCurrentUser() != null && ParseUser.getCurrentUser().getString("name") != null) {
+            findViewById(R.id.good_deed_content_now_button).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getApplicationContext(), PostStoryActivity.class);
+                    intent.putExtra("idea", idea);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
+                }
+            });
+        } else {
+            findViewById(R.id.good_deed_content_now_button).setOnClickListener(this.askUserLoginListener);
+        }
     }
 
     @Override

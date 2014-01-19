@@ -51,6 +51,8 @@
 	<string name="post_story_content_need_title">故事內容</string>
 	<string name="post_story_content_need_message">請輸入文字內容</string>
 	<string name="go">OK</string>
+
+	<string name="ask_login_dialog_message">在此之前，需要您先前往登入。</string>
 	
 	<!-- Settings -->
 	<string name="setting_setting">設定</string>

@@ -185,6 +185,10 @@ public class StoryContentActivity extends ActionBarActivity {
                     storyObject.saveInBackground(new SaveCallback() {
                         @Override
                         public void done(ParseException e) {
+                            Log.d(DailyKind.TAG, "Story object save review impact");
+                            if (e != null) {
+                                Log.e(DailyKind.TAG, e.getLocalizedMessage());
+                            }
                         }
                     });
 
@@ -325,25 +329,6 @@ public class StoryContentActivity extends ActionBarActivity {
                             ParseEventTrackingManager.ACTION_VIEW_STORY,
                             1
                     );
-                    updateStoryViewCount(parseObject);
-                }
-
-            }
-        });
-    }
-
-    private void updateStoryViewCount(final ParseObject parseObject) {
-        // Update View Count
-        ParseQuery<ParseObject> viewEventQuery = new ParseQuery<ParseObject>("Event");
-        viewEventQuery.whereEqualTo("story", parseObject);
-        viewEventQuery.whereEqualTo("action", ParseEventTrackingManager.ACTION_VIEW_STORY);
-        viewEventQuery.findInBackground(new FindCallback<ParseObject>() {
-            @Override
-            public void done(List<ParseObject> parseObjects, ParseException e) {
-                int viewCount = 0;
-
-                for (ParseObject eventObject : parseObjects) {
-                    viewCount += eventObject.getInt("value");
                 }
 
             }

@@ -85,16 +85,18 @@ public class PostStoryActivity extends ActionBarActivity {
 
         if (parseUser != null) {
             ParseObject avatarObject = parseUser.getParseObject("avatar");
-            avatarObject.fetchIfNeededInBackground(new GetCallback<ParseObject>() {
-                @Override
-                public void done(ParseObject parseObject, ParseException e) {
-                    Picasso.with(getApplicationContext())
-                            .load(parseObject.getString("imageUrl"))
-                            .placeholder(R.drawable.ic_action_user)
-                            .transform(new CircleTransform())
-                            .into(storyTellerImageView);
-                }
-            });
+            if (avatarObject!=null) {
+                avatarObject.fetchIfNeededInBackground(new GetCallback<ParseObject>() {
+                    @Override
+                    public void done(ParseObject parseObject, ParseException e) {
+                        Picasso.with(getApplicationContext())
+                                .load(parseObject.getString("imageUrl"))
+                                .placeholder(R.drawable.ic_action_user)
+                                .transform(new CircleTransform())
+                                .into(storyTellerImageView);
+                    }
+                });
+            }
         } else {
             // Ask to login
             Intent loginIntent = new Intent(this, LoginActivity.class);
@@ -160,19 +162,19 @@ public class PostStoryActivity extends ActionBarActivity {
                 askPickerDialog.findViewById(R.id.post_story_photo_picker_button).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Toast.makeText(PostStoryActivity.this, "Coming soon.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(PostStoryActivity.this, "Coming soon", Toast.LENGTH_SHORT).show();
                     }
                 });
                 askPickerDialog.findViewById(R.id.post_story_photo_taken_button).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Toast.makeText(PostStoryActivity.this, "Coming soon.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(PostStoryActivity.this, "Coming soon", Toast.LENGTH_SHORT).show();
                     }
                 });
                 askPickerDialog.findViewById(R.id.post_story_photo_gallery_button).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Toast.makeText(PostStoryActivity.this, "Coming soon.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(PostStoryActivity.this, "Coming soon", Toast.LENGTH_SHORT).show();
                     }
                 });
                 askPickerDialog.findViewById(R.id.post_story_photo_cancel_button).setOnClickListener(new View.OnClickListener() {

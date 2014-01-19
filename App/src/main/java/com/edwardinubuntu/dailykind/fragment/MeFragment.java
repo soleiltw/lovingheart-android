@@ -189,7 +189,7 @@ public class MeFragment extends PlaceholderFragment {
 
                                 graphicEarnedCountTextView.setText(String.valueOf(parseObjects.size()));
 
-                                if (!parseObjects.isEmpty()) {
+                                if (getActivity()!=null && !parseObjects.isEmpty()) {
                                     getActivity().findViewById(R.id.me_graphic_gallery_layout).setVisibility(View.VISIBLE);
                                 }
 
