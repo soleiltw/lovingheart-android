@@ -185,7 +185,7 @@ public class MeFragment extends PlaceholderFragment {
                     graphicsEarnedQuery.findInBackground(new FindCallback<ParseObject>() {
                         @Override
                         public void done(List<ParseObject> parseObjects, ParseException e) {
-                            if (parseObjects!=null) {
+                            if (parseObjects!=null && !parseObjects.isEmpty()) {
 
                                 graphicEarnedCountTextView.setText(String.valueOf(parseObjects.size()));
 
@@ -198,6 +198,10 @@ public class MeFragment extends PlaceholderFragment {
                                     Graphic graphic = new ParseObjectManager(eachGraphicObject).getGraphic();
                                     userGraphicsList.add(graphic);
                                 }
+                                galleryArrayAdapter.notifyDataSetChanged();
+                            } else {
+                                graphicEarnedCountTextView.setText(String.valueOf(0));
+                                userGraphicsList.clear();
                                 galleryArrayAdapter.notifyDataSetChanged();
                             }
                         }

@@ -50,8 +50,19 @@
 			android:gravity="center"
 			android:id="@+id/facebook_auth_button"
 			android:layout_width="fill_parent"
+			android:visibility="gone"
 			android:layout_height="wrap_content"
 			android:layout_gravity="center_horizontal"/>
+
+		<com.beardedhen.androidbootstrap.BootstrapButton
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:text="Facebook Login"
+				bootstrapbutton:bb_text_gravity="center"
+				android:id="@+id/facebook_user_login_button"
+				bootstrapbutton:bb_icon_left="fa-facebook-square"
+				bootstrapbutton:bb_roundedCorners="true"
+				bootstrapbutton:bb_type="primary" />
 		
 		<View
 			android:background="#CFCFCF"
@@ -91,7 +102,7 @@
 			bootstrapbutton:bb_text_gravity="center"
 			android:id="@+id/user_login_button"
 			bootstrapbutton:bb_roundedCorners="true"
-			bootstrapbutton:bb_type="primary" />
+			bootstrapbutton:bb_type="danger" />
 
 		<LinearLayout
 			android:layout_marginTop="30dp"
@@ -115,7 +126,7 @@
 				android:id="@+id/user_signup_button"
 				bootstrapbutton:bb_text_gravity="center"
 				bootstrapbutton:bb_roundedCorners="true"
-				bootstrapbutton:bb_type="success" />
+				bootstrapbutton:bb_type="warning" />
 
 			<TextView
 				android:text="@string/user_login_promise"

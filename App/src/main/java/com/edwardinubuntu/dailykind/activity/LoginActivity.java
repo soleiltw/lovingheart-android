@@ -44,6 +44,8 @@ public class LoginActivity extends ActionBarActivity {
 
         uiHelper = new UiLifecycleHelper(this, callback);
         uiHelper.onCreate(savedInstanceState);
+
+        ParseFacebookUtils.initialize(getString(R.string.app_id));
     }
 
 
@@ -116,7 +118,8 @@ public class LoginActivity extends ActionBarActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        uiHelper.onActivityResult(requestCode, resultCode, data);
+//        uiHelper.onActivityResult(requestCode, resultCode, data);
+        ParseFacebookUtils.finishAuthentication(requestCode, resultCode, data);
     }
 
 
