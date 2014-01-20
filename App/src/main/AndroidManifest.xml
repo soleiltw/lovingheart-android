@@ -23,11 +23,12 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/ic_launcher_beta"
+        android:icon="@drawable/lovingheart_logo_red_rounded"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
             android:name=".activity.MainActivity"
+            android:logo="@drawable/lovingheart_clear_with_white"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:label="@string/app_name" >
             <intent-filter>

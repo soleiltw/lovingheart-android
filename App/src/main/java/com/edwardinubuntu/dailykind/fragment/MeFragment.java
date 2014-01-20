@@ -1,14 +1,19 @@
 package com.edwardinubuntu.dailykind.fragment;
 
+import android.annotation.TargetApi;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.*;
 import android.widget.ImageView;
 import android.widget.TextView;
+import com.edwardinubuntu.dailykind.DailyKind;
 import com.edwardinubuntu.dailykind.R;
 import com.edwardinubuntu.dailykind.activity.LoginActivity;
 import com.edwardinubuntu.dailykind.adapter.GalleryArrayAdapter;
 import com.edwardinubuntu.dailykind.object.Graphic;
+import com.edwardinubuntu.dailykind.object.UserImpact;
 import com.edwardinubuntu.dailykind.util.CircleTransform;
 import com.edwardinubuntu.dailykind.util.parse.ParseObjectManager;
 import com.edwardinubuntu.dailykind.view.ExpandableGridView;
@@ -28,17 +33,23 @@ public class MeFragment extends PlaceholderFragment {
 
     private TextView graphicEarnedCountTextView;
 
-    private Menu menu;
-
     private TextView userNameTextView;
 
     private TextView sinceTextView;
+
+    private TextView reviewStarsTextView;
 
     private ExpandableGridView galleryGridView;
 
     private GalleryArrayAdapter galleryArrayAdapter;
 
     private List<Graphic> userGraphicsList;
+
+    private UserImpact userImpactInfo;
+
+    private Menu menu;
+
+    private boolean queryLoading;
 
     public static MeFragment newInstance(int sectionNumber) {
         MeFragment fragment = new MeFragment();
@@ -56,6 +67,8 @@ public class MeFragment extends PlaceholderFragment {
 
         userGraphicsList = new ArrayList<Graphic>();
         galleryArrayAdapter = new GalleryArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, userGraphicsList);
+
+        userImpactInfo = new UserImpact();
     }
 
     @Override
@@ -75,6 +88,8 @@ public class MeFragment extends PlaceholderFragment {
         galleryGridView.setNumColumns(3);
         galleryGridView.setAdapter(galleryArrayAdapter);
 
+        reviewStarsTextView = (TextView)rootView.findViewById(R.id.user_impact_review_stars_text_view);
+
         return rootView;
     }
 
@@ -82,10 +97,10 @@ public class MeFragment extends PlaceholderFragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        refreshProfile();
+        loadProfile();
     }
 
-    private void refreshProfile() {
+    private void loadProfile() {
         if (ParseUser.getCurrentUser() != null) {
 
             userNameTextView.setText(ParseUser.getCurrentUser().getString("name"));
@@ -124,8 +139,10 @@ public class MeFragment extends PlaceholderFragment {
                     }
                 });
             }
-            loadStories();
-            loadGraphicEarned();
+
+            // Load user impact
+            loadUserImpact();
+
         } else {
             getActivity().findViewById(R.id.me_profile_layout).setVisibility(View.GONE);
             getActivity().findViewById(R.id.me_ask_login_layout).setVisibility(View.VISIBLE);
@@ -146,8 +163,8 @@ public class MeFragment extends PlaceholderFragment {
         inflater.inflate(R.menu.me, menu);
         this.menu = menu;
     }
-      
-    private void loadStories() {
+
+    private void queryStories() {
         ParseQuery<ParseObject> storyQuery = new ParseQuery<ParseObject>("Story");
         storyQuery.whereEqualTo("StoryTeller", ParseUser.getCurrentUser());
         storyQuery.findInBackground(new FindCallback<ParseObject>() {
@@ -155,6 +172,7 @@ public class MeFragment extends PlaceholderFragment {
             public void done(List<ParseObject> parseObjects, ParseException e) {
                 if (parseObjects != null) {
 
+                    userImpactInfo.setStoriesSharedCount(parseObjects.size());
                     storiesSharedCountTextView.setText(String.valueOf(parseObjects.size()));
 
                     int reviewImpactCount = 0;
@@ -163,16 +181,17 @@ public class MeFragment extends PlaceholderFragment {
                             reviewImpactCount += eachStory.getInt("reviewImpact");
                         }
                     }
-                    TextView reviewStarsTextView = (TextView)getActivity().findViewById(R.id.user_impact_review_stars_text_view);
                     reviewStarsTextView.setText(String.valueOf(reviewImpactCount));
+                    userImpactInfo.setStarsReviewCount(reviewImpactCount);
 
+                    saveUserImpact(userImpactInfo);
                 }
             }
         });
     }
 
 
-    private void loadGraphicEarned() {
+    private void queryGraphicEarned() {
         ParseQuery<ParseObject> graphicsEarnedQuery = ParseQuery.getQuery("GraphicsEarned");
         graphicsEarnedQuery.whereEqualTo("userId", ParseUser.getCurrentUser());
         graphicsEarnedQuery.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
@@ -188,6 +207,8 @@ public class MeFragment extends PlaceholderFragment {
                             if (parseObjects!=null && !parseObjects.isEmpty()) {
 
                                 graphicEarnedCountTextView.setText(String.valueOf(parseObjects.size()));
+                                userImpactInfo.setGraphicEarnedCount(parseObjects.size());
+
 
                                 if (getActivity()!=null && !parseObjects.isEmpty()) {
                                     getActivity().findViewById(R.id.me_graphic_gallery_layout).setVisibility(View.VISIBLE);
@@ -199,6 +220,8 @@ public class MeFragment extends PlaceholderFragment {
                                     userGraphicsList.add(graphic);
                                 }
                                 galleryArrayAdapter.notifyDataSetChanged();
+
+                                saveUserImpact(userImpactInfo);
                             } else {
                                 graphicEarnedCountTextView.setText(String.valueOf(0));
                                 userGraphicsList.clear();
@@ -211,6 +234,77 @@ public class MeFragment extends PlaceholderFragment {
         });
     }
 
+    private void loadUserImpact() {
+        setQueryLoading(true);
+        updateRefreshItem();
+
+        ParseQuery<ParseObject> userImpactQuery = new ParseQuery<ParseObject>("UserImpact");
+        userImpactQuery.whereEqualTo("User", ParseUser.getCurrentUser());
+        userImpactQuery.getFirstInBackground(new GetCallback<ParseObject>() {
+            @Override
+            public void done(ParseObject parseObject, ParseException e) {
+                if (parseObject!=null) {
+                    if (parseObject.has("sharedStoriesCount")) {
+                        storiesSharedCountTextView.setText(String.valueOf(parseObject.getInt("sharedStoriesCount")));
+                    }
+                    if (parseObject.has("graphicsEarnedCount")) {
+                        int graphicsEarnedCount = parseObject.getInt("graphicsEarnedCount");
+                        graphicEarnedCountTextView.setText(String.valueOf(graphicsEarnedCount));
+                        if (graphicsEarnedCount >0) {
+                            queryGraphicEarned();
+                        }
+                    }
+                    if (parseObject.has("reviewStarsImpact")) {
+                        reviewStarsTextView.setText(String.valueOf(parseObject.getInt("reviewStarsImpact")));
+                    }
+                }
+                setQueryLoading(false);
+                updateRefreshItem();
+
+            }
+        });
+    }
+
+    private void saveUserImpact(final UserImpact userImpactInfo) {
+        ParseQuery<ParseObject> userImpactQuery = new ParseQuery<ParseObject>("UserImpact");
+        userImpactQuery.whereEqualTo("User", ParseUser.getCurrentUser());
+        userImpactQuery.getFirstInBackground(new GetCallback<ParseObject>() {
+            @Override
+            public void done(ParseObject parseObject, ParseException e) {
+
+                if (e != null) {
+                    Log.e(DailyKind.TAG, e.getLocalizedMessage());
+                    return;
+                }
+
+                ParseObject userImpactObject = new ParseObject("UserImpact");
+                userImpactObject.put("User", ParseUser.getCurrentUser());
+                if (parseObject!=null) {
+                    userImpactObject = parseObject;
+                }
+
+                if (userImpactInfo.getStoriesSharedCount() > 0){
+                    userImpactObject.put("sharedStoriesCount", userImpactInfo.getStoriesSharedCount());
+                }
+                if (userImpactInfo.getGraphicEarnedCount() > 0){
+                    userImpactObject.put("graphicsEarnedCount", userImpactInfo.getGraphicEarnedCount());
+                }
+                if (userImpactInfo.getStarsReviewCount() > 0){
+                    userImpactObject.put("reviewStarsImpact", userImpactInfo.getStarsReviewCount());
+                }
+                userImpactObject.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if  (e==null && getActivity()!=null) {
+                            Log.d(DailyKind.TAG, "User Impact report updated.");
+                        }
+                    }
+                });
+
+            }
+        });
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -218,11 +312,35 @@ public class MeFragment extends PlaceholderFragment {
         // as you specify a parent activity in AndroidManifest.xml.
         switch (item.getItemId()) {
             case R.id.action_reload: {
-                refreshProfile();
+                loadProfile();
+                queryStories();
+                queryGraphicEarned();
                 break;
             }
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+    public void updateRefreshItem() {
+        if (menu != null) {
+            MenuItem refreshItem = menu.findItem(R.id.action_reload);
+            if (refreshItem != null) {
+                if (isQueryLoading()) {
+                    refreshItem.setActionView(R.layout.indeterminate_progress_action);
+                } else {
+                    refreshItem.setActionView(null);
+                }
+            }
+        }
+    }
+
+    public boolean isQueryLoading() {
+        return queryLoading;
+    }
+
+    public void setQueryLoading(boolean queryLoading) {
+        this.queryLoading = queryLoading;
     }
 }

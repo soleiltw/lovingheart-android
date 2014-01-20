@@ -8,7 +8,7 @@
 
 	<com.beardedhen.androidbootstrap.BootstrapButton
 		android:layout_width="fill_parent"
-		android:layout_height="48dp"
+		android:layout_height="wrap_content"
 		android:layout_margin="8dp"
 		android:text="@string/idea_cards_browse_more"
 		android:layout_gravity="center"
