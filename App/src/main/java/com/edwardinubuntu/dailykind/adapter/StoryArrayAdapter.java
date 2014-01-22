@@ -83,7 +83,8 @@ public class StoryArrayAdapter extends ArrayAdapter<ParseObject> {
 
         final ImageView storyTellerImageView = (ImageView)contentView.findViewById(R.id.user_avatar_image_view);
         storyTellerImageView.setImageResource(R.drawable.ic_action_user);
-        if (story.getStoryTeller().getParseObject("avatar")!=null) {
+        if (story.getStoryTeller() != null
+                && story.getStoryTeller().has("avatar") && story.getStoryTeller().getParseObject("avatar")!=null) {
             story.getStoryTeller().getParseObject("avatar").fetchIfNeededInBackground(new GetCallback<ParseObject>() {
                 @Override
                 public void done(ParseObject parseObject, ParseException e) {

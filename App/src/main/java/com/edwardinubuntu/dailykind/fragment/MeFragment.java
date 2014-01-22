@@ -101,7 +101,7 @@ public class MeFragment extends PlaceholderFragment {
     }
 
     private void loadProfile() {
-        if (ParseUser.getCurrentUser() != null) {
+        if (ParseUser.getCurrentUser() != null && ParseUser.getCurrentUser().getObjectId() != null) {
 
             userNameTextView.setText(ParseUser.getCurrentUser().getString("name"));
 
