@@ -51,6 +51,7 @@ public class DeedCategoryIdeaListActivity extends ActionBarActivity {
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setDisplayUseLogoEnabled(true);
         actionBar.setTitle(queryCategory.getName());
     }
 

@@ -62,6 +62,7 @@ public class StoryContentActivity extends ActionBarActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayShowHomeEnabled(false);
         actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setDisplayUseLogoEnabled(true);
 
         objectId = getIntent().getStringExtra("objectId");
     }
@@ -316,8 +317,6 @@ public class StoryContentActivity extends ActionBarActivity {
                                     .resize(storyContentImageViewLayoutParams.width, storyContentImageViewLayoutParams.height)
                                     .into(storyContentImageView);
                         }
-                    } else {
-                        storyContentImageView.setVisibility(View.GONE);
                     }
 
                     TextView locationAreaNameTextView = (TextView)findViewById(R.id.user_activity_location_area_name_text_view);

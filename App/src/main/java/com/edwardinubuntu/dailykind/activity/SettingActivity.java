@@ -35,7 +35,7 @@ public class SettingActivity extends PreferenceActivity {
 
         ActionBar actionBar = getActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setDisplayShowTitleEnabled(true);
+        actionBar.setDisplayUseLogoEnabled(true);
 
         addPreferencesFromResource(R.xml.settings);
 

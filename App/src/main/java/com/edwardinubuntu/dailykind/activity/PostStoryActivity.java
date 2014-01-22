@@ -64,6 +64,7 @@ public class PostStoryActivity extends ActionBarActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayShowHomeEnabled(false);
         actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setDisplayUseLogoEnabled(true);
 
         setContentView(com.edwardinubuntu.dailykind.R.layout.activity_post_story);
 
