@@ -22,9 +22,13 @@ import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.edwardinubuntu.dailykind.DailyKind;
 import com.edwardinubuntu.dailykind.ParseSettings;
 import com.edwardinubuntu.dailykind.R;
+import com.edwardinubuntu.dailykind.adapter.GalleryArrayAdapter;
+import com.edwardinubuntu.dailykind.object.Graphic;
 import com.edwardinubuntu.dailykind.object.Idea;
 import com.edwardinubuntu.dailykind.util.CheckUserLoginUtil;
 import com.edwardinubuntu.dailykind.util.CircleTransform;
+import com.edwardinubuntu.dailykind.util.parse.ParseObjectManager;
+import com.edwardinubuntu.dailykind.view.ExpandableGridView;
 import com.parse.*;
 import com.squareup.picasso.Picasso;
 
@@ -47,14 +51,23 @@ public class PostStoryActivity extends ActionBarActivity {
 
     private ProgressBar locationLoadingProgressBar;
     private TextView locationLoadingTextView;
-    private ImageView locationAreaImageView;
     protected TextView locationAreaTextView;
+
+    private ImageView contentImageView;
 
     protected EditText contentEditText;
 
     private Address currentAddress;
 
     private BootstrapButton submitButton;
+
+    private List<Graphic> userGraphicsList;
+
+    private GalleryArrayAdapter galleryArrayAdapter;
+
+    private ParseObject storyParseObject = new ParseObject("Story");
+
+    private Graphic graphicPick;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +89,9 @@ public class PostStoryActivity extends ActionBarActivity {
         storyPostingDialog.setCancelable(false);
 
         idea = (Idea)getIntent().getSerializableExtra("idea");
+
+        userGraphicsList = new ArrayList<Graphic>();
+        galleryArrayAdapter = new GalleryArrayAdapter(this, android.R.layout.simple_list_item_1, userGraphicsList);
     }
 
     @Override
@@ -106,6 +122,8 @@ public class PostStoryActivity extends ActionBarActivity {
 
         final ArrayList<String> suggestIdeas = new ArrayList<String>();
 
+        contentImageView = (ImageView)findViewById(R.id.idea_content_image_view);
+
         final ArrayAdapter<String> suggestIdeaAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, suggestIdeas);
         AutoCompleteTextView ideaWasTextView = (AutoCompleteTextView)findViewById(R.id.content_idea_from_text_view);
         if (idea!=null) {
@@ -133,21 +151,9 @@ public class PostStoryActivity extends ActionBarActivity {
                 }
             });
 
-            ImageView contentImageView = (ImageView)findViewById(R.id.idea_content_image_view);
-
-            contentImageView.setVisibility(View.VISIBLE);
-            DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
-            LinearLayout.LayoutParams contentImageViewLayoutParams = (LinearLayout.LayoutParams)contentImageView.getLayoutParams();
-            contentImageViewLayoutParams.width = displayMetrics.widthPixels / 2;
-            contentImageViewLayoutParams.height = displayMetrics.widthPixels / 2;
-            contentImageView.requestLayout();
-
             if (idea.getGraphic()!=null && idea.getGraphic().getParseFileUrl()!=null) {
-                Picasso.with(getApplicationContext())
-                        .load(idea.getGraphic().getParseFileUrl())
-                        .placeholder(R.drawable.card_default)
-                        .resize(contentImageViewLayoutParams.width, contentImageViewLayoutParams.height)
-                        .into(contentImageView);
+                graphicPick = idea.getGraphic();
+                displayGraphic(idea.getGraphic());
             }
         } else {
             findViewById(R.id.content_idea_from_layout).setVisibility(View.GONE);
@@ -156,36 +162,13 @@ public class PostStoryActivity extends ActionBarActivity {
         findViewById(R.id.post_story_photo_picker_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final Dialog askPickerDialog = new Dialog(PostStoryActivity.this);
-                askPickerDialog.setContentView(R.layout.layout_photo_picker);
-                askPickerDialog.setTitle(getString(R.string.post_story_pick_photo));
-                askPickerDialog.findViewById(R.id.post_story_photo_picker_button).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Toast.makeText(PostStoryActivity.this, "Coming soon", Toast.LENGTH_SHORT).show();
-                    }
-                });
-                askPickerDialog.findViewById(R.id.post_story_photo_taken_button).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Toast.makeText(PostStoryActivity.this, "Coming soon", Toast.LENGTH_SHORT).show();
-                    }
-                });
-                askPickerDialog.findViewById(R.id.post_story_photo_gallery_button).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Toast.makeText(PostStoryActivity.this, "Coming soon", Toast.LENGTH_SHORT).show();
-                    }
-                });
-
-                askPickerDialog.show();
+                showImagePickerDialog();
             }
         });
 
 
         locationLoadingProgressBar = (ProgressBar)findViewById(R.id.content_location_progress_bar);
         locationLoadingTextView = (TextView)findViewById(R.id.content_location_progress_text_view);
-        locationAreaImageView = (ImageView)findViewById(R.id.content_location_area_image_view);
         locationAreaTextView = (TextView)findViewById(R.id.content_location_area_text_view);
 
         locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
@@ -194,7 +177,7 @@ public class PostStoryActivity extends ActionBarActivity {
             @Override
             public void onLocationChanged(Location location) {
 
-                displayLoadingProgress(false);
+                displayLocationLoadingProgress(false);
 
                 Geocoder geocoder = new Geocoder(getBaseContext(), Locale.getDefault());
                 java.util.List<Address> addressList;
@@ -263,6 +246,21 @@ public class PostStoryActivity extends ActionBarActivity {
         submitButton.setEnabled(contentEditText.getText().length() > 0);
     }
 
+    private void displayGraphic(Graphic graphic) {
+        contentImageView.setVisibility(View.VISIBLE);
+        DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
+        LinearLayout.LayoutParams contentImageViewLayoutParams = (LinearLayout.LayoutParams)contentImageView.getLayoutParams();
+        contentImageViewLayoutParams.width = displayMetrics.widthPixels / 2;
+        contentImageViewLayoutParams.height = displayMetrics.widthPixels / 2;
+        contentImageView.requestLayout();
+
+        Picasso.with(getApplicationContext())
+                .load(graphic.getParseFileUrl())
+                .placeholder(R.drawable.card_default)
+                .resize(contentImageViewLayoutParams.width, contentImageViewLayoutParams.height)
+                .into(contentImageView);
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -288,13 +286,13 @@ public class PostStoryActivity extends ActionBarActivity {
             // Update in 5 seconds.
             locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 60000, 100, locationListener);
 
-            displayLoadingProgress(true);
+            displayLocationLoadingProgress(true);
             return;
         } else if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             // Update in 5 seconds.
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 60000, 100, locationListener);
 
-            displayLoadingProgress(true);
+            displayLocationLoadingProgress(true);
         }
 
 
@@ -336,31 +334,28 @@ public class PostStoryActivity extends ActionBarActivity {
             return;
         }
 
-        final ParseObject parseObject = new ParseObject("Story");
+        storyParseObject.put("StoryTeller", ParseUser.getCurrentUser());
+        storyParseObject.put("Content", contentEditText.getText().toString());
 
-        // TODO Check user has login
-        parseObject.put("StoryTeller", ParseUser.getCurrentUser());
-        parseObject.put("Content", contentEditText.getText().toString());
-
-        if (idea.getGraphic() != null && idea.getGraphic().getObjectId() != null) {
+        if (graphicPick != null && graphicPick.getObjectId() != null) {
             ParseQuery<ParseObject> imageQuery = new ParseQuery<ParseObject>("GraphicImage");
-            imageQuery.whereEqualTo("objectId", idea.getGraphic().getObjectId());
+            imageQuery.whereEqualTo("objectId", graphicPick.getObjectId());
             try {
                 ParseObject imageObject = imageQuery.getFirst();
-                parseObject.put("graphicPointer", imageObject);
+                storyParseObject.put("graphicPointer", imageObject);
             } catch (ParseException e) {
                 e.printStackTrace();
                 Log.e(DailyKind.TAG, e.getLocalizedMessage());
             }
-
         }
+
 
         if (currentAddress != null && locationAreaTextView.getText() != null) {
             ParseGeoPoint parseGeoPoint = new ParseGeoPoint();
             parseGeoPoint.setLatitude(currentAddress.getLatitude());
             parseGeoPoint.setLongitude(currentAddress.getLongitude());
-            parseObject.put("geoPoint", parseGeoPoint);
-            parseObject.put("areaName", locationAreaTextView.getText());
+            storyParseObject.put("geoPoint", parseGeoPoint);
+            storyParseObject.put("areaName", locationAreaTextView.getText());
         }
 
         if (idea != null) {
@@ -370,7 +365,7 @@ public class PostStoryActivity extends ActionBarActivity {
             ideaQuery.getFirstInBackground(new GetCallback<ParseObject>() {
                 @Override
                 public void done(ParseObject ideaObjectCallBack, ParseException e) {
-                    parseObject.put("ideaPointer", ideaObjectCallBack);
+                    storyParseObject.put("ideaPointer", ideaObjectCallBack);
 
                     ideaObjectCallBack.put("doneCount", ideaObjectCallBack.getInt("doneCount") + 1);
                     ideaObjectCallBack.saveInBackground(new SaveCallback() {
@@ -428,12 +423,12 @@ public class PostStoryActivity extends ActionBarActivity {
                         }
                     }
 
-                    submit(parseObject);
+                    submit(storyParseObject);
 
                 }
             });
         } else {
-            submit(parseObject);
+            submit(storyParseObject);
         }
     }
 
@@ -478,7 +473,7 @@ public class PostStoryActivity extends ActionBarActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
-    private void displayLoadingProgress(boolean loading) {
+    private void displayLocationLoadingProgress(boolean loading) {
         if (loading) {
             locationLoadingProgressBar.setVisibility(View.VISIBLE);
             locationLoadingTextView.setVisibility(View.VISIBLE);
@@ -488,5 +483,92 @@ public class PostStoryActivity extends ActionBarActivity {
             locationLoadingTextView.setVisibility(View.GONE);
             locationAreaTextView.setVisibility(View.VISIBLE);
         }
+    }
+
+    private void showGalleryPickerDialog(final Dialog parentDialog) {
+
+        final Dialog askPickerDialog = new Dialog(this);
+        askPickerDialog.setContentView(R.layout.layout_graphic_picker);
+        askPickerDialog.setTitle(getString(R.string.post_story_pick_photo));
+
+        ExpandableGridView gridView = (ExpandableGridView)askPickerDialog.findViewById(R.id.graphic_gallery_grid_view);
+        gridView.setAdapter(galleryArrayAdapter);
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Graphic graphicClick = userGraphicsList.get(position);
+                displayGraphic(graphicClick);
+
+                graphicPick = graphicClick;
+
+                askPickerDialog.dismiss();
+                parentDialog.dismiss();
+            }
+        });
+        askPickerDialog.show();
+
+        queryGraphicEarned(askPickerDialog);
+    }
+
+    private void queryGraphicEarned(final Dialog dialog) {
+        dialog.findViewById(R.id.layout_graphic_picker_progressbar).setVisibility(View.VISIBLE);
+        ParseQuery<ParseObject> graphicsEarnedQuery = ParseQuery.getQuery("GraphicsEarned");
+        graphicsEarnedQuery.whereEqualTo("userId", ParseUser.getCurrentUser());
+        graphicsEarnedQuery.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
+        graphicsEarnedQuery.getFirstInBackground(new GetCallback<ParseObject>() {
+            @Override
+            public void done(ParseObject parseObject, ParseException e) {
+                if (parseObject!=null) {
+                    ParseRelation graphicsRelation = parseObject.getRelation("graphicsEarned");
+                    ParseQuery<ParseObject> graphicsEarnedQuery = graphicsRelation.getQuery();
+                    graphicsEarnedQuery.findInBackground(new FindCallback<ParseObject>() {
+                        @Override
+                        public void done(List<ParseObject> parseObjects, ParseException e) {
+
+                            dialog.findViewById(R.id.layout_graphic_picker_progressbar).setVisibility(View.GONE);
+                            if (parseObjects!=null && !parseObjects.isEmpty()) {
+
+                                userGraphicsList.clear();
+                                for (ParseObject eachGraphicObject : parseObjects) {
+                                    Graphic graphic = new ParseObjectManager(eachGraphicObject).getGraphic();
+                                    userGraphicsList.add(graphic);
+                                }
+                                galleryArrayAdapter.notifyDataSetChanged();
+
+                            } else {
+                                userGraphicsList.clear();
+                                galleryArrayAdapter.notifyDataSetChanged();
+                            }
+                        }
+                    });
+                }
+            }
+        });
+    }
+
+    private void showImagePickerDialog() {
+        final Dialog askPickerDialog = new Dialog(this);
+        askPickerDialog.setContentView(R.layout.layout_photo_picker);
+        askPickerDialog.setTitle(getString(R.string.post_story_pick_photo));
+        askPickerDialog.findViewById(R.id.post_story_photo_picker_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(PostStoryActivity.this, "Coming soon", Toast.LENGTH_SHORT).show();
+            }
+        });
+        askPickerDialog.findViewById(R.id.post_story_photo_taken_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(PostStoryActivity.this, "Coming soon", Toast.LENGTH_SHORT).show();
+            }
+        });
+        askPickerDialog.findViewById(R.id.post_story_photo_gallery_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showGalleryPickerDialog(askPickerDialog);
+            }
+        });
+
+        askPickerDialog.show();
     }
 }
