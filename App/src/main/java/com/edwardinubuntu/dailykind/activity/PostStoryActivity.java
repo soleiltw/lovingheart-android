@@ -23,6 +23,7 @@ import com.edwardinubuntu.dailykind.DailyKind;
 import com.edwardinubuntu.dailykind.ParseSettings;
 import com.edwardinubuntu.dailykind.R;
 import com.edwardinubuntu.dailykind.object.Idea;
+import com.edwardinubuntu.dailykind.util.CheckUserLoginUtil;
 import com.edwardinubuntu.dailykind.util.CircleTransform;
 import com.parse.*;
 import com.squareup.picasso.Picasso;
@@ -99,9 +100,7 @@ public class PostStoryActivity extends ActionBarActivity {
                 });
             }
         } else {
-            // Ask to login
-            Intent loginIntent = new Intent(this, LoginActivity.class);
-            startActivity(loginIntent);
+            CheckUserLoginUtil.askLoginDialog(PostStoryActivity.this, PostStoryActivity.this);
         }
 
 
@@ -176,12 +175,6 @@ public class PostStoryActivity extends ActionBarActivity {
                     @Override
                     public void onClick(View v) {
                         Toast.makeText(PostStoryActivity.this, "Coming soon", Toast.LENGTH_SHORT).show();
-                    }
-                });
-                askPickerDialog.findViewById(R.id.post_story_photo_cancel_button).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        askPickerDialog.dismiss();
                     }
                 });
 

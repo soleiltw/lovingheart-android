@@ -44,16 +44,6 @@
 		bootstrapbutton:bb_roundedCorners="true"
 		bootstrapbutton:bb_type="primary" />
 
-	<com.beardedhen.androidbootstrap.BootstrapButton
-		android:layout_width="fill_parent"
-		android:layout_height="wrap_content"
-		android:layout_weight="1"
-		android:id="@+id/post_story_photo_cancel_button"
-		android:layout_margin="5dp"
-	    android:text="@string/photo_picker_cancel"
-	    bootstrapbutton:bb_type="default"
-	    />
-
 	</LinearLayout>
 
 </ScrollView>

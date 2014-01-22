@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import com.edwardinubuntu.dailykind.DailyKind;
 import com.edwardinubuntu.dailykind.ParseSettings;
 import com.edwardinubuntu.dailykind.R;
+import com.edwardinubuntu.dailykind.util.CheckUserLoginUtil;
 import com.facebook.Session;
 import com.parse.Parse;
 import com.parse.ParseUser;
@@ -67,7 +68,7 @@ public class SettingActivity extends PreferenceActivity {
 
     private void refreshPreference() {
         Preference userLoginPreference = findPreference("setting_user_login");
-        if (ParseUser.getCurrentUser() != null && ParseUser.getCurrentUser().getUsername() != null) {
+        if (CheckUserLoginUtil.hasLogin()) {
             userLoginPreference.setTitle(
                     getString(R.string.setting_user_login_account_title) +
                     getString(R.string.semicolon) +

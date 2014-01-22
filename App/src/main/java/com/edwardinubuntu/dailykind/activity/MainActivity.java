@@ -24,6 +24,7 @@ import com.edwardinubuntu.dailykind.DailyKind;
 import com.edwardinubuntu.dailykind.ParseSettings;
 import com.edwardinubuntu.dailykind.R;
 import com.edwardinubuntu.dailykind.fragment.*;
+import com.edwardinubuntu.dailykind.util.CheckUserLoginUtil;
 import com.parse.*;
 
 import java.security.MessageDigest;
@@ -140,7 +141,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        
+
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(com.edwardinubuntu.dailykind.R.menu.main, menu);
         return true;
@@ -153,8 +154,12 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         // as you specify a parent activity in AndroidManifest.xml.
         switch (item.getItemId()) {
             case com.edwardinubuntu.dailykind.R.id.action_post: {
-                Intent intent = new Intent(getApplicationContext(), PostStoryActivity.class);
-                startActivity(intent);
+                if (CheckUserLoginUtil.hasLogin()) {
+                    Intent intent = new Intent(getApplicationContext(), PostStoryActivity.class);
+                    startActivity(intent);
+                } else {
+                    CheckUserLoginUtil.askLoginDialog(MainActivity.this, MainActivity.this);
+                }
                 break;
             }
 //            case R.id.action_ask_for_help: {

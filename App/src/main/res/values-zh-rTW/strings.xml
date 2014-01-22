@@ -50,7 +50,6 @@
 
 	<string name="post_story_content_need_title">故事內容</string>
 	<string name="post_story_content_need_message">請輸入文字內容</string>
-	<string name="go">OK</string>
 
 	<string name="ask_login_dialog_message">在此之前，需要您先前往登入。</string>
 	
@@ -98,10 +97,12 @@
 	<string name="story_content_story_impacts">影響度</string>
 	<string name="story_content_encourage_yet_empty">成為第一個鼓勵的！</string>
 	<string name="story_ratings_comment_hint">留言</string>
-	<string name="cancel">Cancel</string>
 	<string name="story_content_ask_login_dialog_message">給予鼓勵需要會員登入，帶您前往登入。</string>
 	<string name="idea_caption_latest_idea">最新推薦</string>
 
 	<string name="setting_version_summary">版本編號</string>
 	<string name="setting_version_title">版本</string>
+
+	<string name="go">前往</string>
+	<string name="cancel">取消</string>
 </resources>

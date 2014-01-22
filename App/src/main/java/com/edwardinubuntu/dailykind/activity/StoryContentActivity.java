@@ -1,10 +1,8 @@
 package com.edwardinubuntu.dailykind.activity;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
@@ -23,6 +21,7 @@ import com.edwardinubuntu.dailykind.R;
 import com.edwardinubuntu.dailykind.object.Category;
 import com.edwardinubuntu.dailykind.object.Graphic;
 import com.edwardinubuntu.dailykind.object.Story;
+import com.edwardinubuntu.dailykind.util.CheckUserLoginUtil;
 import com.edwardinubuntu.dailykind.util.CircleTransform;
 import com.edwardinubuntu.dailykind.util.parse.ParseEventTrackingManager;
 import com.edwardinubuntu.dailykind.util.parse.ParseObjectManager;
@@ -113,30 +112,7 @@ public class StoryContentActivity extends ActionBarActivity {
         @Override
         public void onClick(View v) {
 
-            AlertDialog alertDialog = null;
-
-            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(StoryContentActivity.this);
-
-            final AlertDialog finalAlertDialog = alertDialog;
-            alertDialogBuilder.setMessage(getString(R.string.story_content_ask_login_dialog_message))
-                    .setPositiveButton(getString(R.string.go), new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            Intent loginIntent = new Intent(StoryContentActivity.this, LoginActivity.class);
-                            startActivityForResult(loginIntent, ASK_USER_LOGIN);
-                        }
-                    })
-                    .setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            if (finalAlertDialog != null) {
-                                finalAlertDialog.dismiss();
-                            }
-                        }
-                    })
-            ;
-            alertDialog = alertDialogBuilder.create();
-            alertDialog.show();
+            CheckUserLoginUtil.askLoginDialog(StoryContentActivity.this, StoryContentActivity.this);
 
         }
     };

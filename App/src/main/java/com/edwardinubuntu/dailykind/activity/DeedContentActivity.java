@@ -1,7 +1,5 @@
 package com.edwardinubuntu.dailykind.activity;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -18,6 +16,7 @@ import com.edwardinubuntu.dailykind.DailyKind;
 import com.edwardinubuntu.dailykind.ParseSettings;
 import com.edwardinubuntu.dailykind.R;
 import com.edwardinubuntu.dailykind.object.Idea;
+import com.edwardinubuntu.dailykind.util.CheckUserLoginUtil;
 import com.edwardinubuntu.dailykind.util.parse.ParseObjectManager;
 import com.parse.*;
 import com.squareup.picasso.Picasso;
@@ -45,37 +44,12 @@ public class DeedContentActivity extends ActionBarActivity {
 
     private Idea idea;
 
-    private int ASK_USER_LOGIN = 110;
+
 
     private View.OnClickListener askUserLoginListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-
-            AlertDialog alertDialog = null;
-
-            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(DeedContentActivity.this);
-
-            final AlertDialog finalAlertDialog = alertDialog;
-            alertDialogBuilder.setMessage(getString(R.string.ask_login_dialog_message))
-                    .setPositiveButton(getString(R.string.go), new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            Intent loginIntent = new Intent(DeedContentActivity.this, LoginActivity.class);
-                            startActivityForResult(loginIntent, ASK_USER_LOGIN);
-                        }
-                    })
-                    .setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            if (finalAlertDialog != null) {
-                                finalAlertDialog.dismiss();
-                            }
-                        }
-                    })
-            ;
-            alertDialog = alertDialogBuilder.create();
-            alertDialog.show();
-
+            CheckUserLoginUtil.askLoginDialog(DeedContentActivity.this, DeedContentActivity.this);
         }
     };
 
@@ -99,7 +73,7 @@ public class DeedContentActivity extends ActionBarActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == ASK_USER_LOGIN && resultCode == RESULT_OK) {
+        if (requestCode == CheckUserLoginUtil.ASK_USER_LOGIN && resultCode == RESULT_OK) {
             actionButtonSetup();
         }
     }
