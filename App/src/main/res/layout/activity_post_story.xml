@@ -52,6 +52,7 @@
 			android:orientation="vertical"
 			android:layout_width="fill_parent"
 			android:gravity="right"
+			android:id="@+id/story_image_layout"
 			android:layout_height="wrap_content">
 
 			<ImageView
@@ -59,7 +60,7 @@
 				android:layout_height="wrap_content"
 				android:background="@color/theme_color_3"
 				android:scaleType="centerCrop"
-				android:id="@+id/idea_content_image_view"
+				android:id="@+id/story_content_image_view"
 				android:layout_gravity="center_horizontal"/>
 
 			<com.beardedhen.androidbootstrap.BootstrapButton

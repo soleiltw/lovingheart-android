@@ -94,7 +94,7 @@ public class DeedContentActivity extends ActionBarActivity {
             }
         });
 
-        contentImageView = (ImageView)findViewById(R.id.idea_content_image_view);
+        contentImageView = (ImageView)findViewById(R.id.story_content_image_view);
 
         orgImageView = (ImageView)findViewById(R.id.user_avatar_image_view);
         orgTitleTextView = (TextView)findViewById(R.id.user_name_text_view);

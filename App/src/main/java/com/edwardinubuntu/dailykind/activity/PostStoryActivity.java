@@ -122,7 +122,7 @@ public class PostStoryActivity extends ActionBarActivity {
 
         final ArrayList<String> suggestIdeas = new ArrayList<String>();
 
-        contentImageView = (ImageView)findViewById(R.id.idea_content_image_view);
+        contentImageView = (ImageView)findViewById(R.id.story_content_image_view);
 
         final ArrayAdapter<String> suggestIdeaAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, suggestIdeas);
         AutoCompleteTextView ideaWasTextView = (AutoCompleteTextView)findViewById(R.id.content_idea_from_text_view);

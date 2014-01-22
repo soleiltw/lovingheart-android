@@ -91,7 +91,7 @@ public class IdeaCardArrayAdapter extends ArrayAdapter<IdeaObject> {
         TextView randomIdeaTextView = (TextView)rootView.findViewById(R.id.idea_content_title_text_view);
         randomIdeaTextView.setText(idea.getName());
 
-        ImageView suggestImageView = (ImageView)rootView.findViewById(R.id.idea_content_image_view);
+        ImageView suggestImageView = (ImageView)rootView.findViewById(R.id.story_content_image_view);
         DisplayMetrics displayMetrics = getContext().getResources().getDisplayMetrics();
         LinearLayout.LayoutParams suggestImageViewLayoutParams = (LinearLayout.LayoutParams)suggestImageView.getLayoutParams();
         suggestImageViewLayoutParams.width = displayMetrics.widthPixels;

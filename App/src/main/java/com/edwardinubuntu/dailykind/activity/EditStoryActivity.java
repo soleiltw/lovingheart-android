@@ -35,6 +35,7 @@ public class EditStoryActivity extends PostStoryActivity {
         super.onPostCreate(savedInstanceState);
 
         findViewById(R.id.content_location_area_layout).setVisibility(View.GONE);
+        findViewById(R.id.story_image_layout).setVisibility(View.GONE);
 
         // Add loading view
         findViewById(R.id.loading_progress_layout).setVisibility(View.VISIBLE);
@@ -51,21 +52,19 @@ public class EditStoryActivity extends PostStoryActivity {
                 findViewById(R.id.loading_progress_layout).setVisibility(View.GONE);
                 findViewById(R.id.content_edit_text).setVisibility(View.VISIBLE);
                 if (parseObject != null) {
-                    storyObject = parseObject;
+                    Log.d(DailyKind.TAG, "storyQuery.getFirstInBackground found: " + parseObject.getObjectId());
                     contentEditText.setText(parseObject.getString("Content"));
-
                     contentEditText.requestFocus();
+                }
+                if (e!=null) {
+                    Log.e(DailyKind.TAG, "storyQuery.getFirstInBackground: " + e.getLocalizedMessage());
+                    Toast.makeText(EditStoryActivity.this, e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
                 }
             }
         });
     }
 
     protected void postStory() {
-
-        if (ParseUser.getCurrentUser() == null) {
-            // TODO alert
-            return;
-        }
 
         if (contentEditText.getText().length() == 0) {
 
@@ -84,13 +83,34 @@ public class EditStoryActivity extends PostStoryActivity {
             return;
         }
 
-        // Add what need to change
-        storyObject.put("Content", contentEditText.getText().toString());
+        if (!storyPostingDialog.isShowing()) {
+            storyPostingDialog.show();
+        }
+        ParseQuery<ParseObject> storyQuery = new ParseQuery<ParseObject>("Story");
+        storyQuery.whereEqualTo("objectId", story.getObjectId());
+        storyQuery.getFirstInBackground(new GetCallback<ParseObject>() {
+            @Override
+            public void done(ParseObject parseObject, ParseException e) {
+                if (e!=null) {
+                    Log.e(DailyKind.TAG, "ParseObject.getFirstInBackground: " + e.getLocalizedMessage());
+                    Toast.makeText(EditStoryActivity.this, e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+                }
+                if (storyPostingDialog.isShowing()) {
+                    storyPostingDialog.dismiss();
+                }
+                // Add what need to change
+                parseObject.put("Content", contentEditText.getText().toString());
+                submit(parseObject);
+            }
+        });
 
-        submit(storyObject);
+
     }
 
     protected void submit(ParseObject parseObject) {
+
+        Log.d(DailyKind.TAG, "parseObject.saveInBackground object id: " + parseObject.getObjectId());
+
         if (!storyPostingDialog.isShowing()) {
             storyPostingDialog.show();
         }
@@ -98,14 +118,14 @@ public class EditStoryActivity extends PostStoryActivity {
             @Override
             public void done(ParseException e) {
                 if (e == null) {
-                    if (storyPostingDialog.isShowing()) {
-                        storyPostingDialog.dismiss();
-                    }
                     setResult(RESULT_OK);
                     finish();
                 } else {
                     Log.e(DailyKind.TAG, "ParseObject.saveInBackground: " + e.getLocalizedMessage());
                     Toast.makeText(EditStoryActivity.this, e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+                }
+                if (storyPostingDialog.isShowing()) {
+                    storyPostingDialog.dismiss();
                 }
             }
         });

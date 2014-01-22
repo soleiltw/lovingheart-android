@@ -130,7 +130,8 @@ public class MeFragment extends PlaceholderFragment {
                     @Override
                     public void done(ParseObject parseObject, ParseException e) {
                         ImageView avatarImageView = (ImageView)getActivity().findViewById(R.id.user_avatar_image_view);
-                        if (parseObject!=null && parseObject.getString("imageType").equals("url")) {
+                        if (parseObject!=null && parseObject.getString("imageType").equals("url")
+                                && getActivity() != null && avatarImageView != null) {
                             Picasso.with(getActivity())
                                     .load(parseObject.getString("imageUrl"))
                                     .transform(new CircleTransform())
@@ -210,7 +211,7 @@ public class MeFragment extends PlaceholderFragment {
                                 userImpactInfo.setGraphicEarnedCount(parseObjects.size());
 
 
-                                if (getActivity()!=null && !parseObjects.isEmpty()) {
+                                if (getActivity()!=null && !parseObjects.isEmpty() && getActivity().findViewById(R.id.me_graphic_gallery_layout) != null) {
                                     getActivity().findViewById(R.id.me_graphic_gallery_layout).setVisibility(View.VISIBLE);
                                 }
 
@@ -221,7 +222,7 @@ public class MeFragment extends PlaceholderFragment {
                                 }
                                 galleryArrayAdapter.notifyDataSetChanged();
 
-                                saveUserImpact(userImpactInfo);
+                                updateUserImpact(userImpactInfo);
                             } else {
                                 graphicEarnedCountTextView.setText(String.valueOf(0));
                                 userGraphicsList.clear();
@@ -265,6 +266,44 @@ public class MeFragment extends PlaceholderFragment {
         });
     }
 
+    private void updateUserImpact(final UserImpact userImpactInfo) {
+        ParseQuery<ParseObject> userImpactQuery = new ParseQuery<ParseObject>("UserImpact");
+        userImpactQuery.whereEqualTo("User", ParseUser.getCurrentUser());
+        userImpactQuery.getFirstInBackground(new GetCallback<ParseObject>() {
+            @Override
+            public void done(ParseObject parseObject, ParseException e) {
+
+                if (e != null) {
+                    Log.e(DailyKind.TAG, e.getLocalizedMessage());
+                }
+                if (parseObject!=null) {
+                    ParseObject userImpactObject = parseObject;
+
+                    if (userImpactInfo.getStoriesSharedCount() > 0){
+                        userImpactObject.put("sharedStoriesCount", userImpactInfo.getStoriesSharedCount());
+                    }
+                    if (userImpactInfo.getGraphicEarnedCount() > 0){
+                        userImpactObject.put("graphicsEarnedCount", userImpactInfo.getGraphicEarnedCount());
+                    }
+                    if (userImpactInfo.getStarsReviewCount() > 0){
+                        userImpactObject.put("reviewStarsImpact", userImpactInfo.getStarsReviewCount());
+                    }
+                    userImpactObject.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            if  (e==null && getActivity()!=null) {
+                                Log.d(DailyKind.TAG, "User Impact report updated.");
+                            }
+                        }
+                    });
+                }
+
+
+
+            }
+        });
+    }
+
     private void saveUserImpact(final UserImpact userImpactInfo) {
         ParseQuery<ParseObject> userImpactQuery = new ParseQuery<ParseObject>("UserImpact");
         userImpactQuery.whereEqualTo("User", ParseUser.getCurrentUser());
@@ -274,7 +313,6 @@ public class MeFragment extends PlaceholderFragment {
 
                 if (e != null) {
                     Log.e(DailyKind.TAG, e.getLocalizedMessage());
-                    return;
                 }
 
                 ParseObject userImpactObject = new ParseObject("UserImpact");
