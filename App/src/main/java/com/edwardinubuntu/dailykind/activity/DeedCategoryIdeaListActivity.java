@@ -42,9 +42,6 @@ public class DeedCategoryIdeaListActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_good_ideas);
 
-        Parse.initialize(this, ParseSettings.PARSE_API_TOKEN, ParseSettings.PARSE_API_TOKEN_2);
-
-
         ideaList = new ArrayList<Idea>();
 
         queryCategory = (Category) getIntent().getSerializableExtra("category");

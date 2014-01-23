@@ -1,6 +1,7 @@
 package com.edwardinubuntu.dailykind.adapter;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,7 @@ import com.edwardinubuntu.dailykind.listener.LoadMoreListener;
 import com.edwardinubuntu.dailykind.object.Graphic;
 import com.edwardinubuntu.dailykind.object.Story;
 import com.edwardinubuntu.dailykind.util.CircleTransform;
+import com.edwardinubuntu.dailykind.util.Typefaces;
 import com.edwardinubuntu.dailykind.util.parse.ParseObjectManager;
 import com.parse.GetCallback;
 import com.parse.ParseException;
@@ -46,7 +48,7 @@ public class StoryArrayAdapter extends ArrayAdapter<ParseObject> {
         View contentView = convertView;
         if (contentView == null) {
             LayoutInflater inflater = (LayoutInflater)getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            contentView = inflater.inflate(R.layout.cell_user_activities, null);
+            contentView = inflater.inflate(R.layout.cell_stories, null);
         }
         ParseObject storyObject = getItem(position);
         ParseObjectManager parseObjectManager = new ParseObjectManager(storyObject);
@@ -104,6 +106,11 @@ public class StoryArrayAdapter extends ArrayAdapter<ParseObject> {
         storyTellerTextView.setText(story.getStoryTeller().getString("name"));
 
         TextView storyContentTextView = (TextView)contentView.findViewById(R.id.story_content_text_view);
+        Typeface typeface = Typefaces.get(getContext(), Typefaces.TRUE_TYPE_FONT_ARCHITECTS_DAUGHTER);
+        if (typeface != null && storyObject.has("language")
+                && storyObject.getString("language").contentEquals("en")) {
+            storyContentTextView.setTypeface(typeface);
+        }
         storyContentTextView.setText(story.getContent());
 
         TextView createdAtTextView = (TextView)contentView.findViewById(R.id.created_at_text_view);

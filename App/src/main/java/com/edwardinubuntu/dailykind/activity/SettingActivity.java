@@ -11,11 +11,9 @@ import android.preference.*;
 import android.util.Log;
 import android.view.MenuItem;
 import com.edwardinubuntu.dailykind.DailyKind;
-import com.edwardinubuntu.dailykind.ParseSettings;
 import com.edwardinubuntu.dailykind.R;
 import com.edwardinubuntu.dailykind.util.CheckUserLoginUtil;
 import com.facebook.Session;
-import com.parse.Parse;
 import com.parse.ParseUser;
 
 import java.util.Locale;
@@ -52,7 +50,7 @@ public class SettingActivity extends PreferenceActivity {
         } catch (PackageManager.NameNotFoundException e) {
             Log.e(DailyKind.TAG, e.getLocalizedMessage());
         }
-        Parse.initialize(this, ParseSettings.PARSE_API_TOKEN, ParseSettings.PARSE_API_TOKEN_2);
+
     }
 
     @Override

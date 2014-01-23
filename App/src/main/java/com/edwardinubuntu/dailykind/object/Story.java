@@ -18,6 +18,8 @@ public class Story implements Serializable {
     private Date updatedAt;
     private Graphic graphic;
 
+    private String language;
+
     private int viewCount;
 
     private String locationAreaName;
@@ -93,5 +95,13 @@ public class Story implements Serializable {
 
     public void setViewCount(int viewCount) {
         this.viewCount = viewCount;
+    }
+
+    public String getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
     }
 }

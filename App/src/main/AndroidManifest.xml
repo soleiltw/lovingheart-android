@@ -26,6 +26,7 @@
         android:allowBackup="true"
         android:icon="@drawable/lovingheart_logo_red_rounded"
         android:label="@string/app_name"
+        android:name=".MainApplication"
         android:theme="@style/AppTheme" >
         <activity
             android:name=".activity.MainActivity"

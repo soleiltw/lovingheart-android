@@ -7,7 +7,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 import com.edwardinubuntu.dailykind.DailyKind;
-import com.edwardinubuntu.dailykind.ParseSettings;
 import com.edwardinubuntu.dailykind.R;
 import com.edwardinubuntu.dailykind.object.Story;
 import com.parse.*;
@@ -24,8 +23,6 @@ public class EditStoryActivity extends PostStoryActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        Parse.initialize(this, ParseSettings.PARSE_API_TOKEN, ParseSettings.PARSE_API_TOKEN_2);
 
         story = (Story)getIntent().getSerializableExtra("storyContent");
     }

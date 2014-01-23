@@ -19,9 +19,7 @@ import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import com.crashlytics.android.Crashlytics;
 import com.edwardinubuntu.dailykind.DailyKind;
-import com.edwardinubuntu.dailykind.ParseSettings;
 import com.edwardinubuntu.dailykind.R;
 import com.edwardinubuntu.dailykind.fragment.*;
 import com.edwardinubuntu.dailykind.util.CheckUserLoginUtil;
@@ -59,10 +57,6 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(com.edwardinubuntu.dailykind.R.layout.activity_main);
-
-        Parse.initialize(this, ParseSettings.PARSE_API_TOKEN, ParseSettings.PARSE_API_TOKEN_2);
-
-        Crashlytics.start(this);
 
         // Set up the action bar.
         final ActionBar actionBar = getSupportActionBar();

@@ -13,7 +13,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.edwardinubuntu.dailykind.DailyKind;
-import com.edwardinubuntu.dailykind.ParseSettings;
 import com.edwardinubuntu.dailykind.R;
 import com.edwardinubuntu.dailykind.object.Idea;
 import com.edwardinubuntu.dailykind.util.CheckUserLoginUtil;
@@ -63,8 +62,6 @@ public class DeedContentActivity extends ActionBarActivity {
         actionBar.setDisplayUseLogoEnabled(true);
 
         setContentView(R.layout.activity_good_deed_content);
-
-        Parse.initialize(this, ParseSettings.PARSE_API_TOKEN, ParseSettings.PARSE_API_TOKEN_2);
 
         ideaObjectId = getIntent().getStringExtra("ideaObjectId");
     }

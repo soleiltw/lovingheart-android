@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -23,6 +24,7 @@ import com.edwardinubuntu.dailykind.object.Graphic;
 import com.edwardinubuntu.dailykind.object.Story;
 import com.edwardinubuntu.dailykind.util.CheckUserLoginUtil;
 import com.edwardinubuntu.dailykind.util.CircleTransform;
+import com.edwardinubuntu.dailykind.util.Typefaces;
 import com.edwardinubuntu.dailykind.util.parse.ParseEventTrackingManager;
 import com.edwardinubuntu.dailykind.util.parse.ParseObjectManager;
 import com.parse.*;
@@ -207,6 +209,13 @@ public class StoryContentActivity extends ActionBarActivity {
                     story = parseObjectManager.getStory();
 
                     TextView lastSharedContentTextView = (TextView)findViewById(R.id.me_stories_last_share_content_text_view);
+
+                    Typeface typeface = Typefaces.get(StoryContentActivity.this, Typefaces.TRUE_TYPE_FONT_ARCHITECTS_DAUGHTER);
+                    if (typeface != null && storyObject.has("language")
+                            && storyObject.getString("language").contentEquals("en")) {
+                        lastSharedContentTextView.setTypeface(typeface);
+                    }
+
                     lastSharedContentTextView.setText(story.getContent());
 
                     TextView lastInspiredTextView = (TextView)findViewById(R.id.me_stories_last_share_inspired_from_text_view);
@@ -297,13 +306,6 @@ public class StoryContentActivity extends ActionBarActivity {
 
                     TextView locationAreaNameTextView = (TextView)findViewById(R.id.user_activity_location_area_name_text_view);
                     locationAreaNameTextView.setText(story.getLocationAreaName());
-
-                    ParseEventTrackingManager.event(
-                            ParseUser.getCurrentUser(),
-                            parseObject,
-                            ParseEventTrackingManager.ACTION_VIEW_STORY,
-                            1
-                    );
                 }
 
             }
