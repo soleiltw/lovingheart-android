@@ -106,10 +106,13 @@ public class StoryArrayAdapter extends ArrayAdapter<ParseObject> {
         storyTellerTextView.setText(story.getStoryTeller().getString("name"));
 
         TextView storyContentTextView = (TextView)contentView.findViewById(R.id.story_content_text_view);
-        Typeface typeface = Typefaces.get(getContext(), Typefaces.TRUE_TYPE_FONT_ARCHITECTS_DAUGHTER);
-        if (typeface != null && storyObject.has("language")
-                && storyObject.getString("language").contentEquals("en")) {
-            storyContentTextView.setTypeface(typeface);
+        if (storyObject.has("language")) {
+            if (storyObject.getString("language").contentEquals("en")) {
+                Typeface typeface = Typefaces.get(getContext(), Typefaces.TRUE_TYPE_FONT_ARCHITECTS_DAUGHTER);
+                if (typeface != null) {
+                    storyContentTextView.setTypeface(typeface);
+                }
+            }
         }
         storyContentTextView.setText(story.getContent());
 

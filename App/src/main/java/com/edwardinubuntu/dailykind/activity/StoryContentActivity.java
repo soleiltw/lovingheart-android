@@ -209,11 +209,14 @@ public class StoryContentActivity extends ActionBarActivity {
                     story = parseObjectManager.getStory();
 
                     TextView lastSharedContentTextView = (TextView)findViewById(R.id.me_stories_last_share_content_text_view);
-
-                    Typeface typeface = Typefaces.get(StoryContentActivity.this, Typefaces.TRUE_TYPE_FONT_ARCHITECTS_DAUGHTER);
-                    if (typeface != null && storyObject.has("language")
-                            && storyObject.getString("language").contentEquals("en")) {
-                        lastSharedContentTextView.setTypeface(typeface);
+                    lastSharedContentTextView.setTypeface(Typeface.DEFAULT);
+                    if (storyObject.has("language")) {
+                        if (storyObject.getString("language").contentEquals("en")) {
+                            Typeface typeface = Typefaces.get(StoryContentActivity.this, Typefaces.TRUE_TYPE_FONT_ARCHITECTS_DAUGHTER);
+                            if (typeface != null) {
+                                lastSharedContentTextView.setTypeface(typeface);
+                            }
+                        }
                     }
 
                     lastSharedContentTextView.setText(story.getContent());
