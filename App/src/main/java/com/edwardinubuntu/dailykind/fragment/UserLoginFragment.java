@@ -155,9 +155,13 @@ public class UserLoginFragment extends PlaceholderFragment {
                     ParseUser currentUser = ParseUser.getCurrentUser();
 
                     if (currentUser.isAuthenticated() &&
-                            (!currentUser.has("name") || !currentUser.has("avatar") || !currentUser.has("fbId"))) {
+                            (!currentUser.has("name")
+                                    || !currentUser.has("email")
+                                    || !currentUser.has("avatar")
+                                    || !currentUser.has("fbId"))) {
                         currentUser.put("name", graphUser.getName());
                         currentUser.put("fbId", graphUser.getId());
+                        currentUser.put("email", graphUser.getProperty("email"));
 
                         if (!currentUser.has("avatar")) {
                             ParseObject graphic = new ParseObject("GraphicImage");
