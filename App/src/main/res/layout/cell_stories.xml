@@ -29,7 +29,7 @@
 				android:layout_marginTop="5dp"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:textAppearance="?android:textAppearanceLarge"
+				android:textAppearance="?android:textAppearanceMedium"
 				android:hint="Story"
 				android:id="@+id/story_content_text_view"/>
 

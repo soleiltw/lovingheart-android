@@ -12,9 +12,6 @@ import java.util.Hashtable;
  */
 public class Typefaces {
 
-    public static final String TRUE_TYPE_FONT_JOURNAL = "fonts/journal.ttf";
-    public static final String TRUE_TYPE_FONT_ARCHITECTS_DAUGHTER = "fonts/architects_daughter.ttf";
-
     private static final Hashtable<String, Typeface> cache = new Hashtable<String, Typeface>();
 
     public static Typeface get(Context c, String assetPath) {
