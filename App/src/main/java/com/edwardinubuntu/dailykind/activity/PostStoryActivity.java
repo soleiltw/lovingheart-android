@@ -20,7 +20,6 @@ import android.view.View;
 import android.widget.*;
 import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.edwardinubuntu.dailykind.DailyKind;
-import com.edwardinubuntu.dailykind.ParseSettings;
 import com.edwardinubuntu.dailykind.R;
 import com.edwardinubuntu.dailykind.adapter.GalleryArrayAdapter;
 import com.edwardinubuntu.dailykind.object.Graphic;
@@ -331,6 +330,12 @@ public class PostStoryActivity extends ActionBarActivity {
 
             return;
         }
+
+        // TODO We want every one can come up and update
+        ParseACL parseACL = new ParseACL();
+        parseACL.setPublicWriteAccess(true);
+        parseACL.setPublicReadAccess(true);
+        storyParseObject.setACL(parseACL);
 
         storyParseObject.put("StoryTeller", ParseUser.getCurrentUser());
         storyParseObject.put("Content", contentEditText.getText().toString());

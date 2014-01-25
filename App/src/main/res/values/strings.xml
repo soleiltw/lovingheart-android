@@ -108,5 +108,6 @@
 
 	<string name="go">OK</string>
 	<string name="cancel">Cancel</string>
+	<string name="location_area_name_from">From </string>
 
 </resources>

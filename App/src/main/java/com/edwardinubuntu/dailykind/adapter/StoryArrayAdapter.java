@@ -66,15 +66,14 @@ public class StoryArrayAdapter extends ArrayAdapter<ParseObject> {
 
                 DisplayMetrics displayMetrics = getContext().getResources().getDisplayMetrics();
                 LinearLayout.LayoutParams storyContentImageViewLayoutParams = (LinearLayout.LayoutParams)storyContentImageView.getLayoutParams();
-                storyContentImageViewLayoutParams.width = displayMetrics.widthPixels;
-                storyContentImageViewLayoutParams.height = displayMetrics.widthPixels;
+                storyContentImageViewLayoutParams.width = (int)(displayMetrics.widthPixels * 0.8);
+                storyContentImageViewLayoutParams.height = (int)(displayMetrics.widthPixels * 0.8);
                 storyContentImageView.requestLayout();
                 storyContentImageView.setVisibility(View.VISIBLE);
 
                 Picasso.with(getContext())
                     .load(story.getGraphic().getParseFileUrl())
                     .placeholder(R.drawable.card_default)
-                    .resize(storyContentImageViewLayoutParams.width, storyContentImageViewLayoutParams.height)
                     .into(storyContentImageView);
             }
         } else {
@@ -82,7 +81,11 @@ public class StoryArrayAdapter extends ArrayAdapter<ParseObject> {
         }
 
         TextView locationAreaNameTextView = (TextView)contentView.findViewById(R.id.user_activity_location_area_name_text_view);
-        locationAreaNameTextView.setText(story.getLocationAreaName());
+        if (story.getLocationAreaName() != null) {
+            locationAreaNameTextView.setText(
+                getContext().getString(R.string.location_area_name_from) + getContext().getString(R.string.space) +
+                story.getLocationAreaName());
+        }
 
         final ImageView storyTellerImageView = (ImageView)contentView.findViewById(R.id.user_avatar_image_view);
         storyTellerImageView.setImageResource(R.drawable.ic_action_user);

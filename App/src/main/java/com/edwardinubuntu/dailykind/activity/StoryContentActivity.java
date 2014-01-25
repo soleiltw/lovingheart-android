@@ -2,10 +2,7 @@ package com.edwardinubuntu.dailykind.activity;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
-import android.media.AudioManager;
-import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
@@ -243,7 +240,7 @@ public class StoryContentActivity extends ActionBarActivity {
                         }
                     }
 
-                    TextView lastSharedDateTextView = (TextView)findViewById(R.id.me_stories_last_share_date_Text_view);
+                    TextView lastSharedDateTextView = (TextView)findViewById(R.id.created_at_text_view);
                     PrettyTime prettyTime = new PrettyTime(new Date());
                     lastSharedDateTextView.setText(
                             prettyTime.format(story.getCreatedAt()));
@@ -297,7 +294,11 @@ public class StoryContentActivity extends ActionBarActivity {
                     }
 
                     TextView locationAreaNameTextView = (TextView)findViewById(R.id.user_activity_location_area_name_text_view);
-                    locationAreaNameTextView.setText(story.getLocationAreaName());
+                    if (story.getLocationAreaName() != null) {
+                        locationAreaNameTextView.setText(
+                                getString(R.string.location_area_name_from) + getString(R.string.space) +
+                                        story.getLocationAreaName());
+                    }
                 }
 
             }
@@ -501,22 +502,13 @@ public class StoryContentActivity extends ActionBarActivity {
                             Log.e(DailyKind.TAG, e.getLocalizedMessage());
                         } else {
                             Log.d(DailyKind.TAG, "Parse event saved. " + ParseEventTrackingManager.ACTION_REVIEW_STORY + " on " + storyObject.getObjectId());
-                            playBellsSound();
+
                             loadRatings();
                         }
                     }
                 });
             }
         });
-    }
-
-    private void playBellsSound() {
-        //PLAY SOUND HERE
-        AudioManager am = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
-        if  (am.getRingerMode() == AudioManager.RINGER_MODE_NORMAL) {
-            MediaPlayer tabClick = MediaPlayer.create(StoryContentActivity.this, R.raw.celebratory_cute_bells_double);
-            tabClick.start();
-        }
     }
 
 }
