@@ -332,10 +332,10 @@ public class PostStoryActivity extends ActionBarActivity {
         }
 
         // TODO We want every one can come up and update
-        ParseACL parseACL = new ParseACL();
-        parseACL.setPublicWriteAccess(true);
-        parseACL.setPublicReadAccess(true);
-        storyParseObject.setACL(parseACL);
+//        ParseACL parseACL = new ParseACL();
+//        parseACL.setPublicWriteAccess(true);
+//        parseACL.setPublicReadAccess(true);
+//        storyParseObject.setACL(parseACL);
 
         storyParseObject.put("StoryTeller", ParseUser.getCurrentUser());
         storyParseObject.put("Content", contentEditText.getText().toString());

@@ -49,6 +49,10 @@ public class StoryContentActivity extends ActionBarActivity {
     private int STORY_CONTENT_EDIT = 100;
     private int ASK_USER_LOGIN = 110;
 
+    private int finalRatingValue;
+
+    private boolean hasBeenUpdateReviews;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,6 +65,8 @@ public class StoryContentActivity extends ActionBarActivity {
         actionBar.setDisplayUseLogoEnabled(true);
 
         objectId = getIntent().getStringExtra("objectId");
+
+        hasBeenUpdateReviews = false;
     }
 
     @Override
@@ -156,15 +162,27 @@ public class StoryContentActivity extends ActionBarActivity {
                         ratingCount += eachEvent.getInt("value");
                     }
                     storyObject.put("reviewImpact", ratingCount);
-                    storyObject.saveInBackground(new SaveCallback() {
-                        @Override
-                        public void done(ParseException e) {
-                            Log.d(DailyKind.TAG, "Story object save review impact");
-                            if (e != null) {
-                                Log.e(DailyKind.TAG, e.getLocalizedMessage());
-                            }
+                    if (storyObject.getParseUser("StoryTeller").getObjectId().
+                            equals(ParseUser.getCurrentUser().getObjectId())) {
+                        if (!hasBeenUpdateReviews) {
+                            hasBeenUpdateReviews = true;
+                            // Avoid to call several time
+                            storyObject.saveInBackground(new SaveCallback() {
+                                @Override
+                                public void done(ParseException e) {
+                                    Log.d(DailyKind.TAG, "Story object save review impact");
+                                    if (e != null) {
+                                        hasBeenUpdateReviews = false;
+                                        Log.e(DailyKind.TAG, e.getLocalizedMessage());
+                                    }
+                                }
+                            });
+                        } else {
+                            Log.d(DailyKind.TAG, "Skip update reviews.");
                         }
-                    });
+                    } else {
+                        Log.d(DailyKind.TAG, "It's not yours, can't update the reviews count.");
+                    }
 
                     TextView ratingsCountTextView = (TextView)findViewById(R.id.ratings_total_stars_text_view);
                     ratingsCountTextView.setText(String.valueOf(ratingCount));
@@ -341,9 +359,9 @@ public class StoryContentActivity extends ActionBarActivity {
     }
 
     private void openRatingDialog(final ParseObject parseObject) {
-        int ratingValue = 0;
+        finalRatingValue = 0;
         if (parseObject!=null && parseObject.has("value")) {
-            ratingValue = parseObject.getInt("value");
+            finalRatingValue = parseObject.getInt("value");
         }
 
         final Dialog askRatingsDialog = new Dialog(StoryContentActivity.this);
@@ -377,7 +395,6 @@ public class StoryContentActivity extends ActionBarActivity {
         final ImageButton rating4Button = (ImageButton)askRatingsDialog.findViewById(R.id.rating_stars_4);
         final ImageButton rating5Button = (ImageButton)askRatingsDialog.findViewById(R.id.rating_stars_5);
 
-        final int[] finalRatingValue = {ratingValue};
         rating1Button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -386,7 +403,7 @@ public class StoryContentActivity extends ActionBarActivity {
                 rating3Button.setImageResource(R.drawable.ic_action_star_0);
                 rating4Button.setImageResource(R.drawable.ic_action_star_0);
                 rating5Button.setImageResource(R.drawable.ic_action_star_0);
-                finalRatingValue[0] = 1;
+                finalRatingValue = 1;
             }
         });
 
@@ -398,7 +415,7 @@ public class StoryContentActivity extends ActionBarActivity {
                 rating3Button.setImageResource(R.drawable.ic_action_star_0);
                 rating4Button.setImageResource(R.drawable.ic_action_star_0);
                 rating5Button.setImageResource(R.drawable.ic_action_star_0);
-                finalRatingValue[0] = 2;
+                finalRatingValue = 2;
             }
         });
 
@@ -410,7 +427,7 @@ public class StoryContentActivity extends ActionBarActivity {
                 rating3Button.setImageResource(R.drawable.ic_action_star_10);
                 rating4Button.setImageResource(R.drawable.ic_action_star_0);
                 rating5Button.setImageResource(R.drawable.ic_action_star_0);
-                finalRatingValue[0] = 3;
+                finalRatingValue = 3;
             }
         });
 
@@ -422,7 +439,7 @@ public class StoryContentActivity extends ActionBarActivity {
                 rating3Button.setImageResource(R.drawable.ic_action_star_10);
                 rating4Button.setImageResource(R.drawable.ic_action_star_10);
                 rating5Button.setImageResource(R.drawable.ic_action_star_0);
-                finalRatingValue[0] = 4;
+                finalRatingValue = 4;
             }
         });
 
@@ -434,11 +451,11 @@ public class StoryContentActivity extends ActionBarActivity {
                 rating3Button.setImageResource(R.drawable.ic_action_star_10);
                 rating4Button.setImageResource(R.drawable.ic_action_star_10);
                 rating5Button.setImageResource(R.drawable.ic_action_star_10);
-                finalRatingValue[0] = 5;
+                finalRatingValue = 5;
             }
         });
 
-        switch (ratingValue) {
+        switch (finalRatingValue) {
             case 1:
                 rating1Button.performClick();
                 break;
@@ -483,7 +500,7 @@ public class StoryContentActivity extends ActionBarActivity {
                     eventObject.put("action", ParseEventTrackingManager.ACTION_REVIEW_STORY);
                 }
 
-                eventObject.put("value", finalRatingValue[0]);
+                eventObject.put("value", finalRatingValue);
 
                 if (commentText.getText() != null) {
                     eventObject.put("description", commentText.getText().toString());
@@ -503,7 +520,32 @@ public class StoryContentActivity extends ActionBarActivity {
                         } else {
                             Log.d(DailyKind.TAG, "Parse event saved. " + ParseEventTrackingManager.ACTION_REVIEW_STORY + " on " + storyObject.getObjectId());
 
-                            loadRatings();
+                            if (commentText.getText() != null && commentText.getText().toString().length() > 0) {
+                                ParseQuery pushQuery = ParseInstallation.getQuery();
+                                pushQuery.whereEqualTo("user", storyObject.getParseUser("StoryTeller"));
+
+                                ParsePush push = new ParsePush();
+                                push.setQuery(pushQuery);
+
+                                StringBuffer message = new StringBuffer();
+                                message.append(ParseUser.getCurrentUser().getString("name")
+                                        + getString(R.string.space)
+                                        + getString(R.string.story_content_push_give_prefix)
+                                        + getString(R.string.space)
+                                        + finalRatingValue
+                                        + getString(R.string.space)
+                                        + getString(R.string.story_content_push_give_post));
+                                message.append(
+                                        getString(R.string.space)
+                                                + getString(R.string.story_content_push_msg_prefix)
+                                                + getString(R.string.space)
+                                                + commentText.getText().toString()
+                                                + getString(R.string.story_content_push_msg_post));
+                                push.setMessage(message.toString());
+                                push.sendInBackground();
+
+                                loadRatings();
+                            }
                         }
                     }
                 });

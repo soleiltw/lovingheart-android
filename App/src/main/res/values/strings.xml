@@ -109,5 +109,9 @@
 	<string name="go">OK</string>
 	<string name="cancel">Cancel</string>
 	<string name="location_area_name_from">From </string>
+	<string name="story_content_push_give_prefix">gave</string>
+	<string name="story_content_push_give_post">stars,</string>
+	<string name="story_content_push_msg_prefix">said </string>
+	<string name="story_content_push_msg_post">.</string>
 
 </resources>

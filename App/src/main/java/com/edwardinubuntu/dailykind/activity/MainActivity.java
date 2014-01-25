@@ -101,13 +101,14 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         defaultACL.setPublicReadAccess(true);
         defaultACL.setPublicWriteAccess(false);
         ParseACL.setDefaultACL(defaultACL, true);
-        if (ParseUser.getCurrentUser() != null) {
+        if (ParseUser.getCurrentUser() != null && ParseUser.getCurrentUser().getString("name") != null) {
 
             // Save the current Installation to Parse.
             PushService.setDefaultPushCallback(this, DeedCategoriesActivity.class);
 
             ParseInstallation parseInstallation = ParseInstallation.getCurrentInstallation();
             parseInstallation.put("language", Locale.getDefault().getLanguage());
+            parseInstallation.put("user", ParseUser.getCurrentUser());
             parseInstallation.saveInBackground();
 
             ParseAnalytics.trackAppOpened(getIntent());

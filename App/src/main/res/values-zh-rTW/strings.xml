@@ -106,4 +106,8 @@
 	<string name="go">前往</string>
 	<string name="cancel">取消</string>
 	<string name="location_area_name_from">來自</string>
+	<string name="story_content_push_give_prefix"> 給了 </string>
+	<string name="story_content_push_give_post"> 顆星，</string>
+	<string name="story_content_push_msg_prefix">說道</string>
+	<string name="story_content_push_msg_post">。</string>
 </resources>
