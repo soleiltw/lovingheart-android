@@ -155,6 +155,8 @@ public class HomeFragment extends PlaceholderFragment {
         randomIdeaQuery.include("graphicPointer");
         randomIdeaQuery.whereNotContainedIn("status", stringCollection);
         randomIdeaQuery.orderByDescending("createdAt");
+        randomIdeaQuery.setCachePolicy(ParseQuery.CachePolicy.CACHE_ELSE_NETWORK);
+        randomIdeaQuery.setMaxCacheAge(100 * 60 * 60);
         randomIdeaQuery.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> parseObjects, ParseException e) {
