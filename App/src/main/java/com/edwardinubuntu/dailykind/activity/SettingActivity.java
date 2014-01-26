@@ -108,7 +108,7 @@ public class SettingActivity extends PreferenceActivity {
                 public boolean onPreferenceClick(Preference preference) {
 
                     Intent loginIntent = new Intent(getApplicationContext(), LoginActivity.class);
-                    startActivity(loginIntent);
+                    startActivityForResult(loginIntent, CheckUserLoginUtil.ASK_USER_LOGIN);
 
                     return true;
                 }

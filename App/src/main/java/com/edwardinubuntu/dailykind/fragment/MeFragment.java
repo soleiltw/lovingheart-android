@@ -14,6 +14,7 @@ import com.edwardinubuntu.dailykind.activity.LoginActivity;
 import com.edwardinubuntu.dailykind.adapter.GalleryArrayAdapter;
 import com.edwardinubuntu.dailykind.object.Graphic;
 import com.edwardinubuntu.dailykind.object.UserImpact;
+import com.edwardinubuntu.dailykind.util.CheckUserLoginUtil;
 import com.edwardinubuntu.dailykind.util.CircleTransform;
 import com.edwardinubuntu.dailykind.util.parse.ParseObjectManager;
 import com.edwardinubuntu.dailykind.view.ExpandableGridView;
@@ -100,6 +101,14 @@ public class MeFragment extends PlaceholderFragment {
         loadProfile();
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == CheckUserLoginUtil.ASK_USER_LOGIN) {
+            loadProfile();
+        }
+    }
+
     private void loadProfile() {
         if (ParseUser.getCurrentUser() != null && ParseUser.getCurrentUser().getObjectId() != null) {
 
@@ -152,7 +161,7 @@ public class MeFragment extends PlaceholderFragment {
                 @Override
                 public void onClick(View v) {
                     Intent loginIntent = new Intent(getActivity(), LoginActivity.class);
-                    startActivity(loginIntent);
+                    startActivityForResult(loginIntent, CheckUserLoginUtil.ASK_USER_LOGIN);
                 }
             });
         }
