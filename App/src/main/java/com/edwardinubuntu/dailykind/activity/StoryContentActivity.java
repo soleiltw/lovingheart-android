@@ -553,4 +553,18 @@ public class StoryContentActivity extends ActionBarActivity {
         });
     }
 
+    private void showGraphicEarnedDialog(ParseObject graphicObject) {
+        Dialog earnedNoticeDialog = new Dialog(this);
+        earnedNoticeDialog.setTitle("獲得新圖像");
+        earnedNoticeDialog.setContentView(R.layout.layout_dialog_graphic_earned);
+        ImageView graphicImageView = (ImageView) earnedNoticeDialog.findViewById(R.id.graphic_image_view);
+        Picasso.with(this)
+                .load(graphicObject.getParseFile("imageFile").getUrl())
+                .placeholder(R.drawable.card_default)
+                .into(graphicImageView);
+
+        TextView textView = (TextView) earnedNoticeDialog.findViewById(R.id.graphic_text_view);
+        textView.setText("恭喜獲得此圖像，未來發佈故事都可以挑選使用！");
+        earnedNoticeDialog.show();
+    }
 }
