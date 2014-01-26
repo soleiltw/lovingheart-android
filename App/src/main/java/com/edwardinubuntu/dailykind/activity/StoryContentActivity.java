@@ -1,7 +1,9 @@
 package com.edwardinubuntu.dailykind.activity;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -274,6 +276,9 @@ public class StoryContentActivity extends ActionBarActivity {
                             if (menu != null) {
                                 MenuItem editStoryItem = menu.findItem(R.id.action_edit_story);
                                 editStoryItem.setVisible(true);
+
+                                MenuItem deleteItem = menu.findItem(R.id.action_delete);
+                                deleteItem.setVisible(true);
                             }
                         }
                     }
@@ -353,6 +358,47 @@ public class StoryContentActivity extends ActionBarActivity {
                     startActivityForResult(editStoryIntent, STORY_CONTENT_EDIT);
                 }
                 break;
+            }
+            case R.id.action_delete: {
+                AlertDialog alertDialog;
+
+                AlertDialog.Builder askDeleteDialogBuilder = new AlertDialog.Builder(this);
+                askDeleteDialogBuilder.setTitle(getString(R.string.story_content_delete));
+                askDeleteDialogBuilder.setMessage(getString(R.string.story_content_delete_this_story));
+
+                askDeleteDialogBuilder.setPositiveButton(getString(R.string.story_content_delete), new DialogInterface.OnClickListener() {
+                    /**
+                     * This method will be invoked when a button in the dialog is clicked.
+                     *
+                     * @param dialog The dialog that received the click.
+                     * @param which  The button that was clicked (e.g.
+                     *               {@link android.content.DialogInterface#BUTTON1}) or the position
+                     */
+                    @Override
+                    public void onClick(final DialogInterface dialog, int which) {
+                        storyObject.deleteInBackground(new DeleteCallback() {
+                            @Override
+                            public void done(ParseException e) {
+                                if (e == null) {
+                                    dialog.dismiss();
+                                    finish();
+                                } else {
+                                    Toast.makeText(StoryContentActivity.this, e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+                                }
+                            }
+                        });
+                    }
+                });
+
+                askDeleteDialogBuilder.setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+
+                alertDialog = askDeleteDialogBuilder.create();
+                alertDialog.show();
             }
         }
         return super.onOptionsItemSelected(item);
@@ -551,20 +597,5 @@ public class StoryContentActivity extends ActionBarActivity {
                 });
             }
         });
-    }
-
-    private void showGraphicEarnedDialog(ParseObject graphicObject) {
-        Dialog earnedNoticeDialog = new Dialog(this);
-        earnedNoticeDialog.setTitle("獲得新圖像");
-        earnedNoticeDialog.setContentView(R.layout.layout_dialog_graphic_earned);
-        ImageView graphicImageView = (ImageView) earnedNoticeDialog.findViewById(R.id.graphic_image_view);
-        Picasso.with(this)
-                .load(graphicObject.getParseFile("imageFile").getUrl())
-                .placeholder(R.drawable.card_default)
-                .into(graphicImageView);
-
-        TextView textView = (TextView) earnedNoticeDialog.findViewById(R.id.graphic_text_view);
-        textView.setText("恭喜獲得此圖像，未來發佈故事都可以挑選使用！");
-        earnedNoticeDialog.show();
     }
 }

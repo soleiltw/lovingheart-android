@@ -25,7 +25,6 @@ public class CheckUserLoginUtil {
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
 
-        final AlertDialog finalAlertDialog = alertDialog;
         alertDialogBuilder.setMessage(context.getString(R.string.ask_login_dialog_message))
                 .setPositiveButton(context.getString(R.string.go), new DialogInterface.OnClickListener() {
                     @Override
@@ -41,9 +40,7 @@ public class CheckUserLoginUtil {
                 .setNegativeButton(context.getString(R.string.cancel), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        if (finalAlertDialog != null) {
-                            finalAlertDialog.dismiss();
-                        }
+                        dialog.dismiss();
                     }
                 })
         ;

@@ -110,4 +110,6 @@
 	<string name="story_content_push_give_post"> 顆星，</string>
 	<string name="story_content_push_msg_prefix">說道</string>
 	<string name="story_content_push_msg_post">。</string>
+	<string name="story_content_delete">刪除</string>
+	<string name="story_content_delete_this_story">確定要刪除此篇記錄嗎？</string>
 </resources>
