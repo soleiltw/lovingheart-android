@@ -17,17 +17,18 @@ import android.widget.*;
 import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.edwardinubuntu.dailykind.DailyKind;
 import com.edwardinubuntu.dailykind.R;
-import com.edwardinubuntu.dailykind.object.Category;
-import com.edwardinubuntu.dailykind.object.Graphic;
-import com.edwardinubuntu.dailykind.object.Story;
+import com.edwardinubuntu.dailykind.adapter.ReviewArrayAdapter;
+import com.edwardinubuntu.dailykind.object.*;
 import com.edwardinubuntu.dailykind.util.CheckUserLoginUtil;
 import com.edwardinubuntu.dailykind.util.CircleTransform;
 import com.edwardinubuntu.dailykind.util.parse.ParseEventTrackingManager;
 import com.edwardinubuntu.dailykind.util.parse.ParseObjectManager;
+import com.edwardinubuntu.dailykind.view.ExpandableListView;
 import com.parse.*;
 import com.squareup.picasso.Picasso;
 import org.ocpsoft.prettytime.PrettyTime;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -55,6 +56,10 @@ public class StoryContentActivity extends ActionBarActivity {
 
     private boolean hasBeenUpdateReviews;
 
+    private ReviewArrayAdapter reviewArrayAdapter;
+
+    private List<Review> reviewList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,6 +74,9 @@ public class StoryContentActivity extends ActionBarActivity {
         objectId = getIntent().getStringExtra("objectId");
 
         hasBeenUpdateReviews = false;
+
+        reviewList = new ArrayList<Review>();
+        reviewArrayAdapter = new ReviewArrayAdapter(this, android.R.layout.simple_list_item_1, reviewList);
     }
 
     @Override
@@ -83,6 +91,10 @@ public class StoryContentActivity extends ActionBarActivity {
         storyContentImageViewLayoutParams.width = displayMetrics.widthPixels;
         storyContentImageViewLayoutParams.height = displayMetrics.widthPixels;
         storyContentImageView.requestLayout();
+
+        ExpandableListView reviewsListView = (ExpandableListView)findViewById(R.id.story_content_review_list_view);
+        reviewsListView.setExpand(true);
+        reviewsListView.setAdapter(reviewArrayAdapter);
 
         storyReviewSetup();
         loadStory();
@@ -147,6 +159,8 @@ public class StoryContentActivity extends ActionBarActivity {
         ParseQuery<ParseObject> ratingsQuery = new ParseQuery<ParseObject>("Event");
         ratingsQuery.whereEqualTo("story", storyObject);
         ratingsQuery.whereEqualTo("action", ParseEventTrackingManager.ACTION_REVIEW_STORY);
+        ratingsQuery.include("user");
+        ratingsQuery.addDescendingOrder("createdAt");
         ratingsQuery.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
         ratingsQuery.findInBackground(new FindCallback<ParseObject>() {
             @Override
@@ -160,9 +174,32 @@ public class StoryContentActivity extends ActionBarActivity {
                     findViewById(R.id.ratings_stat_group_layout).setVisibility(View.VISIBLE);
 
                     int ratingCount = 0;
+                    reviewList.clear();
                     for (ParseObject eachEvent : parseObjects) {
+                        Review review = new Review();
+
+                        Log.d(DailyKind.TAG, "EachEvent: " + eachEvent.toString());
+
+                        review.setValue(eachEvent.getInt("value"));
+                        review.setReviewDescription(eachEvent.getString("description"));
+                        review.setCreatedAt(eachEvent.getCreatedAt());
+
+                        User user = new User();
+                        if (eachEvent.getParseUser("user")!=null) {
+                            user.setName(eachEvent.getParseUser("user").getString("name"));
+
+                            if (eachEvent.getParseUser("user") != null
+                                    && eachEvent.getParseUser("user").has("avatar")
+                                    && eachEvent.getParseUser("user").getParseObject("avatar")!=null) {
+                                user.setAvatar(eachEvent.getParseUser("user").getParseObject("avatar"));
+                            }
+                            review.setUser(user);
+                        }
+                        reviewList.add(review);
+
                         ratingCount += eachEvent.getInt("value");
                     }
+                    reviewArrayAdapter.notifyDataSetChanged();
                     storyObject.put("reviewImpact", ratingCount);
                     if (storyObject.getParseUser("StoryTeller").getObjectId().
                             equals(ParseUser.getCurrentUser().getObjectId())) {

@@ -104,7 +104,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         if (ParseUser.getCurrentUser() != null && ParseUser.getCurrentUser().getString("name") != null) {
 
             // Save the current Installation to Parse.
-            PushService.setDefaultPushCallback(this, DeedCategoriesActivity.class);
+            PushService.setDefaultPushCallback(this, MainActivity.class);
 
             ParseInstallation parseInstallation = ParseInstallation.getCurrentInstallation();
             parseInstallation.put("language", Locale.getDefault().getLanguage());

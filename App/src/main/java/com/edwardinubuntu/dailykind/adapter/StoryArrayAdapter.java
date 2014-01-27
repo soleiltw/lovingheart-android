@@ -13,6 +13,7 @@ import com.edwardinubuntu.dailykind.R;
 import com.edwardinubuntu.dailykind.listener.LoadMoreListener;
 import com.edwardinubuntu.dailykind.object.Graphic;
 import com.edwardinubuntu.dailykind.object.Story;
+import com.edwardinubuntu.dailykind.object.User;
 import com.edwardinubuntu.dailykind.util.CircleTransform;
 import com.edwardinubuntu.dailykind.util.parse.ParseObjectManager;
 import com.parse.GetCallback;
@@ -87,6 +88,9 @@ public class StoryArrayAdapter extends ArrayAdapter<ParseObject> {
                 story.getLocationAreaName());
         }
 
+        User user = new User();
+        user.setName(story.getStoryTeller().getString("name"));
+
         final ImageView storyTellerImageView = (ImageView)contentView.findViewById(R.id.user_avatar_image_view);
         storyTellerImageView.setImageResource(R.drawable.ic_action_user);
         if (story.getStoryTeller() != null
@@ -107,7 +111,7 @@ public class StoryArrayAdapter extends ArrayAdapter<ParseObject> {
         }
 
         TextView storyTellerTextView = (TextView)contentView.findViewById(R.id.user_name_text_view);
-        storyTellerTextView.setText(story.getStoryTeller().getString("name"));
+        storyTellerTextView.setText(user.getName());
 
         TextView storyContentTextView = (TextView)contentView.findViewById(R.id.story_content_text_view);
         storyContentTextView.setText(story.getContent());

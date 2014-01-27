@@ -8,8 +8,6 @@
 	<ScrollView
 		android:layout_height="match_parent"
 		android:layout_width="match_parent"
-
-
 		>
 
 		<LinearLayout android:orientation="vertical"
@@ -62,8 +60,14 @@
 					android:id="@+id/ratings_stat_group_layout"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content">
-				<include layout="@layout/layout_ratings_stat" />
+					<include layout="@layout/layout_ratings_stat" />
 				</LinearLayout>
+
+				<com.edwardinubuntu.dailykind.view.ExpandableListView
+
+					android:id="@+id/story_content_review_list_view"
+					android:layout_width="fill_parent"
+					android:layout_height="wrap_content" />
 
 				<TextView
 					android:padding="5dp"
