@@ -50,24 +50,34 @@ public class ReviewArrayAdapter extends ArrayAdapter<Review> {
 
         Review review = getItem(position);
         Log.d(DailyKind.TAG, "Rating: " + review.getValue());
+
+        FontAwesomeText awesome1Text = (FontAwesomeText)rootView.findViewById(R.id.story_review_1_star);
+        FontAwesomeText awesome2Text = (FontAwesomeText)rootView.findViewById(R.id.story_review_2_star);
+        FontAwesomeText awesome3Text = (FontAwesomeText)rootView.findViewById(R.id.story_review_3_star);
+        FontAwesomeText awesome4Text = (FontAwesomeText)rootView.findViewById(R.id.story_review_4_star);
+        FontAwesomeText awesome5Text = (FontAwesomeText)rootView.findViewById(R.id.story_review_5_star);
+
+        awesome1Text.setVisibility(View.GONE);
+        awesome2Text.setVisibility(View.GONE);
+        awesome3Text.setVisibility(View.GONE);
+        awesome4Text.setVisibility(View.GONE);
+        awesome5Text.setVisibility(View.GONE);
+
         if (review.getValue() >= 1) {
-            FontAwesomeText awesome1Text = (FontAwesomeText)rootView.findViewById(R.id.story_review_1_star);
             awesome1Text.setVisibility(View.VISIBLE);
         }
         if (review.getValue() >= 2) {
-            FontAwesomeText awesome2Text = (FontAwesomeText)rootView.findViewById(R.id.story_review_2_star);
+
             awesome2Text.setVisibility(View.VISIBLE);
         }
         if (review.getValue() >= 3) {
-            FontAwesomeText awesome3Text = (FontAwesomeText)rootView.findViewById(R.id.story_review_3_star);
+
             awesome3Text.setVisibility(View.VISIBLE);
         }
         if (review.getValue() >= 4) {
-            FontAwesomeText awesome4Text = (FontAwesomeText)rootView.findViewById(R.id.story_review_4_star);
             awesome4Text.setVisibility(View.VISIBLE);
         }
         if (review.getValue() >= 5) {
-            FontAwesomeText awesome5Text = (FontAwesomeText)rootView.findViewById(R.id.story_review_5_star);
             awesome5Text.setVisibility(View.VISIBLE);
         }
 

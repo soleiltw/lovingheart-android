@@ -115,5 +115,6 @@
 	<string name="story_content_push_msg_post">.</string>
 	<string name="story_content_delete">Delete</string>
 	<string name="story_content_delete_this_story">Sure want to delete this story?</string>
+	<string name="toast_error_message_try_again">Not successfully, try again later.</string>
 
 </resources>

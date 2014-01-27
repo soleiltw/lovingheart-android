@@ -441,10 +441,10 @@ public class StoryContentActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void openRatingDialog(final ParseObject parseObject) {
+    private void openRatingDialog(final ParseObject parseReviewObject) {
         finalRatingValue = 0;
-        if (parseObject!=null && parseObject.has("value")) {
-            finalRatingValue = parseObject.getInt("value");
+        if (parseReviewObject!=null && parseReviewObject.has("value")) {
+            finalRatingValue = parseReviewObject.getInt("value");
         }
 
         final Dialog askRatingsDialog = new Dialog(StoryContentActivity.this);
@@ -557,8 +557,8 @@ public class StoryContentActivity extends ActionBarActivity {
         }
 
         final EditText commentText = (EditText)askRatingsDialog.findViewById(R.id.story_ratings_comment_edit_text);
-        if (parseObject!=null && parseObject.getString("description") != null ){
-            commentText.setText(parseObject.getString("description"));
+        if (parseReviewObject!=null && parseReviewObject.getString("description") != null ){
+            commentText.setText(parseReviewObject.getString("description"));
         }
 
         BootstrapButton submitButton = (BootstrapButton)askRatingsDialog.findViewById(R.id.story_ratings_submit_button);
@@ -568,8 +568,8 @@ public class StoryContentActivity extends ActionBarActivity {
             public void onClick(View v) {
                 ParseObject eventObject;
 
-                if (parseObject != null) {
-                    eventObject = parseObject;
+                if (parseReviewObject != null) {
+                    eventObject = parseReviewObject;
                 } else {
                     eventObject = new ParseObject("Event");
 
@@ -600,6 +600,7 @@ public class StoryContentActivity extends ActionBarActivity {
 
                         if (e != null) {
                             Log.e(DailyKind.TAG, e.getLocalizedMessage());
+                            Toast.makeText(StoryContentActivity.this, getString(R.string.toast_error_message_try_again), Toast.LENGTH_SHORT).show();
                         } else {
                             Log.d(DailyKind.TAG, "Parse event saved. " + ParseEventTrackingManager.ACTION_REVIEW_STORY + " on " + storyObject.getObjectId());
 
