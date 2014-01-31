@@ -1,6 +1,5 @@
 package com.edwardinubuntu.dailykind.activity;
 
-import android.annotation.TargetApi;
 import android.app.ActionBar;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -27,7 +26,6 @@ public class SettingActivity extends PreferenceActivity {
 
     private static String PREFERENCES_KEY_APP_VERSION = "PREFERENCES_KEY_APP_VERSION";
 
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
