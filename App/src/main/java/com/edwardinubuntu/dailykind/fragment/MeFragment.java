@@ -6,18 +6,22 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.*;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.edwardinubuntu.dailykind.DailyKind;
 import com.edwardinubuntu.dailykind.R;
 import com.edwardinubuntu.dailykind.activity.LoginActivity;
+import com.edwardinubuntu.dailykind.activity.StoryContentActivity;
 import com.edwardinubuntu.dailykind.adapter.GalleryArrayAdapter;
+import com.edwardinubuntu.dailykind.adapter.UserStoryArrayAdapter;
 import com.edwardinubuntu.dailykind.object.Graphic;
 import com.edwardinubuntu.dailykind.object.UserImpact;
 import com.edwardinubuntu.dailykind.util.CheckUserLoginUtil;
 import com.edwardinubuntu.dailykind.util.CircleTransform;
 import com.edwardinubuntu.dailykind.util.parse.ParseObjectManager;
 import com.edwardinubuntu.dailykind.view.ExpandableGridView;
+import com.edwardinubuntu.dailykind.view.ExpandableListView;
 import com.parse.*;
 import com.squareup.picasso.Picasso;
 
@@ -46,11 +50,17 @@ public class MeFragment extends PlaceholderFragment {
 
     private List<Graphic> userGraphicsList;
 
+    private List<ParseObject> userStoriesList;
+
     private UserImpact userImpactInfo;
 
     private Menu menu;
 
     private boolean queryLoading;
+
+    private ExpandableListView userStoriesListView;
+
+    private UserStoryArrayAdapter userStoryArrayAdapter;
 
     public static MeFragment newInstance(int sectionNumber) {
         MeFragment fragment = new MeFragment();
@@ -70,6 +80,9 @@ public class MeFragment extends PlaceholderFragment {
         galleryArrayAdapter = new GalleryArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, userGraphicsList);
 
         userImpactInfo = new UserImpact();
+
+        userStoriesList = new ArrayList<ParseObject>();
+        userStoryArrayAdapter = new UserStoryArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, userStoriesList);
     }
 
     @Override
@@ -91,6 +104,21 @@ public class MeFragment extends PlaceholderFragment {
 
         reviewStarsTextView = (TextView)rootView.findViewById(R.id.user_impact_review_stars_text_view);
 
+        userStoriesListView = (ExpandableListView)rootView.findViewById(R.id.me_stories_list_view);
+        userStoriesListView.setExpand(true);
+        userStoriesListView.setAdapter(userStoryArrayAdapter);
+        userStoriesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                ParseObject storyObject = userStoriesList.get(position);
+
+                Intent storyIntent = new Intent(getActivity(), StoryContentActivity.class);
+                storyIntent.putExtra("objectId", storyObject.getObjectId());
+
+                getActivity().startActivity(storyIntent);
+            }
+        });
+
         return rootView;
     }
 
@@ -99,6 +127,7 @@ public class MeFragment extends PlaceholderFragment {
         super.onViewCreated(view, savedInstanceState);
 
         loadProfile();
+        queryStories();
     }
 
     @Override
@@ -177,10 +206,17 @@ public class MeFragment extends PlaceholderFragment {
     private void queryStories() {
         ParseQuery<ParseObject> storyQuery = new ParseQuery<ParseObject>("Story");
         storyQuery.whereEqualTo("StoryTeller", ParseUser.getCurrentUser());
+        storyQuery.orderByDescending("createdAt");
+        storyQuery.setCachePolicy(ParseQuery.CachePolicy.CACHE_ELSE_NETWORK);
+        storyQuery.setMaxCacheAge(DailyKind.QUERY_AT_LEAST_CACHE_AGE);
         storyQuery.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> parseObjects, ParseException e) {
                 if (parseObjects != null) {
+
+                    userStoriesList.clear();
+                    userStoriesList.addAll(parseObjects);
+                    userStoryArrayAdapter.notifyDataSetChanged();
 
                     userImpactInfo.setStoriesSharedCount(parseObjects.size());
                     storiesSharedCountTextView.setText(String.valueOf(parseObjects.size()));
@@ -218,11 +254,6 @@ public class MeFragment extends PlaceholderFragment {
 
                                 graphicEarnedCountTextView.setText(String.valueOf(parseObjects.size()));
                                 userImpactInfo.setGraphicEarnedCount(parseObjects.size());
-
-
-                                if (getActivity()!=null && !parseObjects.isEmpty() && getActivity().findViewById(R.id.me_graphic_gallery_layout) != null) {
-                                    getActivity().findViewById(R.id.me_graphic_gallery_layout).setVisibility(View.VISIBLE);
-                                }
 
                                 userGraphicsList.clear();
                                 for (ParseObject eachGraphicObject : parseObjects) {

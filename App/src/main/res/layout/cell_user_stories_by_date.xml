@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="horizontal"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+	<LinearLayout
+		android:orientation="vertical"
+		android:layout_gravity="center_horizontal"
+		android:padding="5dp"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content">
+
+		<TextView
+			android:hint="00"
+			android:id="@+id/story_date_month_text_view"
+			android:layout_gravity="center"
+			android:textColor="@color/theme_color_4"
+			android:textStyle="bold"
+			android:textAppearance="?android:textAppearanceMedium"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"/>
+		<TextView
+			android:hint="0"
+			android:id="@+id/story_date_day_text_view"
+			android:textAppearance="?android:textAppearanceLarge"
+			android:layout_gravity="center"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"/>
+
+	</LinearLayout>
+
+	<LinearLayout
+		android:orientation="vertical"
+		android:padding="5dp"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content">
+
+		<TextView
+			android:hint="story"
+			android:id="@+id/story_content_text_view"
+			android:textAppearance="?android:textAppearanceMedium"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"/>
+
+		<TextView
+			android:id="@+id/story_area_text_view"
+			android:textColor="@color/theme_color_3"
+			android:textAppearance="?android:textAppearanceSmall"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"/>
+
+	</LinearLayout>
+
+</LinearLayout>

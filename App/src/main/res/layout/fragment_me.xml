@@ -48,21 +48,40 @@
 				android:padding="5dp"
 				android:layout_marginLeft="10dp"
 				android:layout_marginRight="10dp"
+				android:layout_marginBottom="10dp"
 				android:id="@+id/me_graphic_gallery_layout"
-				android:visibility="gone"
 				android:background="@drawable/layout_background_shadow"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content">
 
-
-					<com.edwardinubuntu.dailykind.view.ExpandableGridView
-						android:id="@+id/me_graphic_gallery_grid_view"
-						android:horizontalSpacing="5dp"
-						android:verticalSpacing="5dp"
-						android:gravity="center"
-						android:layout_width="fill_parent"
-						android:layout_height="fill_parent" />
+				<com.edwardinubuntu.dailykind.view.ExpandableGridView
+					android:id="@+id/me_graphic_gallery_grid_view"
+					android:horizontalSpacing="5dp"
+					android:verticalSpacing="5dp"
+					android:gravity="center"
+					android:layout_width="fill_parent"
+					android:layout_height="fill_parent" />
 			</LinearLayout>
+
+			<LinearLayout
+				android:padding="5dp"
+				android:layout_marginLeft="10dp"
+				android:layout_marginRight="10dp"
+				android:layout_marginBottom="10dp"
+				android:id="@+id/me_stories_list_layout"
+				android:background="@drawable/layout_background_shadow"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content">
+
+				<com.edwardinubuntu.dailykind.view.ExpandableListView
+					android:id="@+id/me_stories_list_view"
+					android:layout_width="fill_parent"
+					android:layout_height="fill_parent" />
+			</LinearLayout>
+
+
+
+
 
 		</LinearLayout>
 	</ScrollView>
