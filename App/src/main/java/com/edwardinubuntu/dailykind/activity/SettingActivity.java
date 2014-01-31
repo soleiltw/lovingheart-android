@@ -14,6 +14,7 @@ import com.edwardinubuntu.dailykind.R;
 import com.edwardinubuntu.dailykind.util.CheckUserLoginUtil;
 import com.facebook.Session;
 import com.parse.ParseUser;
+import com.uservoice.uservoicesdk.UserVoice;
 
 import java.util.Locale;
 
@@ -195,6 +196,24 @@ public class SettingActivity extends PreferenceActivity {
         versionPreference.setSummary(this.preferences.getString(PREFERENCES_KEY_APP_VERSION, ""));
 
 
+        // Uservoice
+        Preference feedbackContactPreference = findPreference("setting_feedback_contact");
+        feedbackContactPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                UserVoice.launchContactUs(SettingActivity.this);
+                return true;
+            }
+        });
+
+        Preference feedbackIdeaPreference = findPreference("setting_feedback_idea");
+        feedbackIdeaPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                UserVoice.launchPostIdea(SettingActivity.this);
+                return true;
+            }
+        });
     }
 
     @Override

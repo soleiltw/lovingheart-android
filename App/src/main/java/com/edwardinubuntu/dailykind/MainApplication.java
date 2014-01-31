@@ -4,6 +4,8 @@ import android.app.Application;
 import com.crashlytics.android.Crashlytics;
 import com.parse.Parse;
 import com.testflightapp.lib.TestFlight;
+import com.uservoice.uservoicesdk.Config;
+import com.uservoice.uservoicesdk.UserVoice;
 
 /**
  * Created by edward_chiang on 2014/1/23.
@@ -13,11 +15,20 @@ public class MainApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+
+        // Parse
         Parse.initialize(this, ParseSettings.PARSE_API_TOKEN, ParseSettings.PARSE_API_TOKEN_2);
+
+        // Crashlytics
         Crashlytics.start(this);
 
+        // TestFlight
         TestFlight.takeOff(this, "8d837dea-4632-4f68-8ced-a97b62fe8ac5");
         TestFlight.startSession();
+
+        // UserVoice
+        Config config = new Config("lovingheart.uservoice.com");
+        UserVoice.init(config, this);
     }
 
     @Override

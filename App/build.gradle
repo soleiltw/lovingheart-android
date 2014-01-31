@@ -47,11 +47,12 @@ android {
 dependencies {
     compile project(':Facebook')
     compile project(':AndroidBootstrap')
+    compile project(':UserVoiceSDK')
     compile 'org.ocpsoft.prettytime:prettytime:3.1.0.Final'
     compile 'com.android.support:appcompat-v7:18.0.0'
     compile 'com.squareup.picasso:picasso:2.1.1'
-    compile files('libs/Parse-1.4.0.jar')
     compile 'com.google.android.gms:play-services:4.0.30'
     compile 'com.crashlytics.android:crashlytics:1.1+'
+    compile files('libs/Parse-1.4.0.jar')
     compile fileTree(dir:'../libs', include:'**/TestFlightLib.jar')
 }

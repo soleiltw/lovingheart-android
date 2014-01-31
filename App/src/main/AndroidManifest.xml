@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.edwardinubuntu.dailykind"
     android:versionCode="1"
-    android:versionName="0.8.2" >
+    android:versionName="0.8.3" >
 
     <uses-sdk
         android:minSdkVersion="11"
@@ -88,6 +88,15 @@
 
 	    <activity android:name=".activity.WebViewActivity"
 	              android:label="Web" />
+
+	    <activity android:name="com.uservoice.uservoicesdk.activity.PortalActivity" />
+	    <activity android:name="com.uservoice.uservoicesdk.activity.ForumActivity" />
+	    <activity android:name="com.uservoice.uservoicesdk.activity.ArticleActivity" />
+	    <activity android:name="com.uservoice.uservoicesdk.activity.TopicActivity" />
+	    <activity android:name="com.uservoice.uservoicesdk.activity.ContactActivity"
+	              android:logo="@drawable/lovingheart_clear_with_white"
+	              android:configChanges="orientation|keyboardHidden|screenSize" />
+	    <activity android:name="com.uservoice.uservoicesdk.activity.PostIdeaActivity" android:configChanges="orientation|keyboardHidden|screenSize" />
 
 	    <uses-feature
 		    android:glEsVersion="0x00020000"

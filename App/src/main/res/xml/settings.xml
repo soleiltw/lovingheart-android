@@ -23,6 +23,22 @@
 			android:title="中文" />
 	</PreferenceCategory>
 
+	<PreferenceCategory android:title="@string/setting_feedback" >
+
+		<Preference
+			android:key="setting_feedback_contact"
+			android:summary="@string/setting_bug_feedback_summary"
+			android:title="@string/setting_bug_feedback_title" />
+
+		<Preference
+			android:key="setting_feedback_idea"
+			android:summary="@string/setting_idea_feedback_summary"
+			android:title="@string/setting_idea_feedback_title" />
+
+	</PreferenceCategory>
+
+
+
 	<PreferenceCategory android:title="@string/setting_about" >
 
 		<Preference

@@ -113,4 +113,11 @@
 	<string name="story_content_delete">刪除</string>
 	<string name="story_content_delete_this_story">確定要刪除此篇記錄嗎？</string>
 	<string name="toast_error_message_try_again">沒有完成，稍後再試噢！</string>
+
+	<string name="setting_feedback">回報</string>
+	<string name="setting_bug_feedback_summary">使用上碰到問題？回報給我們。</string>
+	<string name="setting_bug_feedback_title">問題回報</string>
+
+	<string name="setting_idea_feedback_summary">和我們分享你的想法</string>
+	<string name="setting_idea_feedback_title">想法與建議</string>
 </resources>
