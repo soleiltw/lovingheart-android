@@ -85,6 +85,10 @@
 	              android:logo="@drawable/lovingheart_clear_with_white"
 	              android:screenOrientation="portrait"
 	              android:label="@string/activity_settings" />
+	    
+	    <activity android:name=".activity.UserProfileActivity"
+	              android:logo="@drawable/lovingheart_clear_with_white"
+	              />
 
 	    <activity android:name=".activity.WebViewActivity"
 	              android:label="Web" />

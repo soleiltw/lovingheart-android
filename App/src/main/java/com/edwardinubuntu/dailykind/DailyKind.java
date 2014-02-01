@@ -15,5 +15,5 @@ public class DailyKind {
 
     public static long QUERY_MAX_CACHE_AGE = 60 * 60;
 
-    public static long QUERY_AT_LEAST_CACHE_AGE = 60 * 1;
+    public static long QUERY_AT_LEAST_CACHE_AGE = 60 * 5;
 }

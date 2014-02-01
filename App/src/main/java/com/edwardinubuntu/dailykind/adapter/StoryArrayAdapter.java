@@ -1,6 +1,7 @@
 package com.edwardinubuntu.dailykind.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.edwardinubuntu.dailykind.R;
+import com.edwardinubuntu.dailykind.activity.UserProfileActivity;
 import com.edwardinubuntu.dailykind.listener.LoadMoreListener;
 import com.edwardinubuntu.dailykind.object.Graphic;
 import com.edwardinubuntu.dailykind.object.Story;
@@ -54,7 +56,7 @@ public class StoryArrayAdapter extends ArrayAdapter<ParseObject> {
         }
         ParseObject storyObject = getItem(position);
         ParseObjectManager parseObjectManager = new ParseObjectManager(storyObject);
-        Story story = parseObjectManager.getStory();
+        final Story story = parseObjectManager.getStory();
 
         ImageView storyContentImageView = (ImageView)contentView.findViewById(R.id.story_content_image_view);
 
@@ -104,6 +106,15 @@ public class StoryArrayAdapter extends ArrayAdapter<ParseObject> {
                                 .placeholder(R.drawable.ic_action_user)
                                 .transform(new CircleTransform())
                                 .into(storyTellerImageView);
+
+                        storyTellerImageView.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent userIntent = new Intent(getContext(), UserProfileActivity.class);
+                                userIntent.putExtra("userId", story.getStoryTeller().getObjectId());
+                                getContext().startActivity(userIntent);
+                            }
+                        });
                     }
                 }
             });

@@ -332,6 +332,14 @@ public class StoryContentActivity extends ActionBarActivity {
                                             .transform(new CircleTransform())
                                             .into(avatarImageView);
                                 }
+                                avatarImageView.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        Intent userIntent = new Intent(getApplicationContext(), UserProfileActivity.class);
+                                        userIntent.putExtra("userId", story.getStoryTeller().getObjectId());
+                                        getApplicationContext().startActivity(userIntent);
+                                    }
+                                });
                             }
                         });
                     }

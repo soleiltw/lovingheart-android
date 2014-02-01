@@ -123,6 +123,8 @@
 
 	<string name="setting_idea_feedback_summary">Share with us with your idea</string>
 	<string name="setting_idea_feedback_title">Idea on your mind</string>
+	<string name="user_profile_stories_list_header">Stories shared</string>
+	<string name="user_profile_graphics_list_header">Graphics earned</string>
 
 
 </resources>
