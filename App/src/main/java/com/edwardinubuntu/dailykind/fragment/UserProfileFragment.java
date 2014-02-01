@@ -133,12 +133,17 @@ public class UserProfileFragment extends PlaceholderFragment {
         // as you specify a parent activity in AndroidManifest.xml.
         switch (item.getItemId()) {
             case R.id.action_reload: {
+                setupUserId();
                 loadProfile();
                 break;
             }
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    protected void setupUserId() {
+
     }
 
     public void updateRefreshItem() {
@@ -162,9 +167,13 @@ public class UserProfileFragment extends PlaceholderFragment {
 
     protected void loadProfile() {
 
+        if (getUserId() == null || getUserId().length() == 0) return;
+
         ParseQuery<ParseUser> userQuery = ParseUser.getQuery();
         userQuery.include("avatar");
         userQuery.whereEqualTo("objectId", getUserId());
+        userQuery.setCachePolicy(ParseQuery.CachePolicy.CACHE_ELSE_NETWORK);
+        userQuery.setMaxCacheAge(DailyKind.QUERY_AT_LEAST_CACHE_AGE);
         userQuery.getFirstInBackground(new GetCallback<ParseUser>() {
             @Override
             public void done(ParseUser parseUser, ParseException e) {
@@ -174,7 +183,7 @@ public class UserProfileFragment extends PlaceholderFragment {
 
                     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
                     if (sinceTextView != null && parseUser.getCreatedAt() != null) {
-                        sinceTextView.setText(getString(R.string.me_since_pre_text) + " " + dateFormat.format(ParseUser.getCurrentUser().getCreatedAt()));
+                        sinceTextView.setText(getString(R.string.me_since_pre_text) + " " + dateFormat.format(parseUser.getCreatedAt()));
                     }
 
                     if (parseUser.has("avatar")) {

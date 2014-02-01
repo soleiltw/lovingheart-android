@@ -122,4 +122,5 @@
 	<string name="setting_idea_feedback_title">想法與建議</string>
 	<string name="user_profile_stories_list_header">分享的故事</string>
 	<string name="user_profile_graphics_list_header">獲得的圖示</string>
+	<string name="activity_user_profile_label">個人檔案</string>
 </resources>

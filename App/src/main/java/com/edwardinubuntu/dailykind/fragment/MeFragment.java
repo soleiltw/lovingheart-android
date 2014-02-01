@@ -30,8 +30,14 @@ public class MeFragment extends UserProfileFragment {
 
     public MeFragment() {
         super(null);
+        setupUserId();
+    }
+
+    protected void setupUserId() {
         if (ParseUser.getCurrentUser() != null && ParseUser.getCurrentUser().getObjectId() != null) {
             setUserId(ParseUser.getCurrentUser().getObjectId());
+        } else {
+            setUserId(null);
         }
     }
 
@@ -39,11 +45,26 @@ public class MeFragment extends UserProfileFragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == CheckUserLoginUtil.ASK_USER_LOGIN) {
+            setupUserId();
             loadProfile();
         }
     }
 
     protected void loadProfile() {
+
+        if (getUserId() == null || getUserId().length() == 0) {
+            getActivity().findViewById(com.edwardinubuntu.dailykind.R.id.me_profile_layout).setVisibility(View.GONE);
+            getActivity().findViewById(com.edwardinubuntu.dailykind.R.id.user_ask_login_linear_layout).setVisibility(View.VISIBLE);
+
+            getActivity().findViewById(com.edwardinubuntu.dailykind.R.id.me_ask_login_button).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent loginIntent = new Intent(getActivity(), LoginActivity.class);
+                    startActivityForResult(loginIntent, CheckUserLoginUtil.ASK_USER_LOGIN);
+                }
+            });
+            return;
+        }
 
         ParseQuery<ParseUser> userQuery = ParseUser.getQuery();
         userQuery.include("avatar");
@@ -57,7 +78,7 @@ public class MeFragment extends UserProfileFragment {
 
                     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
                     if (sinceTextView != null && parseUser.getCreatedAt() != null) {
-                        sinceTextView.setText(getString(com.edwardinubuntu.dailykind.R.string.me_since_pre_text) + " " + dateFormat.format(ParseUser.getCurrentUser().getCreatedAt()));
+                        sinceTextView.setText(getString(com.edwardinubuntu.dailykind.R.string.me_since_pre_text) + " " + dateFormat.format(parseUser.getCreatedAt()));
                     }
 
 
@@ -83,16 +104,6 @@ public class MeFragment extends UserProfileFragment {
 
                 } else {
                     Log.e(DailyKind.TAG, "loadProfile error: " + e.getLocalizedMessage());
-                    getActivity().findViewById(com.edwardinubuntu.dailykind.R.id.me_profile_layout).setVisibility(View.GONE);
-                    getActivity().findViewById(com.edwardinubuntu.dailykind.R.id.user_ask_login_linear_layout).setVisibility(View.VISIBLE);
-
-                    getActivity().findViewById(com.edwardinubuntu.dailykind.R.id.me_ask_login_button).setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Intent loginIntent = new Intent(getActivity(), LoginActivity.class);
-                            startActivityForResult(loginIntent, CheckUserLoginUtil.ASK_USER_LOGIN);
-                        }
-                    });
                 }
             }
         });

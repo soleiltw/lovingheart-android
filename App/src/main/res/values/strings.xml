@@ -125,6 +125,7 @@
 	<string name="setting_idea_feedback_title">Idea on your mind</string>
 	<string name="user_profile_stories_list_header">Stories shared</string>
 	<string name="user_profile_graphics_list_header">Graphics earned</string>
+	<string name="activity_user_profile_label">User Profile</string>
 
 
 </resources>

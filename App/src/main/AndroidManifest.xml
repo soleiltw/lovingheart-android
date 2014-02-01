@@ -88,6 +88,8 @@
 	    
 	    <activity android:name=".activity.UserProfileActivity"
 	              android:logo="@drawable/lovingheart_clear_with_white"
+	              android:label="@string/activity_user_profile_label"
+	              android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
 	              />
 
 	    <activity android:name=".activity.WebViewActivity"

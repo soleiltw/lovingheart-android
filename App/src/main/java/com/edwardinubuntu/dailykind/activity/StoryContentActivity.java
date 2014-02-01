@@ -337,7 +337,7 @@ public class StoryContentActivity extends ActionBarActivity {
                                     public void onClick(View v) {
                                         Intent userIntent = new Intent(getApplicationContext(), UserProfileActivity.class);
                                         userIntent.putExtra("userId", story.getStoryTeller().getObjectId());
-                                        getApplicationContext().startActivity(userIntent);
+                                        startActivity(userIntent);
                                     }
                                 });
                             }
