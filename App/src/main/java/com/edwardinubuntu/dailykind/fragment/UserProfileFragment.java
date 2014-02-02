@@ -230,6 +230,8 @@ public class UserProfileFragment extends PlaceholderFragment {
                     userStoriesList.addAll(parseObjects);
                     userStoryArrayAdapter.notifyDataSetChanged();
 
+                    getActivity().findViewById(R.id.user_profile_stories_empty_text_view).setVisibility(View.GONE);
+
                     userImpactInfo.setStoriesSharedCount(parseObjects.size());
                     storiesSharedCountTextView.setText(String.valueOf(parseObjects.size()));
 
@@ -275,6 +277,8 @@ public class UserProfileFragment extends PlaceholderFragment {
                                     userGraphicsList.add(graphic);
                                 }
                                 galleryArrayAdapter.notifyDataSetChanged();
+
+                                getActivity().findViewById(R.id.user_profile_graphics_empty_text_view).setVisibility(View.GONE);
 
                                 updateUserImpact(userImpactInfo);
                             } else {
