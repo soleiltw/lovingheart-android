@@ -126,6 +126,8 @@
 	<string name="user_profile_stories_list_header">Stories shared</string>
 	<string name="user_profile_graphics_list_header">Graphics earned</string>
 	<string name="activity_user_profile_label">User Profile</string>
+	<string name="user_profile_graphics_empty_text">Haven\'t earned any of yet.</string>
+	<string name="user_profile_stories_empty_text">Haven\'t shared any of yet.</string>
 
 
 </resources>

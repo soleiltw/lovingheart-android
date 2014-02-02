@@ -134,7 +134,7 @@ public class UserProfileFragment extends PlaceholderFragment {
         switch (item.getItemId()) {
             case R.id.action_reload: {
                 setupUserId();
-                loadProfile();
+                queryProfile();
                 break;
             }
         }
@@ -162,10 +162,10 @@ public class UserProfileFragment extends PlaceholderFragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        loadProfile();
+        queryProfile();
     }
 
-    protected void loadProfile() {
+    protected void queryProfile() {
 
         if (getUserId() == null || getUserId().length() == 0) return;
 
@@ -224,7 +224,7 @@ public class UserProfileFragment extends PlaceholderFragment {
         storyQuery.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> parseObjects, ParseException e) {
-                if (parseObjects != null) {
+                if (parseObjects != null && parseObjects.size() > 0) {
 
                     userStoriesList.clear();
                     userStoriesList.addAll(parseObjects);
@@ -243,6 +243,8 @@ public class UserProfileFragment extends PlaceholderFragment {
                     userImpactInfo.setStarsReviewCount(reviewImpactCount);
 
                     saveUserImpact(userImpactInfo);
+                } else {
+                    getActivity().findViewById(R.id.user_profile_stories_empty_text_view).setVisibility(View.VISIBLE);
                 }
             }
         });
@@ -279,6 +281,8 @@ public class UserProfileFragment extends PlaceholderFragment {
                                 graphicEarnedCountTextView.setText(String.valueOf(0));
                                 userGraphicsList.clear();
                                 galleryArrayAdapter.notifyDataSetChanged();
+
+                                getActivity().findViewById(R.id.user_profile_graphics_empty_text_view).setVisibility(View.VISIBLE);
                             }
                         }
                     });

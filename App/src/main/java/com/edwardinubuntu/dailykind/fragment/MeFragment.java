@@ -46,11 +46,11 @@ public class MeFragment extends UserProfileFragment {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == CheckUserLoginUtil.ASK_USER_LOGIN) {
             setupUserId();
-            loadProfile();
+            queryProfile();
         }
     }
 
-    protected void loadProfile() {
+    protected void queryProfile() {
 
         if (getUserId() == null || getUserId().length() == 0) {
             getActivity().findViewById(com.edwardinubuntu.dailykind.R.id.me_profile_layout).setVisibility(View.GONE);
@@ -103,7 +103,7 @@ public class MeFragment extends UserProfileFragment {
                     queryGraphicEarned(parseUser);
 
                 } else {
-                    Log.e(DailyKind.TAG, "loadProfile error: " + e.getLocalizedMessage());
+                    Log.e(DailyKind.TAG, "queryProfile error: " + e.getLocalizedMessage());
                 }
             }
         });
