@@ -353,10 +353,14 @@ public class StoryContentActivity extends ActionBarActivity {
 
                             storyContentImageView.setVisibility(View.VISIBLE);
 
+
+                            Log.d(DailyKind.TAG, "Story.getGraphic().getParseFileUrl(): " + story.getGraphic().getParseFileUrl());
+
                             Picasso.with(getApplicationContext())
                                     .load(story.getGraphic().getParseFileUrl())
                                     .placeholder(R.drawable.card_default)
                                     .resize(storyContentImageViewLayoutParams.width, storyContentImageViewLayoutParams.height)
+                                    .centerCrop()
                                     .into(storyContentImageView);
                         }
                     }

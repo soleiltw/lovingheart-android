@@ -8,8 +8,7 @@
 	<ImageView
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
-		android:background="@color/theme_color_3"
-		android:scaleType="centerCrop"
+		android:background="@color/background_gray_color"
 		android:visibility="gone"
 		android:id="@+id/me_stories_image_view"
 		android:layout_gravity="center_horizontal"/>

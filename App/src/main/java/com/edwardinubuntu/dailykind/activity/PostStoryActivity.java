@@ -6,8 +6,14 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.*;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.text.Editable;
@@ -31,10 +37,9 @@ import com.edwardinubuntu.dailykind.view.ExpandableGridView;
 import com.parse.*;
 import com.squareup.picasso.Picasso;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
+import java.io.*;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * Created by edward_chiang on 2013/11/23.
@@ -67,6 +72,15 @@ public class PostStoryActivity extends ActionBarActivity {
     private ParseObject storyParseObject = new ParseObject("Story");
 
     private Graphic graphicPick;
+
+    ParseObject imageToUploadObject;
+
+    private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
+    private Uri fileUri;
+
+    public enum PhotoPick {
+        SOURCE_CAMERA, SOURCE_PHOTO_GALLERY;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -222,7 +236,6 @@ public class PostStoryActivity extends ActionBarActivity {
             }
         });
 
-
         contentEditText = (EditText)findViewById(R.id.content_edit_text);
         contentEditText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -241,6 +254,141 @@ public class PostStoryActivity extends ActionBarActivity {
             }
         });
         submitButton.setEnabled(contentEditText.getText().length() > 0);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == PhotoPick.SOURCE_CAMERA.ordinal() && resultCode == RESULT_OK) {
+            uploadImageFromPath(fileUri.getPath());
+        } else if (requestCode == PhotoPick.SOURCE_PHOTO_GALLERY.ordinal() && resultCode == RESULT_OK) {
+            Uri selectedImageUri = data.getData();
+
+            // some devices (OS versions return an URI of com.android instead of com.google.android
+            if (selectedImageUri.toString().startsWith("content://com.android.gallery3d.provider"))  {
+                // use the com.google provider, not the com.android provider.
+                selectedImageUri = Uri.parse(selectedImageUri.toString().replace("com.android.gallery3d","com.google.android.gallery3d"));
+            }
+
+            String[] filePathColumn = { MediaStore.Images.Media.DATA, MediaStore.MediaColumns.DISPLAY_NAME };
+            Cursor cursor = getContentResolver().query(selectedImageUri, filePathColumn, null, null, null);
+            if (cursor != null) {
+                cursor.moveToFirst();
+
+                int columnIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+                String picturePath = cursor.getString(columnIndex);
+
+                cursor.close();
+
+
+                uploadImageFromPath(picturePath);
+            }
+        }
+    }
+
+    private void uploadImageFromPath(String picturePath) {
+        if (picturePath != null) {
+            // We get the photo here.
+
+            // Display on content Image View
+            final ProgressDialog progressDialog = new ProgressDialog(PostStoryActivity.this);
+            progressDialog.setMessage(getString(R.string.post_story_photo_uploading));
+            progressDialog.setIndeterminate(false);
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+            progressDialog.setCancelable(true);
+
+            try {
+                final Bitmap imageBitmapForImageView = loadBitmapFromUri(picturePath, contentImageView.getWidth(), contentImageView.getHeight());
+
+
+                // Convert it to byte
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                imageBitmapForImageView.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+                byte[] image = stream.toByteArray();
+
+                Log.d(DailyKind.TAG, "ImageLength: " + image.length);
+
+                // Create ParseFile
+                final ParseFile file = new ParseFile(ParseUser.getCurrentUser().getUsername() + "_"+ Calendar.getInstance().getTimeInMillis() + ".jpg", image);
+                if (progressDialog!=null && !progressDialog.isShowing()) {
+                    progressDialog.show();
+                }
+                file.saveInBackground(new SaveCallback() {
+                                          @Override
+                                          public void done(ParseException e) {
+                                              final ParseObject imageObject = new ParseObject("GraphicImage");
+                                              imageObject.put("imageType", "url");
+                                              imageObject.put("imageFile", file);
+                                              imageObject.saveInBackground(new SaveCallback() {
+                                                  @Override
+                                                  public void done(ParseException e) {
+                                                      if (progressDialog!=null && progressDialog.isShowing()) {
+                                                          progressDialog.dismiss();
+                                                      }
+                                                      // Clear graphic pick
+                                                      graphicPick = null;
+                                                      // Setup ImageObject
+                                                      imageToUploadObject = imageObject;
+
+                                                      contentImageView.setImageBitmap(imageBitmapForImageView);
+                                                  }
+                                              });
+                                          }
+                                      }, new ProgressCallback() {
+                                          @Override
+                                          public void done(Integer integer) {
+                                              Log.d(DailyKind.TAG, "Upload progress: " + integer);
+                                              progressDialog.setProgress(integer);
+                                          }
+                                      });
+
+
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+                if (e != null) {
+                    Log.e(DailyKind.TAG, "File not found: " +e.getLocalizedMessage());
+                }
+            }
+        }
+    }
+
+    private Bitmap loadBitmapFromUri(String picturePath, int width, int height) throws FileNotFoundException {
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        // First decode to check dimensions
+        BitmapFactory.decodeStream(new FileInputStream(new File(Uri.parse(picturePath).getPath())), null, options);
+
+        // Calculate inSampleSize
+        Log.d(DailyKind.TAG, "loadBitmapFromUri width:" + width + ", height: " + height);
+        options.inSampleSize = calculateInSampleSize(options, width, height);
+        Log.d(DailyKind.TAG, "options.inSampleSize:" + options.inSampleSize);
+
+        options.inJustDecodeBounds = false;
+        options.inInputShareable = true;
+
+        return BitmapFactory.decodeStream(new FileInputStream(new File(Uri.parse(picturePath).getPath())), null, options);
+    }
+
+    private int calculateInSampleSize (BitmapFactory.Options options, int reqWidth, int reqHeight) {
+        // Raw height and width of image
+        final int height = options.outHeight;
+        final int width = options.outWidth;
+        int inSampleSize = 1;
+
+        if (height > reqHeight || width > reqWidth) {
+
+            // Calculate ratios of height and width to requested height and width
+            final int heightRatio = Math.round((float) height / (float) reqHeight);
+            final int widthRatio = Math.round((float) width / (float) reqWidth);
+
+            // Choose the smallest ratio as inSampleSize value, this will guarantee
+            // a final image with both dimensions larger than or equal to the
+            // requested height and width.
+            inSampleSize = Math.min(heightRatio, widthRatio);
+        }
+
+        return inSampleSize;
     }
 
     private void displayGraphic(Graphic graphic) {
@@ -262,6 +410,11 @@ public class PostStoryActivity extends ActionBarActivity {
     protected void onResume() {
         super.onResume();
         contentEditText.requestFocus();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
     }
 
     private StringBuffer getCityNameText(String adminArea, String locality) {
@@ -334,16 +487,21 @@ public class PostStoryActivity extends ActionBarActivity {
         storyParseObject.put("StoryTeller", ParseUser.getCurrentUser());
         storyParseObject.put("Content", contentEditText.getText().toString());
 
+        // Get to know using graphic Image
         if (graphicPick != null && graphicPick.getObjectId() != null) {
             ParseQuery<ParseObject> imageQuery = new ParseQuery<ParseObject>("GraphicImage");
             imageQuery.whereEqualTo("objectId", graphicPick.getObjectId());
             try {
-                ParseObject imageObject = imageQuery.getFirst();
-                storyParseObject.put("graphicPointer", imageObject);
+                imageToUploadObject = imageQuery.getFirst();
             } catch (ParseException e) {
                 e.printStackTrace();
                 Log.e(DailyKind.TAG, e.getLocalizedMessage());
             }
+        }
+
+        // Put down final object
+        if (imageToUploadObject!=null) {
+            storyParseObject.put("graphicPointer", imageToUploadObject);
         }
 
 
@@ -551,22 +709,68 @@ public class PostStoryActivity extends ActionBarActivity {
         askPickerDialog.findViewById(R.id.post_story_photo_picker_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(PostStoryActivity.this, "Coming soon", Toast.LENGTH_SHORT).show();
+
+                askPickerDialog.dismiss();
+
+                Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+                photoPickerIntent.setType("image/*");
+                startActivityForResult(photoPickerIntent, PhotoPick.SOURCE_PHOTO_GALLERY.ordinal());
             }
         });
         askPickerDialog.findViewById(R.id.post_story_photo_taken_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(PostStoryActivity.this, "Coming soon", Toast.LENGTH_SHORT).show();
+                askPickerDialog.dismiss();
+                Intent photoPickerIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                fileUri = getOutputMediaFileUri(PhotoPick.SOURCE_CAMERA.ordinal()); // create a file to save the image
+                photoPickerIntent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri); // set the image file name
+                startActivityForResult(photoPickerIntent, PhotoPick.SOURCE_CAMERA.ordinal());
             }
         });
         askPickerDialog.findViewById(R.id.post_story_photo_gallery_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                askPickerDialog.dismiss();
                 showGalleryPickerDialog(askPickerDialog);
             }
         });
 
         askPickerDialog.show();
+    }
+
+    /** Create a file Uri for saving an image or video */
+    private static Uri getOutputMediaFileUri(int type){
+        return Uri.fromFile(getOutputMediaFile(type));
+    }
+
+    /** Create a File for saving an image or video */
+    private static File getOutputMediaFile(int type){
+        // To be safe, you should check that the SDCard is mounted
+        // using Environment.getExternalStorageState() before doing this.
+
+        File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_PICTURES), "MyCameraApp");
+        // This location works best if you want the created images to be shared
+        // between applications and persist after your app has been uninstalled.
+
+        // Create the storage directory if it does not exist
+        if (! mediaStorageDir.exists()){
+            if (! mediaStorageDir.mkdirs()){
+                Log.d("MyCameraApp", "failed to create directory");
+                return null;
+            }
+        }
+
+        // Create a media file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        File mediaFile;
+        if (type == PhotoPick.SOURCE_CAMERA.ordinal()){
+            mediaFile = new File(mediaStorageDir.getPath() + File.separator +
+                    "IMG_"+ timeStamp + ".jpg");
+        } else {
+            return null;
+        }
+
+        return mediaFile;
     }
 }

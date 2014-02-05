@@ -125,4 +125,5 @@
 	<string name="activity_user_profile_label">個人檔案</string>
 	<string name="user_profile_graphics_empty_text">還沒獲得任何圖示</string>
 	<string name="user_profile_stories_empty_text">還沒分享任何故事</string>
+	<string name="post_story_photo_uploading">圖片上傳中</string>
 </resources>

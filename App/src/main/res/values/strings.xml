@@ -128,6 +128,7 @@
 	<string name="activity_user_profile_label">User Profile</string>
 	<string name="user_profile_graphics_empty_text">Haven\'t earned any of yet.</string>
 	<string name="user_profile_stories_empty_text">Haven\'t shared any of yet.</string>
+	<string name="post_story_photo_uploading">Photo uploading</string>
 
 
 </resources>

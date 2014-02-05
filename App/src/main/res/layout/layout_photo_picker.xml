@@ -17,7 +17,7 @@
 		android:layout_weight="1"
 		android:layout_margin="5dp"
 		android:text="@string/photo_picker_take_photo"
-		android:id="@+id/post_story_photo_picker_button"
+		android:id="@+id/post_story_photo_taken_button"
 		bootstrapbutton:bb_roundedCorners="true"
 		bootstrapbutton:bb_icon_left="fa-camera"
 		bootstrapbutton:bb_type="primary" />
@@ -28,7 +28,7 @@
 		android:layout_margin="5dp"
 		android:layout_weight="1"
 		android:text="@string/photo_picker_photo_library"
-		android:id="@+id/post_story_photo_taken_button"
+		android:id="@+id/post_story_photo_picker_button"
 		bootstrapbutton:bb_icon_left="fa-picture-o"
 		bootstrapbutton:bb_roundedCorners="true"
 		bootstrapbutton:bb_type="primary" />

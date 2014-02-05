@@ -77,6 +77,8 @@ public class StoryArrayAdapter extends ArrayAdapter<ParseObject> {
                 Picasso.with(getContext())
                     .load(story.getGraphic().getParseFileUrl())
                     .placeholder(R.drawable.card_default)
+                    .resize(storyContentImageViewLayoutParams.width, storyContentImageViewLayoutParams.height)
+                    .centerCrop()
                     .into(storyContentImageView);
             }
         } else {
