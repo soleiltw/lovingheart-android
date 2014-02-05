@@ -230,7 +230,9 @@ public class UserProfileFragment extends PlaceholderFragment {
                     userStoriesList.addAll(parseObjects);
                     userStoryArrayAdapter.notifyDataSetChanged();
 
-                    getActivity().findViewById(R.id.user_profile_stories_empty_text_view).setVisibility(View.GONE);
+                    if (getActivity()!=null) {
+                        getActivity().findViewById(R.id.user_profile_stories_empty_text_view).setVisibility(View.GONE);
+                    }
 
                     userImpactInfo.setStoriesSharedCount(parseObjects.size());
                     storiesSharedCountTextView.setText(String.valueOf(parseObjects.size()));
