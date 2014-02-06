@@ -39,16 +39,19 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(com.edwardinubuntu.dailykind.R.layout.activity_main);
+        ParseAnalytics.trackAppOpened(getIntent());
+        printPackageInfo();
+    }
 
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
 
         // Set up the drawer.
         mNavigationDrawerFragment.setUp(R.id.navigation_drawer,
                 (DrawerLayout)findViewById(R.id.drawer_layout));
-
-        ParseAnalytics.trackAppOpened(getIntent());
-        printPackageInfo();
     }
 
     private void printPackageInfo() {
@@ -72,7 +75,7 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        if (mNavigationDrawerFragment.isDrawerOpen()) {
+        if (mNavigationDrawerFragment!= null && mNavigationDrawerFragment.isDrawerOpen()) {
             getMenuInflater().inflate(R.menu.global, menu);
         } else {
             getMenuInflater().inflate(com.edwardinubuntu.dailykind.R.menu.main, menu);

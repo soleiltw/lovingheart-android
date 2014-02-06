@@ -13,7 +13,9 @@ public class DailyKind {
 
     public static String ACKNOWLEDGEMENT_LINK = "https://dailylovingheart.wordpress.com/acknowledgement/";
 
-    public static long QUERY_MAX_CACHE_AGE = 60 * 60 * 1000;
+    // Every 30 mins
+    public static long QUERY_MAX_CACHE_AGE = 60 * 30 * 1000;
 
+    // Every 5 mins
     public static long QUERY_AT_LEAST_CACHE_AGE = 60 * 5 * 1000;
 }
