@@ -3,10 +3,4 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
       xmlns:dailykind="http://schemas.android.com/apk/res-auto"
 	>
-
-	<item android:id="@+id/action_reload"
-	      android:orderInCategory="99"
-	      android:icon="@drawable/ic_action_reload"
-	      dailykind:showAsAction="always"
-	      android:title="@string/action_reload" />
 </menu>

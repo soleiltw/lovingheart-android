@@ -1,6 +1,7 @@
 package com.edwardinubuntu.dailykind.fragment;
 
 import android.annotation.TargetApi;
+import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -51,6 +52,9 @@ public class StoriesFeedsFragment extends PlaceholderFragment {
         storyArrayAdapter = new StoryArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, userActivities);
 
         setHasOptionsMenu(true);
+
+        ActionBar actionBar = getActivity().getActionBar();
+        actionBar.setTitle(getString(R.string.title_stories));
     }
 
     @Override

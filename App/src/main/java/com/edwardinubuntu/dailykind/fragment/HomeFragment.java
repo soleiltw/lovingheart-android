@@ -1,6 +1,7 @@
 package com.edwardinubuntu.dailykind.fragment;
 
 import android.annotation.TargetApi;
+import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -60,6 +61,9 @@ public class HomeFragment extends PlaceholderFragment {
         preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
         ideaObjectList = new ArrayList<IdeaObject>();
+
+        ActionBar actionBar = getActivity().getActionBar();
+        actionBar.setTitle(getString(R.string.title_today));
     }
 
     @Override

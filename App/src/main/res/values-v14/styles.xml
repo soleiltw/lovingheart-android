@@ -29,7 +29,6 @@
 		<item name="android:actionModeBackground">@drawable/cab_background_top_lovingheart</item>
 		<item name="android:actionModeSplitBackground">@drawable/cab_background_bottom_lovingheart</item>
 		<item name="android:actionModeCloseButtonStyle">@style/ActionButton.CloseMode.Lovingheart</item>
-
 		<item name="android:actionBarTabTextStyle">@style/MyTheme.Widget.AppCompat.ActionBar.TabBar.Text</item>
 	</style>
 

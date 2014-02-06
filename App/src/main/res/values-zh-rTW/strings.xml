@@ -7,6 +7,7 @@
     <string name="title_me">我的記錄</string>
     <string name="title_latest_activities">最新故事</string>
 	<string name="title_popular_activities">熱門故事</string>
+	<string name="title_stories">故事</string>
     <string name="action_settings">設定</string>
 	<string name="action_login">登入</string>
 

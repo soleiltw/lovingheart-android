@@ -13,7 +13,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 import com.edwardinubuntu.dailykind.DailyKind;
 import com.edwardinubuntu.dailykind.R;
 import com.edwardinubuntu.dailykind.adapter.CategoryArrayAdapter;
@@ -102,7 +101,8 @@ public class DeedCategoriesActivity extends ActionBarActivity {
         }
         parseQuery.whereContainedIn("language", languageCollection);
         parseQuery.whereNotContainedIn("status", stringCollection);
-        parseQuery.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
+        parseQuery.setCachePolicy(ParseQuery.CachePolicy.CACHE_ELSE_NETWORK);
+        parseQuery.setMaxCacheAge(DailyKind.QUERY_MAX_CACHE_AGE);
         parseQuery.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> parseObjects, ParseException e) {
@@ -116,10 +116,6 @@ public class DeedCategoriesActivity extends ActionBarActivity {
                         categoryList.add(category);
                     }
                     categoriesAdapter.notifyDataSetChanged();
-                }
-
-                if (e != null && getApplicationContext() != null) {
-                    Toast.makeText(getApplicationContext(), e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
                 }
                 setParseLoading(false);
                 updateRefreshItem();

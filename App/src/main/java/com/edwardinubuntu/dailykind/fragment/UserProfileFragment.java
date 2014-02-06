@@ -280,7 +280,9 @@ public class UserProfileFragment extends PlaceholderFragment {
                                 }
                                 galleryArrayAdapter.notifyDataSetChanged();
 
-                                getActivity().findViewById(R.id.user_profile_graphics_empty_text_view).setVisibility(View.GONE);
+                                if (getActivity()!=null){
+                                    getActivity().findViewById(R.id.user_profile_graphics_empty_text_view).setVisibility(View.GONE);
+                                }
 
                                 updateUserImpact(userImpactInfo);
                             } else {
@@ -288,7 +290,9 @@ public class UserProfileFragment extends PlaceholderFragment {
                                 userGraphicsList.clear();
                                 galleryArrayAdapter.notifyDataSetChanged();
 
-                                getActivity().findViewById(R.id.user_profile_graphics_empty_text_view).setVisibility(View.VISIBLE);
+                                if (getActivity()!=null){
+                                    getActivity().findViewById(R.id.user_profile_graphics_empty_text_view).setVisibility(View.VISIBLE);
+                                }
                             }
                         }
                     });
