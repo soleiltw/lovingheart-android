@@ -8,6 +8,12 @@
 	      dailykind:showAsAction="always"
 	      android:title="@string/action_post" />
 
+	<item android:id="@+id/action_reload"
+	      android:orderInCategory="99"
+	      android:icon="@drawable/ic_action_reload"
+	      dailykind:showAsAction="always"
+	      android:title="@string/action_reload" />
+
 	<item android:id="@+id/action_settings"
 	      android:title="@string/action_settings"
 	      android:orderInCategory="110"

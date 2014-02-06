@@ -72,7 +72,11 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(com.edwardinubuntu.dailykind.R.menu.main, menu);
+        if (mNavigationDrawerFragment.isDrawerOpen()) {
+            getMenuInflater().inflate(R.menu.global, menu);
+        } else {
+            getMenuInflater().inflate(com.edwardinubuntu.dailykind.R.menu.main, menu);
+        }
         return true;
     }
 
