@@ -1,11 +1,13 @@
 package com.edwardinubuntu.dailykind.fragment;
 
+import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import com.edwardinubuntu.dailykind.DailyKind;
+import com.edwardinubuntu.dailykind.R;
 import com.edwardinubuntu.dailykind.activity.LoginActivity;
 import com.edwardinubuntu.dailykind.object.UserImpact;
 import com.edwardinubuntu.dailykind.util.CheckUserLoginUtil;
@@ -31,6 +33,14 @@ public class MeFragment extends UserProfileFragment {
     public MeFragment() {
         super(null);
         setupUserId();
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        ActionBar actionBar = getActivity().getActionBar();
+        actionBar.setTitle(getString(R.string.title_me));
     }
 
     protected void setupUserId() {
