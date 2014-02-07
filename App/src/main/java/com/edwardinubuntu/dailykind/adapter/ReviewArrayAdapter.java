@@ -86,6 +86,8 @@ public class ReviewArrayAdapter extends ArrayAdapter<Review> {
             userNameTextView.setText(review.getUser().getName());
 
             final ImageView userImageView = (ImageView)rootView.findViewById(R.id.user_avatar_image_view);
+            userImageView.setImageDrawable(null);
+            userImageView.setImageResource(R.drawable.ic_action_user);
             if (review.getUser().getAvatar() != null) {
                 review.getUser().getAvatar().fetchIfNeededInBackground(new GetCallback<ParseObject>() {
                     @Override

@@ -69,8 +69,9 @@ public class StoryArrayAdapter extends ArrayAdapter<ParseObject> {
 
                 DisplayMetrics displayMetrics = getContext().getResources().getDisplayMetrics();
                 LinearLayout.LayoutParams storyContentImageViewLayoutParams = (LinearLayout.LayoutParams)storyContentImageView.getLayoutParams();
-                storyContentImageViewLayoutParams.width = (int)(displayMetrics.widthPixels * 0.8);
-                storyContentImageViewLayoutParams.height = (int)(displayMetrics.widthPixels * 0.8);
+                // We make it as screen width
+                storyContentImageViewLayoutParams.width = displayMetrics.widthPixels;
+                storyContentImageViewLayoutParams.height = displayMetrics.widthPixels;
                 storyContentImageView.requestLayout();
                 storyContentImageView.setVisibility(View.VISIBLE);
 
