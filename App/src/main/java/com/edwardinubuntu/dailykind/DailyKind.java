@@ -11,6 +11,10 @@ public class DailyKind {
 
     public static String PREFERENCE_SUPPORT_CHINESE = "support_chinese";
 
+    public static String PREFERENCE_PLAYING_SOUNT = "playing_sound";
+
+    public static String NEED_UPDATE_DRAWER = "need_update_drawer";
+
     public static String ACKNOWLEDGEMENT_LINK = "https://dailylovingheart.wordpress.com/acknowledgement/";
 
     // Every 30 mins

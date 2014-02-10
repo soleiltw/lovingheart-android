@@ -2,10 +2,12 @@ package com.edwardinubuntu.dailykind.activity;
 
 import android.app.ActionBar;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
@@ -27,9 +29,9 @@ import java.security.NoSuchAlgorithmException;
 
 public class MainActivity extends ActionBarActivity implements NavigationDrawerFragment.NavigationDrawerCallbacks {
 
-    private final static int VIEW_PAGER_HOME_POSITION = 0;
-    private final static int VIEW_PAGER_ME_POSITION = 1;
-    private final static int VIEW_PAGER_STORIES_POSITION = 2;
+    public final static int VIEW_PAGER_HOME_POSITION = 1;
+    public final static int VIEW_PAGER_ME_POSITION = 0;
+    public final static int VIEW_PAGER_STORIES_POSITION = 2;
 
     private NavigationDrawerFragment mNavigationDrawerFragment;
 
@@ -52,6 +54,7 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
         // Set up the drawer.
         mNavigationDrawerFragment.setUp(R.id.navigation_drawer,
                 (DrawerLayout)findViewById(R.id.drawer_layout));
+
     }
 
     private void printPackageInfo() {
@@ -186,6 +189,14 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
     @Override
     public void onNavigationDrawerOpened(View drawerView) {
         getActionBar().setTitle(R.string.app_name);
+
+        boolean isNeedUpdate = PreferenceManager.getDefaultSharedPreferences(this).getBoolean(DailyKind.NEED_UPDATE_DRAWER, false);
+        if (isNeedUpdate) {
+            mNavigationDrawerFragment.getDrawerListAdapter().notifyDataSetChanged();
+            SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(this).edit();
+            editor.putBoolean(DailyKind.NEED_UPDATE_DRAWER, false);
+            editor.commit();
+        }
     }
 
     @Override

@@ -1,7 +1,9 @@
 package com.edwardinubuntu.dailykind.fragment;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +11,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.edwardinubuntu.dailykind.DailyKind;
 import com.edwardinubuntu.dailykind.R;
 import com.parse.ParseException;
 import com.parse.ParseUser;
@@ -68,6 +71,7 @@ public class UserSignUpFragment extends PlaceholderFragment {
                             rootView.findViewById(R.id.user_signup_progressBar).setVisibility(View.GONE);
                             if  (e == null) {
                                 // Hooray! Let them use the app now.
+                                putNeedUpdate();
                                 getActivity().finish();
                             } else {
                                 // Sign up didn't succeed.
@@ -90,5 +94,11 @@ public class UserSignUpFragment extends PlaceholderFragment {
         super.onViewCreated(view, savedInstanceState);
 
         emailEditText.requestFocus();
+    }
+
+    private void putNeedUpdate() {
+        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getActivity()).edit();
+        editor.putBoolean(DailyKind.NEED_UPDATE_DRAWER, true);
+        editor.commit();
     }
 }

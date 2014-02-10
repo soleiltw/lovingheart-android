@@ -200,7 +200,8 @@ public class HomeFragment extends PlaceholderFragment {
     private void playBellsSound() {
         //PLAY SOUND HERE
         AudioManager am = (AudioManager)getActivity().getSystemService(Context.AUDIO_SERVICE);
-        if  (am.getRingerMode() == AudioManager.RINGER_MODE_NORMAL) {
+        boolean isPlayingSound = preferences.getBoolean(DailyKind.PREFERENCE_PLAYING_SOUNT, true);
+        if  (am.getRingerMode() == AudioManager.RINGER_MODE_NORMAL && isPlayingSound) {
             MediaPlayer tabClick = MediaPlayer.create(getActivity(), R.raw.celebratory_cute_bells_double);
             tabClick.start();
         }

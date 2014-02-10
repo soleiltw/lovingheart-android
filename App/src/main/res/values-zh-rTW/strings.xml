@@ -127,4 +127,6 @@
 	<string name="user_profile_graphics_empty_text">還沒獲得任何圖示</string>
 	<string name="user_profile_stories_empty_text">還沒分享任何故事</string>
 	<string name="post_story_photo_uploading">圖片上傳中</string>
+	<string name="setting_playing_music_summary">在適當資料回傳時播放音效</string>
+	<string name="setting_playing_music_title">播放音效</string>
 </resources>

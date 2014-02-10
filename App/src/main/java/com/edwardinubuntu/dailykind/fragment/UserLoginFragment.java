@@ -2,7 +2,9 @@ package com.edwardinubuntu.dailykind.fragment;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -36,9 +38,13 @@ public class UserLoginFragment extends PlaceholderFragment {
 
     private View userLoginLayout;
 
+    private SharedPreferences sharedPreferences;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
     }
 
@@ -82,7 +88,7 @@ public class UserLoginFragment extends PlaceholderFragment {
                             if (parseUser != null) {
                                 // Hooray! The user logged in.
                                 Toast.makeText(getActivity(), getResources().getText(R.string.action_username_login_success), Toast.LENGTH_SHORT).show();
-
+                                putNeedUpdate();
                                 getActivity().setResult(Activity.RESULT_OK);
                                 getActivity().finish();
                             } else {
@@ -184,6 +190,7 @@ public class UserLoginFragment extends PlaceholderFragment {
                                     getActivity().findViewById(R.id.user_login_layout).setVisibility(View.VISIBLE);
                                 } else {
                                     switchLoadingProgress(false);
+                                    putNeedUpdate();
                                     getActivity().setResult(getActivity().RESULT_OK);
                                     getActivity().finish();
                                 }
@@ -193,6 +200,9 @@ public class UserLoginFragment extends PlaceholderFragment {
                         });
                     } else {
                         switchLoadingProgress(false);
+
+                        putNeedUpdate();
+
                         getActivity().setResult(getActivity().RESULT_OK);
                         getActivity().finish();
                     }
@@ -202,6 +212,12 @@ public class UserLoginFragment extends PlaceholderFragment {
 
             }
         });
+    }
+
+    private void putNeedUpdate() {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean(DailyKind.NEED_UPDATE_DRAWER, true);
+        editor.commit();
     }
 
     private void switchLoadingProgress(boolean isLoading) {

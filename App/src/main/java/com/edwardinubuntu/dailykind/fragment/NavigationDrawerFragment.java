@@ -11,11 +11,15 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
-import android.view.*;
+import android.view.LayoutInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import com.edwardinubuntu.dailykind.R;
+import com.edwardinubuntu.dailykind.activity.MainActivity;
+import com.edwardinubuntu.dailykind.adapter.DrawerListAdapter;
 
 /**
  * Created by edward_chiang on 2014/2/6.
@@ -46,9 +50,11 @@ public class NavigationDrawerFragment extends Fragment {
     private ListView mDrawerListView;
     private View mFragmentContainerView;
 
-    private int mCurrentSelectedPosition = 0;
+    private int mCurrentSelectedPosition = MainActivity.VIEW_PAGER_HOME_POSITION;
     private boolean mFromSavedInstanceState;
     private boolean mUserLearnedDrawer;
+
+    private DrawerListAdapter drawerListAdapter;
 
     public NavigationDrawerFragment() {
     }
@@ -82,18 +88,18 @@ public class NavigationDrawerFragment extends Fragment {
         mDrawerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                view.setSelected(true);
                 selectItem(position);
             }
         });
-        mDrawerListView.setAdapter(new ArrayAdapter<String>(
+        drawerListAdapter = new DrawerListAdapter(
                 getActionBar().getThemedContext(),
                 android.R.layout.simple_list_item_1,
-                android.R.id.text1,
                 new String[]{
-                        getString(R.string.title_today),
                         getString(R.string.title_me),
-                        getString(R.string.title_stories),
-                }));
+                        getString(R.string.title_today),
+                        getString(R.string.title_stories)});
+        mDrawerListView.setAdapter(drawerListAdapter);
         mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
         return mDrawerListView;
     }
@@ -250,5 +256,9 @@ public class NavigationDrawerFragment extends Fragment {
         void onNavigationDrawerOpened(View drawerView);
 
         void onNavigationDrawerClosed(View drawerView);
+    }
+
+    public DrawerListAdapter getDrawerListAdapter() {
+        return drawerListAdapter;
     }
 }

@@ -68,9 +68,9 @@ public class SettingActivity extends PreferenceActivity {
         if (CheckUserLoginUtil.hasLogin()) {
             userLoginPreference.setTitle(
                     getString(R.string.setting_user_login_account_title) +
-                    getString(R.string.semicolon) +
-                    getString(R.string.space)
-                    + ParseUser.getCurrentUser().getString("name"));
+                            getString(R.string.semicolon) +
+                            getString(R.string.space)
+                            + ParseUser.getCurrentUser().getString("name"));
             userLoginPreference.setSummary(getString(R.string.setting_user_login_account_ask_logout));
 
             userLoginPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
@@ -91,6 +91,12 @@ public class SettingActivity extends PreferenceActivity {
                         session.closeAndClearTokenInformation();
                         //clear your preferences if saved
                     }
+
+
+                    SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(SettingActivity.this).edit();
+                    editor.putBoolean(DailyKind.NEED_UPDATE_DRAWER, true);
+                    editor.commit();
+
 
                     refreshPreference();
                     return true;
@@ -133,6 +139,7 @@ public class SettingActivity extends PreferenceActivity {
         boolean chineseDefaultValue = Locale.getDefault().getLanguage().contains("zh");
         boolean preferChineseSaved = preferences.getBoolean(DailyKind.PREFERENCE_SUPPORT_CHINESE, chineseDefaultValue);
 
+
         if(Build.VERSION.SDK_INT>= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
             SwitchPreference englishSwitchPreference = (SwitchPreference)findPreference("setting_support_english");
             englishSwitchPreference.setDefaultValue(preferEnglishSaved);
@@ -156,6 +163,20 @@ public class SettingActivity extends PreferenceActivity {
                 public boolean onPreferenceChange(Preference preference, Object newValue) {
                     SharedPreferences.Editor editor = preference.getEditor();
                     editor.putBoolean(DailyKind.PREFERENCE_SUPPORT_CHINESE,
+                            Boolean.parseBoolean(newValue.toString()));
+                    editor.commit();
+                    return true;
+                }
+            });
+
+            SwitchPreference playingMusicPreference = (SwitchPreference)findPreference("setting_playing_music");
+            playingMusicPreference.setDefaultValue(true);
+            playingMusicPreference.setChecked(preferences.getBoolean(DailyKind.PREFERENCE_PLAYING_SOUNT, true));
+            playingMusicPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object newValue) {
+                    SharedPreferences.Editor editor = preference.getEditor();
+                    editor.putBoolean(DailyKind.PREFERENCE_PLAYING_SOUNT,
                             Boolean.parseBoolean(newValue.toString()));
                     editor.commit();
                     return true;

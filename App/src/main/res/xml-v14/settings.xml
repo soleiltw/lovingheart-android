@@ -10,6 +10,15 @@
 		    android:title="Account" />
 
 		<SwitchPreference
+			android:key="setting_playing_music"
+			android:summary="@string/setting_playing_music_summary"
+			android:title="@string/setting_playing_music_title" />
+
+	</PreferenceCategory>
+
+	<PreferenceCategory android:title="@string/setting_support_languages" >
+
+		<SwitchPreference
 			android:key="setting_support_english"
 		    android:summary="Display English Content"
 		    android:title="Support English" />
