@@ -91,7 +91,6 @@
 	<string name="activity_settings">Settings</string>
 	<string name="activity_story">Story</string>
 	<string name="activity_deed_content">Deed of Day</string>
-	<string name="activity_post_story">Good deeds</string>
 	<string name="activity_deed_category">Good deeds</string>
 	<string name="activity_story_edit">Edit Story</string>
 	<string name="story_content_encourage_ratings">Encourage</string>

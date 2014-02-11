@@ -31,7 +31,8 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
 
     public final static int VIEW_PAGER_HOME_POSITION = 1;
     public final static int VIEW_PAGER_ME_POSITION = 0;
-    public final static int VIEW_PAGER_STORIES_POSITION = 2;
+    public final static int VIEW_PAGER_STORIES_POSITION = 3;
+    public final static int VIEW_PAGER_GOOD_DEEDS_POSITION = 2;
 
     private NavigationDrawerFragment mNavigationDrawerFragment;
 
@@ -133,6 +134,12 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
             case VIEW_PAGER_ME_POSITION:
                 fragment = MeFragment.newInstance(position + 1);
                 contentTitle = getString(R.string.title_me);
+                getActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+                getActionBar().setDisplayShowTitleEnabled(true);
+                break;
+            case VIEW_PAGER_GOOD_DEEDS_POSITION:
+                fragment = DeedCategoriesFragment.newInstance(position + 1);
+                contentTitle = getString(R.string.activity_deed_category);
                 getActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
                 getActionBar().setDisplayShowTitleEnabled(true);
                 break;
