@@ -132,7 +132,7 @@
 
 	<string name="navigation_drawer_open">Open</string>
 	<string name="navigation_drawer_close">Close</string>
-	<string name="setting_playing_music_summary">Play sound while loading data</string>
+	<string name="setting_playing_music_summary">Play sound after data loaded</string>
 	<string name="setting_playing_music_title">Playing Sound</string>
 
 

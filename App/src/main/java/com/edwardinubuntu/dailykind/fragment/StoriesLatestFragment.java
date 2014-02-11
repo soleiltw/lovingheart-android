@@ -1,8 +1,6 @@
 package com.edwardinubuntu.dailykind.fragment;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import com.edwardinubuntu.dailykind.DailyKind;
@@ -10,9 +8,6 @@ import com.parse.CountCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
-
-import java.util.ArrayList;
-import java.util.Locale;
 
 /**
  * Created by edward_chiang on 2014/1/10.
@@ -41,19 +36,7 @@ public class StoriesLatestFragment extends StoriesFeedsFragment {
         parseQuery.include("ideaPointer");
         parseQuery.include("graphicPointer");
         parseQuery.setLimit(10);
-        ArrayList<String> languageCollection = new ArrayList<String>();
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        boolean englishDefaultValue = Locale.getDefault().getLanguage().contains("en");
-        boolean supportEnglish = preferences.getBoolean(DailyKind.PREFERENCE_SUPPORT_ENGLISH, englishDefaultValue);
-        if (supportEnglish) {
-            languageCollection.add("en");
-        }
-        boolean chineseDefaultValue = Locale.getDefault().getLanguage().contains("zh");
-        boolean supportChinese = preferences.getBoolean(DailyKind.PREFERENCE_SUPPORT_CHINESE, chineseDefaultValue);
-        if (supportChinese) {
-            languageCollection.add("zh");
-        }
-        parseQuery.whereContainedIn("language", languageCollection);
+        parseQuery.whereContainedIn("language", getLanguageCollection());
         parseQuery.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
         if (more) {
             ParseQuery.getQuery("Story").countInBackground(new CountCallback() {

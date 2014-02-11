@@ -101,6 +101,7 @@ public class NavigationDrawerFragment extends Fragment {
                         getString(R.string.activity_deed_category),
                         getString(R.string.title_stories)});
         mDrawerListView.setAdapter(drawerListAdapter);
+
         mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
         return mDrawerListView;
     }

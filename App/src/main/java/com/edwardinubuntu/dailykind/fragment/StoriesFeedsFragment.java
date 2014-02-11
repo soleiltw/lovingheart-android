@@ -1,9 +1,7 @@
 package com.edwardinubuntu.dailykind.fragment;
 
-import android.annotation.TargetApi;
 import android.app.ActionBar;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.*;
@@ -113,8 +111,14 @@ public class StoriesFeedsFragment extends PlaceholderFragment {
         loadStories(false);
     }
 
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public void updateRefreshItem() {
+        if (getActivity()!=null && getActivity().findViewById(R.id.loading_progress_bar) != null) {
+            if (isQueryLoading()) {
+                getActivity().findViewById(R.id.loading_progress_bar).setVisibility(View.VISIBLE);
+            } else {
+                getActivity().findViewById(R.id.loading_progress_bar).setVisibility(View.GONE);
+            }
+        }
         if (menu != null) {
             MenuItem refreshItem = menu.findItem(R.id.action_reload);
             if (refreshItem != null) {

@@ -14,6 +14,7 @@ import com.edwardinubuntu.dailykind.R;
 import com.edwardinubuntu.dailykind.util.CheckUserLoginUtil;
 import com.facebook.Session;
 import com.parse.ParseUser;
+import com.uservoice.uservoicesdk.Config;
 import com.uservoice.uservoicesdk.UserVoice;
 
 import java.util.Locale;
@@ -49,6 +50,10 @@ public class SettingActivity extends PreferenceActivity {
         } catch (PackageManager.NameNotFoundException e) {
             Log.e(DailyKind.TAG, e.getLocalizedMessage());
         }
+
+        // UserVoice
+        Config config = new Config("lovingheart.uservoice.com");
+        UserVoice.init(config, this);
 
     }
 

@@ -42,6 +42,7 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(com.edwardinubuntu.dailykind.R.layout.activity_main);
+
         ParseAnalytics.trackAppOpened(getIntent());
         printPackageInfo();
     }
@@ -49,13 +50,13 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
+
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
 
         // Set up the drawer.
         mNavigationDrawerFragment.setUp(R.id.navigation_drawer,
                 (DrawerLayout)findViewById(R.id.drawer_layout));
-
     }
 
     private void printPackageInfo() {

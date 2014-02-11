@@ -1,9 +1,7 @@
 package com.edwardinubuntu.dailykind.fragment;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.view.*;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -19,7 +17,6 @@ import com.parse.ParseQuery;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 /**
  * Created by edward_chiang on 2014/2/11.
@@ -34,8 +31,6 @@ public class DeedCategoriesFragment extends PlaceholderFragment {
 
     private boolean parseLoading;
 
-    private SharedPreferences preferences;
-
     public static DeedCategoriesFragment newInstance(int sectionNumber) {
         DeedCategoriesFragment fragment = new DeedCategoriesFragment();
         Bundle args = new Bundle();
@@ -49,8 +44,6 @@ public class DeedCategoriesFragment extends PlaceholderFragment {
         super.onCreate(savedInstanceState);
 
         categoryList = new ArrayList<Category>();
-
-        preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
         categoriesAdapter = new CategoryArrayAdapter(getActivity(), R.layout.cell_category_text_view,
                 categoryList );
@@ -93,18 +86,7 @@ public class DeedCategoriesFragment extends PlaceholderFragment {
         ArrayList<String> stringCollection = new ArrayList<String>();
         stringCollection.add("close");
 
-        ArrayList<String> languageCollection = new ArrayList<String>();
-        boolean englishDefaultValue = Locale.getDefault().getLanguage().contains("en");
-        boolean supportEnglish = preferences.getBoolean(DailyKind.PREFERENCE_SUPPORT_ENGLISH, englishDefaultValue);
-        if (supportEnglish) {
-            languageCollection.add("en");
-        }
-        boolean chineseDefaultValue = Locale.getDefault().getLanguage().contains("zh");
-        boolean supportChinese = preferences.getBoolean(DailyKind.PREFERENCE_SUPPORT_CHINESE, chineseDefaultValue);
-        if (supportChinese) {
-            languageCollection.add("zh");
-        }
-        parseQuery.whereContainedIn("language", languageCollection);
+        parseQuery.whereContainedIn("language", getLanguageCollection());
         parseQuery.whereNotContainedIn("status", stringCollection);
         parseQuery.setCachePolicy(ParseQuery.CachePolicy.CACHE_ELSE_NETWORK);
         parseQuery.setMaxCacheAge(DailyKind.QUERY_MAX_CACHE_AGE);

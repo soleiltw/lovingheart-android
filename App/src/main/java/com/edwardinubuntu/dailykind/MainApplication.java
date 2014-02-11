@@ -4,9 +4,6 @@ import android.app.Application;
 import com.crashlytics.android.Crashlytics;
 import com.edwardinubuntu.dailykind.activity.MainActivity;
 import com.parse.*;
-import com.testflightapp.lib.TestFlight;
-import com.uservoice.uservoicesdk.Config;
-import com.uservoice.uservoicesdk.UserVoice;
 
 import java.util.Locale;
 
@@ -25,14 +22,6 @@ public class MainApplication extends Application {
         // Crashlytics
         Crashlytics.start(this);
 
-        // TestFlight
-        TestFlight.takeOff(this, "8d837dea-4632-4f68-8ced-a97b62fe8ac5");
-        TestFlight.startSession();
-
-        // UserVoice
-        Config config = new Config("lovingheart.uservoice.com");
-        UserVoice.init(config, this);
-
         ParseUser.enableAutomaticUser();
         ParseACL defaultACL = new ParseACL();
         // Optionally enable public read access while disabling public write access.
@@ -50,11 +39,5 @@ public class MainApplication extends Application {
             parseInstallation.saveInBackground();
 
         }
-    }
-
-    @Override
-    public void onTerminate() {
-        TestFlight.endSession();
-        super.onTerminate();
     }
 }
