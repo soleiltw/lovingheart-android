@@ -1,23 +1,18 @@
 package com.edwardinubuntu.dailykind.fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.*;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.edwardinubuntu.dailykind.DailyKind;
 import com.edwardinubuntu.dailykind.R;
-import com.edwardinubuntu.dailykind.activity.StoryContentActivity;
 import com.edwardinubuntu.dailykind.adapter.GalleryArrayAdapter;
-import com.edwardinubuntu.dailykind.adapter.UserStoryArrayAdapter;
 import com.edwardinubuntu.dailykind.object.Graphic;
 import com.edwardinubuntu.dailykind.object.UserImpact;
 import com.edwardinubuntu.dailykind.util.CircleTransform;
 import com.edwardinubuntu.dailykind.util.parse.ParseObjectManager;
 import com.edwardinubuntu.dailykind.view.ExpandableGridView;
-import com.edwardinubuntu.dailykind.view.ExpandableListView;
 import com.parse.*;
 import com.squareup.picasso.Picasso;
 
@@ -28,7 +23,7 @@ import java.util.List;
 /**
  * Created by edward_chiang on 2014/2/1.
  */
-public class UserProfileFragment extends PlaceholderFragment {
+public class UserProfileBasicFragment extends PlaceholderFragment {
 
     private TextView storiesSharedCountTextView;
 
@@ -46,7 +41,6 @@ public class UserProfileFragment extends PlaceholderFragment {
 
     private List<Graphic> userGraphicsList;
 
-    private List<ParseObject> userStoriesList;
 
     private UserImpact userImpactInfo;
 
@@ -54,16 +48,12 @@ public class UserProfileFragment extends PlaceholderFragment {
 
     private boolean queryLoading;
 
-    private ExpandableListView userStoriesListView;
-
-    private UserStoryArrayAdapter userStoryArrayAdapter;
-
     private String userId;
 
-    public UserProfileFragment() {
+    public UserProfileBasicFragment() {
     }
 
-    public UserProfileFragment(String userId) {
+    public UserProfileBasicFragment(String userId) {
         this.userId = userId;
     }
 
@@ -77,9 +67,6 @@ public class UserProfileFragment extends PlaceholderFragment {
         galleryArrayAdapter = new GalleryArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, userGraphicsList);
 
         userImpactInfo = new UserImpact();
-
-        userStoriesList = new ArrayList<ParseObject>();
-        userStoryArrayAdapter = new UserStoryArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, userStoriesList);
     }
 
     @Override
@@ -101,20 +88,7 @@ public class UserProfileFragment extends PlaceholderFragment {
 
         reviewStarsTextView = (TextView)rootView.findViewById(R.id.user_impact_review_stars_text_view);
 
-        userStoriesListView = (ExpandableListView)rootView.findViewById(R.id.me_stories_list_view);
-        userStoriesListView.setExpand(true);
-        userStoriesListView.setAdapter(userStoryArrayAdapter);
-        userStoriesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                ParseObject storyObject = userStoriesList.get(position);
 
-                Intent storyIntent = new Intent(getActivity(), StoryContentActivity.class);
-                storyIntent.putExtra("objectId", storyObject.getObjectId());
-
-                getActivity().startActivity(storyIntent);
-            }
-        });
 
         return rootView;
     }
@@ -225,10 +199,6 @@ public class UserProfileFragment extends PlaceholderFragment {
             @Override
             public void done(List<ParseObject> parseObjects, ParseException e) {
                 if (parseObjects != null && parseObjects.size() > 0) {
-
-                    userStoriesList.clear();
-                    userStoriesList.addAll(parseObjects);
-                    userStoryArrayAdapter.notifyDataSetChanged();
 
                     if (getActivity()!=null) {
                         getActivity().findViewById(R.id.user_profile_stories_empty_text_view).setVisibility(View.GONE);
@@ -354,4 +324,5 @@ public class UserProfileFragment extends PlaceholderFragment {
     public void setUserId(String userId) {
         this.userId = userId;
     }
+
 }

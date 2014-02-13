@@ -20,17 +20,17 @@ import java.text.SimpleDateFormat;
 /**
  * Created by edward_chiang on 2013/11/23.
  */
-public class MeFragment extends UserProfileFragment {
+public class MeBasicFragment extends UserProfileBasicFragment {
 
-    public static MeFragment newInstance(int sectionNumber) {
-        MeFragment fragment = new MeFragment();
+    public static MeBasicFragment newInstance(int sectionNumber) {
+        MeBasicFragment fragment = new MeBasicFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_SECTION_NUMBER, sectionNumber);
         fragment.setArguments(args);
         return fragment;
     }
 
-    public MeFragment() {
+    public MeBasicFragment() {
         super(null);
         setupUserId();
     }

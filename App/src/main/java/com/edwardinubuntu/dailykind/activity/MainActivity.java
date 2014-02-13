@@ -133,7 +133,7 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
                 getActionBar().setDisplayShowTitleEnabled(true);
                 break;
             case VIEW_PAGER_ME_POSITION:
-                fragment = MeFragment.newInstance(position + 1);
+                fragment = UserProfileMainFragment.newInstance(position + 1);
                 contentTitle = getString(R.string.title_me);
                 getActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
                 getActionBar().setDisplayShowTitleEnabled(true);
@@ -197,7 +197,6 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
     @Override
     public void onNavigationDrawerOpened(View drawerView) {
         getActionBar().setTitle(R.string.app_name);
-
         boolean isNeedUpdate = PreferenceManager.getDefaultSharedPreferences(this).getBoolean(DailyKind.NEED_UPDATE_DRAWER, false);
         if (isNeedUpdate) {
             mNavigationDrawerFragment.getDrawerListAdapter().notifyDataSetChanged();

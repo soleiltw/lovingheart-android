@@ -30,6 +30,8 @@
 		<item name="android:actionModeSplitBackground">@drawable/cab_background_bottom_lovingheart</item>
 		<item name="android:actionModeCloseButtonStyle">@style/ActionButton.CloseMode.Lovingheart</item>
 		<item name="android:actionBarTabTextStyle">@style/MyTheme.Widget.AppCompat.ActionBar.TabBar.Text</item>
+
+		<item name="vpiTabPageIndicatorStyle">@style/TabPageIndicator</item>
 	</style>
 
 	<style name="MyTheme.ActionBar.TitleTextStyle" parent="@android:style/TextAppearance">
