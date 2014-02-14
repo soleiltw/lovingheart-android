@@ -7,7 +7,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import com.edwardinubuntu.dailykind.DailyKind;
 import com.edwardinubuntu.dailykind.R;
-import com.edwardinubuntu.dailykind.fragment.UserProfileBasicFragment;
+import com.edwardinubuntu.dailykind.fragment.UserProfileMainFragment;
 
 /**
  * Created by edward_chiang on 2014/2/1.
@@ -16,7 +16,7 @@ public class UserProfileActivity extends ActionBarActivity {
 
     private String userId;
 
-    private UserProfileBasicFragment userProfileBasicFragment;
+    private UserProfileMainFragment userProfileBasicFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +39,8 @@ public class UserProfileActivity extends ActionBarActivity {
 
         // User Login fragment
         android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
-        userProfileBasicFragment = new UserProfileBasicFragment(userId);
+        userProfileBasicFragment = new UserProfileMainFragment();
+        userProfileBasicFragment.setUserId(userId);
         fragmentManager.beginTransaction().replace(R.id.user_profile_main_fragment, userProfileBasicFragment).commit();
     }
 

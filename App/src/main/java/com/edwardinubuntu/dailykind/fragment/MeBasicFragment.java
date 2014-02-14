@@ -16,6 +16,7 @@ import com.parse.*;
 import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
+import java.util.List;
 
 /**
  * Created by edward_chiang on 2013/11/23.
@@ -82,7 +83,7 @@ public class MeBasicFragment extends UserProfileBasicFragment {
         userQuery.getFirstInBackground(new GetCallback<ParseUser>() {
             @Override
             public void done(ParseUser parseUser, ParseException e) {
-                if (parseUser != null && parseUser.getObjectId() != null) {
+                if (parseUser != null && parseUser.getObjectId() != null && isAdded()) {
 
                     userNameTextView.setText(parseUser.getString("name"));
 
@@ -109,8 +110,47 @@ public class MeBasicFragment extends UserProfileBasicFragment {
 
                     // Load user impact
                     loadUserImpact(parseUser);
-                    queryStories(parseUser);
-                    queryGraphicEarned(parseUser);
+                    queryStories(parseUser, new FindCallback<ParseObject>() {
+                        @Override
+                        public void done(List<ParseObject> parseObjects, ParseException e) {
+                            if (parseObjects != null && parseObjects.size() > 0) {
+
+                                if (getActivity()!=null) {
+                                    getActivity().findViewById(R.id.user_profile_stories_empty_text_view).setVisibility(View.GONE);
+                                }
+
+                                userImpactInfo.setStoriesSharedCount(parseObjects.size());
+                                storiesSharedCountTextView.setText(String.valueOf(parseObjects.size()));
+
+                                int reviewImpactCount = 0;
+                                for (ParseObject eachStory : parseObjects) {
+                                    if (eachStory.has("reviewImpact")) {
+                                        reviewImpactCount += eachStory.getInt("reviewImpact");
+                                    }
+                                }
+                                reviewStarsTextView.setText(String.valueOf(reviewImpactCount));
+                                userImpactInfo.setStarsReviewCount(reviewImpactCount);
+
+                                saveUserImpact(userImpactInfo);
+                            } else {
+                                getActivity().findViewById(R.id.user_profile_stories_empty_text_view).setVisibility(View.VISIBLE);
+                            }
+                        }
+                    });
+                    queryGraphicEarned(parseUser, new FindCallback<ParseObject>() {
+                        @Override
+                        public void done(List<ParseObject> parseObjects, ParseException e) {
+                            if (parseObjects!=null && !parseObjects.isEmpty()) {
+
+                                graphicEarnedCountTextView.setText(String.valueOf(parseObjects.size()));
+                                userImpactInfo.setGraphicEarnedCount(parseObjects.size());
+
+                                updateUserImpact(userImpactInfo);
+                            } else {
+                                graphicEarnedCountTextView.setText(String.valueOf(0));
+                            }
+                        }
+                    });
 
                 } else {
                     Log.e(DailyKind.TAG, "queryProfile error: " + e.getLocalizedMessage());

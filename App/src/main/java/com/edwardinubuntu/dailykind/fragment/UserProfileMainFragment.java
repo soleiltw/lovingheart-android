@@ -14,7 +14,7 @@ import com.viewpagerindicator.TabPageIndicator;
 /**
  * Created by edward_chiang on 2014/2/12.
  */
-public class UserProfileMainFragment extends PlaceholderFragment {
+public class UserProfileMainFragment extends UserProfileFragment {
 
     private FragmentStatePagerAdapter fragmentStatePagerAdapter;
 
@@ -22,11 +22,9 @@ public class UserProfileMainFragment extends PlaceholderFragment {
 
     private TabPageIndicator tabPageIndicator;
 
-
     public static final int VIEW_PAGER_BASIC = 0;
     public static final int VIEW_PAGER_STORIES = 1;
     public static final int VIEW_PAGER_COLLECTIONS = 2;
-
     public static final int VIEW_PAGER_COUNT = 3;
 
     public static UserProfileMainFragment newInstance(int sectionNumber) {
@@ -38,7 +36,7 @@ public class UserProfileMainFragment extends PlaceholderFragment {
     }
 
     public UserProfileMainFragment() {
-
+        setupUserId();
     }
 
     @Override
@@ -69,17 +67,25 @@ public class UserProfileMainFragment extends PlaceholderFragment {
 
         @Override
         public Fragment getItem(int position) {
-            Fragment fragment = new PlaceholderFragment();
+            UserProfileFragment fragment = null;
 
             switch (position) {
                 case VIEW_PAGER_BASIC:
-                    fragment = new MeBasicFragment();
+                    if (getUserId() == null) {
+                        fragment = new MeBasicFragment();
+                    } else {
+                        fragment = new UserProfileBasicFragment();
+                    }
                     break;
                 case VIEW_PAGER_STORIES:
                     fragment = new UserProfileStoriesFragment();
                     break;
                 case VIEW_PAGER_COLLECTIONS:
+                    fragment = new UserProfileGraphicsFragment();
                     break;
+            }
+            if (getUserId()!= null) {
+                fragment.setUserId(getUserId());
             }
 
             Bundle args = new Bundle();
