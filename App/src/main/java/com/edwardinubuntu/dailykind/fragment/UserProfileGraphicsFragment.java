@@ -26,6 +26,8 @@ public class UserProfileGraphicsFragment extends UserProfileFragment {
 
     private List<Graphic> userGraphicsList;
 
+    private View emptyTextView;
+
     public UserProfileGraphicsFragment() {
         super();
     }
@@ -46,6 +48,8 @@ public class UserProfileGraphicsFragment extends UserProfileFragment {
         galleryGridView.setNumColumns(3);
         galleryGridView.setAdapter(galleryArrayAdapter);
 
+        emptyTextView = rootView.findViewById(com.edwardinubuntu.dailykind.R.id.user_profile_graphics_empty_text_view);
+
         return rootView;
     }
 
@@ -60,6 +64,9 @@ public class UserProfileGraphicsFragment extends UserProfileFragment {
                     queryGraphicEarned(parseUser, new FindCallback<ParseObject>() {
                         @Override
                         public void done(List<ParseObject> parseObjects, ParseException e) {
+
+
+
                             if (parseObjects!=null && !parseObjects.isEmpty()) {
 
                                 userGraphicsList.clear();
@@ -69,16 +76,16 @@ public class UserProfileGraphicsFragment extends UserProfileFragment {
                                 }
                                 galleryArrayAdapter.notifyDataSetChanged();
 
-                                if (getActivity()!=null){
-                                    getActivity().findViewById(com.edwardinubuntu.dailykind.R.id.user_profile_graphics_empty_text_view).setVisibility(View.GONE);
+                                if (emptyTextView!=null){
+                                    emptyTextView.setVisibility(View.GONE);
                                 }
 
                             } else {
                                 userGraphicsList.clear();
                                 galleryArrayAdapter.notifyDataSetChanged();
 
-                                if (getActivity()!=null){
-                                    getActivity().findViewById(com.edwardinubuntu.dailykind.R.id.user_profile_graphics_empty_text_view).setVisibility(View.VISIBLE);
+                                if (emptyTextView!=null){
+                                    emptyTextView.setVisibility(View.VISIBLE);
                                 }
                             }
                         }

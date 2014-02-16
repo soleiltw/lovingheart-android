@@ -28,6 +28,8 @@ public class UserProfileStoriesFragment extends UserProfileFragment {
 
     private List<ParseObject> userStoriesList;
 
+    private View emptyView;
+
     public UserProfileStoriesFragment() {
         super();
     }
@@ -58,11 +60,9 @@ public class UserProfileStoriesFragment extends UserProfileFragment {
                                 userStoriesList.addAll(parseObjects);
                                 userStoryArrayAdapter.notifyDataSetChanged();
 
-                                if (getActivity()!=null) {
-                                    getActivity().findViewById(R.id.user_profile_stories_empty_text_view).setVisibility(View.GONE);
-                                }
+                                emptyView.setVisibility(View.GONE);
                             } else {
-                                getActivity().findViewById(R.id.user_profile_stories_empty_text_view).setVisibility(View.VISIBLE);
+                                emptyView.setVisibility(View.VISIBLE);
                             }
                         }
                     });
@@ -94,6 +94,8 @@ public class UserProfileStoriesFragment extends UserProfileFragment {
                 getActivity().startActivity(storyIntent);
             }
         });
+
+        emptyView = rootView.findViewById(R.id.user_profile_stories_empty_text_view);
 
         return rootView;
     }
