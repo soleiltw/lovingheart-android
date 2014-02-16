@@ -79,8 +79,10 @@ public class DrawerListAdapter extends ArrayAdapter<String> {
             textView.setText(getItem(position));
 
             if (rootView.isSelected()) {
-                textView.setTextColor(getContext().getResources().getColor(R.color.theme_color_4));
+                textView.setBackgroundColor(getContext().getResources().getColor(R.color.theme_color_4));
+                textView.setTextColor(Color.WHITE);
             } else {
+                textView.setBackgroundColor(getContext().getResources().getColor(R.color.background_gray_color));
                 textView.setTextColor(Color.BLACK);
             }
         }
