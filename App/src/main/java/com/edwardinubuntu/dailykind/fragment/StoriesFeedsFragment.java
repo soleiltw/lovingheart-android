@@ -33,6 +33,8 @@ public class StoriesFeedsFragment extends PlaceholderFragment {
 
     private boolean queryLoading;
 
+    private View loadingView;
+
     public static StoriesFeedsFragment newInstance(int sectionNumber) {
         StoriesFeedsFragment fragment = new StoriesFeedsFragment();
         Bundle args = new Bundle();
@@ -79,6 +81,8 @@ public class StoriesFeedsFragment extends PlaceholderFragment {
             }
         });
 
+        loadingView = rootView.findViewById(R.id.loading_progress_bar);
+
         return rootView;
     }
 
@@ -112,11 +116,11 @@ public class StoriesFeedsFragment extends PlaceholderFragment {
     }
 
     public void updateRefreshItem() {
-        if (getActivity()!=null && getActivity().findViewById(R.id.loading_progress_bar) != null) {
+        if (getActivity()!=null && loadingView != null) {
             if (isQueryLoading()) {
-                getActivity().findViewById(R.id.loading_progress_bar).setVisibility(View.VISIBLE);
+                loadingView.setVisibility(View.VISIBLE);
             } else {
-                getActivity().findViewById(R.id.loading_progress_bar).setVisibility(View.GONE);
+                loadingView.setVisibility(View.GONE);
             }
         }
         if (menu != null) {

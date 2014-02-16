@@ -31,6 +31,8 @@ public class DeedCategoriesFragment extends PlaceholderFragment {
 
     private boolean parseLoading;
 
+    private View progressLoadingView;
+
     public static DeedCategoriesFragment newInstance(int sectionNumber) {
         DeedCategoriesFragment fragment = new DeedCategoriesFragment();
         Bundle args = new Bundle();
@@ -71,6 +73,8 @@ public class DeedCategoriesFragment extends PlaceholderFragment {
                 startActivity(intent);
             }
         });
+
+        progressLoadingView = rootView.findViewById(R.id.good_categories_progress_bar);
 
 
         return rootView;
@@ -129,9 +133,9 @@ public class DeedCategoriesFragment extends PlaceholderFragment {
     public void updateRefreshItem() {
 
         if (isParseLoading()) {
-            getActivity().findViewById(R.id.good_categories_progress_bar).setVisibility(View.VISIBLE);
+            progressLoadingView.setVisibility(View.VISIBLE);
         } else {
-            getActivity().findViewById(R.id.good_categories_progress_bar).setVisibility(View.GONE);
+            progressLoadingView.setVisibility(View.GONE);
         }
 
         if (menu != null) {

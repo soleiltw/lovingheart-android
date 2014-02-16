@@ -82,9 +82,11 @@ public class DrawerListAdapter extends ArrayAdapter<String> {
                 textView.setBackgroundColor(getContext().getResources().getColor(R.color.theme_color_4));
                 textView.setTextColor(Color.WHITE);
             } else {
-                textView.setBackgroundColor(getContext().getResources().getColor(R.color.background_gray_color));
+                textView.setBackgroundColor(getContext().getResources().getColor(android.R.color.transparent));
                 textView.setTextColor(Color.BLACK);
             }
+
+
         }
 
         return rootView;
