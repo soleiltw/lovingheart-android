@@ -160,7 +160,7 @@ public class HomeFragment extends PlaceholderFragment {
         randomIdeaQuery.whereNotContainedIn("status", stringCollection);
         randomIdeaQuery.orderByDescending("createdAt");
         randomIdeaQuery.setCachePolicy(ParseQuery.CachePolicy.CACHE_ELSE_NETWORK);
-        randomIdeaQuery.setMaxCacheAge(100 * 60 * 60);
+        randomIdeaQuery.setMaxCacheAge(DailyKind.QUERY_MAX_CACHE_AGE);
         randomIdeaQuery.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> parseObjects, ParseException e) {
@@ -173,9 +173,8 @@ public class HomeFragment extends PlaceholderFragment {
 
                     ParseObject randomParseObject = parseObjects.get(randomIndex);
 
-
                     IdeaObject ideaRandomObject = new IdeaObject(randomParseObject);
-                    ideaRandomObject.setTitle(getActivity().getResources().getString(R.string.idea_caption_special_idea));
+                    ideaRandomObject.setTitle(getString(R.string.idea_caption_special_idea));
                     ideaRandomObject.setTitleImageResource(R.drawable.ic_action_balloon);
                     ideaObjectList.add(ideaRandomObject);
 

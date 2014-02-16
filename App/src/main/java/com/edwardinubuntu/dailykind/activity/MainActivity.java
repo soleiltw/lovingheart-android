@@ -9,9 +9,9 @@ import android.content.pm.Signature;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarActivity;
 import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
@@ -27,7 +27,7 @@ import com.parse.ParseAnalytics;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-public class MainActivity extends ActionBarActivity implements NavigationDrawerFragment.NavigationDrawerCallbacks {
+public class MainActivity extends FragmentActivity implements NavigationDrawerFragment.NavigationDrawerCallbacks {
 
     public final static int VIEW_PAGER_HOME_POSITION = 1;
     public final static int VIEW_PAGER_ME_POSITION = 0;
@@ -43,7 +43,9 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
         super.onCreate(savedInstanceState);
         setContentView(com.edwardinubuntu.dailykind.R.layout.activity_main);
 
-        ParseAnalytics.trackAppOpened(getIntent());
+        if (getIntent()!=null) {
+            ParseAnalytics.trackAppOpened(getIntent());
+        }
         printPackageInfo();
     }
 
