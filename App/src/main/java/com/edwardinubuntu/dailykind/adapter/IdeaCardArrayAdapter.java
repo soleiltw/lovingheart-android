@@ -74,7 +74,7 @@ public class IdeaCardArrayAdapter extends ArrayAdapter<IdeaObject> {
         // Title
         TextView captionTextView = (TextView)rootView.findViewById(R.id.home_random_idea_caption_text_view);
         if (captionTextView!=null) {
-            captionTextView.setText(ideaObject.getTitle());
+            captionTextView.setText(getContext().getString(ideaObject.getTitleResource()));
         }
 
         // Title Image

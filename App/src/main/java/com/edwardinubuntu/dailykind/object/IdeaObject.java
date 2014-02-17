@@ -9,7 +9,7 @@ public class IdeaObject {
 
     private int titleImageResource;
 
-    private String title;
+    private int titleResource;
 
     private ParseObject parseObject;
 
@@ -25,12 +25,12 @@ public class IdeaObject {
         this.titleImageResource = titleImageResource;
     }
 
-    public String getTitle() {
-        return title;
+    public int getTitleResource() {
+        return titleResource;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setTitleResource(int titleResource) {
+        this.titleResource = titleResource;
     }
 
     public ParseObject getParseObject() {

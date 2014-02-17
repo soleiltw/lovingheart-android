@@ -16,21 +16,22 @@ import com.parse.*;
 import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
+import java.util.List;
 
 /**
  * Created by edward_chiang on 2013/11/23.
  */
-public class MeFragment extends UserProfileFragment {
+public class UserProfileMeFragment extends UserProfileBasicFragment {
 
-    public static MeFragment newInstance(int sectionNumber) {
-        MeFragment fragment = new MeFragment();
+    public static UserProfileMeFragment newInstance(int sectionNumber) {
+        UserProfileMeFragment fragment = new UserProfileMeFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_SECTION_NUMBER, sectionNumber);
         fragment.setArguments(args);
         return fragment;
     }
 
-    public MeFragment() {
+    public UserProfileMeFragment() {
         super(null);
         setupUserId();
     }
@@ -41,14 +42,6 @@ public class MeFragment extends UserProfileFragment {
 
         ActionBar actionBar = getActivity().getActionBar();
         actionBar.setTitle(getString(R.string.title_me));
-    }
-
-    protected void setupUserId() {
-        if (ParseUser.getCurrentUser() != null && ParseUser.getCurrentUser().getObjectId() != null) {
-            setUserId(ParseUser.getCurrentUser().getObjectId());
-        } else {
-            setUserId(null);
-        }
     }
 
     @Override
@@ -82,7 +75,7 @@ public class MeFragment extends UserProfileFragment {
         userQuery.getFirstInBackground(new GetCallback<ParseUser>() {
             @Override
             public void done(ParseUser parseUser, ParseException e) {
-                if (parseUser != null && parseUser.getObjectId() != null) {
+                if (parseUser != null && parseUser.getObjectId() != null && isAdded()) {
 
                     userNameTextView.setText(parseUser.getString("name"));
 
@@ -109,8 +102,47 @@ public class MeFragment extends UserProfileFragment {
 
                     // Load user impact
                     loadUserImpact(parseUser);
-                    queryStories(parseUser);
-                    queryGraphicEarned(parseUser);
+                    queryStories(parseUser, new FindCallback<ParseObject>() {
+                        @Override
+                        public void done(List<ParseObject> parseObjects, ParseException e) {
+                            if (parseObjects != null && parseObjects.size() > 0) {
+
+                                if (getActivity()!=null) {
+                                    getActivity().findViewById(R.id.user_profile_stories_empty_text_view).setVisibility(View.GONE);
+                                }
+
+                                userImpactInfo.setStoriesSharedCount(parseObjects.size());
+                                storiesSharedCountTextView.setText(String.valueOf(parseObjects.size()));
+
+                                int reviewImpactCount = 0;
+                                for (ParseObject eachStory : parseObjects) {
+                                    if (eachStory.has("reviewImpact")) {
+                                        reviewImpactCount += eachStory.getInt("reviewImpact");
+                                    }
+                                }
+                                reviewStarsTextView.setText(String.valueOf(reviewImpactCount));
+                                userImpactInfo.setStarsReviewCount(reviewImpactCount);
+
+                                saveUserImpact(userImpactInfo);
+                            } else {
+                                getActivity().findViewById(R.id.user_profile_stories_empty_text_view).setVisibility(View.VISIBLE);
+                            }
+                        }
+                    });
+                    queryGraphicEarned(parseUser, new FindCallback<ParseObject>() {
+                        @Override
+                        public void done(List<ParseObject> parseObjects, ParseException e) {
+                            if (parseObjects!=null && !parseObjects.isEmpty()) {
+
+                                graphicEarnedCountTextView.setText(String.valueOf(parseObjects.size()));
+                                userImpactInfo.setGraphicEarnedCount(parseObjects.size());
+
+                                updateUserImpact(userImpactInfo);
+                            } else {
+                                graphicEarnedCountTextView.setText(String.valueOf(0));
+                            }
+                        }
+                    });
 
                 } else {
                     Log.e(DailyKind.TAG, "queryProfile error: " + e.getLocalizedMessage());
