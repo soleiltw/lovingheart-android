@@ -174,12 +174,12 @@ public class HomeFragment extends PlaceholderFragment {
                     ParseObject randomParseObject = parseObjects.get(randomIndex);
 
                     IdeaObject ideaRandomObject = new IdeaObject(randomParseObject);
-                    ideaRandomObject.setTitle(getString(R.string.idea_caption_special_idea));
+                    ideaRandomObject.setTitleResource(R.string.idea_caption_special_idea);
                     ideaRandomObject.setTitleImageResource(R.drawable.ic_action_balloon);
                     ideaObjectList.add(ideaRandomObject);
 
                     IdeaObject ideaLatestObject = new IdeaObject(parseObjects.get(0));
-                    ideaLatestObject.setTitle(getActivity().getResources().getString(R.string.idea_caption_latest_idea));
+                    ideaLatestObject.setTitleResource(R.string.idea_caption_latest_idea);
                     ideaLatestObject.setTitleImageResource(R.drawable.ic_action_emo_basic);
                     ideaObjectList.add(ideaLatestObject);
 
