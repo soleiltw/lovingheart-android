@@ -4,6 +4,8 @@ import android.app.Application;
 import com.crashlytics.android.Crashlytics;
 import com.edwardinubuntu.dailykind.activity.MainActivity;
 import com.parse.*;
+import com.uservoice.uservoicesdk.Config;
+import com.uservoice.uservoicesdk.UserVoice;
 
 import java.util.Locale;
 
@@ -15,6 +17,10 @@ public class MainApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+
+        // UserVoice
+        Config config = new Config("lovingheart.uservoice.com");
+        UserVoice.init(config, this);
 
         // Parse
         Parse.initialize(this, ParseSettings.PARSE_API_TOKEN, ParseSettings.PARSE_API_TOKEN_2);

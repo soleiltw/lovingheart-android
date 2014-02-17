@@ -5,16 +5,19 @@
 	<item android:id="@+id/action_post"
 	      android:orderInCategory="90"
 	      android:icon="@drawable/ic_action_edit"
+	      android:showAsAction="always"
 	      dailykind:showAsAction="always"
 	      android:title="@string/action_post" />
 
 	<item android:id="@+id/action_reload"
 	      android:orderInCategory="99"
 	      android:icon="@drawable/ic_action_reload"
+	      android:showAsAction="never"
 	      dailykind:showAsAction="never"
 	      android:title="@string/action_reload" />
 
 	<item android:id="@+id/action_settings"
+	      android:showAsAction="never"
 	      android:title="@string/action_settings"
 	      android:orderInCategory="110"
 	      dailykind:showAsAction="never" />

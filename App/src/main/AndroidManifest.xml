@@ -22,7 +22,7 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/lovingheart_logo_sun"
+        android:icon="@drawable/loving_heart_red"
         android:label="@string/app_name"
         android:name=".MainApplication"
         android:theme="@style/AppTheme" >
@@ -96,12 +96,7 @@
 	    <activity android:name=".activity.WebViewActivity"
 	              android:label="Web" />
 
-	    <activity android:name="com.uservoice.uservoicesdk.activity.PortalActivity" />
-	    <activity android:name="com.uservoice.uservoicesdk.activity.ForumActivity" />
-	    <activity android:name="com.uservoice.uservoicesdk.activity.ArticleActivity" />
-	    <activity android:name="com.uservoice.uservoicesdk.activity.TopicActivity" />
 	    <activity android:name="com.uservoice.uservoicesdk.activity.ContactActivity"
-	              android:logo="@drawable/lovingheart_clear_with_white"
 	              android:configChanges="orientation|keyboardHidden|screenSize" />
 	    <activity android:name="com.uservoice.uservoicesdk.activity.PostIdeaActivity" android:configChanges="orientation|keyboardHidden|screenSize" />
 

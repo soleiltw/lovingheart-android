@@ -17,7 +17,7 @@
      limitations under the License.
 -->
 
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
 	<style name="AppTheme" parent="@style/Theme.AppCompat.Light">
 		<item name="actionBarItemBackground">@drawable/selectable_background_lovingheart</item>
@@ -29,6 +29,22 @@
 		<item name="actionModeBackground">@drawable/cab_background_top_lovingheart</item>
 		<item name="actionModeSplitBackground">@drawable/cab_background_bottom_lovingheart</item>
 		<item name="actionModeCloseButtonStyle">@style/ActionButton.CloseMode.Lovingheart</item>
+
+		<item name="vpiTabPageIndicatorStyle">@style/TabPageIndicator</item>
+	</style>
+
+	<style name="TabPageIndicator" parent="Widget.TabPageIndicator">
+		<item name="android:background">@drawable/tab_indicator_ab_lovingheart</item>
+		<item name="android:textColor">@color/story_title_color</item>
+		<item name="android:textSize">14sp</item>
+		<item name="android:minWidth">100dp</item>
+		<item name="android:divider">@drawable/custom_tab_indicator_divider</item>
+		<item name="android:paddingLeft">8dp</item>
+		<item name="android:paddingRight">8dp</item>
+		<item name="android:showDividers" tools:ignore="NewApi">middle</item>
+		<item name="android:dividerPadding" tools:ignore="NewApi">10dp</item>
+		<item name="android:fadingEdge">horizontal</item>
+		<item name="android:fadingEdgeLength">8dp</item>'
 	</style>
 
 	<style name="MyTheme.ActionBar.TitleTextStyle" parent="@android:style/TextAppearance">
