@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+import com.edwardinubuntu.dailykind.R;
 
 import java.util.List;
 
@@ -33,7 +34,7 @@ public class PersonalReportAdapter extends ArrayAdapter<String> {
         // Because we want to update the first view
         if (rootView == null) {
             LayoutInflater inflater = (LayoutInflater)getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            rootView = inflater.inflate(android.R.layout.simple_list_item_1, null);
+            rootView = inflater.inflate(R.layout.cell_report_item, null);
         }
 
         TextView textView = (TextView)rootView.findViewById(android.R.id.text1);

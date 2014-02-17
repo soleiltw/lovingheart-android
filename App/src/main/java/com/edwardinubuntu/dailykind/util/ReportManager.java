@@ -18,8 +18,6 @@ public class ReportManager {
 
     private List<String> reportWordings;
 
-    private String joinSince;
-
     private ParseUser user;
 
     private AnalyseListener analyseListener;
@@ -43,6 +41,9 @@ public class ReportManager {
 
         Map<Object, Integer> ideasMap = new LinkedHashMap<Object, Integer>();
         Map<Object, Integer> areaNameMap = new LinkedHashMap<Object, Integer>();
+
+        int totalReviewStars = 0;
+
         for (ParseObject eachStory : storiesObjects) {
             // Get Tags
             if (eachStory.has("ideaPointer")) {
@@ -70,25 +71,18 @@ public class ReportManager {
                     areaNameMap.put(areaName, areaNameMap.get(areaName) + 1);
                 }
             }
+
+            if (eachStory.has("reviewImpact")) {
+                totalReviewStars += eachStory.getInt("reviewImpact");
+            }
         }
         // Get Analyse 1
         extractIdeaTags(tagsBuffer);
 
-        // Get Analyse 2
-        if (getJoinSince() != null) {
-            StringBuffer describeBuffer = new StringBuffer();
-            describeBuffer.append("從");
-            describeBuffer.append("<font color="+HIGHLIGHT_RED_COLOR+">");
-            describeBuffer.append(getJoinSince());
-            describeBuffer.append("</font>");
-            describeBuffer.append("開始加入，他的理念是幫助別人，除了儘花費自己小小力氣，卻能讓人大大受惠，並且讓他人擁有美好的一天，自己也無形中很快樂。");
-            reportWordings.add(describeBuffer.toString());
-        }
-
         // Get Analyse 3
         if (latestIdeaStory!=null) {
             StringBuffer describeBuffer = new StringBuffer();
-            describeBuffer.append("最近參加的友善行動是");
+            describeBuffer.append("最近參加的友善行動");
             describeBuffer.append("<font color="+HIGHLIGHT_RED_COLOR+">");
             describeBuffer.append(latestIdeaStory.getParseObject("ideaPointer").getString("Name"));
             describeBuffer.append("</font>");
@@ -101,48 +95,43 @@ public class ReportManager {
             ideasMap = sortByComparator(ideasMap, true);
             ParseObject firstParseObject = (ParseObject) new ArrayList(ideasMap.keySet()).get(0);
             StringBuffer describeBuffer = new StringBuffer();
-            describeBuffer.append("而對一般人來說，比較少人能達成的");
+            describeBuffer.append("比較少人能達成的");
             describeBuffer.append("<font color="+HIGHLIGHT_RED_COLOR+">");
             describeBuffer.append(firstParseObject.getString("Name"));
             describeBuffer.append("</font>");
-            describeBuffer.append("完成 " + firstParseObject.getInt("doneCount") + " 次。");
             describeBuffer.append(user.getString("name"));
             describeBuffer.append("辦到了。");
             reportWordings.add(describeBuffer.toString());
         }
 
         // Get Analyse 5
+        // Analyse 6
         if (storiesObjects.size() > 0) {
-            ParseQuery<ParseObject> userimpactQuery = ParseQuery.getQuery("UserImpact");
-            userimpactQuery.setCachePolicy(ParseQuery.CachePolicy.CACHE_ELSE_NETWORK);
-            userimpactQuery.setMaxCacheAge(DailyKind.QUERY_MAX_CACHE_AGE);
-            userimpactQuery.findInBackground(new FindCallback<ParseObject>() {
+            ParseQuery<ParseObject> userImpactQuery = ParseQuery.getQuery("UserImpact");
+            userImpactQuery.setCachePolicy(ParseQuery.CachePolicy.CACHE_ELSE_NETWORK);
+            userImpactQuery.setMaxCacheAge(DailyKind.QUERY_MAX_CACHE_AGE);
+
+            final int finalTotalReviewStars = totalReviewStars;
+
+            userImpactQuery.findInBackground(new FindCallback<ParseObject>() {
                 @Override
                 public void done(List<ParseObject> parseObjects, ParseException e) {
                     if (parseObjects!= null) {
+
+
                         int totalCount = 0;
+                        int totalReviewStarsImpact = 0;
                         for (ParseObject eachImpact : parseObjects) {
                             if (eachImpact.has("sharedStoriesCount")) {
                                 totalCount += eachImpact.getInt("sharedStoriesCount");
                             }
+                            if (eachImpact.has("reviewStarsImpact")) {
+                                totalReviewStarsImpact += eachImpact.getInt("reviewStarsImpact");
+                            }
                         }
-                        double averageSharedCount = new BigDecimal(totalCount / parseObjects.size())
-                                .setScale(2, BigDecimal.ROUND_HALF_UP)
-                                .doubleValue();
 
-                        StringBuffer describeBuffer = new StringBuffer();
-                        describeBuffer.append("分享過" + storiesObjects.size() +"篇故事，");
-                        describeBuffer.append("比一般 LovingHeart 朋友們 （平均 " + averageSharedCount+ " 篇）");
-
-                        describeBuffer.append("<font color="+HIGHLIGHT_RED_COLOR+">");
-                        if (storiesObjects.size() > averageSharedCount) {
-                            describeBuffer.append("用心記錄");
-                        } else {
-                            describeBuffer.append("少些");
-                        }
-                        describeBuffer.append("</font>");
-                        describeBuffer.append("。");
-                        reportWordings.add(describeBuffer.toString());
+                        analyseStoriesSharedCount(parseObjects, totalCount);
+                        analyseReviewsStars(parseObjects, totalReviewStarsImpact, finalTotalReviewStars);
 
                         if (getAnalyseListener() != null) {
                             getAnalyseListener().done();
@@ -166,7 +155,7 @@ public class ReportManager {
                     describeBuffer.append(entry.getKey());
                     describeBuffer.append("</font>");
                 }
-                if (index < TOTAL_TO_SHOW - 1  || index < areaNameMap.entrySet().size() - 1) {
+                if (index < Math.min(TOTAL_TO_SHOW - 1, areaNameMap.entrySet().size() - 1)) {
                     describeBuffer.append("、");
                 }
                 index++;
@@ -177,6 +166,62 @@ public class ReportManager {
 
         if (getAnalyseListener() != null) {
             getAnalyseListener().done();
+        }
+    }
+
+    private void analyseStoriesSharedCount(List<ParseObject> parseObjects, int totalCount) {
+        double averageSharedCount = new BigDecimal(totalCount / parseObjects.size())
+                .setScale(2, BigDecimal.ROUND_HALF_UP)
+                .doubleValue();
+
+        StringBuffer describeBuffer = new StringBuffer();
+        describeBuffer.append("分享過");
+        describeBuffer.append("<font color="+HIGHLIGHT_RED_COLOR+">");
+        describeBuffer.append(storiesObjects.size());
+        describeBuffer.append("</font>");
+        describeBuffer.append("篇故事，");
+        describeBuffer.append("一般平均 " + averageSharedCount+ " 篇故事");
+
+        describeBuffer.append("<font color="+HIGHLIGHT_RED_COLOR+">");
+        if (storiesObjects.size() > averageSharedCount) {
+            describeBuffer.append("用心記錄");
+        } else {
+            describeBuffer.append("少些");
+        }
+        describeBuffer.append("</font>");
+        describeBuffer.append("。");
+        reportWordings.add(describeBuffer.toString());
+    }
+
+    private void analyseReviewsStars(List<ParseObject> parseObjects, int totalReviewStarsImpact, int finalTotalReviewStars) {
+        if (finalTotalReviewStars > 0) {
+            ParseQuery<ParseObject> storyQuery = ParseQuery.getQuery("Story");
+            storyQuery.whereGreaterThan("reviewImpact", 0);
+
+
+            StringBuffer describeBuffer = new StringBuffer();
+            describeBuffer.append("累積獲得");
+            describeBuffer.append("<font color="+HIGHLIGHT_RED_COLOR+">");
+            describeBuffer.append(finalTotalReviewStars);
+            describeBuffer.append("</font>");
+            describeBuffer.append("顆星星");
+            describeBuffer.append("。");
+
+            double averageReviewStarsCount = new BigDecimal(totalReviewStarsImpact / parseObjects.size())
+                    .setScale(2, BigDecimal.ROUND_HALF_UP)
+                    .doubleValue();
+
+            describeBuffer.append("一般平均" + averageReviewStarsCount+ "顆星");
+
+            describeBuffer.append("<font color="+HIGHLIGHT_RED_COLOR+">");
+            if (finalTotalReviewStars > averageReviewStarsCount) {
+                describeBuffer.append("多些");
+            } else {
+                describeBuffer.append("少些");
+            }
+            describeBuffer.append("</font>");
+
+            reportWordings.add(describeBuffer.toString());
         }
     }
 
@@ -262,14 +307,6 @@ public class ReportManager {
         for (Map.Entry<String, Integer> entry : map.entrySet()) {
             Log.d(DailyKind.TAG, "Key : " + entry.getKey() + " Value : "+ entry.getValue());
         }
-    }
-
-    public String getJoinSince() {
-        return joinSince;
-    }
-
-    public void setJoinSince(String joinSince) {
-        this.joinSince = joinSince;
     }
 
     public ParseUser getUser() {

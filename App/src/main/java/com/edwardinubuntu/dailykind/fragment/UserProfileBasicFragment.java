@@ -164,9 +164,6 @@ public class UserProfileBasicFragment extends UserProfileFragment {
                     sinceTextView.setText(getString(R.string.me_since_pre_text) + " " + dateFormat.format(parseUser.getCreatedAt()));
                 }
 
-                SimpleDateFormat reportDateFormat = new SimpleDateFormat("yyyy/MM");
-                reportManager.setJoinSince(reportDateFormat.format(parseUser.getCreatedAt()));
-
                 reportManager.setUser(parseUser);
 
                 if (parseUser.has("avatar")) {
