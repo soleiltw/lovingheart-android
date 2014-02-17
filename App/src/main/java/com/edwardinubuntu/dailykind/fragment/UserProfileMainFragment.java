@@ -72,7 +72,7 @@ public class UserProfileMainFragment extends UserProfileFragment {
             switch (position) {
                 case VIEW_PAGER_BASIC:
                     if (getUserId() == null) {
-                        fragment = new MeBasicFragment();
+                        fragment = new UserProfileMeFragment();
                     } else {
                         fragment = new UserProfileBasicFragment();
                     }

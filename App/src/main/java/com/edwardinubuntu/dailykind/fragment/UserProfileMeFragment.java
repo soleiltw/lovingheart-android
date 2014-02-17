@@ -21,17 +21,17 @@ import java.util.List;
 /**
  * Created by edward_chiang on 2013/11/23.
  */
-public class MeBasicFragment extends UserProfileBasicFragment {
+public class UserProfileMeFragment extends UserProfileBasicFragment {
 
-    public static MeBasicFragment newInstance(int sectionNumber) {
-        MeBasicFragment fragment = new MeBasicFragment();
+    public static UserProfileMeFragment newInstance(int sectionNumber) {
+        UserProfileMeFragment fragment = new UserProfileMeFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_SECTION_NUMBER, sectionNumber);
         fragment.setArguments(args);
         return fragment;
     }
 
-    public MeBasicFragment() {
+    public UserProfileMeFragment() {
         super(null);
         setupUserId();
     }
@@ -42,14 +42,6 @@ public class MeBasicFragment extends UserProfileBasicFragment {
 
         ActionBar actionBar = getActivity().getActionBar();
         actionBar.setTitle(getString(R.string.title_me));
-    }
-
-    protected void setupUserId() {
-        if (ParseUser.getCurrentUser() != null && ParseUser.getCurrentUser().getObjectId() != null) {
-            setUserId(ParseUser.getCurrentUser().getObjectId());
-        } else {
-            setUserId(null);
-        }
     }
 
     @Override

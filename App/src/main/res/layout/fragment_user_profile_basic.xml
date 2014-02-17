@@ -46,6 +46,21 @@
 
 			</LinearLayout>
 
+		<LinearLayout
+			android:orientation="vertical"
+			android:padding="10dp"
+			android:layout_margin="10dp"
+			android:background="@drawable/layout_background_shadow"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content">
+
+			<com.edwardinubuntu.dailykind.view.ExpandableListView
+				android:id="@+id/personal_report_list_view"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content" />
+
+		</LinearLayout>
+
 
 		</LinearLayout>
 	</ScrollView>

@@ -3,16 +3,19 @@ package com.edwardinubuntu.dailykind.fragment;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.*;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.edwardinubuntu.dailykind.DailyKind;
 import com.edwardinubuntu.dailykind.R;
 import com.edwardinubuntu.dailykind.object.UserImpact;
 import com.edwardinubuntu.dailykind.util.CircleTransform;
+import com.edwardinubuntu.dailykind.view.ExpandableListView;
 import com.parse.*;
 import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -38,6 +41,12 @@ public class UserProfileBasicFragment extends UserProfileFragment {
 
     private String userId;
 
+    protected ExpandableListView personalReportListView;
+
+    private List<String> reportWordings;
+
+    private ArrayAdapter<String> personalReportAdapter;
+
     public UserProfileBasicFragment() {
     }
 
@@ -52,6 +61,12 @@ public class UserProfileBasicFragment extends UserProfileFragment {
         setHasOptionsMenu(true);
 
         userImpactInfo = new UserImpact();
+
+        reportWordings = new ArrayList<String>();
+
+        personalReportAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, reportWordings);
+
+
     }
 
     @Override
@@ -67,6 +82,10 @@ public class UserProfileBasicFragment extends UserProfileFragment {
         graphicEarnedCountTextView = (TextView)rootView.findViewById(R.id.user_impact_graphic_earned_text_view);
 
         reviewStarsTextView = (TextView)rootView.findViewById(R.id.user_impact_review_stars_text_view);
+
+        personalReportListView = (ExpandableListView)rootView.findViewById(R.id.personal_report_list_view);
+        personalReportListView.setExpand(true);
+        personalReportListView.setAdapter(personalReportAdapter);
 
         return rootView;
     }
