@@ -53,6 +53,8 @@ public class UserProfileBasicFragment extends UserProfileFragment {
 
     private ReportManager reportManager = new ReportManager();
 
+    private View loadingProgressBar;
+
     public UserProfileBasicFragment() {
     }
 
@@ -93,6 +95,8 @@ public class UserProfileBasicFragment extends UserProfileFragment {
 
         emptyView = rootView.findViewById(R.id.user_profile_stories_empty_text_view);
 
+        loadingProgressBar = rootView.findViewById(R.id.loading_progress_bar);
+
         return rootView;
     }
 
@@ -128,8 +132,11 @@ public class UserProfileBasicFragment extends UserProfileFragment {
             if (refreshItem != null) {
                 if (isQueryLoading()) {
                     refreshItem.setActionView(R.layout.indeterminate_progress_action);
+                    loadingProgressBar.setVisibility(View.VISIBLE);
                 } else {
                     refreshItem.setActionView(null);
+
+                    loadingProgressBar.setVisibility(View.GONE);
                 }
             }
         }
@@ -244,6 +251,7 @@ public class UserProfileBasicFragment extends UserProfileFragment {
         userImpactQuery.whereEqualTo("User", parseUser);
         userImpactQuery.setCachePolicy(ParseQuery.CachePolicy.CACHE_ELSE_NETWORK);
         userImpactQuery.setMaxCacheAge(DailyKind.QUERY_AT_LEAST_CACHE_AGE);
+
         userImpactQuery.getFirstInBackground(new GetCallback<ParseObject>() {
             @Override
             public void done(ParseObject parseObject, ParseException e) {

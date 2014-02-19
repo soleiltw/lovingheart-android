@@ -5,6 +5,7 @@ import com.edwardinubuntu.dailykind.DailyKind;
 import com.parse.*;
 
 import java.math.BigDecimal;
+import java.text.NumberFormat;
 import java.util.*;
 
 /**
@@ -34,6 +35,8 @@ public class ReportManager {
 
     public void analyse() {
 
+        reportWordings.clear();
+
         StringBuffer tagsBuffer = new StringBuffer();
 
         ParseObject latestIdeaStory = null;
@@ -42,7 +45,10 @@ public class ReportManager {
         Map<Object, Integer> ideasMap = new LinkedHashMap<Object, Integer>();
         Map<Object, Integer> areaNameMap = new LinkedHashMap<Object, Integer>();
 
-        int totalReviewStars = 0;
+        int numberOfReviewStars = 0;
+
+        int numberOfStoriesLastMonth = 0;
+        int numberOfStoriesInCurrentMonth = 0;
 
         for (ParseObject eachStory : storiesObjects) {
             // Get Tags
@@ -63,6 +69,7 @@ public class ReportManager {
                     ideasMap.put(ideaObject, ideaObject.getInt("doneCount"));
                 }
             }
+            // Collect area
             if (eachStory.has("areaName")) {
                 String areaName = eachStory.getString("areaName");
                 if (!areaNameMap.containsKey(areaName)) {
@@ -72,8 +79,24 @@ public class ReportManager {
                 }
             }
 
+            // Collect review impact
             if (eachStory.has("reviewImpact")) {
-                totalReviewStars += eachStory.getInt("reviewImpact");
+                numberOfReviewStars += eachStory.getInt("reviewImpact");
+            }
+
+            // How many is in this month
+            Date storyCreatedAt = eachStory.getCreatedAt();
+            Calendar storyCreatedAtCalendar = GregorianCalendar.getInstance();
+            storyCreatedAtCalendar.setTime(storyCreatedAt);
+
+            Calendar currentCalendar = GregorianCalendar.getInstance();
+            currentCalendar.setTime(new Date());
+
+            if (storyCreatedAtCalendar.get(Calendar.MONTH) == currentCalendar.get(Calendar.MONTH)) {
+                numberOfStoriesInCurrentMonth++;
+            }
+            if (storyCreatedAtCalendar.get(Calendar.MONTH) == currentCalendar.get(Calendar.MONTH) - 1) {
+                numberOfStoriesLastMonth++;
             }
         }
         // Get Analyse 1
@@ -100,18 +123,16 @@ public class ReportManager {
             describeBuffer.append(firstParseObject.getString("Name"));
             describeBuffer.append("</font>");
             describeBuffer.append(user.getString("name"));
-            describeBuffer.append("辦到了。");
+            describeBuffer.append("辦到了！");
             reportWordings.add(describeBuffer.toString());
         }
 
-        // Get Analyse 5
-        // Analyse 6
         if (storiesObjects.size() > 0) {
             ParseQuery<ParseObject> userImpactQuery = ParseQuery.getQuery("UserImpact");
             userImpactQuery.setCachePolicy(ParseQuery.CachePolicy.CACHE_ELSE_NETWORK);
             userImpactQuery.setMaxCacheAge(DailyKind.QUERY_MAX_CACHE_AGE);
 
-            final int finalTotalReviewStars = totalReviewStars;
+            final int finalTotalReviewStars = numberOfReviewStars;
 
             userImpactQuery.findInBackground(new FindCallback<ParseObject>() {
                 @Override
@@ -130,6 +151,8 @@ public class ReportManager {
                             }
                         }
 
+                        // Analyse 5
+                        // Analyse 6
                         analyseStoriesSharedCount(parseObjects, totalCount);
                         analyseReviewsStars(parseObjects, totalReviewStarsImpact, finalTotalReviewStars);
 
@@ -164,15 +187,32 @@ public class ReportManager {
             reportWordings.add(describeBuffer.toString());
         }
 
+        if (numberOfStoriesInCurrentMonth > 0) {
+            StringBuffer describeBuffer = new StringBuffer();
+            describeBuffer.append("本月份分享了" + numberOfStoriesInCurrentMonth + "篇故事。");
+            describeBuffer.append("上個月份分享了" + numberOfStoriesLastMonth + "篇故事。");
+
+            float changedPercentage = (float) numberOfStoriesInCurrentMonth / numberOfStoriesLastMonth;
+            NumberFormat numberFormat = NumberFormat.getNumberInstance();
+            numberFormat.setMaximumFractionDigits(2);
+
+            describeBuffer.append("成長 ");
+            describeBuffer.append("<font color="+HIGHLIGHT_RED_COLOR+">");
+            describeBuffer.append(numberFormat.format(changedPercentage));
+            describeBuffer.append("</font>");
+            reportWordings.add(describeBuffer.toString());
+        }
+
         if (getAnalyseListener() != null) {
             getAnalyseListener().done();
         }
     }
 
     private void analyseStoriesSharedCount(List<ParseObject> parseObjects, int totalCount) {
-        double averageSharedCount = new BigDecimal(totalCount / parseObjects.size())
-                .setScale(2, BigDecimal.ROUND_HALF_UP)
-                .doubleValue();
+
+        float averageSharedCount = (float) totalCount / parseObjects.size();
+        NumberFormat numberFormat = NumberFormat.getNumberInstance();
+        numberFormat.setMaximumFractionDigits(2);
 
         StringBuffer describeBuffer = new StringBuffer();
         describeBuffer.append("分享過");
@@ -180,7 +220,7 @@ public class ReportManager {
         describeBuffer.append(storiesObjects.size());
         describeBuffer.append("</font>");
         describeBuffer.append("篇故事，");
-        describeBuffer.append("一般平均 " + averageSharedCount+ " 篇故事");
+        describeBuffer.append("比一般平均 " + numberFormat.format(averageSharedCount)+ " 篇故事");
 
         describeBuffer.append("<font color="+HIGHLIGHT_RED_COLOR+">");
         if (storiesObjects.size() > averageSharedCount) {
@@ -211,7 +251,7 @@ public class ReportManager {
                     .setScale(2, BigDecimal.ROUND_HALF_UP)
                     .doubleValue();
 
-            describeBuffer.append("一般平均" + averageReviewStarsCount+ "顆星");
+            describeBuffer.append("比一般平均" + averageReviewStarsCount+ "顆星");
 
             describeBuffer.append("<font color="+HIGHLIGHT_RED_COLOR+">");
             if (finalTotalReviewStars > averageReviewStarsCount) {
@@ -220,6 +260,7 @@ public class ReportManager {
                 describeBuffer.append("少些");
             }
             describeBuffer.append("</font>");
+            describeBuffer.append("。");
 
             reportWordings.add(describeBuffer.toString());
         }

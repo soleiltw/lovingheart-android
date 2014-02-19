@@ -54,6 +54,15 @@
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content">
 
+			<ProgressBar
+				android:id="@+id/loading_progress_bar"
+				android:visibility="gone"
+				android:layout_margin="10dp"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				style="?android:attr/progressBarStyleSmallInverse"
+				android:layout_gravity="center"/>
+
 			<com.edwardinubuntu.dailykind.view.ExpandableListView
 				android:id="@+id/personal_report_list_view"
 				android:layout_width="fill_parent"

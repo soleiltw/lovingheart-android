@@ -6,18 +6,18 @@
               android:layout_height="match_parent">
 
 	<LinearLayout
-		android:orientation="vertical"
+		android:orientation="horizontal"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content">
 		<LinearLayout
-			android:orientation="horizontal"
+			android:orientation="vertical"
 			android:layout_weight="1"
-			android:gravity="center_vertical"
+			android:gravity="center"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content">
 
 			<ImageView
-				android:src="@drawable/ic_action_edit_red"
+				android:src="@drawable/ic_action_edit_yellow"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"/>
 
@@ -30,16 +30,11 @@
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"/>
 
-			<TextView
-				android:text="post"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"/>
-
 		</LinearLayout>
 		<LinearLayout
-			android:orientation="horizontal"
+			android:orientation="vertical"
 			android:layout_weight="1"
-			android:gravity="center_vertical"
+			android:gravity="center"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content">
 
@@ -57,17 +52,12 @@
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"/>
 
-			<TextView
-				android:text="graphic earned"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"/>
-
 		</LinearLayout>
 
 		<LinearLayout
-			android:orientation="horizontal"
+			android:orientation="vertical"
 			android:layout_weight="1"
-			android:gravity="center_vertical"
+			android:gravity="center"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content">
 
@@ -82,11 +72,6 @@
 				android:textAlignment="center"
 				android:textAppearance="?android:textAppearanceMedium"
 				android:id="@+id/user_impact_review_stars_text_view"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"/>
-
-			<TextView
-				android:text="encouragement"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"/>
 

@@ -28,7 +28,7 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name=".activity.MainActivity"
-            android:logo="@drawable/lovingheart_clear_with_white"
+            android:logo="@drawable/inner_icon"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:label="@string/app_name" >
             <intent-filter>
@@ -39,56 +39,56 @@
         </activity>
 	    <activity android:name=".activity.PostStoryActivity"
 	              android:screenOrientation="portrait"
-	              android:logo="@drawable/lovingheart_clear_with_white"
+	              android:logo="@drawable/inner_icon"
 		    />
 	    <activity android:name=".activity.DeedCategoriesActivity"
-	              android:logo="@drawable/lovingheart_clear_with_white"
+	              android:logo="@drawable/inner_icon"
 	              android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
 	              android:label="@string/activity_deed_category"
 		    />
 	    <activity android:name=".activity.DeedCategoryIdeaListActivity"
-	              android:logo="@drawable/lovingheart_clear_with_white"
+	              android:logo="@drawable/inner_icon"
 	              android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
 	              android:label="@string/activity_deed_category" />
 	    
 	    <activity android:name=".activity.DeedContentActivity"
-	              android:logo="@drawable/lovingheart_clear_with_white"
+	              android:logo="@drawable/inner_icon"
                   android:label="@string/activity_deed_content" />
 	    
 	    <activity android:name=".activity.EditStoryActivity"
-	              android:logo="@drawable/lovingheart_clear_with_white"
+	              android:logo="@drawable/inner_icon"
 	              android:label="@string/activity_story_edit"
 		    />
 
 	    <activity android:name=".activity.AskForHelpActivity"
-	              android:logo="@drawable/lovingheart_clear_with_white"
+	              android:logo="@drawable/inner_icon"
 		    android:label="Ask for help"
 		    />
 	    
 	    <activity android:name=".activity.LoginActivity" android:label="Login"
-	              android:logo="@drawable/lovingheart_clear_with_white"
+	              android:logo="@drawable/inner_icon"
 		    />
 
 		<activity android:name=".activity.NearbyActivity"
-		          android:logo="@drawable/lovingheart_clear_with_white"
+		          android:logo="@drawable/inner_icon"
 		          android:label="Nearby" />
 
 	    <activity android:name="com.facebook.LoginActivity"
-	              android:logo="@drawable/lovingheart_clear_with_white"
+	              android:logo="@drawable/inner_icon"
 	              android:label="@string/facebook_login_activity" />
 
 	    <activity android:name=".activity.StoryContentActivity"
-	              android:logo="@drawable/lovingheart_clear_with_white"
+	              android:logo="@drawable/inner_icon"
 	              android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
 	              android:label="@string/activity_story" />
 
 	    <activity android:name=".activity.SettingActivity"
-	              android:logo="@drawable/lovingheart_clear_with_white"
+	              android:logo="@drawable/inner_icon"
 	              android:screenOrientation="portrait"
 	              android:label="@string/activity_settings" />
 	    
 	    <activity android:name=".activity.UserProfileActivity"
-	              android:logo="@drawable/lovingheart_clear_with_white"
+	              android:logo="@drawable/inner_icon"
 	              android:label="@string/activity_user_profile_label"
 	              android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
 	              />
