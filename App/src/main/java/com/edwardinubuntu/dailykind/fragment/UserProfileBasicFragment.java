@@ -55,6 +55,8 @@ public class UserProfileBasicFragment extends UserProfileFragment {
 
     private View loadingProgressBar;
 
+    private ImageView avatarImageView;
+
     public UserProfileBasicFragment() {
     }
 
@@ -96,6 +98,8 @@ public class UserProfileBasicFragment extends UserProfileFragment {
         emptyView = rootView.findViewById(R.id.user_profile_stories_empty_text_view);
 
         loadingProgressBar = rootView.findViewById(R.id.loading_progress_bar);
+
+        avatarImageView = (ImageView)rootView.findViewById(R.id.user_avatar_image_view);
 
         return rootView;
     }
@@ -173,10 +177,9 @@ public class UserProfileBasicFragment extends UserProfileFragment {
 
                 reportManager.setUser(parseUser);
 
-                if (parseUser.has("avatar")) {
+                if (parseUser.has("avatar") && getActivity() != null) {
                     ParseObject avatarObject = parseUser.getParseObject("avatar");
 
-                    ImageView avatarImageView = (ImageView) getActivity().findViewById(R.id.user_avatar_image_view);
                     if (avatarObject != null && avatarObject.getString("imageType").equals("url")) {
                         Picasso.with(getActivity())
                                 .load(avatarObject.getString("imageUrl"))
@@ -215,7 +218,7 @@ public class UserProfileBasicFragment extends UserProfileFragment {
                             saveUserImpact(userImpactInfo);
 
                         } else {
-                            getActivity().findViewById(R.id.user_profile_stories_empty_text_view).setVisibility(View.VISIBLE);
+                            emptyView.setVisibility(View.VISIBLE);
                         }
                     }
                 });

@@ -186,8 +186,7 @@ public class UserLoginFragment extends PlaceholderFragment {
                             public void done(ParseException e) {
                                 if (e != null) {
                                     Log.d(DailyKind.TAG, "Sign up done: " + e.getLocalizedMessage());
-
-                                    getActivity().findViewById(R.id.user_login_layout).setVisibility(View.VISIBLE);
+                                    userLoginLayout.setVisibility(View.VISIBLE);
                                 } else {
                                     switchLoadingProgress(false);
                                     putNeedUpdate();

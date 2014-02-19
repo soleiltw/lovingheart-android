@@ -6,6 +6,12 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent">
 
+	<LinearLayout
+		android:orientation="vertical"
+		android:id="@+id/user_profile_info_layout"
+		android:layout_width="fill_parent"
+		android:layout_height="fill_parent">
+
 	<com.viewpagerindicator.TabPageIndicator
 		android:id="@+id/user_content_indicator"
 		android:layout_width="fill_parent"
@@ -18,5 +24,15 @@
 			android:id="@+id/pager"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content" />
+
+	</LinearLayout>
+
+	<LinearLayout
+		android:id="@+id/user_ask_login_layout"
+		android:visibility="gone"
+		android:layout_width="fill_parent"
+		android:layout_height="fill_parent">
+		<include layout="@layout/layout_ask_login" />
+	</LinearLayout>
 
 </LinearLayout>

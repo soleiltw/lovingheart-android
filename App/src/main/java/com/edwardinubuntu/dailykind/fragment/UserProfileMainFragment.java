@@ -1,5 +1,6 @@
 package com.edwardinubuntu.dailykind.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -8,7 +9,10 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.edwardinubuntu.dailykind.R;
+import com.edwardinubuntu.dailykind.activity.LoginActivity;
+import com.edwardinubuntu.dailykind.util.CheckUserLoginUtil;
 import com.viewpagerindicator.TabPageIndicator;
 
 /**
@@ -26,6 +30,11 @@ public class UserProfileMainFragment extends UserProfileFragment {
     public static final int VIEW_PAGER_STORIES = 1;
     public static final int VIEW_PAGER_COLLECTIONS = 2;
     public static final int VIEW_PAGER_COUNT = 3;
+
+    private View userProfileLayout;
+    private View askLoginLayout;
+
+    private BootstrapButton askLoginButton;
 
     public static UserProfileMainFragment newInstance(int sectionNumber) {
         UserProfileMainFragment fragment = new UserProfileMainFragment();
@@ -56,7 +65,43 @@ public class UserProfileMainFragment extends UserProfileFragment {
         tabPageIndicator = (TabPageIndicator)rootView.findViewById(R.id.user_content_indicator);
         tabPageIndicator.setViewPager(viewPager);
 
+        userProfileLayout = rootView.findViewById(R.id.user_profile_info_layout);
+        askLoginLayout = rootView.findViewById(R.id.user_ask_login_layout);
+
+        askLoginButton = (BootstrapButton)rootView.findViewById(R.id.me_ask_login_button);
+        askLoginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent loginIntent = new Intent(getActivity(), LoginActivity.class);
+                startActivityForResult(loginIntent, CheckUserLoginUtil.ASK_USER_LOGIN);
+            }
+        });
+
         return rootView;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == CheckUserLoginUtil.ASK_USER_LOGIN) {
+            checkLoginForLayout();
+        }
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        checkLoginForLayout();
+    }
+
+    protected void checkLoginForLayout() {
+        if (!CheckUserLoginUtil.hasLogin()) {
+            userProfileLayout.setVisibility(View.GONE);
+            askLoginLayout.setVisibility(View.VISIBLE);
+        } else {
+            userProfileLayout.setVisibility(View.VISIBLE);
+            askLoginLayout.setVisibility(View.GONE);
+        }
     }
 
     public class UserProfilePagerAdapter extends FragmentStatePagerAdapter {

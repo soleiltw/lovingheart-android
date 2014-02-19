@@ -4,6 +4,7 @@ import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import com.edwardinubuntu.dailykind.DailyKind;
 import com.edwardinubuntu.dailykind.R;
 import com.edwardinubuntu.dailykind.object.UserImpact;
@@ -32,12 +33,21 @@ public class UserProfileMeFragment extends UserProfileBasicFragment {
     }
 
     @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+    }
+
+    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == CheckUserLoginUtil.ASK_USER_LOGIN) {
             setupUserId();
             queryProfile(new ProfileCallBack());
         }
+    }
+
+    protected void setupUserId() {
+        setUserId(CheckUserLoginUtil.userId());
     }
 
     protected void updateUserImpact(final UserImpact userImpactInfo) {

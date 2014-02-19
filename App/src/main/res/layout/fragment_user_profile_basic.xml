@@ -73,12 +73,4 @@
 
 		</LinearLayout>
 	</ScrollView>
-
-	<LinearLayout
-		android:id="@+id/user_ask_login_linear_layout"
-		android:visibility="gone"
-		android:layout_width="fill_parent"
-		android:layout_height="fill_parent">
-		<include layout="@layout/layout_ask_login" />
-	</LinearLayout>
 </LinearLayout>
