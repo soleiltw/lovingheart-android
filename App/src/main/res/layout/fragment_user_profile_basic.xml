@@ -10,8 +10,6 @@
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content">
 
-
-
 		<LinearLayout
 			android:orientation="vertical"
 			android:id="@+id/me_profile_layout"
@@ -46,29 +44,82 @@
 
 			</LinearLayout>
 
-		<LinearLayout
-			android:orientation="vertical"
-			android:padding="10dp"
-			android:layout_margin="10dp"
-			android:background="@drawable/layout_background_shadow"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content">
 
-			<ProgressBar
-				android:id="@+id/loading_progress_bar"
-				android:visibility="gone"
+			<LinearLayout
+				android:orientation="vertical"
 				android:layout_margin="10dp"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				style="?android:attr/progressBarStyleSmallInverse"
-				android:layout_gravity="center"/>
+				android:background="@drawable/layout_background_shadow"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content">
 
-			<com.edwardinubuntu.dailykind.view.ExpandableListView
-				android:id="@+id/personal_report_list_view"
-				android:layout_width="fill_parent"
-				android:layout_height="wrap_content" />
+				<LinearLayout
+					android:orientation="vertical"
+					android:padding="5dp"
+					android:layout_width="fill_parent"
+					android:layout_height="wrap_content">
 
-		</LinearLayout>
+					<LinearLayout
+						android:orientation="vertical"
+						android:padding="5dp"
+						android:background="@color/theme_color_4"
+						android:layout_width="fill_parent"
+						android:layout_height="wrap_content">
+
+						<TextView
+							android:text="@string/user_profile_positive_energy_report_title"
+							android:textAppearance="?android:textAppearanceMedium"
+							android:textColor="@color/lovingheart_white"
+							android:layout_width="fill_parent"
+							android:layout_height="wrap_content"/>
+
+						<TextView
+							android:text="@string/user_profile_positive_energy_report_description"
+
+							android:textAppearance="?android:textAppearanceSmall"
+							android:textColor="@color/theme_color_3"
+							android:layout_width="fill_parent"
+							android:layout_height="wrap_content"/>
+
+					</LinearLayout>
+
+					<ProgressBar
+						android:id="@+id/loading_progress_bar"
+						android:visibility="gone"
+						android:layout_margin="10dp"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						style="?android:attr/progressBarStyleSmallInverse"
+						android:layout_gravity="center"/>
+
+					<com.edwardinubuntu.dailykind.view.ExpandableListView
+						android:id="@+id/personal_report_list_view"
+						android:background="@color/lovingheart_white"
+						android:layout_width="fill_parent"
+						android:layout_height="wrap_content" />
+
+					<LinearLayout
+						android:orientation="vertical"
+						android:padding="5dp"
+						android:background="@color/theme_color_3"
+						android:layout_width="fill_parent"
+						android:layout_height="wrap_content">
+
+						<TextView
+							android:text="@string/user_profile_positive_energy_report_bottom"
+
+							android:textAppearance="?android:textAppearanceSmall"
+							android:textColor="@color/lovingheart_white"
+							android:layout_width="fill_parent"
+							android:layout_height="wrap_content"/>
+
+					</LinearLayout>
+
+				</LinearLayout>
+
+
+
+
+			</LinearLayout>
 
 
 		</LinearLayout>

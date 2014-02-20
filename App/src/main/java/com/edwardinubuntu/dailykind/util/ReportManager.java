@@ -100,7 +100,7 @@ public class ReportManager {
             }
         }
         // Get Analyse 1
-        extractIdeaTags(tagsBuffer);
+        extractIdeaTags(tagsBuffer, 5);
 
         // Get Analyse 3
         if (latestIdeaStory!=null) {
@@ -278,7 +278,7 @@ public class ReportManager {
         this.storiesObjects = storiesObjects;
     }
 
-    private void extractIdeaTags(StringBuffer tagsBuffer) {
+    private void extractIdeaTags(StringBuffer tagsBuffer, int limit) {
         String[] tagsStrings = tagsBuffer.toString().split(TAGS_SEPARATOR);
         Map<Object, Integer> tagsMap = new HashMap<Object, Integer>();
         ArrayList<String> tagsArray = new ArrayList<String>();
@@ -295,6 +295,7 @@ public class ReportManager {
         tagsMap = sortByComparator(tagsMap, false);
 
         StringBuffer wordingBuffer = new StringBuffer();
+        wordingBuffer.append(user.getString("name"));
         wordingBuffer.append("是一位");
         int index = 0;
         for (Map.Entry<Object, Integer> entry : tagsMap.entrySet()) {
@@ -307,6 +308,9 @@ public class ReportManager {
                 wordingBuffer.append(TAGS_SEPARATOR + " ");
             }
             index++;
+            if (index >= limit) {
+                break;
+            }
         }
         wordingBuffer.append("的人。");
 
