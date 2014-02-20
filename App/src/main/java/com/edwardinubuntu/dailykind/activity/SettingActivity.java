@@ -171,12 +171,12 @@ public class SettingActivity extends PreferenceActivity {
 
             SwitchPreference playingMusicPreference = (SwitchPreference)findPreference("setting_playing_music");
             playingMusicPreference.setDefaultValue(true);
-            playingMusicPreference.setChecked(preferences.getBoolean(DailyKind.PREFERENCE_PLAYING_SOUNT, true));
+            playingMusicPreference.setChecked(preferences.getBoolean(DailyKind.PREFERENCE_PLAYING_SOUND, true));
             playingMusicPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object newValue) {
                     SharedPreferences.Editor editor = preference.getEditor();
-                    editor.putBoolean(DailyKind.PREFERENCE_PLAYING_SOUNT,
+                    editor.putBoolean(DailyKind.PREFERENCE_PLAYING_SOUND,
                             Boolean.parseBoolean(newValue.toString()));
                     editor.commit();
                     return true;
