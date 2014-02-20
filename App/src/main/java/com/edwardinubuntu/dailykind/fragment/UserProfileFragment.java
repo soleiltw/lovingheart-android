@@ -60,6 +60,7 @@ public abstract class UserProfileFragment extends PlaceholderFragment {
         ParseQuery<ParseObject> storyQuery = new ParseQuery<ParseObject>("Story");
         storyQuery.whereEqualTo("StoryTeller", parseUser);
         storyQuery.orderByDescending("createdAt");
+        storyQuery.include("ideaPointer");
         storyQuery.setCachePolicy(ParseQuery.CachePolicy.CACHE_ELSE_NETWORK);
         storyQuery.setMaxCacheAge(DailyKind.QUERY_AT_LEAST_CACHE_AGE);
         storyQuery.findInBackground(findCallback);

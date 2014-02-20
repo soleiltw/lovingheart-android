@@ -128,4 +128,8 @@
 	<string name="post_story_photo_uploading">圖片上傳中</string>
 	<string name="setting_playing_music_summary">在資料回傳後播放音效</string>
 	<string name="setting_playing_music_title">播放音效</string>
+	<string name="user_profile_positive_energy_report_title">正向能量分析</string>
+	<string name="user_profile_positive_energy_report_description">透過故事的分享，讓人閱讀感動，給予回饋等等方面來做分析。</string>
+	<string name="user_profile_positive_energy_report_bottom">讓我們分享友善行動來讓世界變得更美好。</string>
+
 </resources>

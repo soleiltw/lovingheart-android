@@ -20,6 +20,10 @@ public class CheckUserLoginUtil {
         return ParseUser.getCurrentUser() != null && ParseUser.getCurrentUser().getUsername() != null;
     }
 
+    public static String userId() {
+        return ParseUser.getCurrentUser().getObjectId();
+    }
+
     public static void askLoginDialog(final Context context, final Activity activity) {
         AlertDialog alertDialog = null;
 

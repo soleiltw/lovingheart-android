@@ -134,6 +134,8 @@
 	<string name="navigation_drawer_close">Close</string>
 	<string name="setting_playing_music_summary">Play sound after data loaded</string>
 	<string name="setting_playing_music_title">Playing Sound</string>
-
+	<string name="user_profile_positive_energy_report_title">Positive Energy Analytics</string>
+	<string name="user_profile_positive_energy_report_description">Through the stories shared, by letting others read and touch, so as to gave you feedback.</string>
+	<string name="user_profile_positive_energy_report_bottom">Let\'s spread kindness and make the world a better place.</string>
 
 </resources>

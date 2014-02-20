@@ -3,13 +3,14 @@ package com.edwardinubuntu.dailykind.fragment;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.*;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.edwardinubuntu.dailykind.DailyKind;
 import com.edwardinubuntu.dailykind.R;
+import com.edwardinubuntu.dailykind.adapter.PersonalReportAdapter;
 import com.edwardinubuntu.dailykind.object.UserImpact;
 import com.edwardinubuntu.dailykind.util.CircleTransform;
+import com.edwardinubuntu.dailykind.util.ReportManager;
 import com.edwardinubuntu.dailykind.view.ExpandableListView;
 import com.parse.*;
 import com.squareup.picasso.Picasso;
@@ -22,6 +23,7 @@ import java.util.List;
  * Created by edward_chiang on 2014/2/1.
  */
 public class UserProfileBasicFragment extends UserProfileFragment {
+
 
     protected TextView storiesSharedCountTextView;
 
@@ -45,7 +47,15 @@ public class UserProfileBasicFragment extends UserProfileFragment {
 
     private List<String> reportWordings;
 
-    private ArrayAdapter<String> personalReportAdapter;
+    private PersonalReportAdapter personalReportAdapter;
+
+    private View emptyView;
+
+    private ReportManager reportManager = new ReportManager();
+
+    private View loadingProgressBar;
+
+    private ImageView avatarImageView;
 
     public UserProfileBasicFragment() {
     }
@@ -64,9 +74,7 @@ public class UserProfileBasicFragment extends UserProfileFragment {
 
         reportWordings = new ArrayList<String>();
 
-        personalReportAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, reportWordings);
-
-
+        personalReportAdapter = new PersonalReportAdapter(getActivity(), android.R.layout.simple_list_item_1, reportWordings);
     }
 
     @Override
@@ -87,6 +95,12 @@ public class UserProfileBasicFragment extends UserProfileFragment {
         personalReportListView.setExpand(true);
         personalReportListView.setAdapter(personalReportAdapter);
 
+        emptyView = rootView.findViewById(R.id.user_profile_stories_empty_text_view);
+
+        loadingProgressBar = rootView.findViewById(R.id.loading_progress_bar);
+
+        avatarImageView = (ImageView)rootView.findViewById(R.id.user_avatar_image_view);
+
         return rootView;
     }
 
@@ -105,7 +119,7 @@ public class UserProfileBasicFragment extends UserProfileFragment {
         switch (item.getItemId()) {
             case R.id.action_reload: {
                 setupUserId();
-                queryProfile();
+                queryProfile(new ProfileCallBack());
                 break;
             }
         }
@@ -114,7 +128,6 @@ public class UserProfileBasicFragment extends UserProfileFragment {
     }
 
     protected void setupUserId() {
-
     }
 
     public void updateRefreshItem() {
@@ -123,8 +136,11 @@ public class UserProfileBasicFragment extends UserProfileFragment {
             if (refreshItem != null) {
                 if (isQueryLoading()) {
                     refreshItem.setActionView(R.layout.indeterminate_progress_action);
+                    loadingProgressBar.setVisibility(View.VISIBLE);
                 } else {
                     refreshItem.setActionView(null);
+
+                    loadingProgressBar.setVisibility(View.GONE);
                 }
             }
         }
@@ -133,95 +149,101 @@ public class UserProfileBasicFragment extends UserProfileFragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        queryProfile();
-    }
 
-    protected void queryProfile() {
-
-        if (getUserId() == null || getUserId().length() == 0) return;
-
-        ParseQuery<ParseUser> userQuery = ParseUser.getQuery();
-        userQuery.include("avatar");
-        userQuery.whereEqualTo("objectId", getUserId());
-        userQuery.setCachePolicy(ParseQuery.CachePolicy.CACHE_ELSE_NETWORK);
-        userQuery.setMaxCacheAge(DailyKind.QUERY_AT_LEAST_CACHE_AGE);
-        userQuery.getFirstInBackground(new GetCallback<ParseUser>() {
+        reportManager.setAnalyseListener(new ReportManager.AnalyseListener() {
             @Override
-            public void done(ParseUser parseUser, ParseException e) {
-                if (parseUser != null && parseUser.getObjectId() != null) {
-
-                    userNameTextView.setText(parseUser.getString("name"));
-
-                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
-                    if (sinceTextView != null && parseUser.getCreatedAt() != null) {
-                        sinceTextView.setText(getString(R.string.me_since_pre_text) + " " + dateFormat.format(parseUser.getCreatedAt()));
-                    }
-
-                    if (parseUser.has("avatar")) {
-                        ParseObject avatarObject = parseUser.getParseObject("avatar");
-
-                        ImageView avatarImageView = (ImageView) getActivity().findViewById(R.id.user_avatar_image_view);
-                        if (avatarObject != null && avatarObject.getString("imageType").equals("url")) {
-                            Picasso.with(getActivity())
-                                    .load(avatarObject.getString("imageUrl"))
-                                    .transform(new CircleTransform())
-                                    .into(avatarImageView);
-                        }
-                    }
-
-                    // Load user impact
-                    loadUserImpact(parseUser);
-                    queryStories(parseUser, new FindCallback<ParseObject>() {
-                        @Override
-                        public void done(List<ParseObject> parseObjects, ParseException e) {
-                            if (parseObjects != null && parseObjects.size() > 0) {
-
-                                if (getActivity()!=null && getActivity().findViewById(R.id.user_profile_stories_empty_text_view) != null) {
-                                    getActivity().findViewById(R.id.user_profile_stories_empty_text_view).setVisibility(View.GONE);
-                                }
-
-                                userImpactInfo.setStoriesSharedCount(parseObjects.size());
-                                storiesSharedCountTextView.setText(String.valueOf(parseObjects.size()));
-
-                                int reviewImpactCount = 0;
-                                for (ParseObject eachStory : parseObjects) {
-                                    if (eachStory.has("reviewImpact")) {
-                                        reviewImpactCount += eachStory.getInt("reviewImpact");
-                                    }
-                                }
-                                reviewStarsTextView.setText(String.valueOf(reviewImpactCount));
-                                userImpactInfo.setStarsReviewCount(reviewImpactCount);
-
-                            } else {
-                                getActivity().findViewById(R.id.user_profile_stories_empty_text_view).setVisibility(View.VISIBLE);
-                            }
-                        }
-                    });
-                    queryGraphicEarned(parseUser, new FindCallback<ParseObject>() {
-                        @Override
-                        public void done(List<ParseObject> parseObjects, ParseException e) {
-                            if (parseObjects!=null && !parseObjects.isEmpty()) {
-
-                                graphicEarnedCountTextView.setText(String.valueOf(parseObjects.size()));
-                                userImpactInfo.setGraphicEarnedCount(parseObjects.size());
-
-                                updateUserImpact(userImpactInfo);
-                            } else {
-                                graphicEarnedCountTextView.setText(String.valueOf(0));
-                            }
-                        }
-                    });
-
-                } else {
-                    Log.i(DailyKind.TAG, "Couldn't find the user profile : " + getUserId());
-                }
-                if (e != null) {
-                    Log.e(DailyKind.TAG, e.getLocalizedMessage());
-                }
+            public void done() {
+                reportWordings.clear();
+                reportWordings.addAll(reportManager.getReportWordings());
+                personalReportAdapter.notifyDataSetChanged();
             }
         });
 
+        queryProfile(new ProfileCallBack());
+    }
 
+    protected class ProfileCallBack extends GetCallback<ParseUser> {
+
+        @Override
+        public void done(ParseUser parseUser, ParseException e) {
+            if (parseUser != null && parseUser.getObjectId() != null) {
+
+                userNameTextView.setText(parseUser.getString("name"));
+
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+                if (sinceTextView != null && parseUser.getCreatedAt() != null) {
+                    sinceTextView.setText(getString(R.string.me_since_pre_text) + " " + dateFormat.format(parseUser.getCreatedAt()));
+                }
+
+                reportManager.setUser(parseUser);
+
+                if (parseUser.has("avatar") && getActivity() != null) {
+                    ParseObject avatarObject = parseUser.getParseObject("avatar");
+
+                    if (avatarObject != null && avatarObject.getString("imageType").equals("url")) {
+                        Picasso.with(getActivity())
+                                .load(avatarObject.getString("imageUrl"))
+                                .transform(new CircleTransform())
+                                .into(avatarImageView);
+                    }
+                }
+
+                // Load user impact
+                loadUserImpact(parseUser);
+                queryStories(parseUser, new FindCallback<ParseObject>() {
+                    @Override
+                    public void done(List<ParseObject> parseObjects, ParseException e) {
+                        if (parseObjects != null && parseObjects.size() > 0) {
+
+                            reportManager.setStoriesObjects(parseObjects);
+                            reportManager.analyse();
+
+                            if (emptyView != null) {
+                                emptyView.setVisibility(View.GONE);
+                            }
+
+                            userImpactInfo.setStoriesSharedCount(parseObjects.size());
+                            storiesSharedCountTextView.setText(String.valueOf(parseObjects.size()));
+
+                            int reviewImpactCount = 0;
+                            for (ParseObject eachStory : parseObjects) {
+                                if (eachStory.has("reviewImpact")) {
+                                    reviewImpactCount += eachStory.getInt("reviewImpact");
+                                }
+                            }
+
+                            reviewStarsTextView.setText(String.valueOf(reviewImpactCount));
+                            userImpactInfo.setStarsReviewCount(reviewImpactCount);
+
+                            saveUserImpact(userImpactInfo);
+
+                        } else {
+                            emptyView.setVisibility(View.VISIBLE);
+                        }
+                    }
+                });
+                queryGraphicEarned(parseUser, new FindCallback<ParseObject>() {
+                    @Override
+                    public void done(List<ParseObject> parseObjects, ParseException e) {
+                        if (parseObjects!=null && !parseObjects.isEmpty()) {
+
+                            graphicEarnedCountTextView.setText(String.valueOf(parseObjects.size()));
+                            userImpactInfo.setGraphicEarnedCount(parseObjects.size());
+
+                            updateUserImpact(userImpactInfo);
+                        } else {
+                            graphicEarnedCountTextView.setText(String.valueOf(0));
+                        }
+                    }
+                });
+
+            } else {
+                Log.i(DailyKind.TAG, "Couldn't find the user profile : " + getUserId());
+            }
+            if (e != null) {
+                Log.e(DailyKind.TAG, e.getLocalizedMessage());
+            }
+        }
     }
 
     protected void loadUserImpact(final ParseUser parseUser) {
@@ -232,6 +254,7 @@ public class UserProfileBasicFragment extends UserProfileFragment {
         userImpactQuery.whereEqualTo("User", parseUser);
         userImpactQuery.setCachePolicy(ParseQuery.CachePolicy.CACHE_ELSE_NETWORK);
         userImpactQuery.setMaxCacheAge(DailyKind.QUERY_AT_LEAST_CACHE_AGE);
+
         userImpactQuery.getFirstInBackground(new GetCallback<ParseObject>() {
             @Override
             public void done(ParseObject parseObject, ParseException e) {

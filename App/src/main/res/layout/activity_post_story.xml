@@ -139,6 +139,25 @@
 
 		</LinearLayout>
 
+	<LinearLayout
+		android:id="@+id/content_language_area_layout"
+		android:orientation="horizontal"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content">
+
+		<ImageView
+			android:src="@drawable/ic_action_font_smaller"
+			android:id="@+id/content_language_area_image_view"
+			android:padding="3dp"
+			android:layout_width="38dp"
+			android:layout_height="38dp"/>
+
+		<Spinner
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:id="@+id/post_story_language_spinner" />
+
+	</LinearLayout>
 
 
 		<com.beardedhen.androidbootstrap.BootstrapButton

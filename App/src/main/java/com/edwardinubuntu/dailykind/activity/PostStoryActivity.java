@@ -75,6 +75,8 @@ public class PostStoryActivity extends ActionBarActivity {
 
     ParseObject imageToUploadObject;
 
+    private Spinner questionLanguageSpinner;
+
     private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
     private Uri fileUri;
 
@@ -227,6 +229,15 @@ public class PostStoryActivity extends ActionBarActivity {
         };
 
         requestLocationUpdates();
+
+        questionLanguageSpinner = (Spinner)findViewById(R.id.post_story_language_spinner);
+        ArrayAdapter<String> choiceLanguageAdapter = new ArrayAdapter<String>(PostStoryActivity.this, R.layout.spinner_item_language_choice
+                , new String[]{"English", "中文"});
+        questionLanguageSpinner.setAdapter(choiceLanguageAdapter);
+        boolean chineseDefaultValue = Locale.getDefault().getLanguage().contains("zh");
+        if (chineseDefaultValue) {
+            questionLanguageSpinner.setSelection(1);
+        }
 
         submitButton = (BootstrapButton)findViewById(R.id.post_story_submit_button);
         submitButton.setOnClickListener(new View.OnClickListener() {
@@ -502,6 +513,17 @@ public class PostStoryActivity extends ActionBarActivity {
         // Put down final object
         if (imageToUploadObject!=null) {
             storyParseObject.put("graphicPointer", imageToUploadObject);
+        }
+
+        // Language
+        switch (questionLanguageSpinner.getSelectedItemPosition()) {
+            case 0:
+                storyParseObject.put("language", "en");
+                break;
+            case 1:
+                storyParseObject.put("language", "zh");
+                break;
+            default:
         }
 
 
