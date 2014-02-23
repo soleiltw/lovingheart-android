@@ -35,15 +35,11 @@ public class DeedContentActivity extends ActionBarActivity {
 
     private TextView numberOfPeopleTextView;
 
-    private ImageView orgImageView;
-
-    private TextView orgTitleTextView;
-
     private TextView earnDescribeTextView;
 
     private Idea idea;
 
-
+    private View progressBarView;
 
     private View.OnClickListener askUserLoginListener = new View.OnClickListener() {
         @Override
@@ -93,11 +89,9 @@ public class DeedContentActivity extends ActionBarActivity {
 
         contentImageView = (ImageView)findViewById(R.id.story_content_image_view);
 
-        orgImageView = (ImageView)findViewById(R.id.user_avatar_image_view);
-        orgTitleTextView = (TextView)findViewById(R.id.user_name_text_view);
-
         earnDescribeTextView = (TextView)findViewById(R.id.deed_content_earn_description_text_view);
 
+        progressBarView = findViewById(R.id.good_content_progress_bar);
 
         loadIdea();
     }
@@ -135,14 +129,12 @@ public class DeedContentActivity extends ActionBarActivity {
 
         if (ideaObjectId == null) return;
 
-        findViewById(R.id.user_avatar_image_view).setVisibility(View.GONE);
-        findViewById(R.id.good_content_progress_bar).setVisibility(View.VISIBLE);
+        progressBarView.setVisibility(View.VISIBLE);
 
         ParseQuery<ParseObject> queryIdea = new ParseQuery<ParseObject>("Idea");
         queryIdea.whereEqualTo("objectId", ideaObjectId);
         queryIdea.include("graphicPointer");
         queryIdea.include("categoryPointer");
-        queryIdea.include("OrganizerPointer");
 
         queryIdea.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
         queryIdea.getFirstInBackground(new GetCallback<ParseObject>() {
@@ -216,30 +208,6 @@ public class DeedContentActivity extends ActionBarActivity {
                     } else {
                         numberOfPeopleTextView.setText(getString(R.string.deed_content_be_the_first_one));
                     }
-
-                    ParseObject orgParseObject = ideaParseObject.getParseObject("OrganizerPointer");
-                    if (orgParseObject != null) {
-
-                        orgTitleTextView.setText(orgParseObject.getString("name"));
-
-                        findViewById(R.id.user_avatar_image_view).setVisibility(View.VISIBLE);
-
-                        ParseObject graphicObject = orgParseObject.getParseObject("graphicPointer");
-                        graphicObject.fetchIfNeededInBackground(new GetCallback<ParseObject>() {
-                            @Override
-                            public void done(ParseObject parseObject, ParseException e) {
-                                if  (parseObject != null) {
-                                    Picasso.with(getApplicationContext())
-                                            .load(parseObject.getParseFile("imageFile").getUrl())
-                                            .placeholder(R.drawable.ic_action_user)
-                                            .into(orgImageView);
-
-
-                                }
-                            }
-                        });
-                    }
-
                 }
             }
         });

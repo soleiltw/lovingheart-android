@@ -28,18 +28,15 @@
 					android:layout_margin="10dp"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
-					style="?android:attr/progressBarStyle"
+					style="?android:attr/progressBarStyleSmall"
 					android:layout_gravity="center"/>
 
 				<LinearLayout
-					android:padding="5dp"
+					android:layout_marginTop="10dp"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content">
-					<include
-						layout="@layout/layout_user_image_name" />
+					<include layout="@layout/layout_idea_content" />
 				</LinearLayout>
-
-				<include layout="@layout/layout_idea_content" />
 
 				<TextView
 					android:layout_width="wrap_content"
