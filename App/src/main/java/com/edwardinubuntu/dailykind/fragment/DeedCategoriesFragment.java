@@ -90,7 +90,7 @@ public class DeedCategoriesFragment extends PlaceholderFragment {
         ArrayList<String> stringCollection = new ArrayList<String>();
         stringCollection.add("close");
 
-        parseQuery.whereContainedIn("language", getLanguageCollection());
+        parseQuery.whereContainedIn("language", DailyKind.getLanguageCollection(getActivity()));
         parseQuery.whereNotContainedIn("status", stringCollection);
         parseQuery.setCachePolicy(ParseQuery.CachePolicy.CACHE_ELSE_NETWORK);
         parseQuery.setMaxCacheAge(DailyKind.QUERY_MAX_CACHE_AGE);

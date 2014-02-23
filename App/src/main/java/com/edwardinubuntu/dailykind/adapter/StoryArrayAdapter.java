@@ -6,13 +6,11 @@ import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.edwardinubuntu.dailykind.R;
 import com.edwardinubuntu.dailykind.activity.UserProfileActivity;
-import com.edwardinubuntu.dailykind.listener.LoadMoreListener;
 import com.edwardinubuntu.dailykind.object.Graphic;
 import com.edwardinubuntu.dailykind.object.Story;
 import com.edwardinubuntu.dailykind.object.User;
@@ -30,9 +28,7 @@ import java.util.List;
 /**
  * Created by edward_chiang on 2013/11/23.
  */
-public class StoryArrayAdapter extends ArrayAdapter<ParseObject> {
-
-    private LoadMoreListener loadMoreListener;
+public class StoryArrayAdapter extends ParseObjectsAdapter {
 
     /**
      * Constructor
@@ -139,13 +135,5 @@ public class StoryArrayAdapter extends ArrayAdapter<ParseObject> {
         }
 
         return contentView;
-    }
-
-    public LoadMoreListener getLoadMoreListener() {
-        return loadMoreListener;
-    }
-
-    public void setLoadMoreListener(LoadMoreListener loadMoreListener) {
-        this.loadMoreListener = loadMoreListener;
     }
 }

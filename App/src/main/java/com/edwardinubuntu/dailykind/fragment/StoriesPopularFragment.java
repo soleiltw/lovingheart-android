@@ -30,7 +30,7 @@ public class StoriesPopularFragment extends StoriesFeedsFragment {
         parseQuery.orderByDescending("reviewImpact");
         parseQuery.include("ideaPointer");
         parseQuery.include("graphicPointer");
-        parseQuery.whereContainedIn("language", getLanguageCollection());
+        parseQuery.whereContainedIn("language", DailyKind.getLanguageCollection(getActivity()));
         parseQuery.setLimit(10);
         parseQuery.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
         if (more) {

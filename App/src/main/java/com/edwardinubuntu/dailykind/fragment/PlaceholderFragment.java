@@ -1,18 +1,12 @@
 package com.edwardinubuntu.dailykind.fragment;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import com.edwardinubuntu.dailykind.DailyKind;
 import com.edwardinubuntu.dailykind.R;
-
-import java.util.ArrayList;
-import java.util.Locale;
 
 /**
  * Created by edward_chiang on 2013/11/23.
@@ -51,19 +45,5 @@ public class PlaceholderFragment extends Fragment {
         return rootView;
     }
 
-    protected ArrayList<String> getLanguageCollection() {
-        ArrayList<String> languageCollection = new ArrayList<String>();
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        boolean englishDefaultValue = Locale.getDefault().getLanguage().contains("en");
-        boolean supportEnglish = preferences.getBoolean(DailyKind.PREFERENCE_SUPPORT_ENGLISH, englishDefaultValue);
-        if (supportEnglish) {
-            languageCollection.add("en");
-        }
-        boolean chineseDefaultValue = Locale.getDefault().getLanguage().contains("zh");
-        boolean supportChinese = preferences.getBoolean(DailyKind.PREFERENCE_SUPPORT_CHINESE, chineseDefaultValue);
-        if (supportChinese) {
-            languageCollection.add("zh");
-        }
-        return languageCollection;
-    }
+
 }

@@ -21,11 +21,14 @@ import android.widget.ArrayAdapter;
 import com.edwardinubuntu.dailykind.DailyKind;
 import com.edwardinubuntu.dailykind.R;
 import com.edwardinubuntu.dailykind.fragment.*;
+import com.edwardinubuntu.dailykind.object.Category;
 import com.edwardinubuntu.dailykind.util.CheckUserLoginUtil;
-import com.parse.ParseAnalytics;
+import com.parse.*;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends FragmentActivity implements NavigationDrawerFragment.NavigationDrawerCallbacks {
 
@@ -38,6 +41,14 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerFr
 
     private CharSequence contentTitle;
 
+    private ArrayAdapter<String> storiesDropDownAdapter;
+
+    private ArrayAdapter<String> ideaCategoryDropDownAdapter;
+
+    private List<String> ideaCategoryList;
+
+    private List<Category> categoryList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +58,18 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerFr
             ParseAnalytics.trackAppOpened(getIntent());
         }
         printPackageInfo();
+
+        storiesDropDownAdapter = new ArrayAdapter<String>(MainActivity.this, R.layout.navigation_spinner_item,
+                new String[]{getString(R.string.title_latest_activities),
+                        getString(R.string.title_popular_activities)
+                });
+
+        ideaCategoryList = new ArrayList<String>();
+        categoryList = new ArrayList<Category>();
+
+        ideaCategoryDropDownAdapter = new ArrayAdapter<String>(MainActivity.this, R.layout.navigation_spinner_item,
+                ideaCategoryList);
+        ideaCategoryDropDownAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
     }
 
     @Override
@@ -59,6 +82,8 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerFr
         // Set up the drawer.
         mNavigationDrawerFragment.setUp(R.id.navigation_drawer,
                 (DrawerLayout)findViewById(R.id.drawer_layout));
+
+        loadCategories();
     }
 
     private void printPackageInfo() {
@@ -110,6 +135,9 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerFr
                 }
                 break;
             }
+            case R.id.action_reload:
+                loadCategories();
+                break;
             case R.id.action_settings:
                 Intent settingsIntent = new Intent(getApplicationContext(), SettingActivity.class);
                 startActivity(settingsIntent);
@@ -126,38 +154,75 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerFr
      */
     @Override
     public void onNavigationDrawerItemSelected(int position) {
+
+        ActionBar actionBar = getActionBar();
+
         Fragment fragment;
         switch (position) {
             case VIEW_PAGER_HOME_POSITION:
                 fragment =  HomeFragment.newInstance(position + 1);
                 contentTitle = getString(R.string.title_today);
-                getActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-                getActionBar().setDisplayShowTitleEnabled(true);
+                actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+                actionBar.setDisplayShowTitleEnabled(true);
                 break;
             case VIEW_PAGER_ME_POSITION:
                 fragment = UserProfileMainFragment.newInstance(position + 1);
                 contentTitle = getString(R.string.title_me);
-                getActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-                getActionBar().setDisplayShowTitleEnabled(true);
+                actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+                actionBar.setDisplayShowTitleEnabled(true);
                 break;
             case VIEW_PAGER_GOOD_DEEDS_POSITION:
-                fragment = DeedCategoriesFragment.newInstance(position + 1);
+                fragment = DeedIdeaListFragment.newInstance(99);
                 contentTitle = getString(R.string.activity_deed_category);
-                getActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-                getActionBar().setDisplayShowTitleEnabled(true);
+                actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
+                actionBar.setDisplayShowTitleEnabled(false);
+
+                loadCategories();
+
+                actionBar.setListNavigationCallbacks(ideaCategoryDropDownAdapter, new ActionBar.OnNavigationListener(){
+                    /**
+                     * This method is called whenever a navigation item in your action bar
+                     * is selected.
+                     *
+                     * @param itemPosition Position of the item clicked.
+                     * @param itemId       ID of the item clicked.
+                     * @return True if the event was handled, false otherwise.
+                     */
+                    @Override
+                    public boolean onNavigationItemSelected(int itemPosition, long itemId) {
+                        switch (itemPosition) {
+                            case  0: {
+                                // All
+                                DeedIdeaListFragment fragment = DeedIdeaListFragment.newInstance(99);
+                                FragmentManager fragmentManager = getSupportFragmentManager();
+                                fragmentManager.beginTransaction().replace(R.id.container,
+                                        fragment).commit();
+                                break;
+                            }
+                            default:
+                                int index = itemPosition - 1;
+                                Category selectCategory = categoryList.get(index);
+                                FragmentManager fragmentManager = getSupportFragmentManager();
+                                DeedIdeaListFragment deedIdeaListFragment = DeedIdeaListFragment.newInstance(itemPosition + 1);
+                                deedIdeaListFragment.setQueryCategory(selectCategory);
+                                fragmentManager.beginTransaction().replace(R.id.container,
+                                        deedIdeaListFragment ).commit();
+                                break;
+                        }
+                        return true;
+                    }
+                });
+
                 break;
             case VIEW_PAGER_STORIES_POSITION:
                 fragment =  StoriesLatestFragment.newInstance(position + 1);
                 contentTitle = getString(R.string.title_stories);
-                getActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-                getActionBar().setDisplayShowTitleEnabled(false);
-                ArrayAdapter<String> dropDownAdapter = new ArrayAdapter<String>(MainActivity.this, R.layout.navigation_spinner_item,
-                        new String[]{getString(R.string.title_latest_activities),
-                                getString(R.string.title_popular_activities)
-                        });
-                dropDownAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
+                actionBar.setDisplayShowTitleEnabled(false);
 
-                getActionBar().setListNavigationCallbacks(dropDownAdapter, new ActionBar.OnNavigationListener() {
+                storiesDropDownAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+                actionBar.setListNavigationCallbacks(storiesDropDownAdapter, new ActionBar.OnNavigationListener() {
                     /**
                      * This method is called whenever a navigation item in your action bar
                      * is selected.
@@ -211,5 +276,41 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerFr
     @Override
     public void onNavigationDrawerClosed(View drawerView) {
         getActionBar().setTitle(contentTitle);
+    }
+
+    private void loadCategories() {
+
+        ParseQuery<ParseObject> parseQuery = ParseQuery.getQuery("Category");
+        parseQuery.orderByAscending("Name");
+        ArrayList<String> stringCollection = new ArrayList<String>();
+        stringCollection.add("close");
+
+        parseQuery.whereContainedIn("language", DailyKind.getLanguageCollection(MainActivity.this));
+        parseQuery.whereNotContainedIn("status", stringCollection);
+        parseQuery.setCachePolicy(ParseQuery.CachePolicy.CACHE_ELSE_NETWORK);
+        parseQuery.setMaxCacheAge(DailyKind.QUERY_MAX_CACHE_AGE);
+        parseQuery.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> parseObjects, ParseException e) {
+
+                if (parseObjects != null) {
+                    ideaCategoryList.clear();
+                    categoryList.clear();
+
+                    // Add all
+                    ideaCategoryList.add(getString(R.string.idea_category_select_item_all));
+
+                    for (ParseObject parseObject : parseObjects) {
+                        Category category = new Category();
+                        category.setObjectId(parseObject.getObjectId());
+                        category.setName(parseObject.getString("Name"));
+                        categoryList.add(category);
+
+                        ideaCategoryList.add(parseObject.getString("Name"));
+                    }
+                    ideaCategoryDropDownAdapter.notifyDataSetChanged();
+                }
+            }
+        });
     }
 }

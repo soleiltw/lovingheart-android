@@ -1,8 +1,6 @@
 package com.edwardinubuntu.dailykind.activity;
 
-import android.annotation.TargetApi;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
@@ -139,7 +137,6 @@ public class DeedCategoryIdeaListActivity extends ActionBarActivity {
         return true;
     }
 
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public void updateRefreshItem() {
         if (isParseLoading()) {
             findViewById(R.id.good_ideas_progress_bar).setVisibility(View.VISIBLE);
@@ -162,5 +159,9 @@ public class DeedCategoryIdeaListActivity extends ActionBarActivity {
 
     public void setParseLoading(boolean parseLoading) {
         this.parseLoading = parseLoading;
+    }
+
+    public void setQueryCategory(Category queryCategory) {
+        this.queryCategory = queryCategory;
     }
 }

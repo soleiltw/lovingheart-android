@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import com.edwardinubuntu.dailykind.R;
+import com.edwardinubuntu.dailykind.listener.LoadMoreListener;
 import com.edwardinubuntu.dailykind.object.Idea;
 
 import java.util.List;
@@ -15,6 +16,8 @@ import java.util.List;
  * Created by edward_chiang on 2013/12/21.
  */
 public class IdeaArrayAdapter extends ArrayAdapter<Idea> {
+
+    private LoadMoreListener loadMoreListener;
 
     /**
      * Constructor
@@ -56,6 +59,19 @@ public class IdeaArrayAdapter extends ArrayAdapter<Idea> {
                                 getContext().getString(R.string.deed_of_number_of_people_post_time))
                         );
 
+        if (position >= getCount() - 1 && getLoadMoreListener() != null) {
+            getLoadMoreListener().notifyLoadMore();
+        }
+
         return rootView;
     }
+
+    public LoadMoreListener getLoadMoreListener() {
+        return loadMoreListener;
+    }
+
+    public void setLoadMoreListener(LoadMoreListener loadMoreListener) {
+        this.loadMoreListener = loadMoreListener;
+    }
+
 }

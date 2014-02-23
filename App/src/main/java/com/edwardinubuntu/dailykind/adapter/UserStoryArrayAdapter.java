@@ -4,7 +4,6 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import com.edwardinubuntu.dailykind.R;
 import com.parse.ParseObject;
@@ -17,7 +16,7 @@ import java.util.Locale;
 /**
  * Created by edward_chiang on 2014/1/31.
  */
-public class UserStoryArrayAdapter extends ArrayAdapter<ParseObject> {
+public class UserStoryArrayAdapter extends ParseObjectsAdapter {
 
 
     /**

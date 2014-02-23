@@ -36,10 +36,16 @@ public class StoriesLatestFragment extends StoriesFeedsFragment {
         parseQuery.include("ideaPointer");
         parseQuery.include("graphicPointer");
         parseQuery.setLimit(10);
-        parseQuery.whereContainedIn("language", getLanguageCollection());
+        parseQuery.whereContainedIn("language", DailyKind.getLanguageCollection(getActivity()));
         parseQuery.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
+
         if (more) {
-            ParseQuery.getQuery("Story").countInBackground(new CountCallback() {
+
+            ParseQuery storyCountQuery = ParseQuery.getQuery("Story");
+            storyCountQuery.setCachePolicy(ParseQuery.CachePolicy.CACHE_ELSE_NETWORK);
+            storyCountQuery.setMaxCacheAge(DailyKind.QUERY_MAX_CACHE_AGE);
+            storyCountQuery.whereContainedIn("language", DailyKind.getLanguageCollection(getActivity()));
+            storyCountQuery.countInBackground(new CountCallback() {
                 @Override
                 public void done(int totalCount, ParseException e) {
                     if (totalCount > userActivities.size()) {
