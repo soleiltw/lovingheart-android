@@ -133,6 +133,19 @@ public class SettingActivity extends PreferenceActivity {
             }
         });
 
+        Preference privacyPreference = findPreference("setting_privacy_policy");
+        privacyPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+
+                Intent webIntent = new Intent(getApplicationContext(), WebViewActivity.class);
+                webIntent.putExtra("webUrl", DailyKind.PRIVACY_POLICY_LINK);
+                startActivity(webIntent);
+
+                return true;
+            }
+        });
+
         boolean englishDefaultValue = Locale.getDefault().getLanguage().contains("en");
         boolean preferEnglishSaved = preferences.getBoolean(DailyKind.PREFERENCE_SUPPORT_ENGLISH, englishDefaultValue);
 

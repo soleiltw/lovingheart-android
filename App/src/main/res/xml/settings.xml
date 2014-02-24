@@ -56,6 +56,11 @@
 			android:summary="@string/setting_acknowledgement_summary"
 			android:title="@string/setting_acknowledgement_title" />
 
+		<Preference
+			android:key="setting_privacy_policy"
+			android:summary="@string/setting_privacy_policy_summary"
+			android:title="@string/setting_privacy_policy_title" />
+
 	</PreferenceCategory>
 
 </PreferenceScreen>

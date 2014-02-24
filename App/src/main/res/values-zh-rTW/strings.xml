@@ -135,4 +135,6 @@
 
 	<string name="good_deed_content_stories">閱讀故事</string>
 
+	<string name="setting_privacy_policy_title">服務條款與隱私權政策</string>
+	<string name="setting_privacy_policy_summary">閱讀關於服務條款與隱私權政策。</string>
 </resources>

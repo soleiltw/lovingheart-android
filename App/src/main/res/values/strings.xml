@@ -140,5 +140,8 @@
 	<string name="idea_category_select_item_all">All</string>
 
 	<string name="good_deed_content_stories">Shared Stories</string>
+	
+	<string name="setting_privacy_policy_title">Privacy Policy and Terms of Use</string>
+	<string name="setting_privacy_policy_summary">Read the privacy policy and terms of use.</string>
 
 </resources>
