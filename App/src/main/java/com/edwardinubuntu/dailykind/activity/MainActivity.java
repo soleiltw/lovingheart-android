@@ -63,6 +63,7 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerFr
                 new String[]{getString(R.string.title_latest_activities),
                         getString(R.string.title_popular_activities)
                 });
+        storiesDropDownAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         ideaCategoryList = new ArrayList<String>();
         categoryList = new ArrayList<Category>();
@@ -219,8 +220,6 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerFr
                 contentTitle = getString(R.string.title_stories);
                 actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
                 actionBar.setDisplayShowTitleEnabled(false);
-
-                storiesDropDownAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
                 actionBar.setListNavigationCallbacks(storiesDropDownAdapter, new ActionBar.OnNavigationListener() {
                     /**
