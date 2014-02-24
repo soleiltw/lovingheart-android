@@ -60,7 +60,7 @@ public class StoriesFeedsFragment extends PlaceholderFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View rootView = inflater.inflate(R.layout.fragment_user_activities, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_stories, container, false);
 
         ListView userActivitiesListView = (ListView)rootView.findViewById(R.id.user_activities_list_view);
         userActivitiesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

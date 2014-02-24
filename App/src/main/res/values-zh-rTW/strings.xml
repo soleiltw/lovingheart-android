@@ -67,7 +67,7 @@
 
 	<string name="idea_cards_browse_more">觀看更多</string>
 	<string name="good_deed_content_remind_me">提醒</string>
-	<string name="good_deed_content_do_it_now">我要記錄完成</string>
+	<string name="good_deed_content_do_it_now">記錄完成</string>
 	<string name="post_story_post">發佈</string>
 	<string name="me_graphic_gallery">相簿</string>
 	<string name="user_login_or">或</string>
@@ -89,7 +89,7 @@
 	<string name="activity_settings">設定</string>
 	<string name="activity_story">故事</string>
 	<string name="activity_deed_content">日行一善</string>
-	<string name="activity_deed_category">行善建議</string>
+	<string name="activity_deed_category">行善方式</string>
 	<string name="activity_story_edit">故事編輯</string>
 	<string name="story_content_encourage_ratings">給予鼓勵</string>
 	<string name="submit">送出</string>
@@ -131,6 +131,8 @@
 	<string name="user_profile_positive_energy_report_title">正向能量分析</string>
 	<string name="user_profile_positive_energy_report_description">透過故事的分享，讓人閱讀感動，給予回饋等等方面來做分析。</string>
 	<string name="user_profile_positive_energy_report_bottom">讓我們分享友善行動來讓世界變得更美好。</string>
-	<string name="idea_category_select_item_all">All</string>
+	<string name="idea_category_select_item_all">全部</string>
+
+	<string name="good_deed_content_stories">閱讀故事</string>
 
 </resources>

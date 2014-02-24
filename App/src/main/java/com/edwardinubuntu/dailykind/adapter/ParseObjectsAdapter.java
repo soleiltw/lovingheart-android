@@ -14,6 +14,8 @@ public abstract class ParseObjectsAdapter extends ArrayAdapter<ParseObject> {
 
     private LoadMoreListener loadMoreListener;
 
+    private boolean isLoadMoreEnd;
+
     /**
      * Constructor
      *
@@ -32,5 +34,13 @@ public abstract class ParseObjectsAdapter extends ArrayAdapter<ParseObject> {
 
     public void setLoadMoreListener(LoadMoreListener loadMoreListener) {
         this.loadMoreListener = loadMoreListener;
+    }
+
+    public boolean isLoadMoreEnd() {
+        return isLoadMoreEnd;
+    }
+
+    public void setLoadMoreEnd(boolean isLoadMoreEnd) {
+        this.isLoadMoreEnd = isLoadMoreEnd;
     }
 }

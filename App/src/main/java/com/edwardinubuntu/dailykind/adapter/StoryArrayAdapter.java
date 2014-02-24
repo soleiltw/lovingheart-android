@@ -3,12 +3,14 @@ package com.edwardinubuntu.dailykind.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import com.edwardinubuntu.dailykind.DailyKind;
 import com.edwardinubuntu.dailykind.R;
 import com.edwardinubuntu.dailykind.activity.UserProfileActivity;
 import com.edwardinubuntu.dailykind.object.Graphic;
@@ -50,6 +52,10 @@ public class StoryArrayAdapter extends ParseObjectsAdapter {
             LayoutInflater inflater = (LayoutInflater)getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             contentView = inflater.inflate(R.layout.cell_stories, null);
         }
+
+        Log.d(DailyKind.TAG, "Story width: " + contentView.getWidth());
+        int layoutWidth = contentView.getWidth();
+
         ParseObject storyObject = getItem(position);
         ParseObjectManager parseObjectManager = new ParseObjectManager(storyObject);
         final Story story = parseObjectManager.getStory();
@@ -63,11 +69,20 @@ public class StoryArrayAdapter extends ParseObjectsAdapter {
 
             if (story.getGraphic() !=null && story.getGraphic().getParseFileUrl() != null) {
 
-                DisplayMetrics displayMetrics = getContext().getResources().getDisplayMetrics();
                 LinearLayout.LayoutParams storyContentImageViewLayoutParams = (LinearLayout.LayoutParams)storyContentImageView.getLayoutParams();
-                // We make it as screen width
-                storyContentImageViewLayoutParams.width = displayMetrics.widthPixels;
-                storyContentImageViewLayoutParams.height = displayMetrics.widthPixels;
+
+                if (layoutWidth > 0) {
+                    // We make it as screen width
+                    storyContentImageViewLayoutParams.width = layoutWidth;
+                    storyContentImageViewLayoutParams.height = layoutWidth;
+
+                    notifyDataSetChanged();
+                } else {
+                    DisplayMetrics displayMetrics = getContext().getResources().getDisplayMetrics();
+                    // We make it as screen width
+                    storyContentImageViewLayoutParams.width = displayMetrics.widthPixels;
+                    storyContentImageViewLayoutParams.height = displayMetrics.widthPixels;
+                }
                 storyContentImageView.requestLayout();
                 storyContentImageView.setVisibility(View.VISIBLE);
 
@@ -130,7 +145,7 @@ public class StoryArrayAdapter extends ParseObjectsAdapter {
         PrettyTime prettyTime = new PrettyTime(new Date());
         createdAtTextView.setText(prettyTime.format(story.getCreatedAt()));
 
-        if (position >= getCount() - 1 && getLoadMoreListener() != null) {
+        if (position >= getCount() - 1 && getLoadMoreListener() != null && !isLoadMoreEnd() && getCount() >= DailyKind.PARSE_QUERY_LIMIT) {
             getLoadMoreListener().notifyLoadMore();
         }
 

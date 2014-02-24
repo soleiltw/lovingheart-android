@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+import com.edwardinubuntu.dailykind.DailyKind;
 import com.edwardinubuntu.dailykind.R;
 import com.edwardinubuntu.dailykind.listener.LoadMoreListener;
 import com.edwardinubuntu.dailykind.object.Idea;
@@ -18,6 +19,8 @@ import java.util.List;
 public class IdeaArrayAdapter extends ArrayAdapter<Idea> {
 
     private LoadMoreListener loadMoreListener;
+
+    private boolean isLoadMoreEnd;
 
     /**
      * Constructor
@@ -59,7 +62,10 @@ public class IdeaArrayAdapter extends ArrayAdapter<Idea> {
                                 getContext().getString(R.string.deed_of_number_of_people_post_time))
                         );
 
-        if (position >= getCount() - 1 && getLoadMoreListener() != null) {
+        if (position >= getCount() - 1
+                && getLoadMoreListener() != null
+                && !isLoadMoreEnd()
+                && getCount() >= DailyKind.PARSE_QUERY_LIMIT) {
             getLoadMoreListener().notifyLoadMore();
         }
 
@@ -74,4 +80,11 @@ public class IdeaArrayAdapter extends ArrayAdapter<Idea> {
         this.loadMoreListener = loadMoreListener;
     }
 
+    public boolean isLoadMoreEnd() {
+        return isLoadMoreEnd;
+    }
+
+    public void setLoadMoreEnd(boolean isLoadMoreEnd) {
+        this.isLoadMoreEnd = isLoadMoreEnd;
+    }
 }

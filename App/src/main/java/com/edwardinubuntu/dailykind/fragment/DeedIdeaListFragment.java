@@ -138,6 +138,7 @@ public class DeedIdeaListFragment extends PlaceholderFragment {
                         ideasQuery.findInBackground(getIdeasCallback(true));
                     } else {
                         Log.d(DailyKind.TAG, "End of query.");
+                        ideaArrayAdapter.setLoadMoreEnd(true);
                     }
                 }
             });

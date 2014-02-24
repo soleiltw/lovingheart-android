@@ -30,6 +30,8 @@ public class DailyKind {
     // Every 5 mins
     public static long QUERY_AT_LEAST_CACHE_AGE = 60 * 5 * 1000;
 
+    public static final int PARSE_QUERY_LIMIT = 10;
+
     public static ArrayList<String> getLanguageCollection(Context context) {
         ArrayList<String> languageCollection = new ArrayList<String>();
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
