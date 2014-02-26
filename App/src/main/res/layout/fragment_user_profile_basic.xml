@@ -45,14 +45,12 @@
 			</LinearLayout>
 
 			<com.beardedhen.androidbootstrap.BootstrapButton
-
 				android:layout_width="fill_parent"
 				android:layout_height="wrap_content"
 				android:layout_margin="10dp"
-				android:visibility="visible"
 				android:text="NT$100 / 1 month"
 				android:layout_gravity="center"
-				android:id="@+id/billing_button"
+				android:id="@+id/user_profile_billing_button"
 				bootstrapbutton:bb_text_gravity="center"
 				bootstrapbutton:bb_type="warning" />
 

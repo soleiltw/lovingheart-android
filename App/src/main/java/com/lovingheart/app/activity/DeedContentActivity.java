@@ -234,7 +234,7 @@ public class DeedContentActivity extends ActionBarActivity {
             findViewById(R.id.good_deed_content_now_button).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(getApplicationContext(), PostStoryActivity.class);
+                    Intent intent = new Intent(DeedContentActivity.this, PostStoryActivity.class);
                     intent.putExtra("idea", idea);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent);

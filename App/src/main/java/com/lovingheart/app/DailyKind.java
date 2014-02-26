@@ -12,7 +12,7 @@ import java.util.Locale;
  */
 public class DailyKind {
 
-    public static String TAG = "dailykind";
+    public static String TAG = "lovingheart";
 
     public static String PREFERENCE_SUPPORT_ENGLISH = "support_english";
 

@@ -28,7 +28,7 @@
         android:name="com.lovingheart.app.MainApplication"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="com.lovingheart.app.activity.MainActivity"
+            android:name=".activity.MainActivity"
             android:logo="@drawable/inner_icon"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:label="@string/app_name" >
@@ -38,39 +38,39 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-	    <activity android:name="com.lovingheart.app.activity.PostStoryActivity"
+	    <activity android:name=".activity.PostStoryActivity"
 	              android:screenOrientation="portrait"
 	              android:logo="@drawable/inner_icon"
 		    />
-	    <activity android:name="com.lovingheart.app.activity.DeedCategoriesActivity"
+	    <activity android:name=".activity.DeedCategoriesActivity"
 	              android:logo="@drawable/inner_icon"
 	              android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
 	              android:label="@string/activity_deed_category"
 		    />
-	    <activity android:name="com.lovingheart.app.activity.DeedCategoryIdeaListActivity"
+	    <activity android:name=".activity.DeedCategoryIdeaListActivity"
 	              android:logo="@drawable/inner_icon"
 	              android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
 	              android:label="@string/activity_deed_category" />
 	    
-	    <activity android:name="com.lovingheart.app.activity.DeedContentActivity"
+	    <activity android:name=".activity.DeedContentActivity"
 	              android:logo="@drawable/inner_icon"
                   android:label="@string/activity_deed_content" />
 	    
-	    <activity android:name="com.lovingheart.app.activity.EditStoryActivity"
+	    <activity android:name=".activity.EditStoryActivity"
 	              android:logo="@drawable/inner_icon"
 	              android:label="@string/activity_story_edit"
 		    />
 
-	    <activity android:name="com.lovingheart.app.activity.AskForHelpActivity"
+	    <activity android:name=".activity.AskForHelpActivity"
 	              android:logo="@drawable/inner_icon"
 		    android:label="Ask for help"
 		    />
 	    
-	    <activity android:name="com.lovingheart.app.activity.LoginActivity" android:label="Login"
+	    <activity android:name=".activity.LoginActivity" android:label="Login"
 	              android:logo="@drawable/inner_icon"
 		    />
 
-		<activity android:name="com.lovingheart.app.activity.NearbyActivity"
+		<activity android:name=".activity.NearbyActivity"
 		          android:logo="@drawable/inner_icon"
 		          android:label="Nearby" />
 
@@ -78,23 +78,30 @@
 	              android:logo="@drawable/inner_icon"
 	              android:label="@string/facebook_login_activity" />
 
-	    <activity android:name="com.lovingheart.app.activity.StoryContentActivity"
+	    <activity android:name=".activity.StoryContentActivity"
 	              android:logo="@drawable/inner_icon"
 	              android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
 	              android:label="@string/activity_story" />
 
-	    <activity android:name="com.lovingheart.app.activity.SettingActivity"
+	    <activity android:name=".activity.SettingActivity"
 	              android:logo="@drawable/inner_icon"
 	              android:screenOrientation="portrait"
 	              android:label="@string/activity_settings" />
 	    
-	    <activity android:name="com.lovingheart.app.activity.UserProfileActivity"
+	    <activity android:name=".activity.UserProfileActivity"
 	              android:logo="@drawable/inner_icon"
 	              android:label="@string/activity_user_profile_label"
 	              android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
 	              />
+	    
+	    
+	    <activity android:name=".activity.BillingActivity"
+	              android:logo="@drawable/inner_icon"
+	              android:label="Billing"
+	              android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
+		    />
 
-	    <activity android:name="com.lovingheart.app.activity.WebViewActivity"
+	    <activity android:name=".activity.WebViewActivity"
 	              android:label="Web" />
 
 	    <activity android:name="com.uservoice.uservoicesdk.activity.PortalActivity" />

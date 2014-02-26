@@ -14,6 +14,7 @@ import com.android.vending.billing.IInAppBillingService;
 import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.lovingheart.app.DailyKind;
 import com.lovingheart.app.R;
+import com.lovingheart.app.activity.BillingActivity;
 import com.lovingheart.app.adapter.PersonalReportAdapter;
 import com.lovingheart.app.object.Info;
 import com.lovingheart.app.object.UserImpact;
@@ -126,11 +127,12 @@ public class UserProfileBasicFragment extends UserProfileFragment {
 
         avatarImageView = (ImageView)rootView.findViewById(R.id.user_avatar_image_view);
 
-        billingButton = (BootstrapButton)rootView.findViewById(R.id.billing_button);
+        billingButton = (BootstrapButton)rootView.findViewById(R.id.user_profile_billing_button);
         billingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent billingIntent = new Intent(getActivity(), BillingActivity.class);
+                startActivity(billingIntent);
             }
         });
 
