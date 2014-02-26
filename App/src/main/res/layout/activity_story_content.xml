@@ -63,7 +63,7 @@
 					<include layout="@layout/layout_ratings_stat" />
 				</LinearLayout>
 
-				<com.edwardinubuntu.dailykind.view.ExpandableListView
+				<com.lovingheart.app.view.ExpandableListView
 
 					android:id="@+id/story_content_review_list_view"
 					android:layout_width="fill_parent"

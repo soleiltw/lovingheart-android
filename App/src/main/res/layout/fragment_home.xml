@@ -19,7 +19,7 @@
 			style="?android:attr/progressBarStyleSmallInverse"
 			android:layout_gravity="center"/>
 
-		<com.edwardinubuntu.dailykind.view.ExpandableListView
+		<com.lovingheart.app.view.ExpandableListView
 			android:id="@+id/home_group_idea_card_layout"
 			android:divider="@color/pressed_clear"
 			android:layout_width="match_parent"

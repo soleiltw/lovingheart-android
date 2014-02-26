@@ -15,7 +15,7 @@
 		style="?android:attr/progressBarStyleSmallInverse"
 		android:layout_gravity="center"/>
 
-	<com.edwardinubuntu.dailykind.view.ExpandableGridView
+	<com.lovingheart.app.view.ExpandableGridView
 		android:id="@+id/graphic_gallery_grid_view"
 		android:horizontalSpacing="5dp"
 		android:verticalSpacing="5dp"
