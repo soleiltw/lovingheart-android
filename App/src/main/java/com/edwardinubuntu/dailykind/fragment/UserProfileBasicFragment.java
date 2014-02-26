@@ -1,13 +1,21 @@
 package com.edwardinubuntu.dailykind.fragment;
 
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
+import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.util.Log;
 import android.view.*;
 import android.widget.ImageView;
 import android.widget.TextView;
+import com.android.vending.billing.IInAppBillingService;
+import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.edwardinubuntu.dailykind.DailyKind;
 import com.edwardinubuntu.dailykind.R;
 import com.edwardinubuntu.dailykind.adapter.PersonalReportAdapter;
+import com.edwardinubuntu.dailykind.object.Info;
 import com.edwardinubuntu.dailykind.object.UserImpact;
 import com.edwardinubuntu.dailykind.util.CircleTransform;
 import com.edwardinubuntu.dailykind.util.ReportManager;
@@ -23,7 +31,6 @@ import java.util.List;
  * Created by edward_chiang on 2014/2/1.
  */
 public class UserProfileBasicFragment extends UserProfileFragment {
-
 
     protected TextView storiesSharedCountTextView;
 
@@ -45,7 +52,7 @@ public class UserProfileBasicFragment extends UserProfileFragment {
 
     protected ExpandableListView personalReportListView;
 
-    private List<String> reportWordings;
+    private List<Info> reportWordings;
 
     private PersonalReportAdapter personalReportAdapter;
 
@@ -56,6 +63,22 @@ public class UserProfileBasicFragment extends UserProfileFragment {
     private View loadingProgressBar;
 
     private ImageView avatarImageView;
+
+    private IInAppBillingService billingService;
+
+    private ServiceConnection serviceConnection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            billingService = IInAppBillingService.Stub.asInterface(service);
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            billingService = null;
+        }
+    };
+
+    private BootstrapButton billingButton;
 
     public UserProfileBasicFragment() {
     }
@@ -72,9 +95,11 @@ public class UserProfileBasicFragment extends UserProfileFragment {
 
         userImpactInfo = new UserImpact();
 
-        reportWordings = new ArrayList<String>();
+        reportWordings = new ArrayList<Info>();
 
         personalReportAdapter = new PersonalReportAdapter(getActivity(), android.R.layout.simple_list_item_1, reportWordings);
+
+        getActivity().bindService(new Intent("com.android.vending.billing.InAppBillingService.BIND"), serviceConnection, Context.BIND_AUTO_CREATE);
     }
 
     @Override
@@ -101,7 +126,23 @@ public class UserProfileBasicFragment extends UserProfileFragment {
 
         avatarImageView = (ImageView)rootView.findViewById(R.id.user_avatar_image_view);
 
+        billingButton = (BootstrapButton)rootView.findViewById(R.id.billing_button);
+        billingButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
         return rootView;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (billingService != null) {
+            getActivity().unbindService(serviceConnection);
+        }
     }
 
     @Override

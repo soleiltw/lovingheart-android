@@ -42,6 +42,12 @@ android {
             proguardFile '../proguard.cfg'
         }
     }
+
+    sourceSets {
+        main {
+            aidl.srcDirs = ['src/main/java']
+        }
+    }
 }
 
 dependencies {

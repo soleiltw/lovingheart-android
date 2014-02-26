@@ -1,7 +1,9 @@
 package com.edwardinubuntu.dailykind.util;
 
 import android.util.Log;
-import com.edwardinubuntu.dailykind.DailyKind;
+import com.edwardinubuntu.dailykind.*;
+import com.edwardinubuntu.dailykind.R;
+import com.edwardinubuntu.dailykind.object.Info;
 import com.parse.*;
 
 import java.math.BigDecimal;
@@ -17,7 +19,7 @@ public class ReportManager {
 
     private List<ParseObject> storiesObjects;
 
-    private List<String> reportWordings;
+    private List<Info> reportWordings;
 
     private ParseUser user;
 
@@ -30,7 +32,7 @@ public class ReportManager {
     }
 
     public ReportManager() {
-        reportWordings = new ArrayList<String>();
+        reportWordings = new ArrayList<Info>();
     }
 
     public void analyse() {
@@ -110,7 +112,9 @@ public class ReportManager {
             describeBuffer.append(latestIdeaStory.getParseObject("ideaPointer").getString("Name"));
             describeBuffer.append("</font>");
             describeBuffer.append("。");
-            reportWordings.add(describeBuffer.toString());
+            Info analyseInfo = new Info();
+            analyseInfo.setDescription(describeBuffer.toString());
+            reportWordings.add(analyseInfo);
         }
 
         // Get Analyse 4
@@ -124,7 +128,9 @@ public class ReportManager {
             describeBuffer.append("</font>");
             describeBuffer.append(user.getString("name"));
             describeBuffer.append("辦到了！");
-            reportWordings.add(describeBuffer.toString());
+            Info analyseInfo = new Info();
+            analyseInfo.setDescription(describeBuffer.toString());
+            reportWordings.add(analyseInfo);
         }
 
         if (storiesObjects.size() > 0) {
@@ -184,7 +190,9 @@ public class ReportManager {
                 index++;
             }
             describeBuffer.append("有深度的連結，讓這些地方變不一樣。");
-            reportWordings.add(describeBuffer.toString());
+            Info analyseInfo = new Info();
+            analyseInfo.setDescription(describeBuffer.toString());
+            reportWordings.add(analyseInfo);
         }
 
         if (numberOfStoriesInCurrentMonth > 0) {
@@ -200,7 +208,9 @@ public class ReportManager {
             describeBuffer.append("<font color="+HIGHLIGHT_RED_COLOR+">");
             describeBuffer.append(numberFormat.format(changedPercentage));
             describeBuffer.append("</font>");
-            reportWordings.add(describeBuffer.toString());
+            Info analyseInfo = new Info();
+            analyseInfo.setDescription(describeBuffer.toString());
+            reportWordings.add(analyseInfo);
         }
 
         if (getAnalyseListener() != null) {
@@ -230,7 +240,9 @@ public class ReportManager {
         }
         describeBuffer.append("</font>");
         describeBuffer.append("。");
-        reportWordings.add(describeBuffer.toString());
+        Info analyseInfo = new Info();
+        analyseInfo.setDescription(describeBuffer.toString());
+        reportWordings.add(analyseInfo);
     }
 
     private void analyseReviewsStars(List<ParseObject> parseObjects, int totalReviewStarsImpact, int finalTotalReviewStars) {
@@ -238,35 +250,31 @@ public class ReportManager {
             ParseQuery<ParseObject> storyQuery = ParseQuery.getQuery("Story");
             storyQuery.whereGreaterThan("reviewImpact", 0);
 
+            StringBuffer titleBuffer = new StringBuffer();
+            titleBuffer.append("<font color="+HIGHLIGHT_RED_COLOR+">");
+            titleBuffer.append(finalTotalReviewStars + "分能量");
+            titleBuffer.append("</font>");
 
             StringBuffer describeBuffer = new StringBuffer();
-            describeBuffer.append("累積獲得");
-            describeBuffer.append("<font color="+HIGHLIGHT_RED_COLOR+">");
-            describeBuffer.append(finalTotalReviewStars);
-            describeBuffer.append("</font>");
-            describeBuffer.append("顆星星");
-            describeBuffer.append("。");
+            describeBuffer.append("他人閱讀你的故事後給予你的能量。");
 
             double averageReviewStarsCount = new BigDecimal(totalReviewStarsImpact / parseObjects.size())
                     .setScale(2, BigDecimal.ROUND_HALF_UP)
                     .doubleValue();
 
-            describeBuffer.append("比一般平均" + averageReviewStarsCount+ "顆星");
+            describeBuffer.append("而一般朋友們平均得到" + averageReviewStarsCount+ "分能量。");
 
-            describeBuffer.append("<font color="+HIGHLIGHT_RED_COLOR+">");
-            if (finalTotalReviewStars > averageReviewStarsCount) {
-                describeBuffer.append("多些");
-            } else {
-                describeBuffer.append("少些");
-            }
-            describeBuffer.append("</font>");
-            describeBuffer.append("。");
+            Info analyseInfo = new Info();
+            analyseInfo.setTitle(titleBuffer.toString());
+            analyseInfo.setDescription(describeBuffer.toString());
+            analyseInfo.setGraphicResource(R.raw.cup_25_clear);
+            analyseInfo.setGraphicDirection(Info.GraphicDirection.LEFT);
 
-            reportWordings.add(describeBuffer.toString());
+            reportWordings.add(analyseInfo);
         }
     }
 
-    public List<String> getReportWordings() {
+    public List<Info> getReportWordings() {
         return reportWordings;
     }
 
@@ -315,7 +323,9 @@ public class ReportManager {
         wordingBuffer.append("的人。");
 
         Log.d(DailyKind.TAG, "Tags Man: " + wordingBuffer.toString());
-        reportWordings.add(wordingBuffer.toString());
+        Info analyseInfo = new Info();
+        analyseInfo.setDescription(wordingBuffer.toString());
+        reportWordings.add(analyseInfo);
 
     }
 
