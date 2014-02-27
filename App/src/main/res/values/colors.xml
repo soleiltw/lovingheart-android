@@ -4,11 +4,13 @@
 	<color name="theme_color_2">#ac2925</color>
 	<color name="theme_color_3">#F09DA2</color>
 	<color name="theme_color_4">#d43f3a</color>
+	<color name="theme_color_5">#7cc342</color>
 	<color name="theme_background">#FFF3EC</color>
 
 	<color name="icon_red">#ff2e00</color>
 	
 	<color name="lovingheart_white">#FFFFFF</color>
+	<color name="lovingheart_gray">#393939</color>
 
 	<color name="story_title_color">#393939</color>
 	<color name="story_text_color">#5d5836</color>

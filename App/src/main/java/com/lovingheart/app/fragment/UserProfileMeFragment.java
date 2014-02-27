@@ -1,12 +1,17 @@
 package com.lovingheart.app.fragment;
 
 import android.app.ActionBar;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.lovingheart.app.DailyKind;
 import com.lovingheart.app.R;
+import com.lovingheart.app.dialog.BillingDialog;
 import com.lovingheart.app.object.UserImpact;
 import com.lovingheart.app.util.CheckUserLoginUtil;
 import com.parse.*;
@@ -35,6 +40,18 @@ public class UserProfileMeFragment extends UserProfileBasicFragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View contentView = super.onCreateView(inflater, container, savedInstanceState);
+
+        // For personal
+        BootstrapButton billingButton = (BootstrapButton)contentView.findViewById(R.id.user_profile_billing_button);
+
+        billingView.setVisibility(View.VISIBLE);
+
+        return contentView;
     }
 
     @Override

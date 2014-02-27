@@ -34,6 +34,7 @@
 	<string name="action_username_login_success">User login success.</string>
 
 	<string name="space">&#160;</string>
+	<string name="slash">/</string>
 	<string name="comma">,</string>
 	<string name="deed_content_be_the_first_one">Be the first one.</string>
 	

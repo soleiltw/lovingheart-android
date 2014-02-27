@@ -44,15 +44,22 @@
 
 			</LinearLayout>
 
+			<LinearLayout
+				android:id="@+id/user_profile_billing_layout"
+				android:layout_gravity="center"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content">
 			<com.beardedhen.androidbootstrap.BootstrapButton
 				android:layout_width="fill_parent"
 				android:layout_height="wrap_content"
 				android:layout_margin="10dp"
-				android:text="NT$100 / 1 month"
+				android:text="Upgrade to Premium"
 				android:layout_gravity="center"
 				android:id="@+id/user_profile_billing_button"
 				bootstrapbutton:bb_text_gravity="center"
 				bootstrapbutton:bb_type="warning" />
+
+			</LinearLayout>
 
 			<LinearLayout
 				android:orientation="vertical"

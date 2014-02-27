@@ -1,9 +1,6 @@
 package com.lovingheart.app.fragment;
 
-import android.content.ComponentName;
-import android.content.Context;
-import android.content.Intent;
-import android.content.ServiceConnection;
+import android.content.*;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
@@ -14,8 +11,8 @@ import com.android.vending.billing.IInAppBillingService;
 import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.lovingheart.app.DailyKind;
 import com.lovingheart.app.R;
-import com.lovingheart.app.activity.BillingActivity;
 import com.lovingheart.app.adapter.PersonalReportAdapter;
+import com.lovingheart.app.dialog.BillingDialog;
 import com.lovingheart.app.object.Info;
 import com.lovingheart.app.object.UserImpact;
 import com.lovingheart.app.util.CircleTransform;
@@ -81,6 +78,8 @@ public class UserProfileBasicFragment extends UserProfileFragment {
 
     private BootstrapButton billingButton;
 
+    protected View billingView;
+
     public UserProfileBasicFragment() {
     }
 
@@ -128,13 +127,27 @@ public class UserProfileBasicFragment extends UserProfileFragment {
         avatarImageView = (ImageView)rootView.findViewById(R.id.user_avatar_image_view);
 
         billingButton = (BootstrapButton)rootView.findViewById(R.id.user_profile_billing_button);
+
         billingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent billingIntent = new Intent(getActivity(), BillingActivity.class);
-                startActivity(billingIntent);
+                BillingDialog billingDialog = new BillingDialog(getActivity(), true, new DialogInterface.OnCancelListener() {
+                    /**
+                     * This method will be invoked when the dialog is canceled.
+                     *
+                     * @param dialog The dialog that was canceled will be passed into the
+                     *               method.
+                     */
+                    @Override
+                    public void onCancel(DialogInterface dialog) {
+                        dialog.dismiss();
+                    }
+                });
+                billingDialog.show();
             }
         });
+
+        billingView = rootView.findViewById(R.id.user_profile_billing_layout);
 
         return rootView;
     }
@@ -203,6 +216,9 @@ public class UserProfileBasicFragment extends UserProfileFragment {
         });
 
         queryProfile(new ProfileCallBack());
+
+        // Find out why
+//        billingView.setVisibility(View.GONE);
     }
 
     protected class ProfileCallBack extends GetCallback<ParseUser> {
