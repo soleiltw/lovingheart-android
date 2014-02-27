@@ -224,12 +224,13 @@ public class ReportManager {
         NumberFormat numberFormat = NumberFormat.getNumberInstance();
         numberFormat.setMaximumFractionDigits(2);
 
+        StringBuffer titleBuffer = new StringBuffer();
+        titleBuffer.append("<font color="+HIGHLIGHT_RED_COLOR+">");
+        titleBuffer.append(storiesObjects.size());
+        titleBuffer.append("篇故事");
+        titleBuffer.append("</font>");
+
         StringBuffer describeBuffer = new StringBuffer();
-        describeBuffer.append("分享過");
-        describeBuffer.append("<font color="+HIGHLIGHT_RED_COLOR+">");
-        describeBuffer.append(storiesObjects.size());
-        describeBuffer.append("</font>");
-        describeBuffer.append("篇故事，");
         describeBuffer.append("比一般平均 " + numberFormat.format(averageSharedCount)+ " 篇故事");
 
         describeBuffer.append("<font color="+HIGHLIGHT_RED_COLOR+">");
@@ -241,7 +242,10 @@ public class ReportManager {
         describeBuffer.append("</font>");
         describeBuffer.append("。");
         Info analyseInfo = new Info();
+        analyseInfo.setTitle(titleBuffer.toString());
         analyseInfo.setDescription(describeBuffer.toString());
+        analyseInfo.setGraphicResource(R.raw.sunflower_clear);
+        analyseInfo.setGraphicDirection(Info.GraphicDirection.RIGHT);
         reportWordings.add(analyseInfo);
     }
 
@@ -267,7 +271,12 @@ public class ReportManager {
             Info analyseInfo = new Info();
             analyseInfo.setTitle(titleBuffer.toString());
             analyseInfo.setDescription(describeBuffer.toString());
-            analyseInfo.setGraphicResource(R.raw.cup_25_clear);
+            if (finalTotalReviewStars > averageReviewStarsCount) {
+                analyseInfo.setGraphicResource(R.raw.cup_75_clear);
+            } else if (finalTotalReviewStars < averageReviewStarsCount) {
+                analyseInfo.setGraphicResource(R.raw.cup_25_clear);
+            }
+
             analyseInfo.setGraphicDirection(Info.GraphicDirection.LEFT);
 
             reportWordings.add(analyseInfo);
@@ -325,6 +334,8 @@ public class ReportManager {
         Log.d(DailyKind.TAG, "Tags Man: " + wordingBuffer.toString());
         Info analyseInfo = new Info();
         analyseInfo.setDescription(wordingBuffer.toString());
+        analyseInfo.setGraphicDirection(Info.GraphicDirection.RIGHT);
+        analyseInfo.setGraphicResource(R.raw.pandora_clear);
         reportWordings.add(analyseInfo);
 
     }

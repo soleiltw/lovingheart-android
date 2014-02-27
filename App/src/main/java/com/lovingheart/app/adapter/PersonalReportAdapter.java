@@ -6,10 +6,7 @@ import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+import android.widget.*;
 import com.lovingheart.app.R;
 import com.lovingheart.app.object.Info;
 import com.squareup.picasso.Picasso;
@@ -35,14 +32,26 @@ public class PersonalReportAdapter extends ArrayAdapter<Info> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        View rootView = convertView;
-        // Because we want to update the first view
-        if (rootView == null) {
-            LayoutInflater inflater = (LayoutInflater)getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            rootView = inflater.inflate(R.layout.cell_report_item, null);
-        }
+        View rootView;
 
         Info currentInfo = getItem(position);
+
+        LayoutInflater inflater = (LayoutInflater)getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+        if (currentInfo.getGraphicDirection()!=null) {
+            // Because we want to update the first view
+            switch (currentInfo.getGraphicDirection()) {
+                case RIGHT:
+                    rootView = inflater.inflate(R.layout.cell_report_item_image_right, null);
+                    break;
+                case LEFT:
+                default:
+                    rootView = inflater.inflate(R.layout.cell_report_item_image_left, null);
+                    break;
+            }
+        } else {
+            rootView = inflater.inflate(R.layout.cell_report_item_image_left, null);
+        }
 
         TextView reportTitleTextView = (TextView)rootView.findViewById(R.id.report_title_text_view);
         if (currentInfo.getTitle() != null && currentInfo.getTitle().length() > 0) {
@@ -57,9 +66,8 @@ public class PersonalReportAdapter extends ArrayAdapter<Info> {
 
         ImageView graphicImageView = (ImageView)rootView.findViewById(R.id.graphic_image_view);
 
-
         if (currentInfo.getGraphicResource() > 0) {
-            LinearLayout.LayoutParams graphicImageViewLayout = (LinearLayout.LayoutParams)graphicImageView.getLayoutParams();
+            RelativeLayout.LayoutParams graphicImageViewLayout = (RelativeLayout.LayoutParams)graphicImageView.getLayoutParams();
             DisplayMetrics displayMetrics = getContext().getResources().getDisplayMetrics();
             graphicImageViewLayout.width = displayMetrics.widthPixels / 4;
             graphicImageViewLayout.height = displayMetrics.widthPixels / 4;
