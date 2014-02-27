@@ -40,6 +40,11 @@
 			android:summary="@string/setting_idea_feedback_summary"
 			android:title="@string/setting_idea_feedback_title" />
 
+		<Preference
+			android:key="setting_feedback_help"
+			android:summary="@string/setting_idea_help_summary"
+			android:title="@string/setting_idea_help_title" />
+
 	</PreferenceCategory>
 
 

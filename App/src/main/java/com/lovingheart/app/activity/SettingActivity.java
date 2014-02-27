@@ -248,6 +248,17 @@ public class SettingActivity extends PreferenceActivity {
                 return true;
             }
         });
+
+        Preference helpPreference = findPreference("setting_feedback_help");
+        helpPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                Intent webIntent = new Intent(getApplicationContext(), WebViewActivity.class);
+                webIntent.putExtra("webUrl", DailyKind.HELP_LINK);
+                startActivity(webIntent);
+                return true;
+            }
+        });
     }
 
     @Override

@@ -144,5 +144,12 @@
 	
 	<string name="setting_privacy_policy_title">Privacy Policy and Terms of Use</string>
 	<string name="setting_privacy_policy_summary">Read the privacy policy and terms of use.</string>
+	<string name="setting_idea_help_title">Help</string>
+	<string name="setting_idea_help_summary">Read articles in Knowledge Base.</string>
+	<string name="upgrade_premium_title">Upgrade to Premium</string>
+	<string name="upgrade_premium_description">Because you get these exclusive benefits:</string>
+	<string name="upgrade_premium_energy_report">Happiness Energy Report</string>
+	<string name="upgrade_premium_write_private">Write private diary</string>
+	<string name="upgrade_premium_monthly_button_unit">1 month</string>
 
 </resources>

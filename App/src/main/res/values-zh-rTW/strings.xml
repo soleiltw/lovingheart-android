@@ -137,4 +137,11 @@
 
 	<string name="setting_privacy_policy_title">服務條款與隱私權政策</string>
 	<string name="setting_privacy_policy_summary">閱讀關於服務條款與隱私權政策。</string>
+	<string name="setting_idea_help_title">說明</string>
+	<string name="setting_idea_help_summary">觀看知識庫</string>
+	<string name="upgrade_premium_title">升級到金級會員</string>
+	<string name="upgrade_premium_description">因為您將獲得以下專屬好處：</string>
+	<string name="upgrade_premium_energy_report">正向能量報告</string>
+	<string name="upgrade_premium_write_private">書寫私人故事</string>
+	<string name="upgrade_premium_monthly_button_unit">1 個月</string>
 </resources>

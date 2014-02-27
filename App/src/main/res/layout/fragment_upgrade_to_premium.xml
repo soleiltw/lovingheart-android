@@ -23,7 +23,7 @@
 			android:layout_height="wrap_content">
 
 			<TextView
-				android:text="Upgrade to Premium"
+				android:text="@string/upgrade_premium_title"
 				android:textAppearance="?android:textAppearanceLarge"
 				android:textColor="@color/lovingheart_white"
 				android:layout_gravity="center"
@@ -32,7 +32,7 @@
 
 			<TextView
 
-				android:text="Because you get these exclusive benefits:"
+				android:text="@string/upgrade_premium_description"
 				android:textAppearance="?android:textAppearanceMedium"
 				android:textColor="@color/lovingheart_white"
 				android:layout_gravity="center"
@@ -64,7 +64,7 @@
 
 
 				<TextView
-					android:text="Happiness Energy Report"
+					android:text="@string/upgrade_premium_energy_report"
 					android:layout_gravity="center_horizontal"
 					android:textAppearance="?android:textAppearanceMedium"
 					android:textColor="@color/lovingheart_white"
@@ -105,7 +105,7 @@
 
 
 				<TextView
-					android:text="Write private diary"
+					android:text="@string/upgrade_premium_write_private"
 					android:layout_gravity="center_horizontal"
 					android:textAppearance="?android:textAppearanceMedium"
 					android:textColor="@color/lovingheart_white"

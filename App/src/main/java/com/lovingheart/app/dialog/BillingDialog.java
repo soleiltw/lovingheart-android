@@ -86,10 +86,10 @@ public class BillingDialog extends Dialog {
                                 Log.d(DailyKind.TAG, "Inv: "+inv.getSkuDetails("personal_happiness_report_monthly"));
                                 upgradeMonthlyButton.setText(
                                         inv.getSkuDetails("personal_happiness_report_monthly").getPrice()
-                                        + getContext().getString(R.string.space)
+                                                + getContext().getString(R.string.space)
                                                 + getContext().getString(R.string.slash)
                                                 + getContext().getString(R.string.space)
-                                        + "1 month"
+                                                + getContext().getString(R.string.upgrade_premium_monthly_button_unit)
 
                                 );
                                 upgradeMonthlyButton.requestLayout();
