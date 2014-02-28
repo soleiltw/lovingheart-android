@@ -49,6 +49,8 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerFr
 
     private List<Category> categoryList;
 
+    private Fragment fragment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -119,6 +121,9 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerFr
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if(fragment != null){
+            fragment.onActivityResult(requestCode, resultCode, data);
+        }
     }
 
     @Override
@@ -158,7 +163,7 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerFr
 
         ActionBar actionBar = getActionBar();
 
-        Fragment fragment;
+
         switch (position) {
             case VIEW_PAGER_HOME_POSITION:
                 fragment =  HomeFragment.newInstance(position + 1);

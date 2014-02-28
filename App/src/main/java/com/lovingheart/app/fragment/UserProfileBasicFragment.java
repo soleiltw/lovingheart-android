@@ -64,6 +64,8 @@ public class UserProfileBasicFragment extends UserProfileFragment {
 
     private IInAppBillingService billingService;
 
+    private BillingDialog billingDialog;
+
     private ServiceConnection serviceConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
@@ -100,6 +102,19 @@ public class UserProfileBasicFragment extends UserProfileFragment {
         personalReportAdapter = new PersonalReportAdapter(getActivity(), android.R.layout.simple_list_item_1, reportWordings);
 
         getActivity().bindService(new Intent("com.android.vending.billing.InAppBillingService.BIND"), serviceConnection, Context.BIND_AUTO_CREATE);
+
+        billingDialog = new BillingDialog(getActivity(), true, new DialogInterface.OnCancelListener() {
+            /**
+             * This method will be invoked when the dialog is canceled.
+             *
+             * @param dialog The dialog that was canceled will be passed into the
+             *               method.
+             */
+            @Override
+            public void onCancel(DialogInterface dialog) {
+                dialog.dismiss();
+            }
+        });
     }
 
     @Override
@@ -131,18 +146,7 @@ public class UserProfileBasicFragment extends UserProfileFragment {
         billingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                BillingDialog billingDialog = new BillingDialog(getActivity(), true, new DialogInterface.OnCancelListener() {
-                    /**
-                     * This method will be invoked when the dialog is canceled.
-                     *
-                     * @param dialog The dialog that was canceled will be passed into the
-                     *               method.
-                     */
-                    @Override
-                    public void onCancel(DialogInterface dialog) {
-                        dialog.dismiss();
-                    }
-                });
+
                 billingDialog.show();
             }
         });
@@ -358,6 +362,14 @@ public class UserProfileBasicFragment extends UserProfileFragment {
 
     public void setUserId(String userId) {
         this.userId = userId;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (billingDialog != null && billingDialog.getIabHelper() != null) {
+            billingDialog.getIabHelper().handleActivityResult(requestCode, resultCode, data);
+        }
     }
 
 }

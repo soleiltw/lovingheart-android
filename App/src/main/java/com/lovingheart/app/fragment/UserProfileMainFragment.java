@@ -36,6 +36,7 @@ public class UserProfileMainFragment extends UserProfileFragment {
 
     private BootstrapButton askLoginButton;
 
+
     public static UserProfileMainFragment newInstance(int sectionNumber) {
         UserProfileMainFragment fragment = new UserProfileMainFragment();
         Bundle args = new Bundle();
@@ -86,6 +87,10 @@ public class UserProfileMainFragment extends UserProfileFragment {
         if (requestCode == CheckUserLoginUtil.ASK_USER_LOGIN) {
             checkLoginForLayout();
         }
+        Fragment profileFragment = (Fragment)fragmentStatePagerAdapter.instantiateItem(viewPager, 0);
+        if (profileFragment != null) {
+            profileFragment.onActivityResult(requestCode, resultCode, data);
+        }
     }
 
     @Override
@@ -112,12 +117,14 @@ public class UserProfileMainFragment extends UserProfileFragment {
 
         @Override
         public Fragment getItem(int position) {
+
+
             UserProfileFragment fragment = null;
 
             switch (position) {
                 case VIEW_PAGER_BASIC:
                     if (getUserId() == null) {
-                        fragment = new UserProfileMeFragment();
+                        fragment = UserProfileMeFragment.newInstance(position + 1);
                     } else {
                         fragment = new UserProfileBasicFragment();
                     }

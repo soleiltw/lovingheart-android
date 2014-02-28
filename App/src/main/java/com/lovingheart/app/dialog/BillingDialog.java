@@ -1,5 +1,6 @@
 package com.lovingheart.app.dialog;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.ComponentName;
 import android.content.Context;
@@ -10,13 +11,13 @@ import android.os.IBinder;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
+import android.widget.Toast;
 import com.android.vending.billing.IInAppBillingService;
-import com.android.vending.util.IabHelper;
-import com.android.vending.util.IabResult;
-import com.android.vending.util.Inventory;
+import com.android.vending.util.*;
 import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.lovingheart.app.DailyKind;
 import com.lovingheart.app.R;
+import com.parse.ParseUser;
 
 import java.util.ArrayList;
 
@@ -25,11 +26,16 @@ import java.util.ArrayList;
  */
 public class BillingDialog extends Dialog {
 
+    public static final String PERSONAL_HAPPINESS_REPORT_MONTHLY = "personal_happiness_report_monthly";
+    public static final String ANDROID_TEST_PURCHASED = "android.test.purchased";
+
     private IInAppBillingService billingService;
 
     private IabHelper iabHelper;
 
     private BootstrapButton upgradeMonthlyButton;
+
+    private static int PAYMENT_REQUEST_CODE = 100;
 
     private ServiceConnection serviceConnection = new ServiceConnection() {
         @Override
@@ -45,6 +51,9 @@ public class BillingDialog extends Dialog {
 
     public BillingDialog(Context context, boolean cancelable, OnCancelListener cancelListener) {
         super(context, cancelable, cancelListener);
+        if (context instanceof Activity) {
+            setOwnerActivity((Activity)context);
+        }
     }
 
     @Override
@@ -63,7 +72,7 @@ public class BillingDialog extends Dialog {
         iabHelper = new IabHelper(getContext(), base64EncodedPublicKey);
 
         final ArrayList<String> skuList = new ArrayList<String>();
-        skuList.add("personal_happiness_report_monthly");
+        skuList.add(PERSONAL_HAPPINESS_REPORT_MONTHLY);
         iabHelper.startSetup(new IabHelper.OnIabSetupFinishedListener() {
             /**
              * Called to notify that setup is complete.
@@ -83,16 +92,26 @@ public class BillingDialog extends Dialog {
                             if (!result.isFailure()) {
                                 Log.d(DailyKind.TAG, "onQueryInventoryFinished Result success.");
 
-                                Log.d(DailyKind.TAG, "Inv: "+inv.getSkuDetails("personal_happiness_report_monthly"));
-                                upgradeMonthlyButton.setText(
-                                        inv.getSkuDetails("personal_happiness_report_monthly").getPrice()
-                                                + getContext().getString(R.string.space)
-                                                + getContext().getString(R.string.slash)
-                                                + getContext().getString(R.string.space)
-                                                + getContext().getString(R.string.upgrade_premium_monthly_button_unit)
+                                Log.d(DailyKind.TAG, "Inv: "+inv.getSkuDetails(PERSONAL_HAPPINESS_REPORT_MONTHLY));
 
-                                );
-                                upgradeMonthlyButton.requestLayout();
+                                Purchase reportMonthlyPurchase =  inv.getPurchase(PERSONAL_HAPPINESS_REPORT_MONTHLY);
+
+                                if (verifyDeveloperPayload(reportMonthlyPurchase)) {
+                                    iabHelper.consumeAsync(reportMonthlyPurchase, consumeFinishedListener);
+                                } else {
+                                    upgradeMonthlyButton.setText(
+                                            inv.getSkuDetails("personal_happiness_report_monthly").getPrice()
+                                                    + getContext().getString(R.string.space)
+                                                    + getContext().getString(R.string.slash)
+                                                    + getContext().getString(R.string.space)
+                                                    + getContext().getString(R.string.upgrade_premium_monthly_button_unit)
+
+                                    );
+                                    upgradeMonthlyButton.requestLayout();
+                                }
+//                                skuDetails = inv.getSkuDetails(PERSONAL_HAPPINESS_REPORT_MONTHLY);
+                            } else {
+                                Log.d(DailyKind.TAG, "onQueryInventoryFinished Result. " +  result);
                             }
                         }
                     });
@@ -100,14 +119,76 @@ public class BillingDialog extends Dialog {
             }
         });
 
-        getContext().bindService(new Intent("com.android.vending.billing.InAppBillingService.BIND"), serviceConnection, Context.BIND_AUTO_CREATE);
+    }
 
-        upgradeMonthlyButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d(DailyKind.TAG, "User start purchasing.");
+    @Override
+    public void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        if (getOwnerActivity() != null) {
+            upgradeMonthlyButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Log.d(DailyKind.TAG, "User start purchasing.");
+
+                    // TODO start loading
+                    if  (iabHelper!=null) {
+                        iabHelper.flagEndAsync();
+
+                        iabHelper.launchPurchaseFlow(getOwnerActivity(), PERSONAL_HAPPINESS_REPORT_MONTHLY, PAYMENT_REQUEST_CODE, new IabHelper.OnIabPurchaseFinishedListener() {
+                            @Override
+                            public void onIabPurchaseFinished(IabResult result, Purchase purchase) {
+
+                                Log.d(DailyKind.TAG, "onIabPurchaseFinished.");
+
+                                if (purchase!= null && purchase.getSku()!=null) {
+                                    if (purchase.getSku().equals("android.test.purchased")) {
+                                        Log.d(DailyKind.TAG, "Purchase success. Result :" + result);
+                                    } else if (purchase.getSku().equals(PERSONAL_HAPPINESS_REPORT_MONTHLY)) {
+                                        // consume the PERSONAL_HAPPINESS_REPORT_MONTHLY and update the UI
+                                        Log.d(DailyKind.TAG, "Purchase success. Result :" + result);
+                                        iabHelper.consumeAsync(purchase, consumeFinishedListener);
+                                    }
+                                }
+
+                                if (result.isFailure()) {
+                                    Log.d(DailyKind.TAG, "Error purchasing: " + result);
+                                    Toast.makeText(getContext(), result.getMessage(), Toast.LENGTH_LONG).show();
+                                    return;
+                                }
+
+                            }
+                        }, ParseUser.getCurrentUser().getObjectId());
+                    }
+                }
+            });
+        }
+    }
+
+    private IabHelper.OnConsumeFinishedListener consumeFinishedListener = new IabHelper.OnConsumeFinishedListener() {
+        @Override
+        public void onConsumeFinished(Purchase purchase, IabResult result) {
+            Log.d(DailyKind.TAG, "Purchase: " + purchase + ", IabResult: " + result);
+            if (iabHelper == null) return;
+            if (result.isSuccess()) {
+                String successText ="Thanks for your subscriptions!";
+                Toast.makeText(getContext(), successText, Toast.LENGTH_LONG).show();
+                upgradeMonthlyButton.setText(successText);
+                upgradeMonthlyButton.setEnabled(false);
+                // TODO
+            } else {
+                if (result != null) {
+                    Toast.makeText(getContext(), result.getMessage(), Toast.LENGTH_LONG).show();
+                }
             }
-        });
+        }
+    };
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (billingService != null) {
+            getContext().bindService(new Intent("com.android.vending.billing.InAppBillingService.BIND"), serviceConnection, Context.BIND_AUTO_CREATE);
+        }
     }
 
     @Override
@@ -116,7 +197,40 @@ public class BillingDialog extends Dialog {
         if (billingService != null) {
             getContext().unbindService(serviceConnection);
         }
-        if (iabHelper!=null) iabHelper.dispose();
-        iabHelper = null;
+    }
+
+    public IabHelper getIabHelper() {
+        return iabHelper;
+    }
+
+    /** Verifies the developer payload of a purchase. */
+    public boolean verifyDeveloperPayload(Purchase p) {
+        String payload = p.getDeveloperPayload();
+
+        /*
+         * TODO: verify that the developer payload of the purchase is correct. It will be
+         * the same one that you sent when initiating the purchase.
+         *
+         * WARNING: Locally generating a random string when starting a purchase and
+         * verifying it here might seem like a good approach, but this will fail in the
+         * case where the user purchases an item on one device and then uses your app on
+         * a different device, because on the other device you will not have access to the
+         * random string you originally generated.
+         *
+         * So a good developer payload has these characteristics:
+         *
+         * 1. If two different users purchase an item, the payload is different between them,
+         *    so that one user's purchase can't be replayed to another user.
+         *
+         * 2. The payload must be such that you can verify it even when the app wasn't the
+         *    one who initiated the purchase flow (so that items purchased by the user on
+         *    one device work on other devices owned by the user).
+         *
+         * Using your own server to store and verify developer payloads across app
+         * installations is recommended.
+         */
+        Log.d(DailyKind.TAG, "Payload: "+ payload);
+
+        return true;
     }
 }
