@@ -112,6 +112,7 @@ public class DeedContentActivity extends ActionBarActivity {
 
                 storyDialog.setContentView(R.layout.fragment_stories);
                 storyDialog.setTitle(idea.getName());
+                storyDialog.setCanceledOnTouchOutside(true);
 
                 dialogProgressBarView = storyDialog.findViewById(R.id.loading_progress_bar);
 

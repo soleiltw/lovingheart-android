@@ -98,17 +98,18 @@ public class BillingDialog extends Dialog {
 
                                 if (verifyDeveloperPayload(reportMonthlyPurchase)) {
                                     iabHelper.consumeAsync(reportMonthlyPurchase, consumeFinishedListener);
-                                } else {
-                                    upgradeMonthlyButton.setText(
-                                            inv.getSkuDetails("personal_happiness_report_monthly").getPrice()
-                                                    + getContext().getString(R.string.space)
-                                                    + getContext().getString(R.string.slash)
-                                                    + getContext().getString(R.string.space)
-                                                    + getContext().getString(R.string.upgrade_premium_monthly_button_unit)
-
-                                    );
-                                    upgradeMonthlyButton.requestLayout();
                                 }
+
+                                upgradeMonthlyButton.setText(
+                                        inv.getSkuDetails("personal_happiness_report_monthly").getPrice()
+                                                + getContext().getString(R.string.space)
+                                                + getContext().getString(R.string.slash)
+                                                + getContext().getString(R.string.space)
+                                                + getContext().getString(R.string.upgrade_premium_monthly_button_unit)
+
+                                );
+                                upgradeMonthlyButton.requestLayout();
+
 //                                skuDetails = inv.getSkuDetails(PERSONAL_HAPPINESS_REPORT_MONTHLY);
                             } else {
                                 Log.d(DailyKind.TAG, "onQueryInventoryFinished Result. " +  result);
@@ -169,13 +170,17 @@ public class BillingDialog extends Dialog {
         public void onConsumeFinished(Purchase purchase, IabResult result) {
             Log.d(DailyKind.TAG, "Purchase: " + purchase + ", IabResult: " + result);
             if (iabHelper == null) return;
-            if (result.isSuccess()) {
+
+            if (result.isSuccess() || (purchase.getDeveloperPayload() != null && purchase.getToken() != null)) {
                 String successText ="Thanks for your subscriptions!";
-                Toast.makeText(getContext(), successText, Toast.LENGTH_LONG).show();
                 upgradeMonthlyButton.setText(successText);
                 upgradeMonthlyButton.setEnabled(false);
+            }
+
+            if (result.isSuccess()) {
                 // TODO
             } else {
+                // We can check Items of type 'subs' can't be consumed. (response: -1010:Invalid consumption attempt)
                 if (result != null) {
                     Toast.makeText(getContext(), result.getMessage(), Toast.LENGTH_LONG).show();
                 }
