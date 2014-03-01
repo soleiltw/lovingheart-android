@@ -60,6 +60,8 @@ public class StoryContentActivity extends ActionBarActivity {
 
     private List<Review> reviewList;
 
+    private View ideaViewGroup;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -95,6 +97,8 @@ public class StoryContentActivity extends ActionBarActivity {
         ExpandableListView reviewsListView = (ExpandableListView)findViewById(R.id.story_content_review_list_view);
         reviewsListView.setExpand(true);
         reviewsListView.setAdapter(reviewArrayAdapter);
+
+        ideaViewGroup = findViewById(R.id.story_idea_group_layout);
 
         storyReviewSetup();
         loadStory();
@@ -295,6 +299,8 @@ public class StoryContentActivity extends ActionBarActivity {
                             lastInspiredTextView.setText( story.getIdea().getName());
                             lastInspiredTextView.setVisibility(View.VISIBLE);
                         }
+                    } else {
+                        ideaViewGroup.setVisibility(View.GONE);
                     }
 
                     TextView lastSharedDateTextView = (TextView)findViewById(R.id.created_at_text_view);

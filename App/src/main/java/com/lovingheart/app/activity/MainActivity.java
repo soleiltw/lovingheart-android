@@ -41,6 +41,8 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerFr
 
     private CharSequence contentTitle;
 
+    private int navigationMode;
+
     private ArrayAdapter<String> storiesDropDownAdapter;
 
     private ArrayAdapter<String> ideaCategoryDropDownAdapter;
@@ -168,18 +170,21 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerFr
             case VIEW_PAGER_HOME_POSITION:
                 fragment =  HomeFragment.newInstance(position + 1);
                 contentTitle = getString(R.string.title_today);
+                navigationMode = ActionBar.NAVIGATION_MODE_STANDARD;
                 actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
                 actionBar.setDisplayShowTitleEnabled(true);
                 break;
             case VIEW_PAGER_ME_POSITION:
                 fragment = UserProfileMainFragment.newInstance(position + 1);
                 contentTitle = getString(R.string.title_me);
+                navigationMode = ActionBar.NAVIGATION_MODE_STANDARD;
                 actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
                 actionBar.setDisplayShowTitleEnabled(true);
                 break;
             case VIEW_PAGER_GOOD_DEEDS_POSITION:
                 fragment = DeedIdeaListFragment.newInstance(99);
                 contentTitle = getString(R.string.activity_deed_category);
+                navigationMode = ActionBar.NAVIGATION_MODE_LIST;
                 actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
                 actionBar.setDisplayShowTitleEnabled(false);
 
@@ -223,6 +228,7 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerFr
             case VIEW_PAGER_STORIES_POSITION:
                 fragment =  StoriesLatestFragment.newInstance(position + 1);
                 contentTitle = getString(R.string.title_stories);
+                navigationMode = ActionBar.NAVIGATION_MODE_LIST;
                 actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
                 actionBar.setDisplayShowTitleEnabled(false);
 
@@ -256,6 +262,7 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerFr
             default:
                 fragment =  PlaceholderFragment.newInstance(position + 1);
                 getActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+                navigationMode = ActionBar.NAVIGATION_MODE_STANDARD;
                 getActionBar().setDisplayShowTitleEnabled(true);
                 break;
         }
@@ -267,7 +274,9 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerFr
 
     @Override
     public void onNavigationDrawerOpened(View drawerView) {
+        getActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         getActionBar().setTitle(R.string.app_name);
+        getActionBar().setDisplayShowTitleEnabled(true);
         boolean isNeedUpdate = PreferenceManager.getDefaultSharedPreferences(this).getBoolean(DailyKind.NEED_UPDATE_DRAWER, false);
         if (isNeedUpdate) {
             mNavigationDrawerFragment.getDrawerListAdapter().notifyDataSetChanged();
@@ -280,6 +289,8 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerFr
     @Override
     public void onNavigationDrawerClosed(View drawerView) {
         getActionBar().setTitle(contentTitle);
+        getActionBar().setNavigationMode(navigationMode);
+        getActionBar().setDisplayShowTitleEnabled(navigationMode == ActionBar.NAVIGATION_MODE_STANDARD);
     }
 
     private void loadCategories() {

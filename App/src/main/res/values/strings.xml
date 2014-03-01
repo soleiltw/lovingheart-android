@@ -152,5 +152,6 @@
 	<string name="upgrade_premium_energy_report">Happiness Energy Report</string>
 	<string name="upgrade_premium_write_private">Write private diary</string>
 	<string name="upgrade_premium_monthly_button_unit">1 month</string>
+	<string name="story_content_story_title_share">The story</string>
 
 </resources>
