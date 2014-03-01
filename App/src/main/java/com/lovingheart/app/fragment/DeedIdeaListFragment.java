@@ -133,8 +133,6 @@ public class DeedIdeaListFragment extends PlaceholderFragment {
                     Log.d(DailyKind.TAG, "Idea totalCount: " + totalCount);
                     if (totalCount > ideaList.size()) {
                         ideasQuery.setSkip(ideaList.size());
-                        setParseLoading(true);
-                        updateRefreshItem();
                         ideasQuery.findInBackground(getIdeasCallback(true));
                     } else {
                         Log.d(DailyKind.TAG, "End of query.");

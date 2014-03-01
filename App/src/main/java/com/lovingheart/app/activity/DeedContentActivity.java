@@ -1,6 +1,5 @@
 package com.lovingheart.app.activity;
 
-import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -9,12 +8,12 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.*;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.lovingheart.app.DailyKind;
 import com.lovingheart.app.R;
-import com.lovingheart.app.adapter.StoryArrayAdapter;
-import com.lovingheart.app.listener.LoadMoreListener;
 import com.lovingheart.app.object.Idea;
 import com.lovingheart.app.util.CheckUserLoginUtil;
 import com.lovingheart.app.util.parse.ParseObjectManager;
@@ -41,17 +40,12 @@ public class DeedContentActivity extends ActionBarActivity {
 
     private Idea idea;
 
-    private ParseObject ideaObject;
-
     private View progressBarView;
-
-    private StoryArrayAdapter storyArrayAdapter;
 
     private List<ParseObject> userActivities;
 
     private BootstrapButton storiesButton;
 
-    private View dialogProgressBarView;
 
     private View.OnClickListener askUserLoginListener = new View.OnClickListener() {
         @Override
@@ -74,14 +68,6 @@ public class DeedContentActivity extends ActionBarActivity {
         ideaObjectId = getIntent().getStringExtra("ideaObjectId");
 
         userActivities = new ArrayList<ParseObject>();
-
-        storyArrayAdapter = new StoryArrayAdapter(DeedContentActivity.this, android.R.layout.simple_list_item_1, userActivities);
-        storyArrayAdapter.setLoadMoreListener(new LoadMoreListener() {
-            @Override
-            public void notifyLoadMore() {
-                loadStories(true);
-            }
-        });
     }
 
     @Override
@@ -105,30 +91,10 @@ public class DeedContentActivity extends ActionBarActivity {
         storiesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                loadStories(false);
-
-                Dialog storyDialog = new Dialog(DeedContentActivity.this);
-
-                storyDialog.setContentView(R.layout.fragment_stories);
-                storyDialog.setTitle(idea.getName());
-                storyDialog.setCanceledOnTouchOutside(true);
-
-                dialogProgressBarView = storyDialog.findViewById(R.id.loading_progress_bar);
-
-                ListView storyListView = (ListView) storyDialog.findViewById(R.id.user_activities_list_view);
-                storyListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        Intent storyContentIntent = new Intent(DeedContentActivity.this, StoryContentActivity.class);
-                        ParseObject activity = userActivities.get(position);
-                        storyContentIntent.putExtra("objectId", activity.getObjectId());
-                        startActivity(storyContentIntent);
-                    }
-                });
-                storyListView.setAdapter(storyArrayAdapter);
-
-                storyDialog.show();
+                // Open intent
+                Intent storiesIntent = new Intent(DeedContentActivity.this, StoriesCategoryActivity.class);
+                storiesIntent.putExtra("ideaObjectId", ideaObjectId);
+                startActivity(storiesIntent);
             }
         });
 
@@ -139,95 +105,6 @@ public class DeedContentActivity extends ActionBarActivity {
         progressBarView = findViewById(R.id.good_content_progress_bar);
 
         loadIdea();
-    }
-
-    protected void loadStories(final boolean more) {
-        final ParseQuery<ParseObject> parseQuery = ParseQuery.getQuery("Story");
-        parseQuery.include("StoryTeller");
-        parseQuery.orderByDescending("createdAt");
-        parseQuery.include("ideaPointer");
-        parseQuery.include("graphicPointer");
-        parseQuery.setLimit(DailyKind.PARSE_QUERY_LIMIT);
-        parseQuery.whereContainedIn("language", DailyKind.getLanguageCollection(DeedContentActivity.this));
-        parseQuery.whereEqualTo("ideaPointer", ideaObject);
-        parseQuery.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
-
-        ParseQuery storyCountQuery = ParseQuery.getQuery("Story");
-        storyCountQuery.setCachePolicy(ParseQuery.CachePolicy.CACHE_ELSE_NETWORK);
-        storyCountQuery.setMaxCacheAge(DailyKind.QUERY_MAX_CACHE_AGE);
-        storyCountQuery.whereContainedIn("language", DailyKind.getLanguageCollection(DeedContentActivity.this));
-        storyCountQuery.whereEqualTo("ideaPointer", ideaObject);
-        storyCountQuery.countInBackground(new CountCallback() {
-            @Override
-            public void done(final int totalCount, ParseException e) {
-
-                ideaObject.put("doneCount", totalCount);
-                ideaObject.saveInBackground(new SaveCallback() {
-                    @Override
-                    public void done(ParseException e) {
-                        Log.d(DailyKind.TAG, "Idea total Count update: " + totalCount);
-                    }
-                });
-
-                if (more) {
-                    if (totalCount > userActivities.size()) {
-                        parseQuery.setSkip(userActivities.size());
-                        if (dialogProgressBarView != null) {
-                            dialogProgressBarView.setVisibility(View.VISIBLE);
-                        }
-                        queryToCallBack(parseQuery);
-                    } else {
-                        Log.d(DailyKind.TAG, "End of query.");
-                        storyArrayAdapter.setLoadMoreEnd(true);
-                    }
-                }
-
-            }
-        });
-
-        if (!more) {
-            userActivities.clear();
-            if (dialogProgressBarView != null) {
-                dialogProgressBarView.setVisibility(View.VISIBLE);
-            }
-            queryToCallBack(parseQuery);
-        }
-    }
-
-    protected void queryToCallBack(ParseQuery<ParseObject> parseQuery) {
-
-        parseQuery.findInBackground(new FindCallback<ParseObject>() {
-            @Override
-            public void done(List<ParseObject> parseObjects, ParseException e) {
-
-                if (parseObjects!=null) {
-
-                    boolean dataHasChange = false;
-                    for (ParseObject eachParseObject : parseObjects) {
-                        boolean hasAdd = false;
-                        // If use cache then network, then done will be call 2 times.
-                        for (ParseObject addedParseObject : userActivities) {
-                            if (eachParseObject.getObjectId().equals(addedParseObject.getObjectId())) {
-                                hasAdd = true;
-                                break;
-                            }
-                        }
-                        if (!hasAdd) {
-                            dataHasChange = true;
-                            userActivities.add(eachParseObject);
-                        } else {
-                            Log.d(DailyKind.TAG, "CachePolicy Skip object: " + eachParseObject.getObjectId());
-                        }
-                    }
-                    if (dataHasChange) {
-                        storyArrayAdapter.notifyDataSetChanged();
-                    }
-                }
-                if (dialogProgressBarView != null) {
-                    dialogProgressBarView.setVisibility(View.GONE);
-                }
-            }
-        });
     }
 
     private void actionButtonSetup() {
@@ -278,8 +155,6 @@ public class DeedContentActivity extends ActionBarActivity {
                 findViewById(R.id.good_content_progress_bar).setVisibility(View.GONE);
 
                 if (ideaParseObject != null) {
-
-                    ideaObject = ideaParseObject;
 
                     idea = new ParseObjectManager(ideaParseObject).getIdea();
                     idea.setCategory(new ParseObjectManager(ideaParseObject.getParseObject("categoryPointer")).getCategory());

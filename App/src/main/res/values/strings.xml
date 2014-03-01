@@ -24,6 +24,7 @@
 	<string name="deed_of_day_sample_1">Turn off some lights, just few steps to save the world energy.</string>
 
 	<string name="deed_of_number_of_people_prefix">Done</string>
+	<string name="deed_of_number_of_people_prefix_short">Done</string>
 	<string name="deed_of_number_of_people_post_time">time</string>
 	<string name="deed_of_number_of_people_post_times">times</string>
 

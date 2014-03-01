@@ -52,17 +52,22 @@ public class IdeaArrayAdapter extends ArrayAdapter<Idea> {
         descriptionTextView.setText(idea.getIdeaDescription());
 
         TextView doneTextView = (TextView)rootView.findViewById(R.id.idea_done_text_view);
+        if (idea.getDoneCount() > 0) {
         doneTextView.setText(
-                getContext().getString(R.string.deed_of_number_of_people_prefix) +
+                getContext().getString(R.string.deed_of_number_of_people_prefix_short) +
                         getContext().getString(R.string.space) +
                         idea.getDoneCount() +
                         getContext().getString(R.string.space) +
                         (idea.getDoneCount() > 1 ?
                                 getContext().getString(R.string.deed_of_number_of_people_post_times) :
                                 getContext().getString(R.string.deed_of_number_of_people_post_time))
-                        );
-
-        if (position >= getCount() - 1
+        );
+            doneTextView.setVisibility(View.VISIBLE);
+        } else {
+            doneTextView.setVisibility(View.INVISIBLE);
+        }
+            
+       if (position >= getCount() - 1
                 && getLoadMoreListener() != null
                 && !isLoadMoreEnd()
                 && getCount() >= DailyKind.PARSE_QUERY_LIMIT) {

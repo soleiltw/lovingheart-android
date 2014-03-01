@@ -21,7 +21,8 @@
 	<string name="me_number_of_stories_shared">故事分享</string>
 	<string name="me_since_pre_text">自從</string>
 
-	<string name="deed_of_number_of_people_prefix">完成</string>
+	<string name="deed_of_number_of_people_prefix">這張行善推薦卡已經完成了</string>
+	<string name="deed_of_number_of_people_prefix_short">已經完成了</string>
 	<string name="deed_of_number_of_people_post_time">次</string>
 	<string name="deed_of_number_of_people_post_times">次</string>
 
@@ -36,7 +37,7 @@
 	<string name="deed_content_be_the_first_one">成為第一個</string>
 	<string name="user_login_login">登入</string>
 	
-	<string name="deed_content_done_credit">完成後，您可以獲得這張貼圖。</string>
+	<string name="deed_content_done_credit">您還沒有完成這張行善推薦卡噢！</string>
 	<string name="stories_last_share_content_text_prefix">最新分享</string>
 	<string name="stories_last_share_date_text_prefix">分享於</string>
 	<string name="stories_last_share_inspired_by_text_prefix">來自</string>
@@ -67,7 +68,7 @@
 
 	<string name="idea_cards_browse_more">觀看更多</string>
 	<string name="good_deed_content_remind_me">提醒</string>
-	<string name="good_deed_content_do_it_now">記錄完成</string>
+	<string name="good_deed_content_do_it_now">分享您的故事</string>
 	<string name="post_story_post">發佈</string>
 	<string name="me_graphic_gallery">相簿</string>
 	<string name="user_login_or">或</string>
@@ -89,7 +90,7 @@
 	<string name="activity_settings">設定</string>
 	<string name="activity_story">故事</string>
 	<string name="activity_deed_content">日行一善</string>
-	<string name="activity_deed_category">行善方式</string>
+	<string name="activity_deed_category">行善推薦卡</string>
 	<string name="activity_story_edit">故事編輯</string>
 	<string name="story_content_encourage_ratings">給予鼓勵</string>
 	<string name="submit">送出</string>
@@ -120,7 +121,7 @@
 
 	<string name="setting_idea_feedback_summary">和我們分享你的想法</string>
 	<string name="setting_idea_feedback_title">想法與建議</string>
-	<string name="user_profile_stories_list_header">分享的故事</string>
+	<string name="user_profile_stories_list_header">分享故事</string>
 	<string name="user_profile_graphics_list_header">獲得的圖示</string>
 	<string name="activity_user_profile_label">個人檔案</string>
 	<string name="user_profile_graphics_empty_text">還沒獲得任何圖示</string>
@@ -133,7 +134,7 @@
 	<string name="user_profile_positive_energy_report_bottom">讓我們分享友善行動來讓世界變得更美好。</string>
 	<string name="idea_category_select_item_all">全部</string>
 
-	<string name="good_deed_content_stories">閱讀故事</string>
+	<string name="good_deed_content_stories">閱讀分享故事</string>
 
 	<string name="setting_privacy_policy_title">服務條款與隱私權政策</string>
 	<string name="setting_privacy_policy_summary">閱讀關於服務條款與隱私權政策。</string>

@@ -83,6 +83,12 @@
 	              android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
 	              android:label="@string/activity_story" />
 
+	    // StoriesCategoryActivity
+	    <activity android:name=".activity.StoriesCategoryActivity"
+	              android:logo="@drawable/inner_icon"
+	              android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
+	              android:label="@string/activity_story" />
+
 	    <activity android:name=".activity.SettingActivity"
 	              android:logo="@drawable/inner_icon"
 	              android:screenOrientation="portrait"
