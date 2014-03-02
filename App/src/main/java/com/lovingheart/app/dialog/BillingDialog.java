@@ -35,6 +35,7 @@ import java.util.ArrayList;
 public class BillingDialog extends Dialog {
 
     public static final String PERSONAL_HAPPINESS_REPORT_MONTHLY = "personal_happiness_report_monthly";
+    public static final String PERSONAL_HAPPINESS_REPORT_YEARLY = "personal_happiness_report_yearly";
     public static final String ANDROID_TEST_PURCHASED = "android.test.purchased";
 
     private IInAppBillingService billingService;
@@ -77,10 +78,9 @@ public class BillingDialog extends Dialog {
 
         setTitle(getContext().getString(R.string.billing_upgrade_to_premium));
 
-        upgradeMonthlyButton = (BootstrapButton)findViewById(R.id.upgrade_monthly_billing_button);
-
         premiumFeatureListView = (ExpandableListView)findViewById(R.id.upgrade_to_premium_list_view);
         premiumFeatureListView.setExpand(true);
+
 
         final ArrayList<PremiumFeature> premiumFeatureArrayList = new ArrayList<PremiumFeature>();
         PremiumFeature reportFeature = new PremiumFeature();
@@ -114,6 +114,7 @@ public class BillingDialog extends Dialog {
 
         final ArrayList<String> skuList = new ArrayList<String>();
         skuList.add(PERSONAL_HAPPINESS_REPORT_MONTHLY);
+        skuList.add(PERSONAL_HAPPINESS_REPORT_YEARLY);
         iabHelper.startSetup(new IabHelper.OnIabSetupFinishedListener() {
             /**
              * Called to notify that setup is complete.
@@ -141,17 +142,23 @@ public class BillingDialog extends Dialog {
                                     iabHelper.consumeAsync(reportMonthlyPurchase, consumeFinishedListener);
                                 }
 
-                                upgradeMonthlyButton.setText(
-                                        inv.getSkuDetails("personal_happiness_report_monthly").getPrice()
-                                                + getContext().getString(R.string.space)
-                                                + getContext().getString(R.string.slash)
-                                                + getContext().getString(R.string.space)
-                                                + getContext().getString(R.string.upgrade_premium_monthly_button_unit)
+                                if (!inv.hasPurchase(PERSONAL_HAPPINESS_REPORT_MONTHLY) && inv.hasDetails(PERSONAL_HAPPINESS_REPORT_MONTHLY)) {
+                                    upgradeMonthlyButton = (BootstrapButton)findViewById(R.id.upgrade_monthly_billing_button);
+                                    upgradeMonthlyButton.setText(
+                                            inv.getSkuDetails(PERSONAL_HAPPINESS_REPORT_MONTHLY).getPrice()
+                                                    + getContext().getString(R.string.space)
+                                                    + getContext().getString(R.string.slash)
+                                                    + getContext().getString(R.string.space)
+                                                    + getContext().getString(R.string.upgrade_premium_year_button_unit)
 
-                                );
-                                upgradeMonthlyButton.requestLayout();
+                                    );
+                                    upgradeMonthlyButton.requestLayout();
+                                } else {
+                                    String successText = getContext().getString(R.string.billing_premium_has_becom_member_thanks);
+                                    upgradeMonthlyButton.setText(successText);
+                                    upgradeMonthlyButton.setEnabled(false);
+                                }
 
-//                                skuDetails = inv.getSkuDetails(PERSONAL_HAPPINESS_REPORT_MONTHLY);
                             } else {
                                 Log.d(DailyKind.TAG, "onQueryInventoryFinished Result. " +  result);
                             }
@@ -168,6 +175,10 @@ public class BillingDialog extends Dialog {
     public void onAttachedToWindow() {
         super.onAttachedToWindow();
         if (getOwnerActivity() != null) {
+
+            getOwnerActivity().bindService(new Intent("com.android.vending.billing.InAppBillingService.BIND"), serviceConnection, Context.BIND_AUTO_CREATE);
+
+            upgradeMonthlyButton = (BootstrapButton)findViewById(R.id.upgrade_monthly_billing_button);
             upgradeMonthlyButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -214,9 +225,6 @@ public class BillingDialog extends Dialog {
             if (iabHelper == null) return;
 
             if (result.isSuccess() || (purchase.getDeveloperPayload() != null && purchase.getToken() != null)) {
-                String successText = getContext().getString(R.string.billing_premium_has_becom_member_thanks);
-                upgradeMonthlyButton.setText(successText);
-                upgradeMonthlyButton.setEnabled(false);
 
                 // Update to parse
                 ParseQuery<ParseObject> premiumCheck = ParseQuery.getQuery("Premium");
@@ -268,9 +276,6 @@ public class BillingDialog extends Dialog {
     @Override
     protected void onStart() {
         super.onStart();
-        if (billingService != null) {
-            getContext().bindService(new Intent("com.android.vending.billing.InAppBillingService.BIND"), serviceConnection, Context.BIND_AUTO_CREATE);
-        }
     }
 
     @Override

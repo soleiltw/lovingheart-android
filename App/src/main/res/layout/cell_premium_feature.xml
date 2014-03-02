@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="horizontal"
               android:layout_width="match_parent"
-              android:layout_height="match_parent">
+              android:layout_height="wrap_content">
 
 	<ImageView
 		android:padding="5dp"
@@ -16,6 +16,7 @@
 		android:orientation="vertical"
 		android:layout_gravity="center_vertical"
 		android:padding="5dp"
+		android:layout_toRightOf="@+id/premium_image_view"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content">
 
@@ -23,6 +24,8 @@
 		<TextView
 			android:layout_gravity="center_horizontal"
 			android:id="@+id/premium_text_view"
+			android:layout_marginTop="5dp"
+			android:layout_marginBottom="5dp"
 			android:textAppearance="?android:textAppearanceMedium"
 			android:textColor="@color/lovingheart_white"
 			android:shadowColor="#7F000000"
@@ -35,4 +38,4 @@
 
 	</LinearLayout>
 
-</LinearLayout>
+</RelativeLayout>

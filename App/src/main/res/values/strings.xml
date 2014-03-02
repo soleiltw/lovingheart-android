@@ -155,5 +155,10 @@
 	<string name="story_content_story_title_share">The story</string>
 	<string name="billing_upgrade_to_premium">Upgrade to Premium</string>
 	<string name="billing_premium_has_becom_member_thanks">Thanks for your subscriptions!</string>
+	<string name="profile_tab_home">Profile</string>
+	<string name="profile_tab_stories">Stories</string>
+	<string name="profile_tab_collections">Collections</string>
+	<string name="profile_tab_report">Report</string>
+	<string name="upgrade_premium_year_button_unit">1 year</string>
 
 </resources>

@@ -29,7 +29,9 @@ public class UserProfileMainFragment extends UserProfileFragment {
     public static final int VIEW_PAGER_BASIC = 0;
     public static final int VIEW_PAGER_STORIES = 1;
     public static final int VIEW_PAGER_COLLECTIONS = 2;
-    public static final int VIEW_PAGER_COUNT = 3;
+    public static final int VIEW_PAGER_REPORT = 3;
+
+    public static final int VIEW_PAGER_COUNT = 4;
 
     private View userProfileLayout;
     private View askLoginLayout;
@@ -135,6 +137,9 @@ public class UserProfileMainFragment extends UserProfileFragment {
                 case VIEW_PAGER_COLLECTIONS:
                     fragment = new UserProfileGraphicsFragment();
                     break;
+                case VIEW_PAGER_REPORT:
+                    fragment = UserProfileReportsFragment.newInstance(position + 1);
+                    break;
             }
             if (getUserId()!= null) {
                 fragment.setUserId(getUserId());
@@ -157,13 +162,16 @@ public class UserProfileMainFragment extends UserProfileFragment {
             String pageTitle = new String();
             switch (position) {
                 case VIEW_PAGER_BASIC:
-                    pageTitle = "Profile";
+                    pageTitle = getResources().getString(R.string.profile_tab_home);
                     break;
                 case VIEW_PAGER_STORIES:
-                    pageTitle = "Stories";
+                    pageTitle = getResources().getString(R.string.profile_tab_stories);
                     break;
                 case VIEW_PAGER_COLLECTIONS:
-                    pageTitle = "Collections";
+                    pageTitle = getResources().getString(R.string.profile_tab_collections);
+                    break;
+                case VIEW_PAGER_REPORT:
+                    pageTitle = getResources().getString(R.string.profile_tab_report);
                     break;
             }
             return pageTitle;
