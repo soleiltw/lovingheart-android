@@ -25,7 +25,7 @@ import com.lovingheart.app.activity.WebViewActivity;
 import com.lovingheart.app.adapter.PremiumFeatureAdapter;
 import com.lovingheart.app.object.PremiumFeature;
 import com.lovingheart.app.view.ExpandableListView;
-import com.parse.ParseUser;
+import com.parse.*;
 
 import java.util.ArrayList;
 
@@ -209,14 +209,49 @@ public class BillingDialog extends Dialog {
 
     private IabHelper.OnConsumeFinishedListener consumeFinishedListener = new IabHelper.OnConsumeFinishedListener() {
         @Override
-        public void onConsumeFinished(Purchase purchase, IabResult result) {
+        public void onConsumeFinished(final Purchase purchase, IabResult result) {
             Log.d(DailyKind.TAG, "Purchase: " + purchase + ", IabResult: " + result);
             if (iabHelper == null) return;
 
             if (result.isSuccess() || (purchase.getDeveloperPayload() != null && purchase.getToken() != null)) {
-                String successText ="Thanks for your subscriptions!";
+                String successText = getContext().getString(R.string.billing_premium_has_becom_member_thanks);
                 upgradeMonthlyButton.setText(successText);
                 upgradeMonthlyButton.setEnabled(false);
+
+                // Update to parse
+                ParseQuery<ParseObject> premiumCheck = ParseQuery.getQuery("Premium");
+                premiumCheck.whereEqualTo("UserId", ParseUser.getCurrentUser());
+                premiumCheck.whereEqualTo("Sku", purchase.getSku());
+                premiumCheck.whereEqualTo("OrderId", purchase.getOrderId());
+                premiumCheck.getFirstInBackground(new GetCallback<ParseObject>() {
+                    @Override
+                    public void done(ParseObject parseObject, ParseException e) {
+                        ParseObject premiumObject = null;
+                        if (parseObject == null) {
+                            premiumObject = new ParseObject("Premium");
+                        } else {
+                            premiumObject = parseObject;
+                        }
+                        premiumObject.put("UserId", ParseUser.getCurrentUser());
+                        premiumObject.put("DeveloperPayload", purchase.getDeveloperPayload());
+                        premiumObject.put("OrderId", purchase.getOrderId());
+                        premiumObject.put("ItemType", purchase.getItemType());
+                        premiumObject.put("PurchaseTime", purchase.getPurchaseTime());
+                        premiumObject.put("Sku", purchase.getSku());
+                        premiumObject.put("Signature", purchase.getSignature());
+                        premiumObject.put("PackageName", purchase.getPackageName());
+                        premiumObject.put("PurchaseState", purchase.getPurchaseState());
+
+                        premiumObject.saveInBackground(new SaveCallback() {
+                            @Override
+                            public void done(ParseException e) {
+                                if (e==null) {
+                                    Log.d(DailyKind.TAG, "Premium purchase record updated.");
+                                }
+                            }
+                        });
+                    }
+                });
             }
 
             if (result.isSuccess()) {

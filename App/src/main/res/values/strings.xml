@@ -154,5 +154,6 @@
 	<string name="upgrade_premium_monthly_button_unit">1 month</string>
 	<string name="story_content_story_title_share">The story</string>
 	<string name="billing_upgrade_to_premium">Upgrade to Premium</string>
+	<string name="billing_premium_has_becom_member_thanks">Thanks for your subscriptions!</string>
 
 </resources>
