@@ -146,4 +146,5 @@
 	<string name="upgrade_premium_write_private">書寫私人故事</string>
 	<string name="upgrade_premium_monthly_button_unit">1 個月</string>
 	<string name="story_content_story_title_share">故事</string>
+	<string name="billing_upgrade_to_premium">升級成金級會員</string>
 </resources>

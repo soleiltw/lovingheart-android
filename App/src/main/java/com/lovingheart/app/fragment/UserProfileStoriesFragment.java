@@ -7,11 +7,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ListView;
 import com.lovingheart.app.DailyKind;
 import com.lovingheart.app.R;
 import com.lovingheart.app.activity.StoryContentActivity;
 import com.lovingheart.app.adapter.UserStoryArrayAdapter;
+import com.lovingheart.app.view.ExpandableListView;
 import com.parse.*;
 
 import java.util.ArrayList;
@@ -22,7 +22,7 @@ import java.util.List;
  */
 public class UserProfileStoriesFragment extends UserProfileFragment {
 
-    private ListView userStoriesListView;
+    private ExpandableListView userStoriesListView;
 
     private UserStoryArrayAdapter userStoryArrayAdapter;
 
@@ -81,7 +81,8 @@ public class UserProfileStoriesFragment extends UserProfileFragment {
 
         View rootView = inflater.inflate(R.layout.framgent_user_stories, container, false);
 
-        userStoriesListView = (ListView)rootView.findViewById(R.id.me_stories_list_view);
+        userStoriesListView = (ExpandableListView)rootView.findViewById(R.id.me_stories_list_view);
+        userStoriesListView.setExpand(true);
         userStoriesListView.setAdapter(userStoryArrayAdapter);
         userStoriesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

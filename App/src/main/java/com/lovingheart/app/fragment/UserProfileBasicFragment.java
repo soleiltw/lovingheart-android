@@ -222,7 +222,6 @@ public class UserProfileBasicFragment extends UserProfileFragment {
         queryProfile(new ProfileCallBack());
 
         // Find out why
-//        billingView.setVisibility(View.GONE);
     }
 
     protected class ProfileCallBack extends GetCallback<ParseUser> {

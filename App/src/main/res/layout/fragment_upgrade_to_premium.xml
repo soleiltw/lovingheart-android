@@ -41,90 +41,10 @@
 
 		</LinearLayout>
 
-		<include layout="@layout/line_seperate_upgrade_to_premium" />
-
-		<LinearLayout
-			android:orientation="horizontal"
+		<com.lovingheart.app.view.ExpandableListView
+			android:id="@+id/upgrade_to_premium_list_view"
 			android:layout_width="fill_parent"
-			android:layout_height="wrap_content">
-
-			<ImageView
-				android:padding="5dp"
-				android:src="@drawable/ic_action_grow"
-				android:layout_gravity="center_vertical"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"/>
-
-			<LinearLayout
-				android:orientation="vertical"
-				android:layout_gravity="center_vertical"
-				android:padding="5dp"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content">
-
-
-				<TextView
-					android:text="@string/upgrade_premium_energy_report"
-					android:layout_gravity="center_horizontal"
-					android:textAppearance="?android:textAppearanceMedium"
-					android:textColor="@color/lovingheart_white"
-					android:shadowColor="#7F000000"
-					android:shadowDx="1"
-					android:shadowDy="1"
-					android:shadowRadius="2"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"/>
-
-
-				</LinearLayout>
-
-
-
-		</LinearLayout>
-
-		<include layout="@layout/line_seperate_upgrade_to_premium" />
-
-		<LinearLayout
-			android:orientation="horizontal"
-			android:layout_width="fill_parent"
-			android:layout_height="wrap_content">
-
-			<ImageView
-				android:padding="5dp"
-				android:src="@drawable/ic_action_lock_closed"
-				android:layout_gravity="center_vertical"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"/>
-
-			<LinearLayout
-				android:orientation="vertical"
-				android:layout_gravity="center_vertical"
-				android:padding="5dp"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content">
-
-
-				<TextView
-					android:text="@string/upgrade_premium_write_private"
-					android:layout_gravity="center_horizontal"
-					android:textAppearance="?android:textAppearanceMedium"
-					android:textColor="@color/lovingheart_white"
-					android:shadowColor="#7F000000"
-					android:shadowDx="1"
-					android:shadowDy="1"
-					android:shadowRadius="2"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"/>
-
-
-			</LinearLayout>
-
-
-
-		</LinearLayout>
-
-		<include layout="@layout/line_seperate_upgrade_to_premium" />
-
+			android:layout_height="wrap_content" />
 
 		<com.beardedhen.androidbootstrap.BootstrapButton
 			android:layout_width="wrap_content"

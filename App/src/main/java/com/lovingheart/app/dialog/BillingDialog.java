@@ -11,12 +11,20 @@ import android.os.IBinder;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
+import android.widget.AdapterView;
 import android.widget.Toast;
 import com.android.vending.billing.IInAppBillingService;
-import com.android.vending.util.*;
+import com.android.vending.util.IabHelper;
+import com.android.vending.util.IabResult;
+import com.android.vending.util.Inventory;
+import com.android.vending.util.Purchase;
 import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.lovingheart.app.DailyKind;
 import com.lovingheart.app.R;
+import com.lovingheart.app.activity.WebViewActivity;
+import com.lovingheart.app.adapter.PremiumFeatureAdapter;
+import com.lovingheart.app.object.PremiumFeature;
+import com.lovingheart.app.view.ExpandableListView;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
@@ -36,6 +44,10 @@ public class BillingDialog extends Dialog {
     private BootstrapButton upgradeMonthlyButton;
 
     private static int PAYMENT_REQUEST_CODE = 100;
+
+    private ExpandableListView premiumFeatureListView;
+
+    private PremiumFeatureAdapter premiumFeatureAdapter;
 
     private ServiceConnection serviceConnection = new ServiceConnection() {
         @Override
@@ -63,9 +75,38 @@ public class BillingDialog extends Dialog {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.fragment_upgrade_to_premium);
 
-        setTitle("Upgrade to Premium");
+        setTitle(getContext().getString(R.string.billing_upgrade_to_premium));
 
         upgradeMonthlyButton = (BootstrapButton)findViewById(R.id.upgrade_monthly_billing_button);
+
+        premiumFeatureListView = (ExpandableListView)findViewById(R.id.upgrade_to_premium_list_view);
+        premiumFeatureListView.setExpand(true);
+
+        final ArrayList<PremiumFeature> premiumFeatureArrayList = new ArrayList<PremiumFeature>();
+        PremiumFeature reportFeature = new PremiumFeature();
+        reportFeature.setImageSrc(R.drawable.ic_action_grow);
+        reportFeature.setTitle(getContext().getString(R.string.upgrade_premium_energy_report));
+        reportFeature.setDescriptionUrl("https://lovingheart.uservoice.com/knowledgebase/articles/327414-正向能量報告會有什麼呢-");
+        premiumFeatureArrayList.add(reportFeature);
+        PremiumFeature privateFeature = new PremiumFeature();
+        privateFeature.setDescriptionUrl("https://lovingheart.uservoice.com/knowledgebase/articles/327417-書寫不公開故事");
+        privateFeature.setImageSrc(R.drawable.ic_action_lock_closed);
+        privateFeature.setTitle(getContext().getString(R.string.upgrade_premium_write_private));
+        premiumFeatureArrayList.add(privateFeature);
+
+        premiumFeatureAdapter = new PremiumFeatureAdapter(getContext(), R.layout.cell_premium_feature, premiumFeatureArrayList);
+
+        premiumFeatureListView.setAdapter(premiumFeatureAdapter);
+        premiumFeatureListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                PremiumFeature premiumFeature = premiumFeatureArrayList.get(position);
+
+                Intent webIntent = new Intent(getContext(), WebViewActivity.class);
+                webIntent.putExtra("webUrl", premiumFeature.getDescriptionUrl());
+                getContext().startActivity(webIntent);
+            }
+        });
 
         // compute your public key and store it in base64EncodedPublicKey
         String base64EncodedPublicKey = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAqavqOWQFio1oDfW8HUppNtuMxeB7uAZ8pRvn+aHGOXvg4OFfsrzlJkDHOqWAbnJKbU4vpPTH7TOgkeHl/PcztR1BA1P6Y2RZaPlMLvL838ZKgg0glro38QfMbrKFgzMjJ4jZAKEwGcc2feNnp3WGyRKnJnjds9sHK3Yg2G0jD6xanCng50z7+mC4Bt+zKtcSuCDoFq35H5WVhl32ecY+vPoorHYZFLB0LQ2miWdPmNb5WfY80PJy3ZuS1MIgDyBPr1TukCrJnpMpWQ9n57HsDwHbeNHw7Z4qfxuewLGInJuxQC0wY+JTgMQnrc0hxOE86YhlC5PTWvdKpjaQT47giwIDAQAB";
@@ -121,6 +162,7 @@ public class BillingDialog extends Dialog {
         });
 
     }
+
 
     @Override
     public void onAttachedToWindow() {
