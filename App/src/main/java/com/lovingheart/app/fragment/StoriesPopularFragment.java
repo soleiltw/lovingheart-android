@@ -21,7 +21,7 @@ public class StoriesPopularFragment extends StoriesFeedsFragment {
         return fragment;
     }
 
-    protected void loadStories(boolean more) {
+    protected void loadStories(final boolean more) {
 
         Log.d(DailyKind.TAG, "StoriesPopularFragment loadStories more: "+more);
 
@@ -39,7 +39,7 @@ public class StoriesPopularFragment extends StoriesFeedsFragment {
                 public void done(int totalCount, ParseException e) {
                     if (totalCount > userActivities.size()) {
                         parseQuery.setSkip(userActivities.size());
-                        queryToCallBack(parseQuery);
+                        queryToCallBack(parseQuery, more);
                     } else {
                         Log.d(DailyKind.TAG, "End of query.");
                     }
@@ -48,7 +48,7 @@ public class StoriesPopularFragment extends StoriesFeedsFragment {
 
         } else {
             userActivities.clear();
-            queryToCallBack(parseQuery);
+            queryToCallBack(parseQuery, more);
         }
 
     }

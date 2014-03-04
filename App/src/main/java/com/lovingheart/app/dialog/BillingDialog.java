@@ -12,7 +12,6 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
-import android.widget.Toast;
 import com.android.vending.billing.IInAppBillingService;
 import com.android.vending.util.IabHelper;
 import com.android.vending.util.IabResult;
@@ -42,7 +41,7 @@ public class BillingDialog extends Dialog {
 
     private IabHelper iabHelper;
 
-    private BootstrapButton upgradeMonthlyButton;
+    protected BootstrapButton upgradeMonthlyButton;
 
     private static int PAYMENT_REQUEST_CODE = 100;
 
@@ -88,11 +87,17 @@ public class BillingDialog extends Dialog {
         reportFeature.setTitle(getContext().getString(R.string.upgrade_premium_energy_report));
         reportFeature.setDescriptionUrl("https://lovingheart.uservoice.com/knowledgebase/articles/327414-正向能量報告會有什麼呢-");
         premiumFeatureArrayList.add(reportFeature);
+
         PremiumFeature privateFeature = new PremiumFeature();
         privateFeature.setDescriptionUrl("https://lovingheart.uservoice.com/knowledgebase/articles/327417-書寫不公開故事");
         privateFeature.setImageSrc(R.drawable.ic_action_lock_closed);
         privateFeature.setTitle(getContext().getString(R.string.upgrade_premium_write_private));
         premiumFeatureArrayList.add(privateFeature);
+
+        PremiumFeature adFreeFeature = new PremiumFeature();
+        adFreeFeature.setImageSrc(R.drawable.inner_icon);
+        adFreeFeature.setTitle(getContext().getString(R.string.upgrade_premium_no_add_network));
+        premiumFeatureArrayList.add(adFreeFeature);
 
         premiumFeatureAdapter = new PremiumFeatureAdapter(getContext(), R.layout.cell_premium_feature, premiumFeatureArrayList);
 
@@ -206,7 +211,6 @@ public class BillingDialog extends Dialog {
 
                                 if (result.isFailure()) {
                                     Log.d(DailyKind.TAG, "Error purchasing: " + result);
-                                    Toast.makeText(getContext(), result.getMessage(), Toast.LENGTH_LONG).show();
                                     return;
                                 }
 
@@ -267,7 +271,7 @@ public class BillingDialog extends Dialog {
             } else {
                 // We can check Items of type 'subs' can't be consumed. (response: -1010:Invalid consumption attempt)
                 if (result != null) {
-                    Toast.makeText(getContext(), result.getMessage(), Toast.LENGTH_LONG).show();
+                    Log.e(DailyKind.TAG, result.getMessage());
                 }
             }
         }

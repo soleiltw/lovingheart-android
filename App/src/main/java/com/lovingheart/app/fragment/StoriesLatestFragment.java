@@ -29,7 +29,7 @@ public class StoriesLatestFragment extends StoriesFeedsFragment {
     }
 
     @Override
-    protected void loadStories(boolean more) {
+    protected void loadStories(final boolean more) {
         final ParseQuery<ParseObject> parseQuery = ParseQuery.getQuery("Story");
         parseQuery.include("StoryTeller");
         parseQuery.orderByDescending("createdAt");
@@ -50,7 +50,7 @@ public class StoriesLatestFragment extends StoriesFeedsFragment {
                 public void done(int totalCount, ParseException e) {
                     if (totalCount > userActivities.size()) {
                         parseQuery.setSkip(userActivities.size());
-                        queryToCallBack(parseQuery);
+                        queryToCallBack(parseQuery, more);
                     } else {
                         Log.d(DailyKind.TAG, "End of query.");
                     }
@@ -59,7 +59,7 @@ public class StoriesLatestFragment extends StoriesFeedsFragment {
 
         } else {
             userActivities.clear();
-            queryToCallBack(parseQuery);
+            queryToCallBack(parseQuery, more);
         }
     }
 }

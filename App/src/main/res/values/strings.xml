@@ -160,5 +160,11 @@
 	<string name="profile_tab_collections">Collections</string>
 	<string name="profile_tab_report">Report</string>
 	<string name="upgrade_premium_year_button_unit">1 year</string>
+	<string name="premium_lock_view_by_self_text">Upgrade to premium account, to see how much positive energy have.</string>
+	<string name="premium_lock_ask_part_1">Ask</string>
+	<string name="premium_lock_ask_part_2">to become premium, to see the happiness energy report.</string>
+	<string name="share_billing_push_message">want to share with you the benefits of upgrade to premium.</string>
+	<string name="upgrade_premium_no_add_network">Support an ad-free network</string>
+	<string name="upgrade_to_premium_share_to">Share to</string>
 
 </resources>

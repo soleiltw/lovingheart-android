@@ -153,4 +153,10 @@
 	<string name="profile_tab_collections">插畫收藏</string>
 	<string name="profile_tab_report">正向能量報告</string>
 	<string name="upgrade_premium_year_button_unit">1 年份</string>
+	<string name="premium_lock_view_by_self_text">升級到金級會員，觀看正向能量累積了多少。</string>
+	<string name="premium_lock_ask_part_1">讓</string>
+	<string name="premium_lock_ask_part_2">成為金級會員，來觀看正向能量報告。</string>
+	<string name="share_billing_push_message">希望能看到你的正向能量報告。</string>
+	<string name="upgrade_premium_no_add_network">支持沒有廣告的網路平台</string>
+	<string name="upgrade_to_premium_share_to">分享給</string>
 </resources>

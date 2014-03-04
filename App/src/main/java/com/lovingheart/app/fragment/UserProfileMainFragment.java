@@ -13,6 +13,7 @@ import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.lovingheart.app.R;
 import com.lovingheart.app.activity.LoginActivity;
 import com.lovingheart.app.util.CheckUserLoginUtil;
+import com.parse.ParseUser;
 import com.viewpagerindicator.TabPageIndicator;
 
 /**
@@ -138,7 +139,11 @@ public class UserProfileMainFragment extends UserProfileFragment {
                     fragment = new UserProfileGraphicsFragment();
                     break;
                 case VIEW_PAGER_REPORT:
-                    fragment = UserProfileReportsFragment.newInstance(position + 1);
+                    if (ParseUser.getCurrentUser().getObjectId().equals(getUserId())) {
+                        fragment = UserProfileReportsMeFragment.newInstance(position + 1);
+                    } else {
+                        fragment = new UserProfileReportsOtherFragment();
+                    }
                     break;
             }
             if (getUserId()!= null) {

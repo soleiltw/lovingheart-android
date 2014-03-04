@@ -115,9 +115,9 @@ public class StoriesFeedsFragment extends PlaceholderFragment {
         loadStories(false);
     }
 
-    public void updateRefreshItem() {
+    public void updateRefreshItem(boolean more) {
         if (getActivity()!=null && loadingView != null) {
-            if (isQueryLoading()) {
+            if (isQueryLoading() && !more) {
                 loadingView.setVisibility(View.VISIBLE);
             } else {
                 loadingView.setVisibility(View.GONE);
@@ -138,10 +138,10 @@ public class StoriesFeedsFragment extends PlaceholderFragment {
     protected void loadStories(boolean more) {
     }
 
-    protected void queryToCallBack(ParseQuery<ParseObject> parseQuery) {
+    protected void queryToCallBack(ParseQuery<ParseObject> parseQuery, final boolean more) {
 
         setQueryLoading(true);
-        updateRefreshItem();
+        updateRefreshItem(more);
         parseQuery.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> parseObjects, ParseException e) {
@@ -171,7 +171,7 @@ public class StoriesFeedsFragment extends PlaceholderFragment {
                 }
 
                 setQueryLoading(false);
-                updateRefreshItem();
+                updateRefreshItem(more);
             }
         });
     }

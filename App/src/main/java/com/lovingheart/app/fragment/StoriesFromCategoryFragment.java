@@ -46,7 +46,7 @@ public class StoriesFromCategoryFragment extends StoriesFeedsFragment {
                 public void done(int totalCount, ParseException e) {
                     if (totalCount > userActivities.size()) {
                         parseQuery.setSkip(userActivities.size());
-                        queryToCallBack(parseQuery);
+                        queryToCallBack(parseQuery, more);
                     } else {
                         Log.d(DailyKind.TAG, "End of query.");
                     }
@@ -55,7 +55,7 @@ public class StoriesFromCategoryFragment extends StoriesFeedsFragment {
 
         } else {
             userActivities.clear();
-            queryToCallBack(parseQuery);
+            queryToCallBack(parseQuery, more);
         }
     }
 

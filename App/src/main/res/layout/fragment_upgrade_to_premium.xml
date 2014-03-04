@@ -57,5 +57,17 @@
 			bootstrapbutton:bb_roundedCorners="true"
 			bootstrapbutton:bb_type="warning" />
 
+		<com.beardedhen.androidbootstrap.BootstrapButton
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:layout_margin="10dp"
+			android:layout_gravity="center"
+			android:id="@+id/share_upgrade_monthly_billing_button"
+			android:text="@string/upgrade_to_premium_share_to"
+			android:visibility="gone"
+			bootstrapbutton:bb_text_gravity="center"
+			bootstrapbutton:bb_roundedCorners="true"
+			bootstrapbutton:bb_type="warning" />
+
 	</LinearLayout>
 </ScrollView>

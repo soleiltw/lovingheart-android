@@ -3,6 +3,7 @@ package com.lovingheart.app;
 import android.app.Application;
 import com.crashlytics.android.Crashlytics;
 import com.lovingheart.app.activity.MainActivity;
+import com.lovingheart.app.util.parse.ParseObjectManager;
 import com.parse.*;
 import com.uservoice.uservoicesdk.Config;
 import com.uservoice.uservoicesdk.UserVoice;
@@ -34,7 +35,7 @@ public class MainApplication extends Application {
         defaultACL.setPublicReadAccess(true);
         defaultACL.setPublicWriteAccess(false);
         ParseACL.setDefaultACL(defaultACL, true);
-        if (ParseUser.getCurrentUser() != null && ParseUser.getCurrentUser().getString("name") != null) {
+        if (ParseUser.getCurrentUser() != null && ParseUser.getCurrentUser().getString(ParseObjectManager.USER_NAME) != null) {
 
             // Save the current Installation to Parse.
             PushService.setDefaultPushCallback(this, MainActivity.class);

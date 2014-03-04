@@ -13,6 +13,8 @@ public class ParseObjectManager {
 
     private ParseObject parseObject;
 
+    public static final String USER_NAME = "name";
+
     public ParseObjectManager(ParseObject parseObject) {
         this.parseObject = parseObject;
     }
