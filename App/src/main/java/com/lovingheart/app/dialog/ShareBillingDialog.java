@@ -7,10 +7,7 @@ import android.view.View;
 import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.lovingheart.app.R;
 import com.lovingheart.app.util.parse.ParseObjectManager;
-import com.parse.ParseInstallation;
-import com.parse.ParsePush;
-import com.parse.ParseQuery;
-import com.parse.ParseUser;
+import com.parse.*;
 
 /**
  * Created by edward_chiang on 2014/3/4.
@@ -72,7 +69,15 @@ public class ShareBillingDialog extends BillingDialog {
                             + getContext().getResources().getString(R.string.space)
                             + getContext().getResources().getString(R.string.share_billing_push_message));
                     push.setMessage(message.toString());
-                    push.sendInBackground();
+
+                    shareUpgradeButton.setText(getContext().getString(R.string.share_billing_button_sent));
+                    push.sendInBackground(new SendCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            dismiss();
+                        }
+                    });
+
                     }
                 }
             });

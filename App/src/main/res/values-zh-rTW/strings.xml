@@ -159,4 +159,5 @@
 	<string name="share_billing_push_message">希望能看到你的正向能量報告。</string>
 	<string name="upgrade_premium_no_add_network">支持沒有廣告的網路平台</string>
 	<string name="upgrade_to_premium_share_to">分享給</string>
+	<string name="share_billing_button_sent">送出完畢</string>
 </resources>

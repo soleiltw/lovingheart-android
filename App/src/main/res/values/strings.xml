@@ -166,5 +166,6 @@
 	<string name="share_billing_push_message">want to share with you the benefits of upgrade to premium.</string>
 	<string name="upgrade_premium_no_add_network">Support an ad-free network</string>
 	<string name="upgrade_to_premium_share_to">Share to</string>
+	<string name="share_billing_button_sent">Sent!</string>
 
 </resources>
