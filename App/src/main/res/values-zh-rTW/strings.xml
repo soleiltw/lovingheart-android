@@ -48,7 +48,8 @@
 	<string name="action_login_form_validate_failure">Email 或者 password 輸入有誤</string>
 
 	<string name="signup_form_username">使用者名稱</string>
-	<string name="idea_caption_special_idea">本日推薦</string>
+	<string name="idea_caption_feature_idea">本日推薦</string>
+	<string name="idea_caption_special_idea">隨機推薦</string>
 
 	<string name="post_story_content_need_title">故事內容</string>
 	<string name="post_story_content_need_message">請輸入文字內容</string>

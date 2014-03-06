@@ -18,14 +18,10 @@ import com.lovingheart.app.activity.DeedCategoriesActivity;
 import com.lovingheart.app.adapter.IdeaCardArrayAdapter;
 import com.lovingheart.app.object.IdeaObject;
 import com.lovingheart.app.view.ExpandableListView;
-import com.parse.FindCallback;
-import com.parse.ParseException;
-import com.parse.ParseObject;
-import com.parse.ParseQuery;
+import com.parse.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 /**
  * Created by edward_chiang on 2013/11/23.
@@ -70,7 +66,10 @@ public class HomeFragment extends PlaceholderFragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        queryRandomIdea();
+        ideaObjectList.clear();
+        ideaCardArrayAdapter.notifyDataSetChanged();
+        queryAllIdea();
+        queryTodayIdea();
     }
 
     @Override
@@ -112,7 +111,10 @@ public class HomeFragment extends PlaceholderFragment {
         // as you specify a parent activity in AndroidManifest.xml.
         switch (item.getItemId()) {
             case R.id.action_reload: {
-                queryRandomIdea();
+                ideaObjectList.clear();
+                ideaCardArrayAdapter.notifyDataSetChanged();
+                queryAllIdea();
+                queryTodayIdea();
                 break;
             }
         }
@@ -134,29 +136,68 @@ public class HomeFragment extends PlaceholderFragment {
         }
     }
 
-    private void queryRandomIdea() {
+    private void queryTodayIdea() {
+        ParseQuery<ParseObject> todayIdeaQuery = new ParseQuery<ParseObject>("Today");
+
+        ArrayList<String> stringCollection = new ArrayList<String>();
+        stringCollection.add("Feature Idea");
+        todayIdeaQuery.whereEqualTo("type", "Feature Idea");
+
+        ArrayList<String> statusCollection = new ArrayList<String>();
+        statusCollection.add("close");
+        todayIdeaQuery.whereNotContainedIn("status", statusCollection);
+
+        todayIdeaQuery.include("ideaPointer");
+        todayIdeaQuery.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> parseObjects, ParseException e) {
+                if (parseObjects.size() > 0) {
+                    for (ParseObject eachParseObject : parseObjects) {
+                        if (eachParseObject.has("ideaPointer")) {
+
+                            ParseQuery<ParseObject> ideaObjectQuery = new ParseQuery<ParseObject>("Idea");
+                            ideaObjectQuery.whereEqualTo("objectId", eachParseObject.getParseObject("ideaPointer").getObjectId());
+                            ideaObjectQuery.include("categoryPointer");
+                            ideaObjectQuery.include("graphicPointer");
+                            ideaObjectQuery.setCachePolicy(ParseQuery.CachePolicy.CACHE_ELSE_NETWORK);
+                            ideaObjectQuery.setMaxCacheAge(DailyKind.QUERY_MAX_CACHE_AGE);
+                            ideaObjectQuery.getFirstInBackground(new GetCallback<ParseObject>() {
+                                @Override
+                                public void done(ParseObject parseObject, ParseException e) {
+                                    if (parseObject!= null) {
+                                        IdeaObject ideaLatestObject = new IdeaObject(parseObject);
+                                        ideaLatestObject.setTitleResource(R.string.idea_caption_feature_idea);
+                                        ideaLatestObject.setTitleImageResource(R.drawable.ic_action_emo_basic);
+
+                                        // Add to first one
+                                        ideaObjectList.add(0, ideaLatestObject);
+                                        ideaCardArrayAdapter.notifyDataSetChanged();
+                                    }
+                                }
+                            });
+
+
+                        }
+                    }
+
+                }
+            }
+        });
+    }
+
+    private void queryAllIdea() {
 
         setQueryLoading(true);
         updateRefreshItem();
         randomLoadingProgressBar.setVisibility(View.VISIBLE);
 
         final ParseQuery<ParseObject> randomIdeaQuery = new ParseQuery<ParseObject>("Idea");
-        ArrayList<String> languageCollection = new ArrayList<String>();
-        boolean englishDefaultValue = Locale.getDefault().getLanguage().contains("en");
-        boolean supportEnglish = preferences.getBoolean(DailyKind.PREFERENCE_SUPPORT_ENGLISH, englishDefaultValue);
-        if (supportEnglish) {
-            languageCollection.add("en");
-        }
-        boolean chineseDefaultValue = Locale.getDefault().getLanguage().contains("zh");
-        boolean supportChinese = preferences.getBoolean(DailyKind.PREFERENCE_SUPPORT_CHINESE, chineseDefaultValue);
-        if (supportChinese) {
-            languageCollection.add("zh");
-        }
-        ArrayList<String> stringCollection = new ArrayList<String>();
-        stringCollection.add("close");
-        randomIdeaQuery.whereContainedIn("language", languageCollection);
+
+        randomIdeaQuery.whereContainedIn("language", DailyKind.getLanguageCollection(getActivity()));
         randomIdeaQuery.include("categoryPointer");
         randomIdeaQuery.include("graphicPointer");
+        ArrayList<String> stringCollection = new ArrayList<String>();
+        stringCollection.add("close");
         randomIdeaQuery.whereNotContainedIn("status", stringCollection);
         randomIdeaQuery.orderByDescending("createdAt");
         randomIdeaQuery.setCachePolicy(ParseQuery.CachePolicy.CACHE_ELSE_NETWORK);
@@ -165,8 +206,6 @@ public class HomeFragment extends PlaceholderFragment {
             @Override
             public void done(List<ParseObject> parseObjects, ParseException e) {
                 if  (parseObjects!=null && parseObjects.size() > 0) {
-
-                    ideaObjectList.clear();
 
                     int maxIndex = parseObjects.size();
                     int randomIndex = (int)(Math.random() * maxIndex);

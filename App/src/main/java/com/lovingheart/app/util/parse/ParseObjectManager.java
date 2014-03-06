@@ -1,9 +1,12 @@
 package com.lovingheart.app.util.parse;
 
+import android.util.Log;
+import com.lovingheart.app.DailyKind;
 import com.lovingheart.app.object.Category;
 import com.lovingheart.app.object.Graphic;
 import com.lovingheart.app.object.Idea;
 import com.lovingheart.app.object.Story;
+import com.parse.ParseException;
 import com.parse.ParseObject;
 
 /**
@@ -43,6 +46,11 @@ public class ParseObjectManager {
 
     public Graphic getGraphic() {
         if (parseObject != null) {
+            try {
+                parseObject.fetchIfNeeded();
+            } catch (ParseException e) {
+                Log.e(DailyKind.TAG, "Fetch if needed" + e.getLocalizedMessage());
+            }
             Graphic graphic = new Graphic();
             if (parseObject.has("imageFile") && parseObject.getParseFile("imageFile") != null) {
                 graphic.setParseFileUrl(parseObject.getParseFile("imageFile").getUrl());
@@ -57,6 +65,11 @@ public class ParseObjectManager {
 
     public Category getCategory() {
         if (parseObject != null) {
+            try {
+                parseObject.fetchIfNeeded();
+            } catch (ParseException e) {
+                Log.e(DailyKind.TAG, "Fetch if needed" + e.getLocalizedMessage());
+            }
             Category category = new Category();
             category.setObjectId(parseObject.getObjectId());
             category.setName(parseObject.getString("Name"));
