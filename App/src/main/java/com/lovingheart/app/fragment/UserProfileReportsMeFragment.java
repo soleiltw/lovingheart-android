@@ -7,9 +7,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import com.google.analytics.tracking.android.Fields;
+import com.google.analytics.tracking.android.MapBuilder;
 import com.lovingheart.app.DailyKind;
 import com.lovingheart.app.R;
 import com.lovingheart.app.dialog.BillingDialog;
+import com.lovingheart.app.util.AnalyticsManager;
 import com.parse.*;
 
 import java.util.Calendar;
@@ -92,7 +95,7 @@ public class UserProfileReportsMeFragment extends UserProfileReportsFragment {
                 premiumQuery.whereEqualTo("UserId", parseUser);
                 premiumQuery.orderByDescending("createdAt");
                 premiumQuery.setCachePolicy(ParseQuery.CachePolicy.CACHE_ELSE_NETWORK);
-                premiumQuery.setMaxCacheAge(DailyKind.QUERY_MAX_CACHE_AGE);
+                premiumQuery.setMaxCacheAge(DailyKind.QUERY_AT_LEAST_CACHE_AGE);
                 premiumQuery.getFirstInBackground(new GetCallback<ParseObject>() {
                     @Override
                     public void done(ParseObject parseObject, ParseException e) {
@@ -120,10 +123,14 @@ public class UserProfileReportsMeFragment extends UserProfileReportsFragment {
                                         }
                                     }
                                 });
+
+                                billingButton.setVisibility(View.GONE);
                             } else {
                                 // Show the purchase button
                                 Log.d(DailyKind.TAG, "It's out of date, " + purchaseTimeCal.toString());
                                 showNeedUpgradeWord = true;
+
+                                billingButton.setVisibility(View.VISIBLE);
                             }
 
                         } else {
@@ -159,5 +166,12 @@ public class UserProfileReportsMeFragment extends UserProfileReportsFragment {
         if (billingDialog != null && billingDialog.getIabHelper() != null) {
             billingDialog.getIabHelper().handleActivityResult(requestCode, resultCode, data);
         }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        AnalyticsManager.getInstance().getGaTracker().send(
+                MapBuilder.createAppView().set(Fields.SCREEN_NAME, UserProfileReportsMeFragment.class.getName()).build());
     }
 }

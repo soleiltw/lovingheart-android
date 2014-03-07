@@ -7,10 +7,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import com.google.analytics.tracking.android.Fields;
+import com.google.analytics.tracking.android.MapBuilder;
 import com.lovingheart.app.DailyKind;
 import com.lovingheart.app.R;
 import com.lovingheart.app.activity.StoryContentActivity;
 import com.lovingheart.app.adapter.UserStoryArrayAdapter;
+import com.lovingheart.app.util.AnalyticsManager;
 import com.lovingheart.app.view.ExpandableListView;
 import com.parse.*;
 
@@ -99,5 +102,14 @@ public class UserProfileStoriesFragment extends UserProfileFragment {
         emptyView = rootView.findViewById(R.id.user_profile_stories_empty_text_view);
 
         return rootView;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        AnalyticsManager.getInstance().getGaTracker().send(
+                MapBuilder.createAppView().set(
+                        Fields.SCREEN_NAME, UserProfileStoriesFragment.class.getName())
+                        .build());
     }
 }

@@ -12,11 +12,14 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.*;
 import android.widget.ProgressBar;
+import com.google.analytics.tracking.android.Fields;
+import com.google.analytics.tracking.android.MapBuilder;
 import com.lovingheart.app.DailyKind;
 import com.lovingheart.app.R;
 import com.lovingheart.app.activity.DeedCategoriesActivity;
 import com.lovingheart.app.adapter.IdeaCardArrayAdapter;
 import com.lovingheart.app.object.IdeaObject;
+import com.lovingheart.app.util.AnalyticsManager;
 import com.lovingheart.app.view.ExpandableListView;
 import com.parse.*;
 
@@ -255,5 +258,12 @@ public class HomeFragment extends PlaceholderFragment {
 
     public void setQueryLoading(boolean queryLoading) {
         this.queryLoading = queryLoading;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        AnalyticsManager.getInstance().getGaTracker().send(
+                MapBuilder.createAppView().set(Fields.SCREEN_NAME, HomeFragment.class.getName()).build());
     }
 }

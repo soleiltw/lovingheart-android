@@ -18,6 +18,8 @@ import com.android.vending.util.IabResult;
 import com.android.vending.util.Inventory;
 import com.android.vending.util.Purchase;
 import com.beardedhen.androidbootstrap.BootstrapButton;
+import com.google.analytics.tracking.android.EasyTracker;
+import com.google.analytics.tracking.android.MapBuilder;
 import com.lovingheart.app.DailyKind;
 import com.lovingheart.app.R;
 import com.lovingheart.app.activity.WebViewActivity;
@@ -206,6 +208,26 @@ public class BillingDialog extends Dialog {
                                         // consume the PERSONAL_HAPPINESS_REPORT_MONTHLY and update the UI
                                         Log.d(DailyKind.TAG, "Purchase success. Result :" + result);
                                         iabHelper.consumeAsync(purchase, consumeFinishedListener);
+
+                                        EasyTracker easyTracker = EasyTracker.getInstance(getOwnerActivity());
+
+                                        easyTracker.send(MapBuilder
+                                        .createTransaction(purchase.getOrderId(),
+                                                purchase.getItemType(),
+                                                90.d,
+                                                0.d,
+                                                0.d,
+                                                "NTD"
+                                                ).build());
+
+                                        easyTracker.send(MapBuilder
+                                        .createItem(purchase.getOrderId(),
+                                                purchase.getSku(),
+                                                purchase.getSku(),
+                                                purchase.getItemType(),
+                                                90.d,
+                                                1L,
+                                                "NTD").build());
                                     }
                                 }
 
@@ -320,8 +342,20 @@ public class BillingDialog extends Dialog {
          * Using your own server to store and verify developer payloads across app
          * installations is recommended.
          */
+        ParseQuery<ParseObject> premiumQuery = new ParseQuery<ParseObject>("Premium");
+        premiumQuery.whereEqualTo("UserId", ParseUser.getCurrentUser());
+        premiumQuery.orderByDescending("PurchaseTime");
+        try {
+            ParseObject premiumRecord = premiumQuery.getFirst();
+            if (premiumRecord.has("DeveloperPayload")) {
+                return premiumRecord.getString("DeveloperPayload").equalsIgnoreCase(payload);
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+            Log.e(DailyKind.TAG, "ParseQuery get first: " + e.getLocalizedMessage());
+        }
         Log.d(DailyKind.TAG, "Payload: "+ payload);
 
-        return true;
+        return false;
     }
 }

@@ -11,8 +11,11 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.google.analytics.tracking.android.Fields;
+import com.google.analytics.tracking.android.MapBuilder;
 import com.lovingheart.app.DailyKind;
 import com.lovingheart.app.R;
+import com.lovingheart.app.util.AnalyticsManager;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
@@ -100,5 +103,14 @@ public class UserSignUpFragment extends PlaceholderFragment {
         SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getActivity()).edit();
         editor.putBoolean(DailyKind.NEED_UPDATE_DRAWER, true);
         editor.commit();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        AnalyticsManager.getInstance().getGaTracker().send(
+                MapBuilder.createAppView().set(
+                        Fields.SCREEN_NAME, UserSignUpFragment.class.getName())
+                        .build());
     }
 }

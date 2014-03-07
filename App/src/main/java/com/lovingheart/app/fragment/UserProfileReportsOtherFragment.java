@@ -6,9 +6,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import com.google.analytics.tracking.android.Fields;
+import com.google.analytics.tracking.android.MapBuilder;
 import com.lovingheart.app.DailyKind;
 import com.lovingheart.app.R;
 import com.lovingheart.app.dialog.ShareBillingDialog;
+import com.lovingheart.app.util.AnalyticsManager;
 import com.parse.*;
 
 import java.util.Calendar;
@@ -158,5 +161,14 @@ public class UserProfileReportsOtherFragment extends UserProfileReportsFragment 
                 Log.e(DailyKind.TAG, e.getLocalizedMessage());
             }
         }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        AnalyticsManager.getInstance().getGaTracker().send(
+                MapBuilder.createAppView().set(
+                        Fields.SCREEN_NAME, UserProfileReportsOtherFragment.class.getName())
+                        .build());
     }
 }

@@ -5,9 +5,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
+import com.google.analytics.tracking.android.Fields;
+import com.google.analytics.tracking.android.MapBuilder;
 import com.lovingheart.app.R;
 import com.lovingheart.app.adapter.GalleryArrayAdapter;
 import com.lovingheart.app.object.Graphic;
+import com.lovingheart.app.util.AnalyticsManager;
 import com.lovingheart.app.util.parse.ParseObjectManager;
 import com.parse.*;
 
@@ -93,5 +96,12 @@ public class UserProfileGraphicsFragment extends UserProfileFragment {
                 }
             }
         });
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        AnalyticsManager.getInstance().getGaTracker().send(
+                MapBuilder.createAppView().set(Fields.SCREEN_NAME, UserProfileGraphicsFragment.class.getName()).build());
     }
 }

@@ -7,9 +7,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import com.google.analytics.tracking.android.Fields;
+import com.google.analytics.tracking.android.MapBuilder;
 import com.lovingheart.app.DailyKind;
 import com.lovingheart.app.R;
 import com.lovingheart.app.object.UserImpact;
+import com.lovingheart.app.util.AnalyticsManager;
 import com.lovingheart.app.util.CheckUserLoginUtil;
 import com.parse.*;
 
@@ -135,4 +138,10 @@ public class UserProfileMeFragment extends UserProfileBasicFragment {
         });
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        AnalyticsManager.getInstance().getGaTracker().send(
+                MapBuilder.createAppView().set(Fields.SCREEN_NAME, UserProfileMeFragment.class.getName()).build());
+    }
 }
