@@ -3,6 +3,7 @@ package com.lovingheart.app;
 import android.app.Application;
 import com.crashlytics.android.Crashlytics;
 import com.lovingheart.app.activity.MainActivity;
+import com.lovingheart.app.util.AnalyticsManager;
 import com.lovingheart.app.util.parse.ParseObjectManager;
 import com.parse.*;
 import com.uservoice.uservoicesdk.Config;
@@ -22,6 +23,9 @@ public class MainApplication extends Application {
         // UserVoice
         Config config = new Config("lovingheart.uservoice.com");
         UserVoice.init(config, this);
+
+        // GA
+        AnalyticsManager.getInstance().Initialize(getApplicationContext());
 
         // Parse
         Parse.initialize(this, ParseSettings.PARSE_API_TOKEN, ParseSettings.PARSE_API_TOKEN_2);

@@ -36,7 +36,7 @@ android {
 
     buildTypes {
         release {
-            runProguard true
+            runProguard false
             proguardFile getDefaultProguardFile('proguard-android-optimize.txt')
             signingConfig signingConfigs.releaseConfig
             proguardFile '../proguard.cfg'
@@ -66,4 +66,5 @@ dependencies {
     compile 'com.crashlytics.android:crashlytics:1.1+'
     compile files('libs/Parse-1.4.0.jar')
     compile fileTree(dir:'../libs', include:'**/TestFlightLib.jar')
+    compile fileTree(dir: '../libs', include:'**/*GoogleAnalytics*.jar')
 }

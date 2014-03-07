@@ -25,6 +25,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.*;
 import com.beardedhen.androidbootstrap.BootstrapButton;
+import com.google.analytics.tracking.android.EasyTracker;
 import com.lovingheart.app.DailyKind;
 import com.lovingheart.app.R;
 import com.lovingheart.app.adapter.GalleryArrayAdapter;
@@ -423,11 +424,6 @@ public class PostStoryActivity extends ActionBarActivity {
         contentEditText.requestFocus();
     }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-    }
-
     private StringBuffer getCityNameText(String adminArea, String locality) {
         StringBuffer cityNamBuffer = new StringBuffer();
         if (adminArea != null && adminArea.length() > 0) {
@@ -794,5 +790,17 @@ public class PostStoryActivity extends ActionBarActivity {
         }
 
         return mediaFile;
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        EasyTracker.getInstance(this).activityStart(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        EasyTracker.getInstance(this).activityStop(this);
     }
 }
