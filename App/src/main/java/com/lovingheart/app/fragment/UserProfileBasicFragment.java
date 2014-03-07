@@ -39,8 +39,6 @@ public class UserProfileBasicFragment extends UserProfileFragment {
 
     private String userId;
 
-    private View emptyView;
-
 
     private ImageView avatarImageView;
 
@@ -73,10 +71,6 @@ public class UserProfileBasicFragment extends UserProfileFragment {
         graphicEarnedCountTextView = (TextView)rootView.findViewById(R.id.user_impact_graphic_earned_text_view);
 
         reviewStarsTextView = (TextView)rootView.findViewById(R.id.user_impact_review_stars_text_view);
-
-
-
-        emptyView = rootView.findViewById(R.id.user_profile_stories_empty_text_view);
 
 
 
@@ -145,10 +139,6 @@ public class UserProfileBasicFragment extends UserProfileFragment {
                     public void done(List<ParseObject> parseObjects, ParseException e) {
                         if (parseObjects != null && parseObjects.size() > 0) {
 
-                            if (emptyView != null) {
-                                emptyView.setVisibility(View.GONE);
-                            }
-
                             userImpactInfo.setStoriesSharedCount(parseObjects.size());
                             storiesSharedCountTextView.setText(String.valueOf(parseObjects.size()));
 
@@ -164,8 +154,6 @@ public class UserProfileBasicFragment extends UserProfileFragment {
 
                             saveUserImpact(userImpactInfo);
 
-                        } else {
-                            emptyView.setVisibility(View.VISIBLE);
                         }
                     }
                 });

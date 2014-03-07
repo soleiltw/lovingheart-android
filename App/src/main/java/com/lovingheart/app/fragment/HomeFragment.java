@@ -148,6 +148,8 @@ public class HomeFragment extends PlaceholderFragment {
         todayIdeaQuery.whereNotContainedIn("status", statusCollection);
 
         todayIdeaQuery.include("ideaPointer");
+        todayIdeaQuery.setCachePolicy(ParseQuery.CachePolicy.CACHE_ELSE_NETWORK);
+        todayIdeaQuery.setMaxCacheAge(DailyKind.QUERY_MAX_CACHE_AGE);
         todayIdeaQuery.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> parseObjects, ParseException e) {

@@ -21,7 +21,7 @@
 	<string name="me_number_of_stories_shared">故事分享</string>
 	<string name="me_since_pre_text">自從</string>
 
-	<string name="deed_of_number_of_people_prefix">這張行善推薦卡已經完成了</string>
+	<string name="deed_of_number_of_people_prefix">這張友善行動卡已經完成了</string>
 	<string name="deed_of_number_of_people_prefix_short">已經完成了</string>
 	<string name="deed_of_number_of_people_post_time">次</string>
 	<string name="deed_of_number_of_people_post_times">次</string>
@@ -37,7 +37,7 @@
 	<string name="deed_content_be_the_first_one">成為第一個</string>
 	<string name="user_login_login">登入</string>
 	
-	<string name="deed_content_done_credit">您還沒有完成這張行善推薦卡噢！</string>
+	<string name="deed_content_done_credit">您還沒有完成這張友善行動卡噢！</string>
 	<string name="stories_last_share_content_text_prefix">最新分享</string>
 	<string name="stories_last_share_date_text_prefix">分享於</string>
 	<string name="stories_last_share_inspired_by_text_prefix">來自</string>
@@ -49,7 +49,7 @@
 
 	<string name="signup_form_username">使用者名稱</string>
 	<string name="idea_caption_feature_idea">本日推薦</string>
-	<string name="idea_caption_special_idea">隨機推薦</string>
+	<string name="idea_caption_special_idea">好手氣推薦</string>
 
 	<string name="post_story_content_need_title">故事內容</string>
 	<string name="post_story_content_need_message">請輸入文字內容</string>
@@ -91,7 +91,7 @@
 	<string name="activity_settings">設定</string>
 	<string name="activity_story">故事</string>
 	<string name="activity_deed_content">日行一善</string>
-	<string name="activity_deed_category">行善推薦卡</string>
+	<string name="activity_deed_category">友善行動卡</string>
 	<string name="activity_story_edit">故事編輯</string>
 	<string name="story_content_encourage_ratings">給予鼓勵</string>
 	<string name="submit">送出</string>
