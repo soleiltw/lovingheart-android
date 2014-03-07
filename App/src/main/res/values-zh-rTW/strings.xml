@@ -116,7 +116,7 @@
 	<string name="story_content_delete_this_story">確定要刪除此篇記錄嗎？</string>
 	<string name="toast_error_message_try_again">沒有完成，稍後再試噢！</string>
 
-	<string name="setting_feedback">回報</string>
+	<string name="setting_feedback">說明</string>
 	<string name="setting_bug_feedback_summary">使用上碰到問題？回報給我們。</string>
 	<string name="setting_bug_feedback_title">問題回報</string>
 
@@ -139,7 +139,7 @@
 
 	<string name="setting_privacy_policy_title">服務條款與隱私權政策</string>
 	<string name="setting_privacy_policy_summary">閱讀關於服務條款與隱私權政策。</string>
-	<string name="setting_idea_help_title">說明</string>
+	<string name="setting_idea_help_title">使用聲音</string>
 	<string name="setting_idea_help_summary">觀看說明文章、聯繫我們、或者回饋任何寶貴想法意見。</string>
 	<string name="upgrade_premium_title">升級到金級會員</string>
 	<string name="upgrade_premium_description">因為您將獲得以下專屬好處：</string>
