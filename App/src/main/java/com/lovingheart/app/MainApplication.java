@@ -22,6 +22,8 @@ public class MainApplication extends Application {
 
         // UserVoice
         Config config = new Config("lovingheart.uservoice.com");
+        config.setForumId(244034);
+        config.setTopicId(50280);
         UserVoice.init(config, this);
 
         // GA

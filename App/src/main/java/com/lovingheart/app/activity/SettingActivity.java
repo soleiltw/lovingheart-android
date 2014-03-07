@@ -232,31 +232,11 @@ public class SettingActivity extends PreferenceActivity {
 
 
         // Uservoice
-        Preference feedbackContactPreference = findPreference("setting_feedback_contact");
-        feedbackContactPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                UserVoice.launchContactUs(SettingActivity.this);
-                return true;
-            }
-        });
-
-        Preference feedbackIdeaPreference = findPreference("setting_feedback_idea");
-        feedbackIdeaPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                UserVoice.launchPostIdea(SettingActivity.this);
-                return true;
-            }
-        });
-
-        Preference helpPreference = findPreference("setting_feedback_help");
+        Preference helpPreference = findPreference("setting_feedback_support");
         helpPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
-                Intent webIntent = new Intent(getApplicationContext(), WebViewActivity.class);
-                webIntent.putExtra("webUrl", DailyKind.HELP_LINK);
-                startActivity(webIntent);
+                UserVoice.launchUserVoice(SettingActivity.this);
                 return true;
             }
         });
