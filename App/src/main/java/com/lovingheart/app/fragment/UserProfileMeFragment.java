@@ -51,7 +51,7 @@ public class UserProfileMeFragment extends UserProfileBasicFragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == CheckUserLoginUtil.ASK_USER_LOGIN) {
+        if (requestCode == CheckUserLoginUtil.ASK_USER_LOGIN && resultCode == getActivity().RESULT_OK) {
             setupUserId();
             queryProfile(new ProfileCallBack());
         }

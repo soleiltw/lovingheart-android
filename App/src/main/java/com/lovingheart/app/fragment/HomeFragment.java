@@ -156,7 +156,7 @@ public class HomeFragment extends PlaceholderFragment {
         todayIdeaQuery.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> parseObjects, ParseException e) {
-                if (parseObjects.size() > 0) {
+                if (parseObjects != null && parseObjects.size() > 0) {
                     for (ParseObject eachParseObject : parseObjects) {
                         if (eachParseObject.has("ideaPointer")) {
 

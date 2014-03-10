@@ -35,9 +35,6 @@ public class UserProfileBasicFragment extends UserProfileFragment {
 
     protected UserImpact userImpactInfo;
 
-    private Menu menu;
-
-
     private boolean queryLoading;
 
     private String userId;
@@ -127,11 +124,18 @@ public class UserProfileBasicFragment extends UserProfileFragment {
                 if (parseUser.has("avatar") && getActivity() != null) {
                     ParseObject avatarObject = parseUser.getParseObject("avatar");
 
-                    if (avatarObject != null && avatarObject.getString("imageType").equals("url")) {
+                    if (avatarObject != null) {
+                        if (avatarObject.getString("imageType").equals("url")) {
                         Picasso.with(getActivity())
                                 .load(avatarObject.getString("imageUrl"))
                                 .transform(new CircleTransform())
                                 .into(avatarImageView);
+                        } else if (avatarObject.getString("imageType").equals("file")) {
+                            Picasso.with(getActivity())
+                                    .load(avatarObject.getParseFile("imageFile").getUrl())
+                                    .transform(new CircleTransform())
+                                    .into(avatarImageView);
+                        }
                     }
                 }
 
@@ -216,17 +220,6 @@ public class UserProfileBasicFragment extends UserProfileFragment {
     }
 
     public void updateRefreshItem() {
-        if (menu != null) {
-            MenuItem refreshItem = menu.findItem(R.id.action_reload);
-            if (refreshItem != null) {
-                if (isQueryLoading()) {
-                    refreshItem.setActionView(R.layout.indeterminate_progress_action);
-                } else {
-                    refreshItem.setActionView(null);
-
-                }
-            }
-        }
     }
 
     protected void updateUserImpact(final UserImpact userImpactInfo) {
