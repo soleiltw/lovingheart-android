@@ -168,5 +168,6 @@
 	<string name="upgrade_premium_no_add_network">Support an ad-free network</string>
 	<string name="upgrade_to_premium_share_to">Share to</string>
 	<string name="share_billing_button_sent">Sent!</string>
+	<string name="idea_content_org_list_title_text">Support by</string>
 
 </resources>

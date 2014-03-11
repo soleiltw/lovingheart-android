@@ -10,6 +10,7 @@ import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.*;
 import android.widget.ProgressBar;
 import com.google.analytics.tracking.android.Fields;
@@ -152,27 +153,32 @@ public class HomeFragment extends PlaceholderFragment {
 
         todayIdeaQuery.include("ideaPointer");
         todayIdeaQuery.setCachePolicy(ParseQuery.CachePolicy.CACHE_ELSE_NETWORK);
-        todayIdeaQuery.setMaxCacheAge(DailyKind.QUERY_MAX_CACHE_AGE);
+        todayIdeaQuery.setMaxCacheAge(DailyKind.QUERY_AT_LEAST_CACHE_AGE);
         todayIdeaQuery.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> parseObjects, ParseException e) {
                 if (parseObjects != null && parseObjects.size() > 0) {
                     for (ParseObject eachParseObject : parseObjects) {
+
                         if (eachParseObject.has("ideaPointer")) {
 
                             ParseQuery<ParseObject> ideaObjectQuery = new ParseQuery<ParseObject>("Idea");
                             ideaObjectQuery.whereEqualTo("objectId", eachParseObject.getParseObject("ideaPointer").getObjectId());
                             ideaObjectQuery.include("categoryPointer");
                             ideaObjectQuery.include("graphicPointer");
+
                             ideaObjectQuery.setCachePolicy(ParseQuery.CachePolicy.CACHE_ELSE_NETWORK);
-                            ideaObjectQuery.setMaxCacheAge(DailyKind.QUERY_MAX_CACHE_AGE);
+                            ideaObjectQuery.setMaxCacheAge(DailyKind.QUERY_AT_LEAST_CACHE_AGE);
                             ideaObjectQuery.getFirstInBackground(new GetCallback<ParseObject>() {
                                 @Override
-                                public void done(ParseObject parseObject, ParseException e) {
+                                public void done(final ParseObject parseObject, ParseException e) {
                                     if (parseObject!= null) {
                                         IdeaObject ideaLatestObject = new IdeaObject(parseObject);
                                         ideaLatestObject.setTitleResource(R.string.idea_caption_feature_idea);
                                         ideaLatestObject.setTitleImageResource(R.drawable.ic_action_emo_basic);
+
+
+                                        Log.d(DailyKind.TAG, "IdeaObject parseObject: " + parseObject.getObjectId());
 
                                         // Add to first one
                                         ideaObjectList.add(0, ideaLatestObject);

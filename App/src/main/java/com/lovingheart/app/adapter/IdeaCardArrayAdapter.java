@@ -112,6 +112,9 @@ public class IdeaCardArrayAdapter extends ArrayAdapter<IdeaObject> {
             }
         }
 
+        View groupLayout = rootView.findViewById(R.id.idea_content_org_layout);
+        groupLayout.setVisibility(View.GONE);
+
         return rootView;
     }
 

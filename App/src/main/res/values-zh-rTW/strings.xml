@@ -161,4 +161,5 @@
 	<string name="upgrade_premium_no_add_network">支持沒有廣告的網路平台</string>
 	<string name="upgrade_to_premium_share_to">分享給</string>
 	<string name="share_billing_button_sent">送出完畢</string>
+	<string name="idea_content_org_list_title_text">支持的組織</string>
 </resources>

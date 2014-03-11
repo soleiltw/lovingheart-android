@@ -12,9 +12,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.beardedhen.androidbootstrap.BootstrapButton;
+import com.devsmart.android.ui.HorizontalListView;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.lovingheart.app.DailyKind;
 import com.lovingheart.app.R;
+import com.lovingheart.app.adapter.OrgListArrayAdapter;
 import com.lovingheart.app.object.Idea;
 import com.lovingheart.app.util.CheckUserLoginUtil;
 import com.lovingheart.app.util.parse.ParseObjectManager;
@@ -47,6 +49,11 @@ public class DeedContentActivity extends ActionBarActivity {
 
     private BootstrapButton storiesButton;
 
+    private HorizontalListView orgHorizontalListView;
+
+    private List<ParseObject> orgNameList;
+
+    private OrgListArrayAdapter orgArrayAdapter;
 
     private View.OnClickListener askUserLoginListener = new View.OnClickListener() {
         @Override
@@ -69,6 +76,10 @@ public class DeedContentActivity extends ActionBarActivity {
         ideaObjectId = getIntent().getStringExtra("ideaObjectId");
 
         userActivities = new ArrayList<ParseObject>();
+
+        orgNameList = new ArrayList<ParseObject>();
+
+        orgArrayAdapter = new OrgListArrayAdapter(DeedContentActivity.this, R.layout.layout_org_image_view, orgNameList);
     }
 
     @Override
@@ -104,6 +115,11 @@ public class DeedContentActivity extends ActionBarActivity {
         earnDescribeTextView = (TextView)findViewById(R.id.deed_content_earn_description_text_view);
 
         progressBarView = findViewById(R.id.good_content_progress_bar);
+
+        orgHorizontalListView = (HorizontalListView)findViewById(R.id.idea_content_org_horizontal_list_view);
+        orgHorizontalListView.setAdapter(orgArrayAdapter);
+
+        findViewById(R.id.idea_content_org_layout).setVisibility(View.GONE);
 
         loadIdea();
     }
@@ -148,7 +164,8 @@ public class DeedContentActivity extends ActionBarActivity {
         queryIdea.include("graphicPointer");
         queryIdea.include("categoryPointer");
 
-        queryIdea.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
+        queryIdea.setCachePolicy(ParseQuery.CachePolicy.CACHE_ELSE_NETWORK);
+        queryIdea.setMaxCacheAge(DailyKind.QUERY_AT_LEAST_CACHE_AGE);
         queryIdea.getFirstInBackground(new GetCallback<ParseObject>() {
             @Override
             public void done(final ParseObject ideaParseObject, ParseException e) {
@@ -156,6 +173,36 @@ public class DeedContentActivity extends ActionBarActivity {
                 findViewById(R.id.good_content_progress_bar).setVisibility(View.GONE);
 
                 if (ideaParseObject != null) {
+
+                    if (ideaParseObject.has("orgRelation")) {
+                        ParseQuery<ParseObject> orgParseQuery = ideaParseObject.getRelation("orgRelation").getQuery();
+                        orgParseQuery.setCachePolicy(ParseQuery.CachePolicy.CACHE_ELSE_NETWORK);
+                        orgParseQuery.setMaxCacheAge(DailyKind.QUERY_AT_LEAST_CACHE_AGE);
+                        orgParseQuery.findInBackground(new FindCallback<ParseObject>() {
+                            @Override
+                            public void done(List<ParseObject> parseObjects, ParseException e) {
+                                if (parseObjects != null) {
+
+                                    if (parseObjects.isEmpty()) {
+                                        // Empty relation
+                                        Log.d(DailyKind.TAG, "Empty org relation.");
+                                        findViewById(R.id.idea_content_org_layout).setVisibility(View.GONE);
+                                    } else {
+                                        findViewById(R.id.idea_content_org_layout).setVisibility(View.VISIBLE);
+                                    }
+
+                                    orgNameList.clear();
+                                    for (ParseObject orgObject : parseObjects) {
+                                        Log.d(DailyKind.TAG, "orgObject id: " + orgObject.getObjectId());
+                                        orgNameList.add(orgObject);
+                                        orgArrayAdapter.notifyDataSetChanged();
+                                        orgHorizontalListView.requestLayout();
+                                    }
+                                }
+                            }
+                        });
+
+                    }
 
                     idea = new ParseObjectManager(ideaParseObject).getIdea();
                     idea.setCategory(new ParseObjectManager(ideaParseObject.getParseObject("categoryPointer")).getCategory());
