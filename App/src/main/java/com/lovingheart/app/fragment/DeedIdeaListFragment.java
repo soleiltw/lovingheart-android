@@ -32,8 +32,6 @@ public class DeedIdeaListFragment extends PlaceholderFragment {
 
     private Menu menu;
 
-    private boolean parseLoading;
-
     private View progressLoadingView;
 
     public static DeedIdeaListFragment newInstance(int sectionNumber) {
@@ -143,8 +141,7 @@ public class DeedIdeaListFragment extends PlaceholderFragment {
 
 
         } else {
-            setParseLoading(true);
-            updateRefreshItem();
+            updateRefreshItem(true);
             ideasQuery.findInBackground(getIdeasCallback(false));
         }
     }
@@ -172,26 +169,9 @@ public class DeedIdeaListFragment extends PlaceholderFragment {
                     ideaArrayAdapter.notifyDataSetChanged();
                 }
 
-                setParseLoading(false);
-                updateRefreshItem();
+                updateRefreshItem(false);
             }
         };
-    }
-
-    public void updateRefreshItem() {
-        if (isParseLoading()) {
-            progressLoadingView.setVisibility(View.VISIBLE);
-        } else {
-            progressLoadingView.setVisibility(View.GONE);
-        }
-        if (menu != null) {
-            MenuItem refreshItem = menu.findItem(R.id.action_reload);
-            if (isParseLoading()) {
-                refreshItem.setActionView(R.layout.indeterminate_progress_action);
-            } else {
-                refreshItem.setActionView(null);
-            }
-        }
     }
 
     @Override
@@ -209,15 +189,24 @@ public class DeedIdeaListFragment extends PlaceholderFragment {
         return super.onOptionsItemSelected(item);
     }
 
-    public boolean isParseLoading() {
-        return parseLoading;
-    }
-
-    public void setParseLoading(boolean parseLoading) {
-        this.parseLoading = parseLoading;
-    }
-
     public void setQueryCategory(Category queryCategory) {
         this.queryCategory = queryCategory;
+    }
+
+    @Override
+    public void updateRefreshItem(boolean isLoading) {
+        if (isLoading) {
+            progressLoadingView.setVisibility(View.VISIBLE);
+        } else {
+            progressLoadingView.setVisibility(View.GONE);
+        }
+        if (menu != null) {
+            MenuItem refreshItem = menu.findItem(R.id.action_reload);
+            if (isLoading) {
+                refreshItem.setActionView(R.layout.indeterminate_progress_action);
+            } else {
+                refreshItem.setActionView(null);
+            }
+        }
     }
 }

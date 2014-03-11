@@ -166,4 +166,9 @@ public class UserProfileReportsMeFragment extends UserProfileReportsFragment {
         AnalyticsManager.getInstance().getGaTracker().send(
                 MapBuilder.createAppView().set(Fields.SCREEN_NAME, UserProfileReportsMeFragment.class.getName()).build());
     }
+
+    @Override
+    public void updateRefreshItem(boolean isLoading) {
+
+    }
 }

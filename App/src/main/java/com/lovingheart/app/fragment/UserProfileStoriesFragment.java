@@ -112,4 +112,9 @@ public class UserProfileStoriesFragment extends UserProfileFragment {
                         Fields.SCREEN_NAME, UserProfileStoriesFragment.class.getName())
                         .build());
     }
+
+    @Override
+    public void updateRefreshItem(boolean isLoading) {
+
+    }
 }

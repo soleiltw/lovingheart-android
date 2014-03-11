@@ -29,8 +29,6 @@ public class DeedCategoriesFragment extends PlaceholderFragment {
 
     private Menu menu;
 
-    private boolean parseLoading;
-
     private View progressLoadingView;
 
     public static DeedCategoriesFragment newInstance(int sectionNumber) {
@@ -82,8 +80,7 @@ public class DeedCategoriesFragment extends PlaceholderFragment {
 
     private void loadCategories() {
 
-        setParseLoading(true);
-        updateRefreshItem();
+        updateRefreshItem(true);
 
         ParseQuery<ParseObject> parseQuery = ParseQuery.getQuery("Category");
         parseQuery.orderByAscending("Name");
@@ -108,8 +105,7 @@ public class DeedCategoriesFragment extends PlaceholderFragment {
                     }
                     categoriesAdapter.notifyDataSetChanged();
                 }
-                setParseLoading(false);
-                updateRefreshItem();
+                updateRefreshItem(false);
             }
         });
     }
@@ -130,9 +126,9 @@ public class DeedCategoriesFragment extends PlaceholderFragment {
         this.menu = menu;
     }
 
-    public void updateRefreshItem() {
-
-        if (isParseLoading()) {
+    @Override
+    public void updateRefreshItem(boolean isLoading) {
+        if (isLoading) {
             progressLoadingView.setVisibility(View.VISIBLE);
         } else {
             progressLoadingView.setVisibility(View.GONE);
@@ -141,7 +137,7 @@ public class DeedCategoriesFragment extends PlaceholderFragment {
         if (menu != null) {
             MenuItem refreshItem = menu.findItem(R.id.action_reload);
             if (refreshItem!= null) {
-                if (isParseLoading()) {
+                if (isLoading) {
                     refreshItem.setActionView(R.layout.indeterminate_progress_action);
                 } else {
                     refreshItem.setActionView(null);
@@ -150,11 +146,4 @@ public class DeedCategoriesFragment extends PlaceholderFragment {
         }
     }
 
-    public boolean isParseLoading() {
-        return parseLoading;
-    }
-
-    public void setParseLoading(boolean parseLoading) {
-        this.parseLoading = parseLoading;
-    }
 }

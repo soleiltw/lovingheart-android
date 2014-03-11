@@ -35,10 +35,7 @@ public class UserProfileBasicFragment extends UserProfileFragment {
 
     protected UserImpact userImpactInfo;
 
-    private boolean queryLoading;
-
     private String userId;
-
 
     private ImageView avatarImageView;
 
@@ -189,8 +186,8 @@ public class UserProfileBasicFragment extends UserProfileFragment {
     }
 
     protected void loadUserImpact(final ParseUser parseUser) {
-        setQueryLoading(true);
-        updateRefreshItem();
+
+        updateRefreshItem(true);
 
         ParseQuery<ParseObject> userImpactQuery = new ParseQuery<ParseObject>("UserImpact");
         userImpactQuery.whereEqualTo("User", parseUser);
@@ -212,8 +209,7 @@ public class UserProfileBasicFragment extends UserProfileFragment {
                         reviewStarsTextView.setText(String.valueOf(parseObject.getInt("reviewStarsImpact")));
                     }
                 }
-                setQueryLoading(false);
-                updateRefreshItem();
+                updateRefreshItem(false);
 
             }
         });
@@ -228,14 +224,6 @@ public class UserProfileBasicFragment extends UserProfileFragment {
 
     protected void saveUserImpact(final UserImpact userImpactInfo) {
         // We don't update user impact
-    }
-
-    public boolean isQueryLoading() {
-        return queryLoading;
-    }
-
-    public void setQueryLoading(boolean queryLoading) {
-        this.queryLoading = queryLoading;
     }
 
     public String getUserId() {
@@ -254,4 +242,8 @@ public class UserProfileBasicFragment extends UserProfileFragment {
                 MapBuilder.createAppView().set(Fields.SCREEN_NAME, UserProfileBasicFragment.class.getName()).build());
     }
 
+    @Override
+    public void updateRefreshItem(boolean isLoading) {
+
+    }
 }

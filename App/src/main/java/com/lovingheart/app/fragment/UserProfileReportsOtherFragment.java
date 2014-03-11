@@ -168,4 +168,9 @@ public class UserProfileReportsOtherFragment extends UserProfileReportsFragment 
                         Fields.SCREEN_NAME, UserProfileReportsOtherFragment.class.getName())
                         .build());
     }
+
+    @Override
+    public void updateRefreshItem(boolean isLoading) {
+
+    }
 }

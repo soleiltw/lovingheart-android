@@ -78,13 +78,13 @@ public class UserLoginFragment extends PlaceholderFragment {
                     imm.hideSoftInputFromWindow(userPasswordLoginEditText.getWindowToken(), 0);
 
                     userErrorTextView.setText(null);
-                    switchLoadingProgress(true);
+                    updateRefreshItem(true);
 
                     ParseUser.logInInBackground(userIdLoginEditText.getText().toString(),
                             userPasswordLoginEditText.getText().toString(), new LogInCallback() {
                         @Override
                         public void done(ParseUser parseUser, ParseException e) {
-                            switchLoadingProgress(false);
+                            updateRefreshItem(false);
                             if (parseUser != null) {
                                 // Hooray! The user logged in.
                                 Toast.makeText(getActivity(), getResources().getText(R.string.action_username_login_success), Toast.LENGTH_SHORT).show();
@@ -119,7 +119,7 @@ public class UserLoginFragment extends PlaceholderFragment {
             @Override
             public void onClick(View v) {
 
-                switchLoadingProgress(true);
+                updateRefreshItem(true);
                 ParseFacebookUtils.logIn(
                         Arrays.asList("email", ParseFacebookUtils.Permissions.Friends.ABOUT_ME)
                         ,getActivity(), new LogInCallback() {
@@ -140,7 +140,7 @@ public class UserLoginFragment extends PlaceholderFragment {
 
 
                             }
-                            switchLoadingProgress(false);
+                            updateRefreshItem(false);
                         }
                     }
                 });
@@ -152,7 +152,7 @@ public class UserLoginFragment extends PlaceholderFragment {
 
     private void getAdditionalFacebookInfo() {
 
-        switchLoadingProgress(true);
+        updateRefreshItem(true);
         Request.executeMeRequestAsync(ParseFacebookUtils.getSession(), new Request.GraphUserCallback() {
             @Override
             public void onCompleted(GraphUser graphUser, Response response) {
@@ -180,7 +180,7 @@ public class UserLoginFragment extends PlaceholderFragment {
                             }
                             currentUser.put("avatar", graphic);
                         }
-                        switchLoadingProgress(true);
+                        updateRefreshItem(true);
                         currentUser.saveInBackground(new SaveCallback() {
                             @Override
                             public void done(ParseException e) {
@@ -188,7 +188,7 @@ public class UserLoginFragment extends PlaceholderFragment {
                                     Log.d(DailyKind.TAG, "Sign up done: " + e.getLocalizedMessage());
                                     userLoginLayout.setVisibility(View.VISIBLE);
                                 } else {
-                                    switchLoadingProgress(false);
+                                    updateRefreshItem(false);
                                     putNeedUpdate();
                                     getActivity().setResult(getActivity().RESULT_OK);
                                     getActivity().finish();
@@ -198,7 +198,7 @@ public class UserLoginFragment extends PlaceholderFragment {
                             }
                         });
                     } else {
-                        switchLoadingProgress(false);
+                        updateRefreshItem(false);
 
                         putNeedUpdate();
 
@@ -219,7 +219,8 @@ public class UserLoginFragment extends PlaceholderFragment {
         editor.commit();
     }
 
-    private void switchLoadingProgress(boolean isLoading) {
+    @Override
+    public void updateRefreshItem(boolean isLoading) {
         if (isLoading) {
             userLoginLayout.setVisibility(View.GONE);
             userLoginProgressBar.setVisibility(View.VISIBLE);

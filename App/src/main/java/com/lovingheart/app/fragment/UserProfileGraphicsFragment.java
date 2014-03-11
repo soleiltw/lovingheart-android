@@ -104,4 +104,9 @@ public class UserProfileGraphicsFragment extends UserProfileFragment {
         AnalyticsManager.getInstance().getGaTracker().send(
                 MapBuilder.createAppView().set(Fields.SCREEN_NAME, UserProfileGraphicsFragment.class.getName()).build());
     }
+
+    @Override
+    public void updateRefreshItem(boolean isLoading) {
+
+    }
 }

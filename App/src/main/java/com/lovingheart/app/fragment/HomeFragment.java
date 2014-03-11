@@ -1,13 +1,11 @@
 package com.lovingheart.app.fragment;
 
-import android.annotation.TargetApi;
 import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
-import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -36,8 +34,6 @@ public class HomeFragment extends PlaceholderFragment {
     private ProgressBar randomLoadingProgressBar;
 
     private Menu menu;
-
-    private boolean queryLoading;
 
     private SharedPreferences preferences;
 
@@ -126,12 +122,12 @@ public class HomeFragment extends PlaceholderFragment {
         return super.onOptionsItemSelected(item);
     }
 
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    public void updateRefreshItem() {
+    @Override
+    public void updateRefreshItem(boolean isLoading) {
         if (menu != null) {
             MenuItem refreshItem = menu.findItem(R.id.action_reload);
             if (refreshItem != null) {
-                if (isQueryLoading()) {
+                if (isLoading) {
                     refreshItem.setActionView(R.layout.indeterminate_progress_action);
                 } else {
                     refreshItem.setActionView(null);
@@ -198,8 +194,7 @@ public class HomeFragment extends PlaceholderFragment {
 
     private void queryAllIdea() {
 
-        setQueryLoading(true);
-        updateRefreshItem();
+        updateRefreshItem(true);
         randomLoadingProgressBar.setVisibility(View.VISIBLE);
 
         final ParseQuery<ParseObject> randomIdeaQuery = new ParseQuery<ParseObject>("Idea");
@@ -239,8 +234,7 @@ public class HomeFragment extends PlaceholderFragment {
                 playBellsSound();
 
                 randomLoadingProgressBar.setVisibility(View.GONE);
-                setQueryLoading(false);
-                updateRefreshItem();
+                updateRefreshItem(false);
             }
         });
     }
@@ -256,14 +250,6 @@ public class HomeFragment extends PlaceholderFragment {
             tabClick.start();
             }
         }
-    }
-
-    public boolean isQueryLoading() {
-        return queryLoading;
-    }
-
-    public void setQueryLoading(boolean queryLoading) {
-        this.queryLoading = queryLoading;
     }
 
     @Override

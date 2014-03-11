@@ -11,25 +11,13 @@ import com.lovingheart.app.R;
 /**
  * Created by edward_chiang on 2013/11/23.
  */
-public class PlaceholderFragment extends Fragment {
+public abstract class PlaceholderFragment extends Fragment {
 
     /**
      * The fragment argument representing the section number for this
      * fragment.
      */
     protected static final String ARG_SECTION_NUMBER = "section_number";
-
-    /**
-     * Returns a new instance of this fragment for the given section
-     * number.
-     */
-    public static PlaceholderFragment newInstance(int sectionNumber) {
-        PlaceholderFragment fragment = new PlaceholderFragment();
-        Bundle args = new Bundle();
-        args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-        fragment.setArguments(args);
-        return fragment;
-    }
 
     public PlaceholderFragment() {
     }
@@ -46,4 +34,5 @@ public class PlaceholderFragment extends Fragment {
     }
 
 
+    public abstract void updateRefreshItem(boolean isLoading);
 }

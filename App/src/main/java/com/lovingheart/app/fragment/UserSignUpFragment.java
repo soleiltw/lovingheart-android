@@ -113,4 +113,9 @@ public class UserSignUpFragment extends PlaceholderFragment {
                         Fields.SCREEN_NAME, UserSignUpFragment.class.getName())
                         .build());
     }
+
+    @Override
+    public void updateRefreshItem(boolean isLoading) {
+
+    }
 }

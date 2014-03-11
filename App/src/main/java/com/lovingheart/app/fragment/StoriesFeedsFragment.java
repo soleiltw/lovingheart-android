@@ -31,8 +31,6 @@ public class StoriesFeedsFragment extends PlaceholderFragment {
 
     private Menu menu;
 
-    private boolean queryLoading;
-
     private View loadingView;
 
     public static StoriesFeedsFragment newInstance(int sectionNumber) {
@@ -115,9 +113,14 @@ public class StoriesFeedsFragment extends PlaceholderFragment {
         loadStories(false);
     }
 
-    public void updateRefreshItem(boolean more) {
+    @Override
+    public void updateRefreshItem(boolean isLoading) {
+        updateRefreshItem(isLoading, false);
+    }
+
+    public void updateRefreshItem(boolean isLoading, boolean more) {
         if (getActivity()!=null && loadingView != null) {
-            if (isQueryLoading() && !more) {
+            if (isLoading && !more) {
                 loadingView.setVisibility(View.VISIBLE);
             } else {
                 loadingView.setVisibility(View.GONE);
@@ -126,7 +129,7 @@ public class StoriesFeedsFragment extends PlaceholderFragment {
         if (menu != null) {
             MenuItem refreshItem = menu.findItem(R.id.action_reload);
             if (refreshItem != null) {
-                if (isQueryLoading()) {
+                if (isLoading) {
                     refreshItem.setActionView(R.layout.indeterminate_progress_action);
                 } else {
                     refreshItem.setActionView(null);
@@ -140,8 +143,7 @@ public class StoriesFeedsFragment extends PlaceholderFragment {
 
     protected void queryToCallBack(ParseQuery<ParseObject> parseQuery, final boolean more) {
 
-        setQueryLoading(true);
-        updateRefreshItem(more);
+        updateRefreshItem(true, more);
         parseQuery.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> parseObjects, ParseException e) {
@@ -170,17 +172,8 @@ public class StoriesFeedsFragment extends PlaceholderFragment {
                     }
                 }
 
-                setQueryLoading(false);
-                updateRefreshItem(more);
+                updateRefreshItem(false, more);
             }
         });
-    }
-
-    public boolean isQueryLoading() {
-        return queryLoading;
-    }
-
-    public void setQueryLoading(boolean queryLoading) {
-        this.queryLoading = queryLoading;
     }
 }

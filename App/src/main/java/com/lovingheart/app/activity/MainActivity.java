@@ -289,14 +289,15 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerFr
                     });
                     break;
                 default:
-                    fragment =  PlaceholderFragment.newInstance(position + 1);
                     getActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
                     navigationMode = ActionBar.NAVIGATION_MODE_STANDARD;
                     getActionBar().setDisplayShowTitleEnabled(true);
                     break;
             }
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            fragmentManager.beginTransaction().replace(R.id.container, fragment).commit();
+            if  (fragment != null) {
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                fragmentManager.beginTransaction().replace(R.id.container, fragment).commit();
+            }
         }
 
 

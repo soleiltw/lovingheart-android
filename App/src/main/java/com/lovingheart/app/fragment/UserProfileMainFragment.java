@@ -183,5 +183,8 @@ public class UserProfileMainFragment extends UserProfileFragment {
         }
     }
 
+    @Override
+    public void updateRefreshItem(boolean isLoading) {
 
+    }
 }
