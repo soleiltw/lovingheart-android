@@ -12,6 +12,10 @@ import com.lovingheart.app.adapter.PersonalReportAdapter;
 import com.lovingheart.app.object.Info;
 import com.lovingheart.app.util.ReportManager;
 import com.lovingheart.app.view.ExpandableListView;
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseUser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -96,6 +100,23 @@ public abstract class UserProfileReportsFragment extends UserProfileFragment {
                 }
             }
         }
+    }
+
+    protected void validPassShowReport(ParseUser parseUser) {
+        reportManager.setUser(parseUser);
+
+        queryStories(parseUser, new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> parseObjects, ParseException e) {
+                if (parseObjects != null && parseObjects.size() > 0) {
+
+                    reportManager.setStoriesObjects(parseObjects);
+                    reportManager.analyse();
+                }
+            }
+        });
+
+        billingButton.setVisibility(View.GONE);
     }
 
     @Override

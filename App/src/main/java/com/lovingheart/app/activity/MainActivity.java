@@ -18,12 +18,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.lovingheart.app.DailyKind;
 import com.lovingheart.app.R;
 import com.lovingheart.app.fragment.*;
 import com.lovingheart.app.object.Category;
 import com.lovingheart.app.util.CheckUserLoginUtil;
+import com.lovingheart.app.view.DrawerBottomListView;
 import com.parse.*;
 
 import java.security.MessageDigest;
@@ -37,6 +39,9 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerFr
     public final static int VIEW_PAGER_ME_POSITION = 0;
     public final static int VIEW_PAGER_STORIES_POSITION = 3;
     public final static int VIEW_PAGER_GOOD_DEEDS_POSITION = 2;
+
+    public final static int VIEW_PAGER_GETTING_STARTED = 0;
+    public final static int VIEW_PAGER_SETTINGS = 1;
 
     private NavigationDrawerFragment mNavigationDrawerFragment;
 
@@ -162,113 +167,139 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerFr
      * @param position
      */
     @Override
-    public void onNavigationDrawerItemSelected(int position) {
+    public void onNavigationDrawerItemSelected(ListView listView, int position) {
 
         ActionBar actionBar = getActionBar();
 
+        if (listView instanceof DrawerBottomListView) {
+            Log.d(DailyKind.TAG, "Select bottom: " + position);
 
-        switch (position) {
-            case VIEW_PAGER_HOME_POSITION:
-                fragment =  HomeFragment.newInstance(position + 1);
-                contentTitle = getString(R.string.title_today);
-                navigationMode = ActionBar.NAVIGATION_MODE_STANDARD;
-                actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-                actionBar.setDisplayShowTitleEnabled(true);
-                break;
-            case VIEW_PAGER_ME_POSITION:
-                fragment = UserProfileMainFragment.newInstance(position + 1);
-                contentTitle = getString(R.string.title_me);
-                navigationMode = ActionBar.NAVIGATION_MODE_STANDARD;
-                actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-                actionBar.setDisplayShowTitleEnabled(true);
-                break;
-            case VIEW_PAGER_GOOD_DEEDS_POSITION:
-                fragment = DeedIdeaListFragment.newInstance(99);
-                contentTitle = getString(R.string.activity_deed_category);
-                navigationMode = ActionBar.NAVIGATION_MODE_LIST;
-                actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-                actionBar.setDisplayShowTitleEnabled(false);
+            switch (position) {
+                case VIEW_PAGER_GETTING_STARTED:
 
-                loadCategories();
+                    fragment = GettingStartedFragment.newInstance(position + 1);
 
-                actionBar.setListNavigationCallbacks(ideaCategoryDropDownAdapter, new ActionBar.OnNavigationListener(){
-                    /**
-                     * This method is called whenever a navigation item in your action bar
-                     * is selected.
-                     *
-                     * @param itemPosition Position of the item clicked.
-                     * @param itemId       ID of the item clicked.
-                     * @return True if the event was handled, false otherwise.
-                     */
-                    @Override
-                    public boolean onNavigationItemSelected(int itemPosition, long itemId) {
-                        switch (itemPosition) {
-                            case  0: {
-                                // All
-                                DeedIdeaListFragment fragment = DeedIdeaListFragment.newInstance(99);
-                                FragmentManager fragmentManager = getSupportFragmentManager();
-                                fragmentManager.beginTransaction().replace(R.id.container,
-                                        fragment).commit();
-                                break;
+                    contentTitle = getString(R.string.navigation_bottom_getting_started);
+                    navigationMode = ActionBar.NAVIGATION_MODE_STANDARD;
+                    actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+                    actionBar.setDisplayShowTitleEnabled(true);
+
+                    FragmentManager fragmentManager = getSupportFragmentManager();
+                    fragmentManager.beginTransaction().replace(R.id.container, fragment).commit();
+
+                    break;
+                case VIEW_PAGER_SETTINGS:
+                    Intent settingIntent = new Intent(MainActivity.this, SettingActivity.class);
+                    startActivity(settingIntent);
+                    break;
+            }
+
+        } else {
+            switch (position) {
+                case VIEW_PAGER_HOME_POSITION:
+                    fragment =  HomeFragment.newInstance(position + 1);
+                    contentTitle = getString(R.string.title_today);
+                    navigationMode = ActionBar.NAVIGATION_MODE_STANDARD;
+                    actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+                    actionBar.setDisplayShowTitleEnabled(true);
+                    break;
+                case VIEW_PAGER_ME_POSITION:
+                    fragment = UserProfileMainFragment.newInstance(position + 1);
+                    contentTitle = getString(R.string.title_me);
+                    navigationMode = ActionBar.NAVIGATION_MODE_STANDARD;
+                    actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+                    actionBar.setDisplayShowTitleEnabled(true);
+                    break;
+                case VIEW_PAGER_GOOD_DEEDS_POSITION:
+                    fragment = DeedIdeaListFragment.newInstance(99);
+                    contentTitle = getString(R.string.activity_deed_category);
+                    navigationMode = ActionBar.NAVIGATION_MODE_LIST;
+                    actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
+                    actionBar.setDisplayShowTitleEnabled(false);
+
+                    loadCategories();
+
+                    actionBar.setListNavigationCallbacks(ideaCategoryDropDownAdapter, new ActionBar.OnNavigationListener(){
+                        /**
+                         * This method is called whenever a navigation item in your action bar
+                         * is selected.
+                         *
+                         * @param itemPosition Position of the item clicked.
+                         * @param itemId       ID of the item clicked.
+                         * @return True if the event was handled, false otherwise.
+                         */
+                        @Override
+                        public boolean onNavigationItemSelected(int itemPosition, long itemId) {
+                            switch (itemPosition) {
+                                case  0: {
+                                    // All
+                                    DeedIdeaListFragment fragment = DeedIdeaListFragment.newInstance(99);
+                                    FragmentManager fragmentManager = getSupportFragmentManager();
+                                    fragmentManager.beginTransaction().replace(R.id.container,
+                                            fragment).commit();
+                                    break;
+                                }
+                                default:
+                                    int index = itemPosition - 1;
+                                    Category selectCategory = categoryList.get(index);
+                                    FragmentManager fragmentManager = getSupportFragmentManager();
+                                    DeedIdeaListFragment deedIdeaListFragment = DeedIdeaListFragment.newInstance(itemPosition + 1);
+                                    deedIdeaListFragment.setQueryCategory(selectCategory);
+                                    fragmentManager.beginTransaction().replace(R.id.container,
+                                            deedIdeaListFragment ).commit();
+                                    break;
                             }
-                            default:
-                                int index = itemPosition - 1;
-                                Category selectCategory = categoryList.get(index);
-                                FragmentManager fragmentManager = getSupportFragmentManager();
-                                DeedIdeaListFragment deedIdeaListFragment = DeedIdeaListFragment.newInstance(itemPosition + 1);
-                                deedIdeaListFragment.setQueryCategory(selectCategory);
-                                fragmentManager.beginTransaction().replace(R.id.container,
-                                        deedIdeaListFragment ).commit();
-                                break;
+                            return true;
                         }
-                        return true;
-                    }
-                });
+                    });
 
-                break;
-            case VIEW_PAGER_STORIES_POSITION:
-                fragment =  StoriesLatestFragment.newInstance(position + 1);
-                contentTitle = getString(R.string.title_stories);
-                navigationMode = ActionBar.NAVIGATION_MODE_LIST;
-                actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-                actionBar.setDisplayShowTitleEnabled(false);
+                    break;
+                case VIEW_PAGER_STORIES_POSITION:
+                    fragment =  StoriesLatestFragment.newInstance(position + 1);
+                    contentTitle = getString(R.string.title_stories);
+                    navigationMode = ActionBar.NAVIGATION_MODE_LIST;
+                    actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
+                    actionBar.setDisplayShowTitleEnabled(false);
 
-                actionBar.setListNavigationCallbacks(storiesDropDownAdapter, new ActionBar.OnNavigationListener() {
-                    /**
-                     * This method is called whenever a navigation item in your action bar
-                     * is selected.
-                     *
-                     * @param itemPosition Position of the item clicked.
-                     * @param itemId       ID of the item clicked.
-                     * @return True if the event was handled, false otherwise.
-                     */
-                    @Override
-                    public boolean onNavigationItemSelected(int itemPosition, long itemId) {
-                        switch (itemPosition) {
-                            case 0: {
-                                FragmentManager fragmentManager = getSupportFragmentManager();
-                                fragmentManager.beginTransaction().replace(R.id.container, StoriesLatestFragment.newInstance(itemPosition + 1)).commit();
-                                break;
+                    actionBar.setListNavigationCallbacks(storiesDropDownAdapter, new ActionBar.OnNavigationListener() {
+                        /**
+                         * This method is called whenever a navigation item in your action bar
+                         * is selected.
+                         *
+                         * @param itemPosition Position of the item clicked.
+                         * @param itemId       ID of the item clicked.
+                         * @return True if the event was handled, false otherwise.
+                         */
+                        @Override
+                        public boolean onNavigationItemSelected(int itemPosition, long itemId) {
+                            switch (itemPosition) {
+                                case 0: {
+                                    FragmentManager fragmentManager = getSupportFragmentManager();
+                                    fragmentManager.beginTransaction().replace(R.id.container, StoriesLatestFragment.newInstance(itemPosition + 1)).commit();
+                                    break;
+                                }
+                                case 1: {
+                                    FragmentManager fragmentManager = getSupportFragmentManager();
+                                    fragmentManager.beginTransaction().replace(R.id.container, StoriesPopularFragment.newInstance(itemPosition + 1)).commit();
+                                    break;
+                                }
                             }
-                            case 1: {
-                                FragmentManager fragmentManager = getSupportFragmentManager();
-                                fragmentManager.beginTransaction().replace(R.id.container, StoriesPopularFragment.newInstance(itemPosition + 1)).commit();
-                                break;
-                            }
+                            return true;
                         }
-                        return true;
-                    }
-                });
-                break;
-            default:
-                fragment =  PlaceholderFragment.newInstance(position + 1);
-                getActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-                navigationMode = ActionBar.NAVIGATION_MODE_STANDARD;
-                getActionBar().setDisplayShowTitleEnabled(true);
-                break;
+                    });
+                    break;
+                default:
+                    fragment =  PlaceholderFragment.newInstance(position + 1);
+                    getActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+                    navigationMode = ActionBar.NAVIGATION_MODE_STANDARD;
+                    getActionBar().setDisplayShowTitleEnabled(true);
+                    break;
+            }
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction().replace(R.id.container, fragment).commit();
         }
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.container, fragment).commit();
+
+
 
 
     }

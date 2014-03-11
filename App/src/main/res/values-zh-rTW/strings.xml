@@ -162,4 +162,6 @@
 	<string name="upgrade_to_premium_share_to">分享給</string>
 	<string name="share_billing_button_sent">送出完畢</string>
 	<string name="idea_content_org_list_title_text">支持的組織</string>
+	<string name="navigation_bottom_settings">設定</string>
+	<string name="navigation_bottom_getting_started">開始入門</string>
 </resources>

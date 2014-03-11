@@ -16,7 +16,6 @@ import com.lovingheart.app.util.AnalyticsManager;
 import com.parse.*;
 
 import java.util.Calendar;
-import java.util.List;
 
 /**
  * Created by edward_chiang on 2014/3/4.
@@ -110,27 +109,11 @@ public class UserProfileReportsMeFragment extends UserProfileReportsFragment {
                             purchaseTimeCal.add(Calendar.DAY_OF_MONTH, NUMBER_OF_DAYS_TO_VIEW_REPORT);
                             if (purchaseTimeCal.compareTo(Calendar.getInstance()) > 0) {
                                 Log.d(DailyKind.TAG, "Purchased Date passed. " + purchaseTimeCal.toString());
-
-                                reportManager.setUser(parseUser);
-
-                                queryStories(parseUser, new FindCallback<ParseObject>() {
-                                    @Override
-                                    public void done(List<ParseObject> parseObjects, ParseException e) {
-                                        if (parseObjects != null && parseObjects.size() > 0) {
-
-                                            reportManager.setStoriesObjects(parseObjects);
-                                            reportManager.analyse();
-                                        }
-                                    }
-                                });
-
-                                billingButton.setVisibility(View.GONE);
+                                showNeedUpgradeWord = false;
                             } else {
                                 // Show the purchase button
                                 Log.d(DailyKind.TAG, "It's out of date, " + purchaseTimeCal.toString());
                                 showNeedUpgradeWord = true;
-
-                                billingButton.setVisibility(View.VISIBLE);
                             }
 
                         } else {
@@ -139,11 +122,20 @@ public class UserProfileReportsMeFragment extends UserProfileReportsFragment {
                             showNeedUpgradeWord = true;
                         }
 
+                        // Check if premium
+                        if (ParseUser.getCurrentUser().has("premium")) {
+                            String noCheck = ParseUser.getCurrentUser().getString("premium");
+                            if (noCheck != null && DailyKind.PARSE_PREMIUM_NOCHECK.equalsIgnoreCase(noCheck)) {
+                                showNeedUpgradeWord = false;
+                            }
+                        }
+
                         if (showNeedUpgradeWord) {
                             premiumLockTextView.setText(getResources().getString(R.string.premium_lock_view_by_self_text));
-
                             premiumLockTextView.setVisibility(View.VISIBLE);
+                            billingButton.setVisibility(View.VISIBLE);
                         } else {
+                            validPassShowReport(parseUser);
                             premiumLockTextView.setVisibility(View.GONE);
                         }
                     }

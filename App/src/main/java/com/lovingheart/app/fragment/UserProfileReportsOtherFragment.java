@@ -15,12 +15,12 @@ import com.lovingheart.app.util.AnalyticsManager;
 import com.parse.*;
 
 import java.util.Calendar;
-import java.util.List;
 
 /**
  * Created by edward_chiang on 2014/3/4.
  */
 public class UserProfileReportsOtherFragment extends UserProfileReportsFragment {
+
 
     private ShareBillingDialog shareBillingDialog;
 
@@ -109,19 +109,7 @@ public class UserProfileReportsOtherFragment extends UserProfileReportsFragment 
                             purchaseTimeCal.add(Calendar.DAY_OF_MONTH, NUMBER_OF_DAYS_TO_VIEW_REPORT);
                             if (purchaseTimeCal.compareTo(Calendar.getInstance()) > 0) {
                                 Log.d(DailyKind.TAG, "Purchased Date passed. " + purchaseTimeCal.toString());
-
-                                reportManager.setUser(parseUser);
-
-                                queryStories(parseUser, new FindCallback<ParseObject>() {
-                                    @Override
-                                    public void done(List<ParseObject> parseObjects, ParseException e) {
-                                        if (parseObjects != null && parseObjects.size() > 0) {
-
-                                            reportManager.setStoriesObjects(parseObjects);
-                                            reportManager.analyse();
-                                        }
-                                    }
-                                });
+                                showNeedUpgradeWord = false;
                             } else {
                                 // Show the purchase button
                                 Log.d(DailyKind.TAG, "It's out of date, " + purchaseTimeCal.toString());
@@ -132,6 +120,14 @@ public class UserProfileReportsOtherFragment extends UserProfileReportsFragment 
                             // Show the purchase button
                             Log.d(DailyKind.TAG, "Can't find any purchase record.");
                             showNeedUpgradeWord = true;
+                        }
+
+                        // Check if premium
+                        if (parseUser.has("premium")) {
+                            String noCheck = parseUser.getString("premium");
+                            if (noCheck != null && DailyKind.PARSE_PREMIUM_NOCHECK.equalsIgnoreCase(noCheck)) {
+                                showNeedUpgradeWord = false;
+                            }
                         }
 
                         if (showNeedUpgradeWord) {
@@ -147,6 +143,7 @@ public class UserProfileReportsOtherFragment extends UserProfileReportsFragment 
 
                             premiumLockTextView.setVisibility(View.VISIBLE);
                         } else {
+                            validPassShowReport(parseUser);
                             premiumLockTextView.setVisibility(View.GONE);
                         }
                     }

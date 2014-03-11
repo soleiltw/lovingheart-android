@@ -26,6 +26,8 @@ public class DailyKind {
 
     public static String PRIVACY_POLICY_LINK = "http://blog.lovingheartapp.com/privacy_policy";
 
+    public static final String PARSE_PREMIUM_NOCHECK = "nocheck";
+
     // Every 30 mins
     public static long QUERY_MAX_CACHE_AGE = 60 * 30 * 1000;
 
