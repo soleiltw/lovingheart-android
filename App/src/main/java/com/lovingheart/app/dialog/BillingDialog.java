@@ -318,6 +318,7 @@ public class BillingDialog extends Dialog {
 
     /** Verifies the developer payload of a purchase. */
     public boolean verifyDeveloperPayload(Purchase p) {
+        if (p == null || p.getDeveloperPayload() == null) return false;
         String payload = p.getDeveloperPayload();
 
         /*
