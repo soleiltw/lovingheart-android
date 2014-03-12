@@ -43,10 +43,6 @@ public class UserProfileBasicFragment extends UserProfileFragment {
     public UserProfileBasicFragment() {
     }
 
-    public UserProfileBasicFragment(String userId) {
-        this.userId = userId;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -138,8 +134,8 @@ public class UserProfileBasicFragment extends UserProfileFragment {
                 }
 
                 // Update user log
-                final String targetObjectId = "XO0bGuSWk9";
-                ParseObjectManager.userLogDone(targetObjectId);
+                ParseObjectManager.userLogDone("XO0bGuSWk9");
+                ParseObjectManager.userLogDone("9ZwlQvpHsA");
 
                 // Load user impact
                 loadUserImpact(parseUser);

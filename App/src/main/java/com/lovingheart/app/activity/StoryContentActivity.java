@@ -623,6 +623,7 @@ public class StoryContentActivity extends ActionBarActivity {
                             Log.d(DailyKind.TAG, "Parse event saved. " + ParseEventTrackingManager.ACTION_REVIEW_STORY + " on " + storyObject.getObjectId());
 
                             ParseObjectManager.userLogDone("bmqzUROe44");
+                            ParseObjectManager.userLogDone("ftS0XExWCq");
 
                             if (commentText.getText() != null && commentText.getText().toString().length() > 0) {
                                 ParseQuery pushQuery = ParseInstallation.getQuery();

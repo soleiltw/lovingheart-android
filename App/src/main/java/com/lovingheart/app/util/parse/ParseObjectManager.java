@@ -28,6 +28,8 @@ public class ParseObjectManager {
         userLogQuery.whereEqualTo("targetObjectClass", "GettingStarted");
         userLogQuery.whereEqualTo("userId", ParseUser.getCurrentUser());
         userLogQuery.whereEqualTo("targetObjectId", targetObjectId);
+//        userLogQuery.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
+//        userLogQuery.setMaxCacheAge(DailyKind.QUERY_MAX_CACHE_AGE);
         userLogQuery.getFirstInBackground(new GetCallback<ParseObject>() {
             @Override
             public void done(ParseObject parseObject, ParseException e) {

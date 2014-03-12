@@ -137,6 +137,7 @@ public class UserProfileReportsMeFragment extends UserProfileReportsFragment {
                             billingButton.setVisibility(View.VISIBLE);
                         } else {
                             ParseObjectManager.userLogDone("PLMhFQQ0BH");
+                            ParseObjectManager.userLogDone("DM1l2ZZz1J");
                             validPassShowReport(parseUser);
                             premiumLockTextView.setVisibility(View.GONE);
                         }

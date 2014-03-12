@@ -119,9 +119,11 @@ public class GettingStartedFragment extends PlaceholderFragment {
 
         ParseQuery<ParseObject> gettingStartedQuery = new ParseQuery<ParseObject>("GettingStarted");
         gettingStartedQuery.orderByAscending("sequence");
-        updateRefreshItem(true);
+        gettingStartedQuery.whereContainedIn("language", DailyKind.getLanguageCollection(getActivity()));
         gettingStartedQuery.setCachePolicy(ParseQuery.CachePolicy.CACHE_ELSE_NETWORK);
         gettingStartedQuery.setMaxCacheAge(DailyKind.QUERY_MAX_CACHE_AGE);
+
+        updateRefreshItem(true);
         gettingStartedQuery.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> parseObjects, ParseException e) {
@@ -181,7 +183,7 @@ public class GettingStartedFragment extends PlaceholderFragment {
                             if (doneCount >= gettingObjects.size()) {
                                 View textViewContent = getActivity().getLayoutInflater().inflate(R.layout.layout_textview, null);
                                 TextView congraTextView = (TextView)textViewContent.findViewById(R.id.textview);
-                                
+
                                 congraTextView.setText(getString(R.string.getting_started_final_all_done));
                                 congraTextView.setTextColor(getResources().getColor(R.color.theme_color_4));
 

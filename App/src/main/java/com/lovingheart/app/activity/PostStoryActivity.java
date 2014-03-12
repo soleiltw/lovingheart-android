@@ -600,6 +600,7 @@ public class PostStoryActivity extends ActionBarActivity {
                                 Log.e(DailyKind.TAG, "graphicsEarnedObject.saveInBackground: " + e.getLocalizedMessage());
                             } else {
                                 ParseObjectManager.userLogDone("QQZRQhG7dh");
+                                ParseObjectManager.userLogDone("lQtZ2EaEeZ");
                             }
                         }
                     });
@@ -618,6 +619,7 @@ public class PostStoryActivity extends ActionBarActivity {
                 if (e == null) {
 
                     ParseObjectManager.userLogDone("C5d3t4JJXa");
+                    ParseObjectManager.userLogDone("ZRk7j8kWE9");
 
                     if (storyPostingDialog.isShowing()) {
                         storyPostingDialog.dismiss();

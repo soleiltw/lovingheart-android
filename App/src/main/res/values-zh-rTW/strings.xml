@@ -167,4 +167,10 @@
 	<string name="close">關閉</string>
 	<string name="getting_started_final_all_done">You are super!</string>
 	<string name="getting_started_final_almost_done">快要完成了。</string>
+
+	<string name="slash">/</string>
+
+	<string name="post_story_loading_location">載入地理資訊...</string>
+	<string name="navigation_drawer_open">打開</string>
+	<string name="navigation_drawer_close">關閉</string>
 </resources>
