@@ -177,17 +177,16 @@ public class GettingStartedFragment extends PlaceholderFragment {
                         gettingStartedAdapter.notifyDataSetChanged();
 
                         if (doneCount > 0) {
-                            View textViewContent = getActivity().getLayoutInflater().inflate(R.layout.layout_textview, null);
-                            TextView congraTextView = (TextView)textViewContent.findViewById(R.id.textview);
 
                             if (doneCount >= gettingObjects.size()) {
+                                View textViewContent = getActivity().getLayoutInflater().inflate(R.layout.layout_textview, null);
+                                TextView congraTextView = (TextView)textViewContent.findViewById(R.id.textview);
+                                
                                 congraTextView.setText(getString(R.string.getting_started_final_all_done));
                                 congraTextView.setTextColor(getResources().getColor(R.color.theme_color_4));
-                            } else {
-                                congraTextView.setText(getString(R.string.getting_started_final_almost_done));
-                                congraTextView.setTextColor(getResources().getColor(R.color.theme_color_1));
+
+                                listView.addFooterView(textViewContent);
                             }
-                            listView.addFooterView(textViewContent);
                         }
 
 

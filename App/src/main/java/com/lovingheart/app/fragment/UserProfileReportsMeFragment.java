@@ -13,6 +13,7 @@ import com.lovingheart.app.DailyKind;
 import com.lovingheart.app.R;
 import com.lovingheart.app.dialog.BillingDialog;
 import com.lovingheart.app.util.AnalyticsManager;
+import com.lovingheart.app.util.parse.ParseObjectManager;
 import com.parse.*;
 
 import java.util.Calendar;
@@ -135,6 +136,7 @@ public class UserProfileReportsMeFragment extends UserProfileReportsFragment {
                             premiumLockTextView.setVisibility(View.VISIBLE);
                             billingButton.setVisibility(View.VISIBLE);
                         } else {
+                            ParseObjectManager.userLogDone("PLMhFQQ0BH");
                             validPassShowReport(parseUser);
                             premiumLockTextView.setVisibility(View.GONE);
                         }
