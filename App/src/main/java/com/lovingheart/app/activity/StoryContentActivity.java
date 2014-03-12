@@ -587,7 +587,7 @@ public class StoryContentActivity extends ActionBarActivity {
             public void onClick(View v) {
                 ParseObject eventObject;
 
-                if (parseReviewObject != null) {
+                if (parseReviewObject != null && parseReviewObject.getInt("value") > 0) {
                     eventObject = parseReviewObject;
                 } else {
                     eventObject = new ParseObject("Event");
@@ -596,7 +596,6 @@ public class StoryContentActivity extends ActionBarActivity {
                     if (parseUser != null) {
                         eventObject.put("user", parseUser);
                     }
-
 
                     eventObject.put("story", storyObject);
                     eventObject.put("action", ParseEventTrackingManager.ACTION_REVIEW_STORY);
@@ -622,6 +621,8 @@ public class StoryContentActivity extends ActionBarActivity {
                             Toast.makeText(StoryContentActivity.this, getString(R.string.toast_error_message_try_again), Toast.LENGTH_SHORT).show();
                         } else {
                             Log.d(DailyKind.TAG, "Parse event saved. " + ParseEventTrackingManager.ACTION_REVIEW_STORY + " on " + storyObject.getObjectId());
+
+                            ParseObjectManager.userLogDone("bmqzUROe44");
 
                             if (commentText.getText() != null && commentText.getText().toString().length() > 0) {
                                 ParseQuery pushQuery = ParseInstallation.getQuery();

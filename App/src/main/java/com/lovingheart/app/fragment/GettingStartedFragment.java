@@ -3,6 +3,7 @@ package com.lovingheart.app.fragment;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,12 +11,12 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
+import com.lovingheart.app.DailyKind;
 import com.lovingheart.app.R;
 import com.lovingheart.app.adapter.GettingStartedAdapter;
-import com.parse.FindCallback;
-import com.parse.ParseException;
-import com.parse.ParseObject;
-import com.parse.ParseQuery;
+import com.lovingheart.app.object.GettingStarted;
+import com.parse.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +30,7 @@ public class GettingStartedFragment extends PlaceholderFragment {
 
     private ListView listView;
 
-    private java.util.List<ParseObject> gettingObjects;
+    private java.util.List<GettingStarted> gettingObjects;
 
     private View progressLoadingView;
 
@@ -43,7 +44,7 @@ public class GettingStartedFragment extends PlaceholderFragment {
 
     public GettingStartedFragment() {
 
-        gettingObjects = new ArrayList<ParseObject>();
+        gettingObjects = new ArrayList<GettingStarted>();
 
 
     }
@@ -62,47 +63,48 @@ public class GettingStartedFragment extends PlaceholderFragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                ParseObject gettingObject = gettingObjects.get(position);
+                if (gettingObjects.size() > position && !gettingObjects.isEmpty()) {
+                    GettingStarted gettingObject = gettingObjects.get(position);
 
-                if (gettingObject.has("webUrl")) {
+                    if (gettingObject.getContentObject().has("webUrl")) {
 
-                    AlertDialog.Builder alertBuilder = new AlertDialog.Builder(getActivity());
-                    alertBuilder.setTitle(gettingObject.getString("title"));
+                        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(getActivity());
+                        alertBuilder.setTitle(gettingObject.getContentObject().getString("title"));
 
-                    WebView webView = new WebView(getActivity());
-                    webView.loadUrl(gettingObject.getString("webUrl"));
-                    webView.setWebViewClient(new WebViewClient(){
-                        /**
-                         * Give the host application a chance to take over the control when a new
-                         * url is about to be loaded in the current WebView. If WebViewClient is not
-                         * provided, by default WebView will ask Activity Manager to choose the
-                         * proper handler for the url. If WebViewClient is provided, return true
-                         * means the host application handles the url, while return false means the
-                         * current WebView handles the url.
-                         * This method is not called for requests using the POST "method".
-                         *
-                         * @param view The WebView that is initiating the callback.
-                         * @param url  The url to be loaded.
-                         * @return True if the host application wants to leave the current WebView
-                         * and handle the url itself, otherwise return false.
-                         */
-                        @Override
-                        public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                            view.loadUrl(url);
-                            return true;
-                        }
-                    });
+                        WebView webView = new WebView(getActivity());
+                        webView.loadUrl(gettingObject.getContentObject().getString("webUrl"));
+                        webView.setWebViewClient(new WebViewClient(){
+                            /**
+                             * Give the host application a chance to take over the control when a new
+                             * url is about to be loaded in the current WebView. If WebViewClient is not
+                             * provided, by default WebView will ask Activity Manager to choose the
+                             * proper handler for the url. If WebViewClient is provided, return true
+                             * means the host application handles the url, while return false means the
+                             * current WebView handles the url.
+                             * This method is not called for requests using the POST "method".
+                             *
+                             * @param view The WebView that is initiating the callback.
+                             * @param url  The url to be loaded.
+                             * @return True if the host application wants to leave the current WebView
+                             * and handle the url itself, otherwise return false.
+                             */
+                            @Override
+                            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                                view.loadUrl(url);
+                                return true;
+                            }
+                        });
 
-                    alertBuilder.setView(webView);
-                    alertBuilder.setNegativeButton(getString(R.string.close), new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    });
-                    alertBuilder.show();
+                        alertBuilder.setView(webView);
+                        alertBuilder.setNegativeButton(getString(R.string.close), new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+                        alertBuilder.show();
+                    }
                 }
-
             }
         });
 
@@ -118,14 +120,22 @@ public class GettingStartedFragment extends PlaceholderFragment {
         ParseQuery<ParseObject> gettingStartedQuery = new ParseQuery<ParseObject>("GettingStarted");
         gettingStartedQuery.orderByAscending("sequence");
         updateRefreshItem(true);
+        gettingStartedQuery.setCachePolicy(ParseQuery.CachePolicy.CACHE_ELSE_NETWORK);
+        gettingStartedQuery.setMaxCacheAge(DailyKind.QUERY_MAX_CACHE_AGE);
         gettingStartedQuery.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> parseObjects, ParseException e) {
                 updateRefreshItem(false);
                 if (parseObjects.size() > 0) {
                     gettingObjects.clear();
-                    gettingObjects.addAll(parseObjects);
+                    for (ParseObject eachObject : parseObjects) {
+                        GettingStarted gettingStarted = new GettingStarted();
+                        gettingStarted.setContentObject(eachObject);
+                        gettingObjects.add(gettingStarted);
+                    }
                     gettingStartedAdapter.notifyDataSetChanged();
+
+                    loadUserLog();
                 }
             }
         });
@@ -138,5 +148,53 @@ public class GettingStartedFragment extends PlaceholderFragment {
         } else {
             progressLoadingView.setVisibility(View.GONE);
         }
+    }
+
+    /**
+     * Check if user have done some tips
+     */
+    private void loadUserLog() {
+        ParseQuery<ParseObject> userLogQuery = new ParseQuery<ParseObject>("UserLog");
+        userLogQuery.whereEqualTo("targetObjectClass", "GettingStarted");
+        userLogQuery.whereEqualTo("userId", ParseUser.getCurrentUser());
+        userLogQuery.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> parseObjects, ParseException e) {
+                if (parseObjects != null && parseObjects.size() > 0) {
+                    boolean dataChanged = false;
+                    int doneCount = 0;
+                    for (ParseObject userLogObject : parseObjects) {
+                        for (GettingStarted eachGettingStarted : gettingObjects) {
+                            if (userLogObject.getString("targetObjectId").equalsIgnoreCase(eachGettingStarted.getContentObject().getObjectId())) {
+                                eachGettingStarted.setUserLog(userLogObject);
+                                Log.d(DailyKind.TAG, "Found a data");
+                                dataChanged = true;
+                                doneCount++;
+                            }
+                        }
+                    }
+                    if (dataChanged) {
+                        gettingStartedAdapter.notifyDataSetChanged();
+
+                        if (doneCount > 0) {
+                            View textViewContent = getActivity().getLayoutInflater().inflate(R.layout.layout_textview, null);
+                            TextView congraTextView = (TextView)textViewContent.findViewById(R.id.textview);
+
+                            if (doneCount >= gettingObjects.size()) {
+                                congraTextView.setText(getString(R.string.getting_started_final_all_done));
+                                congraTextView.setTextColor(getResources().getColor(R.color.theme_color_4));
+                            } else {
+                                congraTextView.setText(getString(R.string.getting_started_final_almost_done));
+                                congraTextView.setTextColor(getResources().getColor(R.color.theme_color_1));
+                            }
+                            listView.addFooterView(textViewContent);
+                        }
+
+
+                    }
+                }
+
+            }
+        });
     }
 }

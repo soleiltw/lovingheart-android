@@ -12,6 +12,7 @@ import com.lovingheart.app.R;
 import com.lovingheart.app.object.UserImpact;
 import com.lovingheart.app.util.AnalyticsManager;
 import com.lovingheart.app.util.CircleTransform;
+import com.lovingheart.app.util.parse.ParseObjectManager;
 import com.parse.*;
 import com.squareup.picasso.Picasso;
 
@@ -135,6 +136,10 @@ public class UserProfileBasicFragment extends UserProfileFragment {
                         }
                     }
                 }
+
+                // Update user log
+                final String targetObjectId = "XO0bGuSWk9";
+                ParseObjectManager.userLogDone(targetObjectId);
 
                 // Load user impact
                 loadUserImpact(parseUser);

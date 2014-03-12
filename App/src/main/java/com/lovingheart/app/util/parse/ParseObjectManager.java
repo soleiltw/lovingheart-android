@@ -6,8 +6,7 @@ import com.lovingheart.app.object.Category;
 import com.lovingheart.app.object.Graphic;
 import com.lovingheart.app.object.Idea;
 import com.lovingheart.app.object.Story;
-import com.parse.ParseException;
-import com.parse.ParseObject;
+import com.parse.*;
 
 /**
  * Created by edward_chiang on 2013/12/29.
@@ -20,6 +19,35 @@ public class ParseObjectManager {
 
     public ParseObjectManager(ParseObject parseObject) {
         this.parseObject = parseObject;
+    }
+
+    public static void userLogDone(final String targetObjectId) {
+        if (ParseUser.getCurrentUser() == null) return;
+        // Update user log
+        ParseQuery<ParseObject> userLogQuery = new ParseQuery<ParseObject>("UserLog");
+        userLogQuery.whereEqualTo("targetObjectClass", "GettingStarted");
+        userLogQuery.whereEqualTo("userId", ParseUser.getCurrentUser());
+        userLogQuery.whereEqualTo("targetObjectId", targetObjectId);
+        userLogQuery.getFirstInBackground(new GetCallback<ParseObject>() {
+            @Override
+            public void done(ParseObject parseObject, ParseException e) {
+                if (parseObject == null) {
+                    ParseObject userLogObject = new ParseObject("UserLog");
+                    userLogObject.put("userId", ParseUser.getCurrentUser());
+                    userLogObject.put("targetObjectClass", "GettingStarted");
+                    userLogObject.put("targetObjectId", targetObjectId);
+                    userLogObject.put("action", "done");
+                    userLogObject.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            if (e==null) {
+                                Log.d(DailyKind.TAG, "User Log saved. " + targetObjectId);
+                            }
+                        }
+                    });
+                }
+            }
+        });
     }
 
     public Story getStory() {

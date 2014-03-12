@@ -598,6 +598,8 @@ public class PostStoryActivity extends ActionBarActivity {
                         public void done(ParseException e) {
                             if (e != null) {
                                 Log.e(DailyKind.TAG, "graphicsEarnedObject.saveInBackground: " + e.getLocalizedMessage());
+                            } else {
+                                ParseObjectManager.userLogDone("QQZRQhG7dh");
                             }
                         }
                     });
@@ -614,6 +616,9 @@ public class PostStoryActivity extends ActionBarActivity {
             @Override
             public void done(ParseException e) {
                 if (e == null) {
+
+                    ParseObjectManager.userLogDone("C5d3t4JJXa");
+
                     if (storyPostingDialog.isShowing()) {
                         storyPostingDialog.dismiss();
                     }
