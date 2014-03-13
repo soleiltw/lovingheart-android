@@ -37,7 +37,8 @@ public class StoriesPopularFragment extends StoriesFeedsFragment {
         parseQuery.setLimit(10);
         parseQuery.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
         if (more) {
-            ParseQuery.getQuery("Story").countInBackground(new CountCallback() {
+            ParseQuery queryStoriesCount = ParseQuery.getQuery("Story");
+            queryStoriesCount.countInBackground(new CountCallback() {
                 @Override
                 public void done(int totalCount, ParseException e) {
                     if (totalCount > userActivities.size()) {

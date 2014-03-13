@@ -81,6 +81,8 @@ public class PostStoryActivity extends ActionBarActivity {
     private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
     private Uri fileUri;
 
+    private View privateStoryLayout;
+
     public enum PhotoPick {
         SOURCE_CAMERA, SOURCE_PHOTO_GALLERY;
     }
@@ -247,6 +249,13 @@ public class PostStoryActivity extends ActionBarActivity {
                 postStory();
             }
         });
+
+        privateStoryLayout = findViewById(R.id.post_story_lock_layout);
+
+        boolean supportPrivateStory = new ParseObjectManager().checkPremium(ParseUser.getCurrentUser());
+        if (supportPrivateStory) {
+            privateStoryLayout.setVisibility(View.VISIBLE);
+        }
 
         contentEditText = (EditText)findViewById(R.id.content_edit_text);
         contentEditText.addTextChangedListener(new TextWatcher() {
@@ -489,6 +498,17 @@ public class PostStoryActivity extends ActionBarActivity {
                     .show();
 
             return;
+        }
+
+        CheckBox privateCheckBox = (CheckBox)findViewById(R.id.post_story_lock_layout_checkBox);
+
+        if (privateCheckBox.isChecked()) {
+            ParseACL parseACL = new ParseACL();
+            parseACL.setPublicReadAccess(false);
+            parseACL.setPublicWriteAccess(false);
+            parseACL.setReadAccess(ParseUser.getCurrentUser(), true);
+            parseACL.setWriteAccess(ParseUser.getCurrentUser(), true);
+            storyParseObject.setACL(parseACL);
         }
 
         storyParseObject.put("StoryTeller", ParseUser.getCurrentUser());

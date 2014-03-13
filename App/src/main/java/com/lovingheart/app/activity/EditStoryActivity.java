@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.Toast;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.lovingheart.app.DailyKind;
@@ -53,6 +54,13 @@ public class EditStoryActivity extends PostStoryActivity {
                     Log.d(DailyKind.TAG, "storyQuery.getFirstInBackground found: " + parseObject.getObjectId());
                     contentEditText.setText(parseObject.getString("Content"));
                     contentEditText.requestFocus();
+
+                    CheckBox privateCheckBox = (CheckBox)findViewById(R.id.post_story_lock_layout_checkBox);
+                    if (!parseObject.getACL().getPublicReadAccess()) {
+                        privateCheckBox.setChecked(true);
+                    } else {
+                        privateCheckBox.setChecked(false);
+                    }
                 }
                 if (e!=null) {
                     Log.e(DailyKind.TAG, "storyQuery.getFirstInBackground: " + e.getLocalizedMessage());
@@ -112,6 +120,22 @@ public class EditStoryActivity extends PostStoryActivity {
         if (!storyPostingDialog.isShowing()) {
             storyPostingDialog.show();
         }
+
+        CheckBox privateCheckBox = (CheckBox)findViewById(R.id.post_story_lock_layout_checkBox);
+
+        if (privateCheckBox.isChecked()) {
+            ParseACL parseACL = new ParseACL();
+            parseACL.setPublicReadAccess(false);
+            parseACL.setPublicWriteAccess(false);
+            parseACL.setReadAccess(ParseUser.getCurrentUser(), true);
+            parseACL.setWriteAccess(ParseUser.getCurrentUser(), true);
+            parseObject.setACL(parseACL);
+        } else {
+            ParseACL parseACL = parseObject.getACL();
+            parseACL.setPublicReadAccess(true);
+            parseObject.setACL(parseACL);
+        }
+
         parseObject.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {

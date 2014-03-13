@@ -17,6 +17,9 @@ public class ParseObjectManager {
 
     public static final String USER_NAME = "name";
 
+    public ParseObjectManager() {
+    }
+
     public ParseObjectManager(ParseObject parseObject) {
         this.parseObject = parseObject;
     }
@@ -107,5 +110,17 @@ public class ParseObjectManager {
             return category;
         }
         return null;
+    }
+
+    public boolean checkPremium(ParseUser parseUser) {
+        boolean isPremium = false;
+        if (parseUser.has("premium")) {
+            String noCheck = parseUser.getString("premium");
+            if (noCheck !=null && DailyKind.PARSE_PREMIUM_NOCHECK.equalsIgnoreCase(noCheck)) {
+                isPremium = true;
+                Log.d(DailyKind.TAG, "Is Premium Feature.");
+            }
+        }
+        return isPremium;
     }
 }

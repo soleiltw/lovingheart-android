@@ -1,6 +1,7 @@
 package com.lovingheart.app.adapter;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,68 +37,88 @@ public class ReviewArrayAdapter extends ArrayAdapter<Review> {
      */
     public ReviewArrayAdapter(Context context, int resource, List<Review> objects) {
         super(context, resource, objects);
+
+        mDefaultPicDrawable = getContext().getResources().getDrawable(R.drawable.ic_action_user);
     }
+
+    private static class ViewHolder {
+        public TextView userNameTextView;
+        public FontAwesomeText awesome1Text;
+        public FontAwesomeText awesome2Text;
+        public FontAwesomeText awesome3Text;
+        public FontAwesomeText awesome4Text;
+        public FontAwesomeText awesome5Text;
+        public ImageView userImageView;
+        public TextView reviewTextView;
+        public TextView createdAtTextView;
+    }
+
+    protected Drawable mDefaultPicDrawable;
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
         LayoutInflater inflater = (LayoutInflater)getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        View rootView = convertView;
-        if (rootView == null) {
-            rootView = inflater.inflate(R.layout.cell_story_review, null);
+        final ViewHolder viewHolder;
+        if (convertView == null) {
+            convertView = inflater.inflate(R.layout.cell_story_review, null);
+
+            viewHolder = new ViewHolder();
+            viewHolder.awesome1Text = (FontAwesomeText)convertView.findViewById(R.id.story_review_1_star);
+            viewHolder.awesome2Text = (FontAwesomeText)convertView.findViewById(R.id.story_review_2_star);
+            viewHolder.awesome3Text = (FontAwesomeText)convertView.findViewById(R.id.story_review_3_star);
+            viewHolder.awesome4Text = (FontAwesomeText)convertView.findViewById(R.id.story_review_4_star);
+            viewHolder.awesome5Text = (FontAwesomeText)convertView.findViewById(R.id.story_review_5_star);
+            viewHolder.userNameTextView = (TextView)convertView.findViewById(R.id.user_name_text_view);
+            viewHolder.userImageView = (ImageView)convertView.findViewById(R.id.user_avatar_image_view);
+            viewHolder.reviewTextView = (TextView)convertView.findViewById(R.id.story_review_text_view);
+            viewHolder.createdAtTextView = (TextView)convertView.findViewById(R.id.story_review_date_text_view);
+
+            convertView.setTag(viewHolder);
+        } else {
+            viewHolder = (ViewHolder)convertView.getTag();
+            viewHolder.userImageView.setImageDrawable(mDefaultPicDrawable);
         }
 
         Review review = getItem(position);
         Log.d(DailyKind.TAG, "Rating: " + review.getValue());
 
-        FontAwesomeText awesome1Text = (FontAwesomeText)rootView.findViewById(R.id.story_review_1_star);
-        FontAwesomeText awesome2Text = (FontAwesomeText)rootView.findViewById(R.id.story_review_2_star);
-        FontAwesomeText awesome3Text = (FontAwesomeText)rootView.findViewById(R.id.story_review_3_star);
-        FontAwesomeText awesome4Text = (FontAwesomeText)rootView.findViewById(R.id.story_review_4_star);
-        FontAwesomeText awesome5Text = (FontAwesomeText)rootView.findViewById(R.id.story_review_5_star);
-
-        awesome1Text.setVisibility(View.GONE);
-        awesome2Text.setVisibility(View.GONE);
-        awesome3Text.setVisibility(View.GONE);
-        awesome4Text.setVisibility(View.GONE);
-        awesome5Text.setVisibility(View.GONE);
+        viewHolder.awesome1Text.setVisibility(View.GONE);
+        viewHolder.awesome2Text.setVisibility(View.GONE);
+        viewHolder.awesome3Text.setVisibility(View.GONE);
+        viewHolder.awesome4Text.setVisibility(View.GONE);
+        viewHolder.awesome5Text.setVisibility(View.GONE);
 
         if (review.getValue() >= 1) {
-            awesome1Text.setVisibility(View.VISIBLE);
+            viewHolder.awesome1Text.setVisibility(View.VISIBLE);
         }
         if (review.getValue() >= 2) {
-
-            awesome2Text.setVisibility(View.VISIBLE);
+            viewHolder.awesome2Text.setVisibility(View.VISIBLE);
         }
         if (review.getValue() >= 3) {
-
-            awesome3Text.setVisibility(View.VISIBLE);
+            viewHolder.awesome3Text.setVisibility(View.VISIBLE);
         }
         if (review.getValue() >= 4) {
-            awesome4Text.setVisibility(View.VISIBLE);
+            viewHolder.awesome4Text.setVisibility(View.VISIBLE);
         }
         if (review.getValue() >= 5) {
-            awesome5Text.setVisibility(View.VISIBLE);
+            viewHolder.awesome5Text.setVisibility(View.VISIBLE);
         }
 
         if (review.getUser() != null) {
-            TextView userNameTextView = (TextView)rootView.findViewById(R.id.user_name_text_view);
-            userNameTextView.setText(review.getUser().getName());
+            viewHolder.userNameTextView.setText(review.getUser().getName());
 
-            final ImageView userImageView = (ImageView)rootView.findViewById(R.id.user_avatar_image_view);
-            userImageView.setImageDrawable(null);
-            userImageView.setImageResource(R.drawable.ic_action_user);
             if (review.getUser().getAvatar() != null) {
                 review.getUser().getAvatar().fetchIfNeededInBackground(new GetCallback<ParseObject>() {
                     @Override
                     public void done(ParseObject parseObject, ParseException e) {
-                        if (parseObject != null) {
+                        if (parseObject != null && parseObject.getString("imageUrl") != null) {
                             Picasso.with(getContext())
                                     .load(parseObject.getString("imageUrl"))
                                     .placeholder(R.drawable.ic_action_user)
                                     .transform(new CircleTransform())
-                                    .into(userImageView);
+                                    .into(viewHolder.userImageView);
                         }
                     }
                 });
@@ -105,18 +126,16 @@ public class ReviewArrayAdapter extends ArrayAdapter<Review> {
             }
         }
 
-        TextView reviewTextView = (TextView)rootView.findViewById(R.id.story_review_text_view);
         if (review.getReviewDescription() != null && review.getReviewDescription().length() > 0) {
-            reviewTextView.setText(review.getReviewDescription());
-            reviewTextView.setVisibility(View.VISIBLE);
+            viewHolder.reviewTextView.setText(review.getReviewDescription());
+            viewHolder.reviewTextView.setVisibility(View.VISIBLE);
         } else {
-            reviewTextView.setVisibility(View.GONE);
+            viewHolder.reviewTextView.setVisibility(View.GONE);
         }
 
-        TextView createdAtTextView = (TextView)rootView.findViewById(R.id.story_review_date_text_view);
         PrettyTime prettyTime = new PrettyTime(new Date());
-        createdAtTextView.setText(prettyTime.format(review.getCreatedAt()));
+        viewHolder.createdAtTextView.setText(prettyTime.format(review.getCreatedAt()));
 
-        return rootView;
+        return convertView;
     }
 }
