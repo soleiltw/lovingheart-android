@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import com.lovingheart.app.R;
 import com.parse.ParseObject;
@@ -31,12 +32,32 @@ public class UserStoryArrayAdapter extends ParseObjectsAdapter {
         super(context, resource, objects);
     }
 
+    private static class ViewHolder {
+        public ImageView lockedImageView;
+        public TextView monthTextView;
+        public TextView dayTextView;
+        public TextView storyContentTextView;
+        public TextView storyAreaTextView;
+    }
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        View contentView = convertView;
-        if (contentView == null) {
+
+        final ViewHolder viewHolder;
+        if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater)getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            contentView = inflater.inflate(R.layout.cell_user_stories_by_date, null);
+            convertView = inflater.inflate(R.layout.cell_user_stories_by_date, null);
+
+            viewHolder = new ViewHolder();
+            viewHolder.lockedImageView = (ImageView)convertView.findViewById(R.id.story_lock_image_view);
+            viewHolder.monthTextView = (TextView)convertView.findViewById(R.id.story_date_month_text_view);
+            viewHolder.dayTextView = (TextView)convertView.findViewById(R.id.story_date_day_text_view);
+            viewHolder.storyContentTextView = (TextView)convertView.findViewById(R.id.story_content_text_view);
+            viewHolder.storyAreaTextView = (TextView)convertView.findViewById(R.id.story_area_text_view);
+
+            convertView.setTag(viewHolder);
+        } else {
+            viewHolder = (ViewHolder)convertView.getTag();
         }
         ParseObject storyObject = getItem(position);
 
@@ -46,18 +67,17 @@ public class UserStoryArrayAdapter extends ParseObjectsAdapter {
 
         Locale locale = Locale.getDefault();
 
-        TextView monthTextView = (TextView)contentView.findViewById(R.id.story_date_month_text_view);
-        monthTextView.setText(storyCreateAtCal.getDisplayName(Calendar.MONTH, Calendar.SHORT, locale));
+        viewHolder.monthTextView.setText(storyCreateAtCal.getDisplayName(Calendar.MONTH, Calendar.SHORT, locale));
+        viewHolder.dayTextView.setText(String.valueOf(storyCreateAtCal.get(Calendar.DAY_OF_MONTH)));
+        viewHolder.storyContentTextView.setText(storyObject.getString("Content"));
+        viewHolder.storyAreaTextView.setText(storyObject.getString("areaName"));
 
-        TextView dayTextView = (TextView)contentView.findViewById(R.id.story_date_day_text_view);
-        dayTextView.setText(String.valueOf(storyCreateAtCal.get(Calendar.DAY_OF_MONTH)));
+        if (storyObject.getACL().getPublicReadAccess()) {
+            viewHolder.lockedImageView.setVisibility(View.GONE);
+        } else {
+            viewHolder.lockedImageView.setVisibility(View.VISIBLE);
+        }
 
-        TextView storyContentTextView = (TextView)contentView.findViewById(R.id.story_content_text_view);
-        storyContentTextView.setText(storyObject.getString("Content"));
-
-        TextView storyAreaTextView = (TextView)contentView.findViewById(R.id.story_area_text_view);
-        storyAreaTextView.setText(storyObject.getString("areaName"));
-
-        return contentView;
+        return convertView;
     }
 }

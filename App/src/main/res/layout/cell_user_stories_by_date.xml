@@ -51,6 +51,17 @@
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"/>
 
+		<ImageView
+			android:layout_alignParentRight="true"
+			android:layout_marginTop="5dp"
+			android:layout_marginBottom="5dp"
+			android:visibility="visible"
+			android:id="@+id/story_lock_image_view"
+			android:background="@color/background_gray_color"
+			android:src="@drawable/ic_action_lock_closed"
+			android:layout_width="24dp"
+			android:layout_height="24dp"/>
+
 	</LinearLayout>
 
 </LinearLayout>

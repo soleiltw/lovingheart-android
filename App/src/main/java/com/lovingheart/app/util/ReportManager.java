@@ -192,6 +192,8 @@ public class ReportManager {
             describeBuffer.append("有深度的連結，讓這些地方變不一樣。");
             Info analyseInfo = new Info();
             analyseInfo.setDescription(describeBuffer.toString());
+            analyseInfo.setGraphicResource(R.raw.maps);
+            analyseInfo.setGraphicDirection(Info.GraphicDirection.LEFT);
             reportWordings.add(analyseInfo);
         }
 

@@ -44,23 +44,44 @@ public class StoryArrayAdapter extends ParseObjectsAdapter {
         super(context, resource, objects);
     }
 
+    private static class ViewHolder {
+        public ImageView storyContentImageView;
+        public TextView locationAreaNameTextView;
+        public ImageView storyTellerImageView;
+        public TextView storyTellerTextView;
+        public TextView storyContentTextView;
+        public TextView createdAtTextView;
+        public ImageView storyLockedImageView;
+    }
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        View contentView = convertView;
-        if (contentView == null) {
+        final ViewHolder viewHolder;
+        if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater)getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            contentView = inflater.inflate(R.layout.cell_stories, null);
+            convertView = inflater.inflate(R.layout.cell_stories, null);
+
+            viewHolder = new ViewHolder();
+            viewHolder.storyContentImageView = (ImageView)convertView.findViewById(R.id.story_content_image_view);
+            viewHolder.locationAreaNameTextView = (TextView)convertView.findViewById(R.id.user_activity_location_area_name_text_view);
+            viewHolder.storyTellerImageView = (ImageView)convertView.findViewById(R.id.user_avatar_image_view);
+            viewHolder.storyTellerTextView = (TextView)convertView.findViewById(R.id.user_name_text_view);
+            viewHolder.storyContentTextView = (TextView)convertView.findViewById(R.id.story_content_text_view);
+            viewHolder.createdAtTextView = (TextView)convertView.findViewById(R.id.created_at_text_view);
+            viewHolder.storyLockedImageView = (ImageView)convertView.findViewById(R.id.story_lock_image_view);
+
+            convertView.setTag(viewHolder);
+        } else {
+            viewHolder = (ViewHolder)convertView.getTag();
         }
 
-        Log.d(DailyKind.TAG, "Story width: " + contentView.getWidth());
-        int layoutWidth = contentView.getWidth();
+        Log.d(DailyKind.TAG, "Story width: " + convertView.getWidth());
+        int layoutWidth = convertView.getWidth();
 
         ParseObject storyObject = getItem(position);
         ParseObjectManager parseObjectManager = new ParseObjectManager(storyObject);
         final Story story = parseObjectManager.getStory();
-
-        ImageView storyContentImageView = (ImageView)contentView.findViewById(R.id.story_content_image_view);
 
         // Check if have graphic
         if (storyObject.getParseObject("graphicPointer") != null) {
@@ -69,7 +90,7 @@ public class StoryArrayAdapter extends ParseObjectsAdapter {
 
             if (story.getGraphic() !=null && story.getGraphic().getParseFileUrl() != null) {
 
-                LinearLayout.LayoutParams storyContentImageViewLayoutParams = (LinearLayout.LayoutParams)storyContentImageView.getLayoutParams();
+                LinearLayout.LayoutParams storyContentImageViewLayoutParams = (LinearLayout.LayoutParams)viewHolder.storyContentImageView.getLayoutParams();
 
                 if (layoutWidth > 0) {
                     // We make it as screen width
@@ -83,23 +104,22 @@ public class StoryArrayAdapter extends ParseObjectsAdapter {
                     storyContentImageViewLayoutParams.width = displayMetrics.widthPixels;
                     storyContentImageViewLayoutParams.height = displayMetrics.widthPixels;
                 }
-                storyContentImageView.requestLayout();
-                storyContentImageView.setVisibility(View.VISIBLE);
+                viewHolder.storyContentImageView.requestLayout();
+                viewHolder.storyContentImageView.setVisibility(View.VISIBLE);
 
                 Picasso.with(getContext())
                     .load(story.getGraphic().getParseFileUrl())
                     .placeholder(R.drawable.card_default)
                     .resize(storyContentImageViewLayoutParams.width, storyContentImageViewLayoutParams.height)
                     .centerCrop()
-                    .into(storyContentImageView);
+                    .into(viewHolder.storyContentImageView);
             }
         } else {
-            storyContentImageView.setVisibility(View.GONE);
+            viewHolder.storyContentImageView.setVisibility(View.GONE);
         }
 
-        TextView locationAreaNameTextView = (TextView)contentView.findViewById(R.id.user_activity_location_area_name_text_view);
         if (story.getLocationAreaName() != null) {
-            locationAreaNameTextView.setText(
+            viewHolder.locationAreaNameTextView.setText(
                 getContext().getString(R.string.location_area_name_from) + getContext().getString(R.string.space) +
                 story.getLocationAreaName());
         }
@@ -107,8 +127,7 @@ public class StoryArrayAdapter extends ParseObjectsAdapter {
         User user = new User();
         user.setName(story.getStoryTeller().getString("name"));
 
-        final ImageView storyTellerImageView = (ImageView)contentView.findViewById(R.id.user_avatar_image_view);
-        storyTellerImageView.setImageResource(R.drawable.ic_action_user);
+        viewHolder.storyTellerImageView.setImageResource(R.drawable.ic_action_user);
         if (story.getStoryTeller() != null
                 && story.getStoryTeller().has("avatar") && story.getStoryTeller().getParseObject("avatar")!=null) {
             story.getStoryTeller().getParseObject("avatar").fetchIfNeededInBackground(new GetCallback<ParseObject>() {
@@ -119,9 +138,9 @@ public class StoryArrayAdapter extends ParseObjectsAdapter {
                                 .load(parseObject.getString("imageUrl"))
                                 .placeholder(R.drawable.ic_action_user)
                                 .transform(new CircleTransform())
-                                .into(storyTellerImageView);
+                                .into(viewHolder.storyTellerImageView);
 
-                        storyTellerImageView.setOnClickListener(new View.OnClickListener() {
+                        viewHolder.storyTellerImageView.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 Intent userIntent = new Intent(getContext(), UserProfileActivity.class);
@@ -135,20 +154,22 @@ public class StoryArrayAdapter extends ParseObjectsAdapter {
 
         }
 
-        TextView storyTellerTextView = (TextView)contentView.findViewById(R.id.user_name_text_view);
-        storyTellerTextView.setText(user.getName());
+        viewHolder.storyTellerTextView.setText(user.getName());
+        viewHolder.storyContentTextView.setText(story.getContent());
 
-        TextView storyContentTextView = (TextView)contentView.findViewById(R.id.story_content_text_view);
-        storyContentTextView.setText(story.getContent());
-
-        TextView createdAtTextView = (TextView)contentView.findViewById(R.id.created_at_text_view);
         PrettyTime prettyTime = new PrettyTime(new Date());
-        createdAtTextView.setText(prettyTime.format(story.getCreatedAt()));
+        viewHolder.createdAtTextView.setText(prettyTime.format(story.getCreatedAt()));
+
+        if (!storyObject.getACL().getPublicReadAccess()) {
+            viewHolder.storyLockedImageView.setVisibility(View.VISIBLE);
+        } else {
+            viewHolder.storyLockedImageView.setVisibility(View.GONE);
+        }
 
         if (position >= getCount() - 1 && getLoadMoreListener() != null && !isLoadMoreEnd() && getCount() >= DailyKind.PARSE_QUERY_LIMIT) {
             getLoadMoreListener().notifyLoadMore();
         }
 
-        return contentView;
+        return convertView;
     }
 }

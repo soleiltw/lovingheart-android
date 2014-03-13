@@ -9,6 +9,8 @@ public class User {
 
     private String name;
 
+    private String userId;
+
     private ParseObject avatar;
 
     public String getName() {
@@ -25,5 +27,13 @@ public class User {
 
     public void setAvatar(ParseObject avatar) {
         this.avatar = avatar;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 }

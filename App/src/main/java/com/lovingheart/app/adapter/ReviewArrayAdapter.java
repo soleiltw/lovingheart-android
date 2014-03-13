@@ -61,25 +61,28 @@ public class ReviewArrayAdapter extends ArrayAdapter<Review> {
         LayoutInflater inflater = (LayoutInflater)getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         final ViewHolder viewHolder;
-        if (convertView == null) {
-            convertView = inflater.inflate(R.layout.cell_story_review, null);
 
-            viewHolder = new ViewHolder();
-            viewHolder.awesome1Text = (FontAwesomeText)convertView.findViewById(R.id.story_review_1_star);
-            viewHolder.awesome2Text = (FontAwesomeText)convertView.findViewById(R.id.story_review_2_star);
-            viewHolder.awesome3Text = (FontAwesomeText)convertView.findViewById(R.id.story_review_3_star);
-            viewHolder.awesome4Text = (FontAwesomeText)convertView.findViewById(R.id.story_review_4_star);
-            viewHolder.awesome5Text = (FontAwesomeText)convertView.findViewById(R.id.story_review_5_star);
-            viewHolder.userNameTextView = (TextView)convertView.findViewById(R.id.user_name_text_view);
-            viewHolder.userImageView = (ImageView)convertView.findViewById(R.id.user_avatar_image_view);
-            viewHolder.reviewTextView = (TextView)convertView.findViewById(R.id.story_review_text_view);
-            viewHolder.createdAtTextView = (TextView)convertView.findViewById(R.id.story_review_date_text_view);
+        // TODO We want to fix avatar, so have to create every time.
+//        if (convertView == null) {
+        convertView = inflater.inflate(R.layout.cell_story_review, null);
 
-            convertView.setTag(viewHolder);
-        } else {
-            viewHolder = (ViewHolder)convertView.getTag();
-            viewHolder.userImageView.setImageDrawable(mDefaultPicDrawable);
-        }
+        viewHolder = new ViewHolder();
+        viewHolder.awesome1Text = (FontAwesomeText)convertView.findViewById(R.id.story_review_1_star);
+        viewHolder.awesome2Text = (FontAwesomeText)convertView.findViewById(R.id.story_review_2_star);
+        viewHolder.awesome3Text = (FontAwesomeText)convertView.findViewById(R.id.story_review_3_star);
+        viewHolder.awesome4Text = (FontAwesomeText)convertView.findViewById(R.id.story_review_4_star);
+        viewHolder.awesome5Text = (FontAwesomeText)convertView.findViewById(R.id.story_review_5_star);
+        viewHolder.userNameTextView = (TextView)convertView.findViewById(R.id.user_name_text_view);
+        viewHolder.userImageView = (ImageView)convertView.findViewById(R.id.user_avatar_image_view);
+        viewHolder.reviewTextView = (TextView)convertView.findViewById(R.id.story_review_text_view);
+        viewHolder.createdAtTextView = (TextView)convertView.findViewById(R.id.story_review_date_text_view);
+
+        convertView.setTag(viewHolder);
+        // TODO We want to fix avatar, so have to create every time.
+//        } else {
+//            viewHolder = (ViewHolder)convertView.getTag();
+//            viewHolder.userImageView.setImageDrawable(mDefaultPicDrawable);
+//        }
 
         Review review = getItem(position);
         Log.d(DailyKind.TAG, "Rating: " + review.getValue());

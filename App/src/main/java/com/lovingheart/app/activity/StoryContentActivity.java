@@ -98,6 +98,17 @@ public class StoryContentActivity extends ActionBarActivity {
         ExpandableListView reviewsListView = (ExpandableListView)findViewById(R.id.story_content_review_list_view);
         reviewsListView.setExpand(true);
         reviewsListView.setAdapter(reviewArrayAdapter);
+        reviewsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (position < reviewList.size()) {
+                    Review review = reviewList.get(position);
+                    Intent userProfileIntent = new Intent(StoryContentActivity.this, UserProfileActivity.class);
+                    userProfileIntent.putExtra("userId", review.getUser().getUserId());
+                    startActivity(userProfileIntent);
+                }
+            }
+        });
 
         ideaViewGroup = findViewById(R.id.story_idea_group_layout);
 
@@ -192,7 +203,7 @@ public class StoryContentActivity extends ActionBarActivity {
                         User user = new User();
                         if (eachEvent.getParseUser("user")!=null) {
                             user.setName(eachEvent.getParseUser("user").getString("name"));
-
+                            user.setUserId(eachEvent.getParseUser("user").getObjectId());
                             if (eachEvent.getParseUser("user") != null
                                     && eachEvent.getParseUser("user").has("avatar")
                                     && eachEvent.getParseUser("user").getParseObject("avatar")!=null) {
@@ -648,9 +659,8 @@ public class StoryContentActivity extends ActionBarActivity {
                                                 + getString(R.string.story_content_push_msg_post));
                                 push.setMessage(message.toString());
                                 push.sendInBackground();
-
-                                loadRatings();
                             }
+                            loadRatings();
                         }
                     }
                 });
