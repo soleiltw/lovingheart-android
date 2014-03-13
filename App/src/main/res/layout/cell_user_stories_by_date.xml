@@ -59,8 +59,8 @@
 			android:id="@+id/story_lock_image_view"
 			android:background="@color/background_gray_color"
 			android:src="@drawable/ic_action_lock_closed"
-			android:layout_width="24dp"
-			android:layout_height="24dp"/>
+			android:layout_width="22dp"
+			android:layout_height="22dp"/>
 
 	</LinearLayout>
 

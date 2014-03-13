@@ -72,7 +72,7 @@ public class UserStoryArrayAdapter extends ParseObjectsAdapter {
         viewHolder.storyContentTextView.setText(storyObject.getString("Content"));
         viewHolder.storyAreaTextView.setText(storyObject.getString("areaName"));
 
-        if (storyObject.getACL().getPublicReadAccess()) {
+        if (storyObject.getACL()== null || storyObject.getACL().getPublicReadAccess()) {
             viewHolder.lockedImageView.setVisibility(View.GONE);
         } else {
             viewHolder.lockedImageView.setVisibility(View.VISIBLE);
