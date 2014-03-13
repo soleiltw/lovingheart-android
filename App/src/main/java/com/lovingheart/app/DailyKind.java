@@ -22,7 +22,7 @@ public class DailyKind {
 
     public static String NEED_UPDATE_DRAWER = "need_update_drawer";
 
-    public static String ACKNOWLEDGEMENT_LINK = "http://blog.lovingheartapp.com/post/78392950496/acknowledgement";
+    public static String ACKNOWLEDGEMENT_LINK = "http://blog.lovingheartapp.com/post/78392950496/acknowledgement#anchor";
 
     public static String PRIVACY_POLICY_LINK = "http://blog.lovingheartapp.com/privacy_policy";
 

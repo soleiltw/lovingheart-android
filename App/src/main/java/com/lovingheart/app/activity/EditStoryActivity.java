@@ -56,7 +56,7 @@ public class EditStoryActivity extends PostStoryActivity {
                     contentEditText.requestFocus();
 
                     CheckBox privateCheckBox = (CheckBox)findViewById(R.id.post_story_lock_layout_checkBox);
-                    if (!parseObject.getACL().getPublicReadAccess()) {
+                    if (parseObject.getACL() != null && !parseObject.getACL().getPublicReadAccess()) {
                         privateCheckBox.setChecked(true);
                     } else {
                         privateCheckBox.setChecked(false);

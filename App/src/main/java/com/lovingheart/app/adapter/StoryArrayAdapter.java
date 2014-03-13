@@ -160,7 +160,7 @@ public class StoryArrayAdapter extends ParseObjectsAdapter {
         PrettyTime prettyTime = new PrettyTime(new Date());
         viewHolder.createdAtTextView.setText(prettyTime.format(story.getCreatedAt()));
 
-        if (!storyObject.getACL().getPublicReadAccess()) {
+        if (storyObject.getACL() != null && !storyObject.getACL().getPublicReadAccess()) {
             viewHolder.storyLockedImageView.setVisibility(View.VISIBLE);
         } else {
             viewHolder.storyLockedImageView.setVisibility(View.GONE);
