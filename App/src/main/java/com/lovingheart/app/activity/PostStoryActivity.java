@@ -33,6 +33,7 @@ import com.lovingheart.app.object.Graphic;
 import com.lovingheart.app.object.Idea;
 import com.lovingheart.app.util.CheckUserLoginUtil;
 import com.lovingheart.app.util.CircleTransform;
+import com.lovingheart.app.util.parse.ParseEventTrackingManager;
 import com.lovingheart.app.util.parse.ParseObjectManager;
 import com.lovingheart.app.view.ExpandableGridView;
 import com.parse.*;
@@ -640,6 +641,8 @@ public class PostStoryActivity extends ActionBarActivity {
 
                     ParseObjectManager.userLogDone("C5d3t4JJXa");
                     ParseObjectManager.userLogDone("ZRk7j8kWE9");
+
+                    ParseEventTrackingManager.event(ParseUser.getCurrentUser(), parseObject, ParseEventTrackingManager.ACTION_WRITE_STORY, 1);
 
                     if (storyPostingDialog.isShowing()) {
                         storyPostingDialog.dismiss();
