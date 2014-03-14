@@ -38,6 +38,7 @@ public class StoriesCategoryActivity extends ActionBarActivity {
 
         ParseQuery<ParseObject> ideaQuery = ParseQuery.getQuery("Idea");
         ideaQuery.whereEqualTo("objectId", ideaId);
+
         ideaQuery.getFirstInBackground(new GetCallback<ParseObject>() {
             @Override
             public void done(ParseObject parseObject, ParseException e) {

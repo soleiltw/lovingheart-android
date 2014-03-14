@@ -1,5 +1,7 @@
 package com.lovingheart.app.activity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -9,10 +11,9 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
+import android.widget.*;
 import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.devsmart.android.ui.HorizontalListView;
 import com.facebook.FacebookException;
@@ -173,7 +174,10 @@ public class DeedContentActivity extends ActionBarActivity {
                 }
 
                 final Bundle facebookShareParams = new Bundle();
-                facebookShareParams.putString("name", getString(R.string.facebook_share_name_idea_card));
+                facebookShareParams.putString("name",
+                        idea.getCategory().getName() +
+                        getString(R.string.space) +
+                        getString(R.string.facebook_share_name_idea_card));
                 facebookShareParams.putString("caption", idea.getName());
                 if (idea.getIdeaDescription() != null) {
                     facebookShareParams.putString("description", idea.getIdeaDescription());
@@ -280,6 +284,50 @@ public class DeedContentActivity extends ActionBarActivity {
                                         orgNameList.add(orgObject);
                                         orgArrayAdapter.notifyDataSetChanged();
                                         orgHorizontalListView.requestLayout();
+                                        orgHorizontalListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                            @Override
+                                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                                ParseObject orgObject = orgNameList.get(position);
+
+                                                if (orgObject.has("webUrl")) {
+                                                    AlertDialog.Builder alertBuilder = new AlertDialog.Builder(DeedContentActivity.this);
+                                                    alertBuilder.setTitle(orgObject.getString("name"));
+
+                                                    WebView webView = new WebView(DeedContentActivity.this);
+                                                    webView.loadUrl(orgObject.getString("webUrl"));
+                                                    webView.setWebViewClient(new WebViewClient(){
+                                                        /**
+                                                         * Give the host application a chance to take over the control when a new
+                                                         * url is about to be loaded in the current WebView. If WebViewClient is not
+                                                         * provided, by default WebView will ask Activity Manager to choose the
+                                                         * proper handler for the url. If WebViewClient is provided, return true
+                                                         * means the host application handles the url, while return false means the
+                                                         * current WebView handles the url.
+                                                         * This method is not called for requests using the POST "method".
+                                                         *
+                                                         * @param view The WebView that is initiating the callback.
+                                                         * @param url  The url to be loaded.
+                                                         * @return True if the host application wants to leave the current WebView
+                                                         * and handle the url itself, otherwise return false.
+                                                         */
+                                                        @Override
+                                                        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                                                            view.loadUrl(url);
+                                                            return true;
+                                                        }
+                                                    });
+
+                                                    alertBuilder.setView(webView);
+                                                    alertBuilder.setNegativeButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
+                                                        @Override
+                                                        public void onClick(DialogInterface dialog, int which) {
+                                                            dialog.dismiss();
+                                                        }
+                                                    });
+                                                    alertBuilder.show();
+                                                }
+                                            }
+                                        });
                                     }
                                 }
                             }

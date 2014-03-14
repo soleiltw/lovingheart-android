@@ -175,7 +175,7 @@
 	<string name="intent_share_story">Share Story</string>
 	<string name="menu_share_to_facebook">Share to Facebook</string>
 	<string name="story_facebook_shared">Story published.</string>
-	<string name="facebook_share_name_idea_card">Check out the Kindness Idea Card!</string>
+	<string name="facebook_share_name_idea_card">- Kindness Idea Card</string>
 	<string name="ok">OK</string>
 
 </resources>
