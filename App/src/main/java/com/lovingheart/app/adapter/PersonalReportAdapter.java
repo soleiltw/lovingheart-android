@@ -85,9 +85,4 @@ public class PersonalReportAdapter extends ArrayAdapter<Info> {
 
         return rootView;
     }
-
-    @Override
-    public boolean isEnabled(int position) {
-        return false;
-    }
 }
