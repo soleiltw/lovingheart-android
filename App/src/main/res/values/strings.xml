@@ -172,5 +172,9 @@
 	<string name="close">Close</string>
 	<string name="getting_started_final_all_done">You are super!</string>
 	<string name="getting_started_final_almost_done">Almost done.</string>
+	<string name="intent_share_story">Share Story</string>
+	<string name="menu_share_to_facebook">Share to Facebook</string>
+	<string name="story_facebook_shared">Story published.</string>
+	<string name="facebook_share_name_idea_card">Check out the Kindness Idea Card!</string>
 
 </resources>

@@ -15,6 +15,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.*;
 import com.beardedhen.androidbootstrap.BootstrapButton;
+import com.facebook.FacebookException;
+import com.facebook.Session;
+import com.facebook.SessionState;
+import com.facebook.widget.WebDialog;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.lovingheart.app.DailyKind;
 import com.lovingheart.app.R;
@@ -436,6 +440,76 @@ public class StoryContentActivity extends ActionBarActivity {
 
                     startActivityForResult(editStoryIntent, STORY_CONTENT_EDIT);
                 }
+                break;
+            }
+            case R.id.action_share: {
+
+                String imageUrl = new String();
+                if (story.getGraphic() != null) {
+
+                    if ("url".equalsIgnoreCase(story.getGraphic().getFileType())) {
+                        imageUrl = story.getGraphic().getImageUrl();
+                    } else if ("file".equalsIgnoreCase(story.getGraphic().getFileType())) {
+                        imageUrl = story.getGraphic().getParseFileUrl();
+                    }
+                }
+
+                final Bundle facebookShareParams = new Bundle();
+                facebookShareParams.putString("name", story.getStoryTeller().getString("name"));
+                facebookShareParams.putString("caption", storyObject.getString("Content"));
+                if (story.getIdea() != null) {
+                    facebookShareParams.putString("description", story.getIdea().getName());
+                } else {
+                    facebookShareParams.putString("description", "From LovingHeart for Android.");
+                }
+
+                facebookShareParams.putString("link", "http://tw.lovingheartapp.com");
+                facebookShareParams.putString("picture", imageUrl);
+
+                Session.openActiveSession(StoryContentActivity.this, true, new Session.StatusCallback() {
+                    @Override
+                    public void call(Session session, SessionState state, Exception exception) {
+
+                        if (session.isOpened()) {
+
+                            // Invoke the dialog
+                            WebDialog feedDialog = (
+                                    new WebDialog.FeedDialogBuilder(StoryContentActivity.this,
+                                            Session.getActiveSession(),
+                                            facebookShareParams))
+                                    .setOnCompleteListener(new WebDialog.OnCompleteListener() {
+                                        @Override
+                                        public void onComplete(Bundle values,
+                                                               FacebookException error) {
+                                            if (error == null) {
+                                                // When the story is posted, echo the success
+                                                // and the post Id.
+                                                final String postId = values.getString("post_id");
+                                                if (postId != null) {
+                                                    Toast.makeText(StoryContentActivity.this,
+                                                            getString(R.string.story_facebook_shared),
+                                                            Toast.LENGTH_SHORT).show();
+                                                }
+                                            } else {
+                                                if (error.getLocalizedMessage() != null && error.getLocalizedMessage().length() > 0) {
+                                                    Toast.makeText(getBaseContext(),
+                                                            error.getLocalizedMessage(),
+                                                            Toast.LENGTH_LONG).show();
+                                                }
+                                            }
+                                        }
+
+                                    })
+                                    .build();
+                            if (!(StoryContentActivity.this).isFinishing()) {
+                                feedDialog.show();
+                            }
+                        }
+                    }
+                });
+
+
+
                 break;
             }
             case R.id.action_delete: {

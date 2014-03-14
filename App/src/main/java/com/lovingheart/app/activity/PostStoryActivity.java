@@ -340,7 +340,7 @@ public class PostStoryActivity extends ActionBarActivity {
                                           @Override
                                           public void done(ParseException e) {
                                               final ParseObject imageObject = new ParseObject("GraphicImage");
-                                              imageObject.put("imageType", "url");
+                                              imageObject.put("imageType", "file");
                                               imageObject.put("imageFile", file);
                                               imageObject.saveInBackground(new SaveCallback() {
                                                   @Override

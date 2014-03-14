@@ -173,4 +173,8 @@
 	<string name="post_story_loading_location">載入地理資訊...</string>
 	<string name="navigation_drawer_open">打開</string>
 	<string name="navigation_drawer_close">關閉</string>
+	<string name="intent_share_story">Share Story</string>
+	<string name="menu_share_to_facebook">分享到臉書</string>
+	<string name="story_facebook_shared">故事分享完成</string>
+	<string name="facebook_share_name_idea_card">快來瞧瞧這張友善行動卡吧！</string>
 </resources>

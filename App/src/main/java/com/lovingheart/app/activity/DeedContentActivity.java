@@ -6,13 +6,19 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.devsmart.android.ui.HorizontalListView;
+import com.facebook.FacebookException;
+import com.facebook.Session;
+import com.facebook.SessionState;
+import com.facebook.widget.WebDialog;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.lovingheart.app.DailyKind;
 import com.lovingheart.app.R;
@@ -141,10 +147,87 @@ public class DeedContentActivity extends ActionBarActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.story_content, menu);
+        return true;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home: {
                 finish();
+                break;
+            }
+            case R.id.action_share: {
+
+                String imageUrl = new String();
+                if (idea.getGraphic() != null) {
+
+                    if ("url".equalsIgnoreCase(idea.getGraphic().getFileType())) {
+                        imageUrl = idea.getGraphic().getImageUrl();
+                    } else if ("file".equalsIgnoreCase(idea.getGraphic().getFileType())) {
+                        imageUrl = idea.getGraphic().getParseFileUrl();
+                    }
+                }
+
+                final Bundle facebookShareParams = new Bundle();
+                facebookShareParams.putString("name", getString(R.string.facebook_share_name_idea_card));
+                facebookShareParams.putString("caption", idea.getName());
+                if (idea.getIdeaDescription() != null) {
+                    facebookShareParams.putString("description", idea.getIdeaDescription());
+                } else {
+                    facebookShareParams.putString("description", "From LovingHeart for Android.");
+                }
+
+                facebookShareParams.putString("link", "http://tw.lovingheartapp.com");
+                facebookShareParams.putString("picture", imageUrl);
+
+                Session.openActiveSession(DeedContentActivity.this, true, new Session.StatusCallback() {
+                    @Override
+                    public void call(Session session, SessionState state, Exception exception) {
+
+                        if (session.isOpened()) {
+
+                            // Invoke the dialog
+                            WebDialog feedDialog = (
+                                    new WebDialog.FeedDialogBuilder(DeedContentActivity.this,
+                                            Session.getActiveSession(),
+                                            facebookShareParams))
+                                    .setOnCompleteListener(new WebDialog.OnCompleteListener() {
+                                        @Override
+                                        public void onComplete(Bundle values,
+                                                               FacebookException error) {
+                                            if (error == null) {
+                                                // When the story is posted, echo the success
+                                                // and the post Id.
+                                                final String postId = values.getString("post_id");
+                                                if (postId != null) {
+                                                    Toast.makeText(DeedContentActivity.this,
+                                                            getString(R.string.story_facebook_shared),
+                                                            Toast.LENGTH_SHORT).show();
+                                                }
+                                            } else {
+                                                if (error.getLocalizedMessage() != null && error.getLocalizedMessage().length() > 0) {
+                                                    Toast.makeText(getBaseContext(),
+                                                            error.getLocalizedMessage(),
+                                                            Toast.LENGTH_LONG).show();
+                                                }
+                                            }
+                                        }
+
+                                    })
+                                    .build();
+                            if (!(DeedContentActivity.this).isFinishing()) {
+                                feedDialog.show();
+                            }
+                        }
+                    }
+                });
+
+
+
                 break;
             }
         }

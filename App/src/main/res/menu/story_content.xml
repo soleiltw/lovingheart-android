@@ -11,6 +11,12 @@
 	      android:orderInCategory="80"
 	      dailykind:showAsAction="ifRoom" />
 
+	<item android:id="@+id/action_share"
+	      android:title="@string/menu_share_to_facebook"
+	      android:icon="@drawable/ic_action_share"
+	      android:orderInCategory="81"
+	      dailykind:showAsAction="never" />
+
 	<item android:id="@+id/action_delete"
 	      android:title="Delete"
 	      android:visible="false"
