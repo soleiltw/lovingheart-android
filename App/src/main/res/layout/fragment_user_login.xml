@@ -63,8 +63,12 @@
 				bootstrapbutton:bb_icon_left="fa-facebook-square"
 				bootstrapbutton:bb_roundedCorners="true"
 				bootstrapbutton:bb_type="primary" />
-		
 
+			<View
+				android:background="#CFCFCF"
+				android:layout_margin="10dp"
+				android:layout_width="fill_parent"
+				android:layout_height="1dp" />
 
 		<EditText
 			android:inputType="textEmailAddress"
