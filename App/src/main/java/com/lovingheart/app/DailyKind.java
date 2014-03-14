@@ -22,9 +22,9 @@ public class DailyKind {
 
     public static String NEED_UPDATE_DRAWER = "need_update_drawer";
 
-    public static String ACKNOWLEDGEMENT_LINK = "http://blog.lovingheartapp.com/post/78392950496/acknowledgement#anchor";
+    public static String ACKNOWLEDGEMENT_LINK = "http://support.lovingheartapp.com/knowledgebase/articles/333115-acknowledgement#anchor";
 
-    public static String PRIVACY_POLICY_LINK = "http://blog.lovingheartapp.com/privacy_policy";
+    public static String PRIVACY_POLICY_LINK = "http://support.lovingheartapp.com/knowledgebase/articles/333113-privacy-policy-for-lovingheart-app#anchor";
 
     public static final String PARSE_PREMIUM_NOCHECK = "nocheck";
 

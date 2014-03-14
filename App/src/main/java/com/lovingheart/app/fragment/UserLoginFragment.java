@@ -1,7 +1,9 @@
 package com.lovingheart.app.fragment;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -11,16 +13,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.lovingheart.app.DailyKind;
-import com.lovingheart.app.R;
 import com.facebook.Request;
 import com.facebook.Response;
 import com.facebook.model.GraphUser;
 import com.facebook.widget.LoginButton;
+import com.lovingheart.app.DailyKind;
+import com.lovingheart.app.R;
 import com.parse.*;
 
 import java.util.Arrays;
@@ -144,6 +148,49 @@ public class UserLoginFragment extends PlaceholderFragment {
                         }
                     }
                 });
+            }
+        });
+
+        View termOfUseView = rootView.findViewById(R.id.user_login_privacy_text_view);
+        termOfUseView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                AlertDialog.Builder alertBuilder = new AlertDialog.Builder(getActivity());
+                alertBuilder.setTitle(getString(R.string.setting_privacy_policy_title));
+
+                WebView webView = new WebView(getActivity());
+                webView.loadUrl(DailyKind.PRIVACY_POLICY_LINK);
+                webView.setWebViewClient(new WebViewClient(){
+                    /**
+                     * Give the host application a chance to take over the control when a new
+                     * url is about to be loaded in the current WebView. If WebViewClient is not
+                     * provided, by default WebView will ask Activity Manager to choose the
+                     * proper handler for the url. If WebViewClient is provided, return true
+                     * means the host application handles the url, while return false means the
+                     * current WebView handles the url.
+                     * This method is not called for requests using the POST "method".
+                     *
+                     * @param view The WebView that is initiating the callback.
+                     * @param url  The url to be loaded.
+                     * @return True if the host application wants to leave the current WebView
+                     * and handle the url itself, otherwise return false.
+                     */
+                    @Override
+                    public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                        view.loadUrl(url);
+                        return true;
+                    }
+                });
+
+                alertBuilder.setView(webView);
+                alertBuilder.setNegativeButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                alertBuilder.show();
             }
         });
 

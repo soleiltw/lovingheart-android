@@ -79,7 +79,7 @@
 	<string name="user_signup_sign_up">Email 註冊</string>
 	<string name="ask_login_get_your_profile">開始建立個人檔案！</string>
 	<string name="ask_login_take_me_login">前往登入</string>
-	<string name="setting_acknowledgement_summary">特別感謝社群大家的支持</string>
+	<string name="setting_acknowledgement_summary">特別感謝社群大家的支持，在最最開始就支持我們。</string>
 	<string name="setting_acknowledgement_title">感謝名單</string>
 	<string name="post_story_pick_photo">選取圖片</string>
 	<string name="photo_picker_cancel">取消</string>
@@ -177,4 +177,6 @@
 	<string name="menu_share_to_facebook">分享到臉書</string>
 	<string name="story_facebook_shared">故事分享完成</string>
 	<string name="facebook_share_name_idea_card">快來瞧瞧這張友善行動卡吧！</string>
+
+	<string name="ok">確定</string>
 </resources>
