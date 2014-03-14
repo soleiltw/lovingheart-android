@@ -50,6 +50,42 @@
 			android:layout_width="fill_parent"
 			android:layout_height="wrap_content"/>
 
+		<LinearLayout
+			android:id="@+id/story_idea_group_layout"
+			android:orientation="vertical"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content">
+			<LinearLayout
+				android:layout_marginTop="10dp"
+				android:background="@drawable/layout_background_shadow"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content">
+				<TextView
+					android:textColor="@color/lovingheart_white"
+					android:id="@+id/story_content_category_text_view"
+					android:background="@color/theme_color_2"
+					android:padding="5dp"
+					android:textAlignment="center"
+					android:textAppearance="?android:textAppearanceSmall"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"/>
+			</LinearLayout>
+
+			<LinearLayout
+				android:layout_margin="10dp"
+				android:orientation="vertical"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content">
+				<TextView
+					android:textAppearance="?android:textAppearanceMedium"
+					android:id="@+id/me_stories_last_share_inspired_from_text_view"
+					android:textColor="@color/story_text_color"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"/>
+
+			</LinearLayout>
+
+		</LinearLayout>
 
 
 	</LinearLayout>
@@ -63,5 +99,7 @@
 		android:src="@drawable/ic_action_lock_closed"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"/>
+
+
 
 </RelativeLayout>

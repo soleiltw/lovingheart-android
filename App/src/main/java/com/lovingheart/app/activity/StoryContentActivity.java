@@ -283,10 +283,11 @@ public class StoryContentActivity extends ActionBarActivity {
                     TextView lastInspiredTextView = (TextView)findViewById(R.id.me_stories_last_share_inspired_from_text_view);
                     lastInspiredTextView.setVisibility(View.GONE);
                     if (parseObject.getParseObject("ideaPointer") != null) {
-                        story.setIdea(new ParseObjectManager(parseObject.getParseObject("ideaPointer")).getIdea());
+                        final ParseObject ideaObject = parseObject.getParseObject("ideaPointer");
+                        story.setIdea(new ParseObjectManager(ideaObject).getIdea());
 
-                        if (parseObject.getParseObject("ideaPointer").getParseObject("categoryPointer") != null) {
-                            ParseObject categoryObject = parseObject.getParseObject("ideaPointer").getParseObject("categoryPointer");
+                        if (ideaObject.getParseObject("categoryPointer") != null) {
+                            ParseObject categoryObject = ideaObject.getParseObject("categoryPointer");
 
                             ParseQuery<ParseObject> categoryQuery = new ParseQuery<ParseObject>("Category");
                             categoryQuery.whereEqualTo("objectId", categoryObject.getObjectId());
@@ -301,6 +302,15 @@ public class StoryContentActivity extends ActionBarActivity {
                                         if (category.getName() != null) {
                                             categoryTextView.setVisibility(View.VISIBLE);
                                             categoryTextView.setText(category.getName());
+
+                                            categoryTextView.setOnClickListener(new View.OnClickListener() {
+                                                @Override
+                                                public void onClick(View v) {
+                                                    Intent categoryIdeaIntent = new Intent(StoryContentActivity.this, DeedContentActivity.class);
+                                                    categoryIdeaIntent.putExtra("ideaObjectId", ideaObject.getObjectId());
+                                                    startActivity(categoryIdeaIntent);
+                                                }
+                                            });
                                         }
                                     }
                                 }

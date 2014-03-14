@@ -43,11 +43,11 @@ public class StoriesCategoryActivity extends ActionBarActivity {
             public void done(ParseObject parseObject, ParseException e) {
                 // User Login fragment
                 if (parseObject != null) {
-                setTitle(parseObject.getString("Name"));
-                android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
-                StoriesFromCategoryFragment deedCategoriesFragment = StoriesFromCategoryFragment.newInstance(0);
-                deedCategoriesFragment.setIdeaObject(parseObject);
-                fragmentManager.beginTransaction().replace(R.id.stories_category_main_fragment, deedCategoriesFragment).commit();
+                    setTitle(parseObject.getString("Name"));
+                    android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
+                    StoriesFromCategoryFragment deedCategoriesFragment = StoriesFromCategoryFragment.newInstance(0);
+                    deedCategoriesFragment.setIdeaObject(parseObject);
+                    fragmentManager.beginTransaction().replace(R.id.stories_category_main_fragment, deedCategoriesFragment).commit();
                 }
             }
         });

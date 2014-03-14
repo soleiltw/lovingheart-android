@@ -37,6 +37,7 @@ public class StoriesFromCategoryFragment extends StoriesFeedsFragment {
         parseQuery.whereContainedIn("language", DailyKind.getLanguageCollection(getActivity()));
         parseQuery.whereEqualTo("ideaPointer", ideaObject);
         parseQuery.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
+        parseQuery.orderByDescending("createdAt");
 
         if (more) {
 

@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.lovingheart.app.DailyKind;
 import com.lovingheart.app.R;
+import com.lovingheart.app.activity.DeedContentActivity;
 import com.lovingheart.app.activity.UserProfileActivity;
 import com.lovingheart.app.object.Graphic;
 import com.lovingheart.app.object.Story;
@@ -52,6 +53,9 @@ public class StoryArrayAdapter extends ParseObjectsAdapter {
         public TextView storyContentTextView;
         public TextView createdAtTextView;
         public ImageView storyLockedImageView;
+        public View ideaViewGroup;
+        public TextView inspiredFromTextView;
+        public TextView categoryTextView;
     }
 
     @Override
@@ -70,6 +74,9 @@ public class StoryArrayAdapter extends ParseObjectsAdapter {
             viewHolder.storyContentTextView = (TextView)convertView.findViewById(R.id.story_content_text_view);
             viewHolder.createdAtTextView = (TextView)convertView.findViewById(R.id.created_at_text_view);
             viewHolder.storyLockedImageView = (ImageView)convertView.findViewById(R.id.story_lock_image_view);
+            viewHolder.ideaViewGroup = convertView.findViewById(R.id.story_idea_group_layout);
+            viewHolder.inspiredFromTextView = (TextView)viewHolder.ideaViewGroup.findViewById(R.id.me_stories_last_share_inspired_from_text_view);
+            viewHolder.categoryTextView = (TextView)viewHolder.ideaViewGroup.findViewById(R.id.story_content_category_text_view);
 
             convertView.setTag(viewHolder);
         } else {
@@ -116,6 +123,36 @@ public class StoryArrayAdapter extends ParseObjectsAdapter {
             }
         } else {
             viewHolder.storyContentImageView.setVisibility(View.GONE);
+        }
+
+        if (storyObject.has("ideaPointer")) {
+            final ParseObject ideaObject = storyObject.getParseObject("ideaPointer");
+
+            viewHolder.inspiredFromTextView.setText(ideaObject.getString("Name"));
+            if (ideaObject.has("categoryPointer")) {
+                ParseObject categoryObject = ideaObject.getParseObject("categoryPointer");
+                categoryObject.fetchIfNeededInBackground(new GetCallback<ParseObject>() {
+                    @Override
+                    public void done(final ParseObject categoryObject, ParseException e) {
+
+                        if (categoryObject.has("Name")) {
+                            viewHolder.categoryTextView.setText(categoryObject.getString("Name"));
+
+                            viewHolder.categoryTextView.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    Intent categoryIdeaIntent = new Intent(getContext(), DeedContentActivity.class);
+                                    categoryIdeaIntent.putExtra("ideaObjectId", ideaObject.getObjectId());
+                                    getContext().startActivity(categoryIdeaIntent);
+                                }
+                            });
+                        }
+                    }
+                });
+            }
+            viewHolder.ideaViewGroup.setVisibility(View.VISIBLE);
+        } else {
+            viewHolder.ideaViewGroup.setVisibility(View.GONE);
         }
 
         if (story.getLocationAreaName() != null) {
