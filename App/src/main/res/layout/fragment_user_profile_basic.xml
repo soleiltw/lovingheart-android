@@ -58,6 +58,21 @@
 
 			</LinearLayout>
 
+		<LinearLayout
+			android:orientation="vertical"
+			android:padding="10dp"
+			android:layout_margin="5dp"
+			android:id="@+id/user_profile_about_layout"
+			android:background="@drawable/layout_background_shadow"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content">
+			<com.lovingheart.app.view.ExpandableListView
+				android:id="@+id/personal_about_list_view"
+				android:background="@color/lovingheart_white"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content" />
+		</LinearLayout>
+
 		</LinearLayout>
 	</ScrollView>
 </LinearLayout>

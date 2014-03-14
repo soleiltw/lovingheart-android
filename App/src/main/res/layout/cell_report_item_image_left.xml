@@ -22,7 +22,7 @@
 		<TextView android:id="@+id/report_title_text_view"
 		          android:layout_width="match_parent"
 		          android:layout_height="wrap_content"
-		          android:gravity="center_vertical"
+		          android:gravity="center_vertical|left"
 		          android:textAppearance="?android:textAppearanceLarge"
 		          android:textStyle="bold"
 			/>
@@ -30,7 +30,7 @@
 		<TextView android:id="@+id/report_description_text_view"
 		          android:layout_width="match_parent"
 		          android:layout_height="wrap_content"
-		          android:gravity="center_vertical"
+		          android:gravity="center_vertical|left"
 		          android:textAppearance="?android:textAppearanceMedium"
 			/>
 	</LinearLayout>

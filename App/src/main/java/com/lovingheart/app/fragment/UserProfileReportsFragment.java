@@ -62,6 +62,7 @@ public abstract class UserProfileReportsFragment extends UserProfileFragment {
         personalReportListView = (ExpandableListView)rootView.findViewById(R.id.personal_report_list_view);
         personalReportListView.setExpand(true);
         personalReportListView.setAdapter(personalReportAdapter);
+        personalReportListView.setClickable(false);
 
         loadingProgressBar = rootView.findViewById(R.id.loading_progress_bar);
 

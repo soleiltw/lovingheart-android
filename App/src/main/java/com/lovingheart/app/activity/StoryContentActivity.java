@@ -348,26 +348,28 @@ public class StoryContentActivity extends ActionBarActivity {
                         }
                     }
 
+                    final ImageView avatarImageView = (ImageView)findViewById(R.id.user_avatar_image_view);
+                    avatarImageView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent userIntent = new Intent(getApplicationContext(), UserProfileActivity.class);
+                            userIntent.putExtra("userId", story.getStoryTeller().getObjectId());
+                            startActivity(userIntent);
+                        }
+                    });
+
                     ParseObject avatarObject = story.getStoryTeller().getParseObject("avatar");
                     if (avatarObject != null) {
                         avatarObject.fetchIfNeededInBackground(new GetCallback<ParseObject>() {
                             @Override
                             public void done(ParseObject parseObject, ParseException e) {
-                                ImageView avatarImageView = (ImageView)findViewById(R.id.user_avatar_image_view);
                                 if (parseObject.getString("imageType").equals("url")) {
                                     Picasso.with(getApplicationContext())
                                             .load(parseObject.getString("imageUrl"))
                                             .transform(new CircleTransform())
                                             .into(avatarImageView);
                                 }
-                                avatarImageView.setOnClickListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-                                        Intent userIntent = new Intent(getApplicationContext(), UserProfileActivity.class);
-                                        userIntent.putExtra("userId", story.getStoryTeller().getObjectId());
-                                        startActivity(userIntent);
-                                    }
-                                });
+
                             }
                         });
                     }

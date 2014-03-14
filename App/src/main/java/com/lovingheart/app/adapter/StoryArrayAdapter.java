@@ -176,19 +176,20 @@ public class StoryArrayAdapter extends ParseObjectsAdapter {
                                 .placeholder(R.drawable.ic_action_user)
                                 .transform(new CircleTransform())
                                 .into(viewHolder.storyTellerImageView);
-
-                        viewHolder.storyTellerImageView.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                Intent userIntent = new Intent(getContext(), UserProfileActivity.class);
-                                userIntent.putExtra("userId", story.getStoryTeller().getObjectId());
-                                getContext().startActivity(userIntent);
-                            }
-                        });
                     }
                 }
             });
+        }
 
+        if (story.getStoryTeller()!= null) {
+            viewHolder.storyTellerImageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent userIntent = new Intent(getContext(), UserProfileActivity.class);
+                    userIntent.putExtra("userId", story.getStoryTeller().getObjectId());
+                    getContext().startActivity(userIntent);
+                }
+            });
         }
 
         viewHolder.storyTellerTextView.setText(user.getName());

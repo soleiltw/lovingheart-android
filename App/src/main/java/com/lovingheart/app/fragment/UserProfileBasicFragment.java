@@ -1,22 +1,29 @@
 package com.lovingheart.app.fragment;
 
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.*;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.google.analytics.tracking.android.Fields;
 import com.google.analytics.tracking.android.MapBuilder;
 import com.lovingheart.app.DailyKind;
 import com.lovingheart.app.R;
+import com.lovingheart.app.adapter.PersonalReportAdapter;
+import com.lovingheart.app.object.Info;
 import com.lovingheart.app.object.UserImpact;
 import com.lovingheart.app.util.AnalyticsManager;
 import com.lovingheart.app.util.CircleTransform;
+import com.lovingheart.app.util.ReportManager;
 import com.lovingheart.app.util.parse.ParseObjectManager;
+import com.lovingheart.app.view.ExpandableListView;
 import com.parse.*;
 import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -39,6 +46,11 @@ public class UserProfileBasicFragment extends UserProfileFragment {
     private String userId;
 
     private ImageView avatarImageView;
+    protected View aboutView;
+
+    protected PersonalReportAdapter personalReportAdapter;
+
+    private List<Info> infoList;
 
     public UserProfileBasicFragment() {
     }
@@ -50,6 +62,9 @@ public class UserProfileBasicFragment extends UserProfileFragment {
         setHasOptionsMenu(true);
 
         userImpactInfo = new UserImpact();
+
+        infoList = new ArrayList<Info>();
+        personalReportAdapter = new PersonalReportAdapter(getActivity(), android.R.layout.simple_list_item_1, infoList);
     }
 
     @Override
@@ -66,11 +81,22 @@ public class UserProfileBasicFragment extends UserProfileFragment {
 
         reviewStarsTextView = (TextView)rootView.findViewById(R.id.user_impact_review_stars_text_view);
 
-
-
         avatarImageView = (ImageView)rootView.findViewById(R.id.user_avatar_image_view);
 
+        aboutView = rootView.findViewById(R.id.user_profile_about_layout);
+        aboutView.setVisibility(View.GONE);
 
+        ExpandableListView reportListView = (ExpandableListView)rootView.findViewById(R.id.personal_about_list_view);
+        reportListView.setAdapter(personalReportAdapter);
+        reportListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (getActivity()!=null) {
+                    ViewPager viewPager = (ViewPager)getActivity().findViewById(R.id.pager);
+                    viewPager.setCurrentItem(UserProfileMainFragment.VIEW_PAGER_REPORT, true);
+                }
+            }
+        });
 
         return rootView;
     }
@@ -105,7 +131,7 @@ public class UserProfileBasicFragment extends UserProfileFragment {
     protected class ProfileCallBack extends GetCallback<ParseUser> {
 
         @Override
-        public void done(ParseUser parseUser, ParseException e) {
+        public void done(final ParseUser parseUser, ParseException e) {
             if (parseUser != null && parseUser.getObjectId() != null) {
 
                 userNameTextView.setText(parseUser.getString("name"));
@@ -147,10 +173,20 @@ public class UserProfileBasicFragment extends UserProfileFragment {
                             userImpactInfo.setStoriesSharedCount(parseObjects.size());
                             storiesSharedCountTextView.setText(String.valueOf(parseObjects.size()));
 
+                            StringBuffer tagsBuffer = new StringBuffer();
                             int reviewImpactCount = 0;
                             for (ParseObject eachStory : parseObjects) {
                                 if (eachStory.has("reviewImpact")) {
                                     reviewImpactCount += eachStory.getInt("reviewImpact");
+                                }
+
+                                if (eachStory.has("ideaPointer")) {
+                                    ParseObject ideaObject = eachStory.getParseObject("ideaPointer");
+                                    if (ideaObject.has("Tags")) {
+                                        String tags = ideaObject.getString("Tags");
+                                        tagsBuffer.append(tags);
+                                        tagsBuffer.append(ReportManager.TAGS_SEPARATOR);
+                                    }
                                 }
                             }
 
@@ -159,6 +195,24 @@ public class UserProfileBasicFragment extends UserProfileFragment {
 
                             saveUserImpact(userImpactInfo);
 
+                            // Show up for every user
+                            ReportManager reportManager = new ReportManager();
+                            reportManager.setUser(parseUser);
+                            reportManager.setStoriesObjects(parseObjects);
+                            int count = reportManager.extractIdeaTags(tagsBuffer ,5);
+                            if (count <= 0) {
+                                aboutView.setVisibility(View.GONE);
+                            } else {
+                                infoList.clear();
+                                infoList.addAll(reportManager.getReportWordings());
+                                personalReportAdapter.notifyDataSetChanged();
+
+                                aboutView.setVisibility(View.VISIBLE);
+                            }
+
+
+                        } else {
+                            aboutView.setVisibility(View.GONE);
                         }
                     }
                 });

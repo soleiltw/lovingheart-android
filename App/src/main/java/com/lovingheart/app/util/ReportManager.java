@@ -277,6 +277,8 @@ public class ReportManager {
                 analyseInfo.setGraphicResource(R.raw.cup_75_clear);
             } else if (finalTotalReviewStars < averageReviewStarsCount) {
                 analyseInfo.setGraphicResource(R.raw.cup_25_clear);
+            } else if (finalTotalReviewStars == averageReviewStarsCount) {
+                analyseInfo.setGraphicResource(R.raw.cup_50_clear);
             }
 
             analyseInfo.setGraphicDirection(Info.GraphicDirection.LEFT);
@@ -297,19 +299,29 @@ public class ReportManager {
         this.storiesObjects = storiesObjects;
     }
 
-    private void extractIdeaTags(StringBuffer tagsBuffer, int limit) {
+    public int extractIdeaTags(StringBuffer tagsBuffer, int limit) {
+
+
         String[] tagsStrings = tagsBuffer.toString().split(TAGS_SEPARATOR);
+
+        if (tagsStrings.length == 0)return 0;
+
         Map<Object, Integer> tagsMap = new HashMap<Object, Integer>();
         ArrayList<String> tagsArray = new ArrayList<String>();
         for (String eachTag : tagsStrings) {
             String planTag = eachTag.trim();
-            tagsArray.add(planTag);
-            if (!tagsMap.containsKey(planTag)) {
-                tagsMap.put(planTag, 1);
-            } else {
-                tagsMap.put(planTag, tagsMap.get(planTag) + 1);
+            if (planTag.length()>0) {
+                tagsArray.add(planTag);
+                if (!tagsMap.containsKey(planTag)) {
+                    tagsMap.put(planTag, 1);
+                } else {
+                    tagsMap.put(planTag, tagsMap.get(planTag) + 1);
+                }
             }
+
         }
+
+        if (tagsMap.size() == 0) return 0;
 
         tagsMap = sortByComparator(tagsMap, false);
 
@@ -340,6 +352,7 @@ public class ReportManager {
         analyseInfo.setGraphicResource(R.raw.pandora_clear);
         reportWordings.add(analyseInfo);
 
+        return tagsMap.size();
     }
 
     private Map<Object, Integer> sortByComparator(Map<Object, Integer> unsortMap, final boolean order)
