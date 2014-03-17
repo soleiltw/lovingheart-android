@@ -61,6 +61,18 @@ public class StoryArrayAdapter extends ParseObjectsAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
+        ParseObject storyObject = getItem(position);
+        ParseObjectManager parseObjectManager = new ParseObjectManager(storyObject);
+        final Story story = parseObjectManager.getStory();
+        User user = new User();
+        user.setName(story.getStoryTeller().getString("name"));
+
+        if (storyObject.getParseObject("graphicPointer") != null) {
+            Graphic graphic = new ParseObjectManager(storyObject.getParseObject("graphicPointer")).getGraphic();
+            story.setGraphic(graphic);
+        }
+
+
         final ViewHolder viewHolder;
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater)getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -78,51 +90,39 @@ public class StoryArrayAdapter extends ParseObjectsAdapter {
             viewHolder.inspiredFromTextView = (TextView)viewHolder.ideaViewGroup.findViewById(R.id.me_stories_last_share_inspired_from_text_view);
             viewHolder.categoryTextView = (TextView)viewHolder.ideaViewGroup.findViewById(R.id.story_content_category_text_view);
 
+            Log.d(DailyKind.TAG, "Story width: " + convertView.getWidth());
+
+            Log.d(DailyKind.TAG, "ListView-rec Create new one at " + position);
+            int layoutWidth = convertView.getWidth();
+            LinearLayout.LayoutParams storyContentImageViewLayoutParams = (LinearLayout.LayoutParams)viewHolder.storyContentImageView.getLayoutParams();
+
+            if (layoutWidth > 0) {
+                // We make it as screen width
+                storyContentImageViewLayoutParams.width = layoutWidth;
+                storyContentImageViewLayoutParams.height = layoutWidth;
+
+                notifyDataSetChanged();
+            } else {
+                DisplayMetrics displayMetrics = getContext().getResources().getDisplayMetrics();
+                // We make it as screen width
+                storyContentImageViewLayoutParams.width = displayMetrics.widthPixels;
+                storyContentImageViewLayoutParams.height = displayMetrics.widthPixels;
+            }
+            viewHolder.storyContentImageView.requestLayout();
+            viewHolder.storyContentImageView.setVisibility(View.VISIBLE);
+
+            loadStoryContentImageView(viewHolder, story, storyContentImageViewLayoutParams);
+            loadStoryTellerImageView(viewHolder, story);
+
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder)convertView.getTag();
-        }
 
-        Log.d(DailyKind.TAG, "Story width: " + convertView.getWidth());
-        int layoutWidth = convertView.getWidth();
+            Log.d(DailyKind.TAG, "ListView-rec Reuse one at " + position);
 
-        ParseObject storyObject = getItem(position);
-        ParseObjectManager parseObjectManager = new ParseObjectManager(storyObject);
-        final Story story = parseObjectManager.getStory();
-
-        // Check if have graphic
-        if (storyObject.getParseObject("graphicPointer") != null) {
-            Graphic graphic = new ParseObjectManager(storyObject.getParseObject("graphicPointer")).getGraphic();
-            story.setGraphic(graphic);
-
-            if (story.getGraphic() !=null && story.getGraphic().getParseFileUrl() != null) {
-
-                LinearLayout.LayoutParams storyContentImageViewLayoutParams = (LinearLayout.LayoutParams)viewHolder.storyContentImageView.getLayoutParams();
-
-                if (layoutWidth > 0) {
-                    // We make it as screen width
-                    storyContentImageViewLayoutParams.width = layoutWidth;
-                    storyContentImageViewLayoutParams.height = layoutWidth;
-
-                    notifyDataSetChanged();
-                } else {
-                    DisplayMetrics displayMetrics = getContext().getResources().getDisplayMetrics();
-                    // We make it as screen width
-                    storyContentImageViewLayoutParams.width = displayMetrics.widthPixels;
-                    storyContentImageViewLayoutParams.height = displayMetrics.widthPixels;
-                }
-                viewHolder.storyContentImageView.requestLayout();
-                viewHolder.storyContentImageView.setVisibility(View.VISIBLE);
-
-                Picasso.with(getContext())
-                    .load(story.getGraphic().getParseFileUrl())
-                    .placeholder(R.drawable.card_default)
-                    .resize(storyContentImageViewLayoutParams.width, storyContentImageViewLayoutParams.height)
-                    .centerCrop()
-                    .into(viewHolder.storyContentImageView);
-            }
-        } else {
-            viewHolder.storyContentImageView.setVisibility(View.GONE);
+            LinearLayout.LayoutParams storyContentImageViewLayoutParams = (LinearLayout.LayoutParams)viewHolder.storyContentImageView.getLayoutParams();
+            loadStoryContentImageView(viewHolder, story, storyContentImageViewLayoutParams);
+            loadStoryTellerImageView(viewHolder, story);
         }
 
         if (storyObject.has("ideaPointer")) {
@@ -157,28 +157,9 @@ public class StoryArrayAdapter extends ParseObjectsAdapter {
 
         if (story.getLocationAreaName() != null) {
             viewHolder.locationAreaNameTextView.setText(
-                getContext().getString(R.string.location_area_name_from) + getContext().getString(R.string.space) +
-                story.getLocationAreaName());
-        }
-
-        User user = new User();
-        user.setName(story.getStoryTeller().getString("name"));
-
-        viewHolder.storyTellerImageView.setImageResource(R.drawable.ic_action_user);
-        if (story.getStoryTeller() != null
-                && story.getStoryTeller().has("avatar") && story.getStoryTeller().getParseObject("avatar")!=null) {
-            story.getStoryTeller().getParseObject("avatar").fetchIfNeededInBackground(new GetCallback<ParseObject>() {
-                @Override
-                public void done(ParseObject parseObject, ParseException e) {
-                    if (parseObject != null) {
-                        Picasso.with(getContext())
-                                .load(parseObject.getString("imageUrl"))
-                                .placeholder(R.drawable.ic_action_user)
-                                .transform(new CircleTransform())
-                                .into(viewHolder.storyTellerImageView);
-                    }
-                }
-            });
+                    getContext().getString(R.string.location_area_name_from) + getContext().getString(R.string.space) +
+                            story.getLocationAreaName()
+            );
         }
 
         if (story.getStoryTeller()!= null) {
@@ -209,5 +190,37 @@ public class StoryArrayAdapter extends ParseObjectsAdapter {
         }
 
         return convertView;
+    }
+
+    private void loadStoryContentImageView(ViewHolder viewHolder, Story story, LinearLayout.LayoutParams storyContentImageViewLayoutParams) {
+        if (story.getGraphic() !=null && story.getGraphic().getParseFileUrl() != null) {
+            Picasso.with(getContext())
+                    .load(story.getGraphic().getParseFileUrl())
+                    .placeholder(R.drawable.card_default)
+                    .resize(storyContentImageViewLayoutParams.width, storyContentImageViewLayoutParams.height)
+                    .centerCrop()
+                    .into(viewHolder.storyContentImageView);
+        } else {
+            viewHolder.storyContentImageView.setVisibility(View.GONE);
+        }
+    }
+
+    private void loadStoryTellerImageView(final ViewHolder viewHolder, Story story) {
+        viewHolder.storyTellerImageView.setImageResource(R.drawable.ic_action_user);
+        if (story.getStoryTeller() != null
+                && story.getStoryTeller().has("avatar") && story.getStoryTeller().getParseObject("avatar")!=null) {
+            story.getStoryTeller().getParseObject("avatar").fetchIfNeededInBackground(new GetCallback<ParseObject>() {
+                @Override
+                public void done(ParseObject parseObject, ParseException e) {
+                    if (parseObject != null) {
+                        Picasso.with(getContext())
+                                .load(parseObject.getString("imageUrl"))
+                                .placeholder(R.drawable.ic_action_user)
+                                .transform(new CircleTransform())
+                                .into(viewHolder.storyTellerImageView);
+                    }
+                }
+            });
+        }
     }
 }

@@ -132,7 +132,7 @@ public class UserProfileBasicFragment extends UserProfileFragment {
 
         @Override
         public void done(final ParseUser parseUser, ParseException e) {
-            if (parseUser != null && parseUser.getObjectId() != null) {
+            if (parseUser != null && parseUser.getObjectId() != null && isAdded()) {
 
                 userNameTextView.setText(parseUser.getString("name"));
 

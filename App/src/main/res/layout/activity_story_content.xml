@@ -66,8 +66,8 @@
 				<com.lovingheart.app.view.ExpandableListView
 
 					android:id="@+id/story_content_review_list_view"
-					android:layout_width="fill_parent"
-					android:layout_height="wrap_content" />
+					android:layout_width="match_parent"
+					android:layout_height="match_parent" />
 
 				<TextView
 					android:padding="5dp"

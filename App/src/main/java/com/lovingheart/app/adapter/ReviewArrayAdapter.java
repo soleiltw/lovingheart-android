@@ -58,34 +58,53 @@ public class ReviewArrayAdapter extends ArrayAdapter<Review> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        LayoutInflater inflater = (LayoutInflater)getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
         final ViewHolder viewHolder;
 
-        // TODO We want to fix avatar, so have to create every time.
-//        if (convertView == null) {
-        convertView = inflater.inflate(R.layout.cell_story_review, null);
-
-        viewHolder = new ViewHolder();
-        viewHolder.awesome1Text = (FontAwesomeText)convertView.findViewById(R.id.story_review_1_star);
-        viewHolder.awesome2Text = (FontAwesomeText)convertView.findViewById(R.id.story_review_2_star);
-        viewHolder.awesome3Text = (FontAwesomeText)convertView.findViewById(R.id.story_review_3_star);
-        viewHolder.awesome4Text = (FontAwesomeText)convertView.findViewById(R.id.story_review_4_star);
-        viewHolder.awesome5Text = (FontAwesomeText)convertView.findViewById(R.id.story_review_5_star);
-        viewHolder.userNameTextView = (TextView)convertView.findViewById(R.id.user_name_text_view);
-        viewHolder.userImageView = (ImageView)convertView.findViewById(R.id.user_avatar_image_view);
-        viewHolder.reviewTextView = (TextView)convertView.findViewById(R.id.story_review_text_view);
-        viewHolder.createdAtTextView = (TextView)convertView.findViewById(R.id.story_review_date_text_view);
-
-        convertView.setTag(viewHolder);
-        // TODO We want to fix avatar, so have to create every time.
-//        } else {
-//            viewHolder = (ViewHolder)convertView.getTag();
-//            viewHolder.userImageView.setImageDrawable(mDefaultPicDrawable);
-//        }
-
         Review review = getItem(position);
-        Log.d(DailyKind.TAG, "Rating: " + review.getValue());
+
+        // TODO We want to fix avatar, so have to create every time.
+        if (convertView == null) {
+            LayoutInflater inflater = (LayoutInflater)getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+            convertView = inflater.inflate(R.layout.cell_story_review, null);
+
+            viewHolder = new ViewHolder();
+            viewHolder.awesome1Text = (FontAwesomeText)convertView.findViewById(R.id.story_review_1_star);
+            viewHolder.awesome2Text = (FontAwesomeText)convertView.findViewById(R.id.story_review_2_star);
+            viewHolder.awesome3Text = (FontAwesomeText)convertView.findViewById(R.id.story_review_3_star);
+            viewHolder.awesome4Text = (FontAwesomeText)convertView.findViewById(R.id.story_review_4_star);
+            viewHolder.awesome5Text = (FontAwesomeText)convertView.findViewById(R.id.story_review_5_star);
+            viewHolder.userNameTextView = (TextView)convertView.findViewById(R.id.user_name_text_view);
+            viewHolder.userImageView = (ImageView)convertView.findViewById(R.id.user_avatar_image_view);
+            viewHolder.reviewTextView = (TextView)convertView.findViewById(R.id.story_review_text_view);
+            viewHolder.createdAtTextView = (TextView)convertView.findViewById(R.id.story_review_date_text_view);
+
+            convertView.setTag(viewHolder);
+            // TODO We want to fix avatar, so have to create every time.
+            Log.d(DailyKind.TAG, "Created a new one at: " + position);
+
+            if (review.getUser() != null) {
+                viewHolder.userNameTextView.setText(review.getUser().getName());
+
+                if (review.getUser().getAvatar() != null) {
+                    review.getUser().getAvatar().fetchIfNeededInBackground(new GetCallback<ParseObject>() {
+                        @Override
+                        public void done(ParseObject parseObject, ParseException e) {
+                            if (parseObject != null && parseObject.getString("imageUrl") != null) {
+                                Picasso.with(getContext())
+                                        .load(parseObject.getString("imageUrl"))
+                                        .placeholder(R.drawable.ic_action_user)
+                                        .transform(new CircleTransform())
+                                        .into(viewHolder.userImageView);
+                            }
+                        }
+                    });
+                }
+            }
+        } else {
+            viewHolder = (ViewHolder)convertView.getTag();
+            Log.d(DailyKind.TAG, "Use a old one at: " + position);
+        }
 
         viewHolder.awesome1Text.setVisibility(View.GONE);
         viewHolder.awesome2Text.setVisibility(View.GONE);
@@ -107,26 +126,6 @@ public class ReviewArrayAdapter extends ArrayAdapter<Review> {
         }
         if (review.getValue() >= 5) {
             viewHolder.awesome5Text.setVisibility(View.VISIBLE);
-        }
-
-        if (review.getUser() != null) {
-            viewHolder.userNameTextView.setText(review.getUser().getName());
-
-            if (review.getUser().getAvatar() != null) {
-                review.getUser().getAvatar().fetchIfNeededInBackground(new GetCallback<ParseObject>() {
-                    @Override
-                    public void done(ParseObject parseObject, ParseException e) {
-                        if (parseObject != null && parseObject.getString("imageUrl") != null) {
-                            Picasso.with(getContext())
-                                    .load(parseObject.getString("imageUrl"))
-                                    .placeholder(R.drawable.ic_action_user)
-                                    .transform(new CircleTransform())
-                                    .into(viewHolder.userImageView);
-                        }
-                    }
-                });
-
-            }
         }
 
         if (review.getReviewDescription() != null && review.getReviewDescription().length() > 0) {
