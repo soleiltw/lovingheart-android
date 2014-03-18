@@ -1,8 +1,9 @@
 package com.lovingheart.app.fragment;
 
-import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.view.MenuItemCompat;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.*;
 import android.widget.AdapterView;
@@ -51,7 +52,7 @@ public class StoriesFeedsFragment extends PlaceholderFragment {
 
         setHasOptionsMenu(true);
 
-        ActionBar actionBar = getActivity().getActionBar();
+        android.support.v7.app.ActionBar actionBar = ((ActionBarActivity)getActivity()).getSupportActionBar();
         actionBar.setTitle(getString(R.string.title_stories));
     }
 
@@ -130,9 +131,9 @@ public class StoriesFeedsFragment extends PlaceholderFragment {
             MenuItem refreshItem = menu.findItem(R.id.action_reload);
             if (refreshItem != null) {
                 if (isLoading) {
-                    refreshItem.setActionView(R.layout.indeterminate_progress_action);
+                    MenuItemCompat.setActionView(refreshItem, R.layout.indeterminate_progress_action);
                 } else {
-                    refreshItem.setActionView(null);
+                    MenuItemCompat.setActionView(refreshItem, null);
                 }
             }
         }

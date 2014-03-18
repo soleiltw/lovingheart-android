@@ -39,21 +39,12 @@ public abstract class UserProfileFragment extends PlaceholderFragment {
         userQuery.getFirstInBackground(userGetCallback);
     }
 
-    protected void queryGraphicEarned(ParseUser parseUser, final FindCallback<ParseObject> findCallback) {
+    protected void queryGraphicEarned(ParseUser parseUser, final GetCallback<ParseObject> getCallback) {
         ParseQuery<ParseObject> graphicsEarnedQuery = ParseQuery.getQuery("GraphicsEarned");
         graphicsEarnedQuery.whereEqualTo("userId", parseUser);
         graphicsEarnedQuery.setCachePolicy(ParseQuery.CachePolicy.CACHE_ELSE_NETWORK);
         graphicsEarnedQuery.setMaxCacheAge(DailyKind.QUERY_AT_LEAST_CACHE_AGE);
-        graphicsEarnedQuery.getFirstInBackground(new GetCallback<ParseObject>() {
-            @Override
-            public void done(ParseObject parseObject, ParseException e) {
-                if (parseObject!=null) {
-                    ParseRelation graphicsRelation = parseObject.getRelation("graphicsEarned");
-                    ParseQuery<ParseObject> graphicsEarnedQuery = graphicsRelation.getQuery();
-                    graphicsEarnedQuery.findInBackground(findCallback);
-                }
-            }
-        });
+        graphicsEarnedQuery.getFirstInBackground(getCallback);
     }
 
     protected void queryStories(ParseUser parseUser, FindCallback<ParseObject> findCallback) {

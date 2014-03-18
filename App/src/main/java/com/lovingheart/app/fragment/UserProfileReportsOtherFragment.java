@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.google.analytics.tracking.android.Fields;
-import com.google.analytics.tracking.android.MapBuilder;
 import com.lovingheart.app.DailyKind;
 import com.lovingheart.app.R;
 import com.lovingheart.app.dialog.ShareBillingDialog;
@@ -15,6 +14,7 @@ import com.lovingheart.app.util.AnalyticsManager;
 import com.parse.*;
 
 import java.util.Calendar;
+import java.util.HashMap;
 
 /**
  * Created by edward_chiang on 2014/3/4.
@@ -163,10 +163,13 @@ public class UserProfileReportsOtherFragment extends UserProfileReportsFragment 
     @Override
     public void onStart() {
         super.onStart();
-        AnalyticsManager.getInstance().getGaTracker().send(
-                MapBuilder.createAppView().set(
-                        Fields.SCREEN_NAME, UserProfileReportsOtherFragment.class.getName())
-                        .build());
+
+        HashMap<String, String> gaParams = new HashMap<String, String>();
+        gaParams.put(Fields.SCREEN_NAME, "User Profile Reports Other");
+        gaParams.put(Fields.EVENT_ACTION, "View");
+        gaParams.put(Fields.EVENT_CATEGORY, "User Profile Reports Other");
+        gaParams.put(Fields.EVENT_LABEL, "user/" + getUserId());
+        AnalyticsManager.getInstance().getGaTracker().send(gaParams);
     }
 
     @Override

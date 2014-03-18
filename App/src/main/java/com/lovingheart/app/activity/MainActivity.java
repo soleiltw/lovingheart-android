@@ -1,6 +1,5 @@
 package com.lovingheart.app.activity;
 
-import android.app.ActionBar;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
@@ -9,9 +8,10 @@ import android.content.pm.Signature;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
@@ -33,7 +33,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends FragmentActivity implements NavigationDrawerFragment.NavigationDrawerCallbacks {
+public class MainActivity extends ActionBarActivity implements NavigationDrawerFragment.NavigationDrawerCallbacks {
 
     public final static int VIEW_PAGER_HOME_POSITION = 1;
     public final static int VIEW_PAGER_ME_POSITION = 0;
@@ -169,7 +169,7 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerFr
     @Override
     public void onNavigationDrawerItemSelected(ListView listView, int position) {
 
-        ActionBar actionBar = getActionBar();
+        ActionBar actionBar = getSupportActionBar();
 
         if (listView instanceof DrawerBottomListView) {
             Log.d(DailyKind.TAG, "Select bottom: " + position);
@@ -289,9 +289,9 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerFr
                     });
                     break;
                 default:
-                    getActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
                     navigationMode = ActionBar.NAVIGATION_MODE_STANDARD;
-                    getActionBar().setDisplayShowTitleEnabled(true);
+                    actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+                    actionBar.setDisplayShowTitleEnabled(true);
                     break;
             }
             if  (fragment != null) {
@@ -307,9 +307,10 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerFr
 
     @Override
     public void onNavigationDrawerOpened(View drawerView) {
-        getActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-        getActionBar().setTitle(R.string.app_name);
-        getActionBar().setDisplayShowTitleEnabled(true);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+        actionBar.setTitle(R.string.app_name);
+        actionBar.setDisplayShowTitleEnabled(true);
         boolean isNeedUpdate = PreferenceManager.getDefaultSharedPreferences(this).getBoolean(DailyKind.NEED_UPDATE_DRAWER, false);
         if (isNeedUpdate) {
             mNavigationDrawerFragment.getDrawerListAdapter().notifyDataSetChanged();
@@ -321,9 +322,10 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerFr
 
     @Override
     public void onNavigationDrawerClosed(View drawerView) {
-        getActionBar().setTitle(contentTitle);
-        getActionBar().setNavigationMode(navigationMode);
-        getActionBar().setDisplayShowTitleEnabled(navigationMode == ActionBar.NAVIGATION_MODE_STANDARD);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle(contentTitle);
+        actionBar.setNavigationMode(navigationMode);
+        actionBar.setDisplayShowTitleEnabled(navigationMode == ActionBar.NAVIGATION_MODE_STANDARD);
     }
 
     private void loadCategories() {

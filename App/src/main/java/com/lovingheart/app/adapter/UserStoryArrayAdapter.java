@@ -1,6 +1,7 @@
 package com.lovingheart.app.adapter;
 
 import android.content.Context;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import android.widget.TextView;
 import com.lovingheart.app.R;
 import com.parse.ParseObject;
 
+import java.text.DateFormatSymbols;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -67,7 +69,12 @@ public class UserStoryArrayAdapter extends ParseObjectsAdapter {
 
         Locale locale = Locale.getDefault();
 
-        viewHolder.monthTextView.setText(storyCreateAtCal.getDisplayName(Calendar.MONTH, Calendar.SHORT, locale));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
+            viewHolder.monthTextView.setText(storyCreateAtCal.getDisplayName(Calendar.MONTH, Calendar.SHORT, locale));
+        } else {
+            viewHolder.monthTextView.setText(
+                    new DateFormatSymbols().getMonths()[storyCreateAtCal.get(Calendar.MONTH)]);
+        }
         viewHolder.dayTextView.setText(String.valueOf(storyCreateAtCal.get(Calendar.DAY_OF_MONTH)));
         viewHolder.storyContentTextView.setText(storyObject.getString("Content"));
         viewHolder.storyAreaTextView.setText(storyObject.getString("areaName"));

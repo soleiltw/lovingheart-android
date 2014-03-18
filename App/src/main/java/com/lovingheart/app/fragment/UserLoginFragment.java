@@ -23,11 +23,14 @@ import com.facebook.Request;
 import com.facebook.Response;
 import com.facebook.model.GraphUser;
 import com.facebook.widget.LoginButton;
+import com.google.analytics.tracking.android.Fields;
 import com.lovingheart.app.DailyKind;
 import com.lovingheart.app.R;
+import com.lovingheart.app.util.AnalyticsManager;
 import com.parse.*;
 
 import java.util.Arrays;
+import java.util.HashMap;
 
 /**
  * Created by edward_chiang on 2014/1/2.
@@ -275,5 +278,16 @@ public class UserLoginFragment extends PlaceholderFragment {
             userLoginLayout.setVisibility(View.VISIBLE);
             userLoginProgressBar.setVisibility(View.GONE);
         }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        HashMap<String, String> gaParams = new HashMap<String, String>();
+        gaParams.put(Fields.SCREEN_NAME, "User Login");
+        gaParams.put(Fields.EVENT_ACTION, "View");
+        gaParams.put(Fields.EVENT_CATEGORY, "User Login");
+        AnalyticsManager.getInstance().getGaTracker().send(gaParams);
     }
 }

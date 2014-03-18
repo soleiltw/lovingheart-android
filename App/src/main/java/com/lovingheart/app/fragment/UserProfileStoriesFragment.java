@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import com.google.analytics.tracking.android.Fields;
-import com.google.analytics.tracking.android.MapBuilder;
 import com.lovingheart.app.DailyKind;
 import com.lovingheart.app.R;
 import com.lovingheart.app.activity.StoryContentActivity;
@@ -18,6 +17,7 @@ import com.lovingheart.app.view.ExpandableListView;
 import com.parse.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -107,10 +107,13 @@ public class UserProfileStoriesFragment extends UserProfileFragment {
     @Override
     public void onStart() {
         super.onStart();
-        AnalyticsManager.getInstance().getGaTracker().send(
-                MapBuilder.createAppView().set(
-                        Fields.SCREEN_NAME, UserProfileStoriesFragment.class.getName())
-                        .build());
+
+        HashMap<String, String> gaParams = new HashMap<String, String>();
+        gaParams.put(Fields.SCREEN_NAME, "User Profile Stories");
+        gaParams.put(Fields.EVENT_ACTION, "View");
+        gaParams.put(Fields.EVENT_CATEGORY, "User Profile Stories");
+        gaParams.put(Fields.EVENT_LABEL, "user/" + getUserId());
+        AnalyticsManager.getInstance().getGaTracker().send(gaParams);
     }
 
     @Override

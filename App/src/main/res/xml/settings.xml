@@ -9,7 +9,7 @@
 		    android:summary="Account Info"
 		    android:title="Account" />
 
-		<SwitchPreference
+		<CheckBoxPreference
 			android:key="setting_playing_music"
 			android:summary="@string/setting_playing_music_summary"
 			android:title="@string/setting_playing_music_title" />
@@ -31,7 +31,7 @@
 	<PreferenceCategory android:title="@string/setting_feedback" >
 
 		<Preference
-			android:key="setting_feedback_help"
+			android:key="setting_feedback_support"
 			android:summary="@string/setting_idea_help_summary"
 			android:title="@string/setting_idea_help_title" />
 

@@ -2,6 +2,7 @@ package com.lovingheart.app.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.view.MenuItemCompat;
 import android.util.Log;
 import android.view.*;
 import android.widget.AdapterView;
@@ -203,9 +204,9 @@ public class DeedIdeaListFragment extends PlaceholderFragment {
         if (menu != null) {
             MenuItem refreshItem = menu.findItem(R.id.action_reload);
             if (isLoading) {
-                refreshItem.setActionView(R.layout.indeterminate_progress_action);
+                MenuItemCompat.setActionView(refreshItem, R.layout.indeterminate_progress_action);
             } else {
-                refreshItem.setActionView(null);
+                MenuItemCompat.setActionView(refreshItem, null);
             }
         }
     }

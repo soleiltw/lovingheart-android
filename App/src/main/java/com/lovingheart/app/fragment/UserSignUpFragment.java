@@ -12,13 +12,14 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.google.analytics.tracking.android.Fields;
-import com.google.analytics.tracking.android.MapBuilder;
 import com.lovingheart.app.DailyKind;
 import com.lovingheart.app.R;
 import com.lovingheart.app.util.AnalyticsManager;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
+
+import java.util.HashMap;
 
 /**
  * Created by edward_chiang on 2014/1/2.
@@ -108,10 +109,12 @@ public class UserSignUpFragment extends PlaceholderFragment {
     @Override
     public void onStart() {
         super.onStart();
-        AnalyticsManager.getInstance().getGaTracker().send(
-                MapBuilder.createAppView().set(
-                        Fields.SCREEN_NAME, UserSignUpFragment.class.getName())
-                        .build());
+
+        HashMap<String, String> gaParams = new HashMap<String, String>();
+        gaParams.put(Fields.SCREEN_NAME, "User Sign Up");
+        gaParams.put(Fields.EVENT_ACTION, "View");
+        gaParams.put(Fields.EVENT_CATEGORY, "User Sign Up");
+        AnalyticsManager.getInstance().getGaTracker().send(gaParams);
     }
 
     @Override

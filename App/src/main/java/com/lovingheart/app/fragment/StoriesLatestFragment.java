@@ -4,13 +4,14 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import com.google.analytics.tracking.android.Fields;
-import com.google.analytics.tracking.android.MapBuilder;
 import com.lovingheart.app.DailyKind;
 import com.lovingheart.app.util.AnalyticsManager;
 import com.parse.CountCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+
+import java.util.HashMap;
 
 /**
  * Created by edward_chiang on 2014/1/10.
@@ -69,7 +70,11 @@ public class StoriesLatestFragment extends StoriesFeedsFragment {
     @Override
     public void onStart() {
         super.onStart();
-        AnalyticsManager.getInstance().getGaTracker().send(
-                MapBuilder.createAppView().set(Fields.SCREEN_NAME, StoriesLatestFragment.class.getName()).build());
+        HashMap<String, String> gaParams = new HashMap<String, String>();
+        gaParams.put(Fields.SCREEN_NAME, "Stories From Latest");
+        gaParams.put(Fields.EVENT_ACTION, "View");
+        gaParams.put(Fields.EVENT_CATEGORY, "Stories From Latest");
+        gaParams.put(Fields.EVENT_LABEL, "All");
+        AnalyticsManager.getInstance().getGaTracker().send(gaParams);
     }
 }

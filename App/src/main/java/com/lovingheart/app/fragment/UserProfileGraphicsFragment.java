@@ -1,12 +1,13 @@
 package com.lovingheart.app.fragment;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
 import com.google.analytics.tracking.android.Fields;
-import com.google.analytics.tracking.android.MapBuilder;
+import com.lovingheart.app.DailyKind;
 import com.lovingheart.app.R;
 import com.lovingheart.app.adapter.GalleryArrayAdapter;
 import com.lovingheart.app.object.Graphic;
@@ -15,6 +16,7 @@ import com.lovingheart.app.util.parse.ParseObjectManager;
 import com.parse.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -62,35 +64,36 @@ public class UserProfileGraphicsFragment extends UserProfileFragment {
 
         queryProfile(new GetCallback<ParseUser>() {
             @Override
-            public void done(ParseUser parseUser, ParseException e) {
-                if (parseUser != null) {
-                    queryGraphicEarned(parseUser, new FindCallback<ParseObject>() {
+            public void done(final ParseUser parseUser, ParseException e) {
+                if (parseUser != null && isAdded()) {
+                    Log.d(DailyKind.TAG, "Query User done.");
+                    queryGraphicEarned(parseUser, new GetCallback<ParseObject>() {
                         @Override
-                        public void done(List<ParseObject> parseObjects, ParseException e) {
+                        public void done(ParseObject parseObject, ParseException e) {
 
+                            emptyTextView.setVisibility(View.VISIBLE);
 
+                            if (parseObject!=null) {
+                                ParseRelation graphicsRelation = parseObject.getRelation("graphicsEarned");
+                                ParseQuery<ParseObject> graphicsEarnedQuery = graphicsRelation.getQuery();
+                                graphicsEarnedQuery.findInBackground(new FindCallback<ParseObject>() {
+                                    @Override
+                                    public void done(List<ParseObject> parseObjects, ParseException e) {
+                                        Log.d(DailyKind.TAG, "Query Graphic Earned done.");
 
-                            if (parseObjects!=null && !parseObjects.isEmpty()) {
-
-                                userGraphicsList.clear();
-                                for (ParseObject eachGraphicObject : parseObjects) {
-                                    Graphic graphic = new ParseObjectManager(eachGraphicObject).getGraphic();
-                                    userGraphicsList.add(graphic);
-                                }
-                                galleryArrayAdapter.notifyDataSetChanged();
-
-                                if (emptyTextView!=null){
-                                    emptyTextView.setVisibility(View.GONE);
-                                }
-
-                            } else {
-                                userGraphicsList.clear();
-                                galleryArrayAdapter.notifyDataSetChanged();
-
-                                if (emptyTextView!=null){
-                                    emptyTextView.setVisibility(View.VISIBLE);
-                                }
+                                        if (parseObjects != null && !parseObjects.isEmpty()) {
+                                            userGraphicsList.clear();
+                                            for (ParseObject eachGraphicObject : parseObjects) {
+                                                Graphic graphic = new ParseObjectManager(eachGraphicObject).getGraphic();
+                                                userGraphicsList.add(graphic);
+                                            }
+                                            galleryArrayAdapter.notifyDataSetChanged();
+                                            emptyTextView.setVisibility(View.GONE);
+                                        }
+                                    }
+                                });
                             }
+
                         }
                     });
                 }
@@ -101,8 +104,13 @@ public class UserProfileGraphicsFragment extends UserProfileFragment {
     @Override
     public void onStart() {
         super.onStart();
-        AnalyticsManager.getInstance().getGaTracker().send(
-                MapBuilder.createAppView().set(Fields.SCREEN_NAME, UserProfileGraphicsFragment.class.getName()).build());
+
+        HashMap<String, String> gaParams = new HashMap<String, String>();
+        gaParams.put(Fields.SCREEN_NAME, "User Profile Graphics");
+        gaParams.put(Fields.EVENT_ACTION, "View");
+        gaParams.put(Fields.EVENT_CATEGORY, "User Profile Graphics");
+        gaParams.put(Fields.EVENT_LABEL, "user/" + getUserId());
+        AnalyticsManager.getInstance().getGaTracker().send(gaParams);
     }
 
     @Override

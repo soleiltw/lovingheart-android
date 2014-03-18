@@ -3,12 +3,14 @@ package com.lovingheart.app.fragment;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
-import android.view.*;
+import android.view.LayoutInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.google.analytics.tracking.android.Fields;
-import com.google.analytics.tracking.android.MapBuilder;
 import com.lovingheart.app.DailyKind;
 import com.lovingheart.app.R;
 import com.lovingheart.app.adapter.PersonalReportAdapter;
@@ -24,6 +26,7 @@ import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -216,17 +219,26 @@ public class UserProfileBasicFragment extends UserProfileFragment {
                         }
                     }
                 });
-                queryGraphicEarned(parseUser, new FindCallback<ParseObject>() {
+                queryGraphicEarned(parseUser, new GetCallback<ParseObject>() {
                     @Override
-                    public void done(List<ParseObject> parseObjects, ParseException e) {
-                        if (parseObjects!=null && !parseObjects.isEmpty()) {
+                    public void done(ParseObject parseObject, ParseException e) {
+                        if (parseObject != null) {
+                            ParseRelation graphicsRelation = parseObject.getRelation("graphicsEarned");
+                            ParseQuery<ParseObject> graphicsEarnedQuery = graphicsRelation.getQuery();
+                            graphicsEarnedQuery.findInBackground(new FindCallback<ParseObject>() {
+                                @Override
+                                public void done(List<ParseObject> parseObjects, ParseException e) {
+                                    if (parseObjects != null && !parseObjects.isEmpty()) {
 
-                            graphicEarnedCountTextView.setText(String.valueOf(parseObjects.size()));
-                            userImpactInfo.setGraphicEarnedCount(parseObjects.size());
+                                        graphicEarnedCountTextView.setText(String.valueOf(parseObjects.size()));
+                                        userImpactInfo.setGraphicEarnedCount(parseObjects.size());
 
-                            updateUserImpact(userImpactInfo);
-                        } else {
-                            graphicEarnedCountTextView.setText(String.valueOf(0));
+                                        updateUserImpact(userImpactInfo);
+                                    } else {
+                                        graphicEarnedCountTextView.setText(String.valueOf(0));
+                                    }
+                                }
+                            });
                         }
                     }
                 });
@@ -293,8 +305,13 @@ public class UserProfileBasicFragment extends UserProfileFragment {
     @Override
     public void onStart() {
         super.onStart();
-        AnalyticsManager.getInstance().getGaTracker().send(
-                MapBuilder.createAppView().set(Fields.SCREEN_NAME, UserProfileBasicFragment.class.getName()).build());
+
+        HashMap<String, String> gaParams = new HashMap<String, String>();
+        gaParams.put(Fields.SCREEN_NAME, "User Profile Basic");
+        gaParams.put(Fields.EVENT_ACTION, "View");
+        gaParams.put(Fields.EVENT_CATEGORY, "User Profile Basic");
+        gaParams.put(Fields.EVENT_LABEL, "user/" +userId);
+        AnalyticsManager.getInstance().getGaTracker().send(gaParams);
     }
 
     @Override

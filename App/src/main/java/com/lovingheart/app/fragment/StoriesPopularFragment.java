@@ -3,13 +3,14 @@ package com.lovingheart.app.fragment;
 import android.os.Bundle;
 import android.util.Log;
 import com.google.analytics.tracking.android.Fields;
-import com.google.analytics.tracking.android.MapBuilder;
 import com.lovingheart.app.DailyKind;
 import com.lovingheart.app.util.AnalyticsManager;
 import com.parse.CountCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+
+import java.util.HashMap;
 
 /**
  * Created by edward_chiang on 2013/11/23.
@@ -60,7 +61,11 @@ public class StoriesPopularFragment extends StoriesFeedsFragment {
     @Override
     public void onStart() {
         super.onStart();
-        AnalyticsManager.getInstance().getGaTracker().send(
-                MapBuilder.createAppView().set(Fields.SCREEN_NAME, StoriesPopularFragment.class.getName()).build());
+        HashMap<String, String> gaParams = new HashMap<String, String>();
+        gaParams.put(Fields.SCREEN_NAME, "Stories From Popular");
+        gaParams.put(Fields.EVENT_ACTION, "View");
+        gaParams.put(Fields.EVENT_CATEGORY, "Stories From Popular");
+        gaParams.put(Fields.EVENT_LABEL, "All");
+        AnalyticsManager.getInstance().getGaTracker().send(gaParams);
     }
 }

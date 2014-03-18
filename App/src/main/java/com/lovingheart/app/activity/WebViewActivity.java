@@ -2,6 +2,7 @@ package com.lovingheart.app.activity;
 
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
@@ -80,9 +81,9 @@ public class WebViewActivity extends ActionBarActivity {
         if (menu != null) {
             MenuItem refreshItem = menu.findItem(R.id.action_reload);
             if (isLoading) {
-                refreshItem.setActionView(R.layout.indeterminate_progress_action);
+                MenuItemCompat.setActionView(refreshItem, R.layout.indeterminate_progress_action);
             } else {
-                refreshItem.setActionView(null);
+                MenuItemCompat.setActionView(refreshItem, null);
             }
         }
     }

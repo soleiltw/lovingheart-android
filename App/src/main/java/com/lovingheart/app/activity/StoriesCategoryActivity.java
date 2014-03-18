@@ -19,6 +19,8 @@ public class StoriesCategoryActivity extends ActionBarActivity {
 
     private String ideaId;
 
+    private ParseQuery<ParseObject> ideaQuery;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,7 +38,7 @@ public class StoriesCategoryActivity extends ActionBarActivity {
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
 
-        ParseQuery<ParseObject> ideaQuery = ParseQuery.getQuery("Idea");
+        ideaQuery = ParseQuery.getQuery("Idea");
         ideaQuery.whereEqualTo("objectId", ideaId);
 
         ideaQuery.getFirstInBackground(new GetCallback<ParseObject>() {
@@ -52,8 +54,6 @@ public class StoriesCategoryActivity extends ActionBarActivity {
                 }
             }
         });
-
-
     }
 
     @Override
@@ -65,6 +65,13 @@ public class StoriesCategoryActivity extends ActionBarActivity {
             }
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        ideaQuery.cancel();
+        ideaQuery = null;
     }
 
     @Override

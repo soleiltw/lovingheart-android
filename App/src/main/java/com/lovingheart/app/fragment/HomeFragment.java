@@ -1,6 +1,5 @@
 package com.lovingheart.app.fragment;
 
-import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -8,11 +7,13 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.view.MenuItemCompat;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.*;
 import android.widget.ProgressBar;
 import com.google.analytics.tracking.android.Fields;
-import com.google.analytics.tracking.android.MapBuilder;
 import com.lovingheart.app.DailyKind;
 import com.lovingheart.app.R;
 import com.lovingheart.app.activity.DeedCategoriesActivity;
@@ -23,6 +24,7 @@ import com.lovingheart.app.view.ExpandableListView;
 import com.parse.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -58,7 +60,7 @@ public class HomeFragment extends PlaceholderFragment {
 
         ideaObjectList = new ArrayList<IdeaObject>();
 
-        ActionBar actionBar = getActivity().getActionBar();
+        ActionBar actionBar = ((ActionBarActivity)getActivity()).getSupportActionBar();
         actionBar.setTitle(getString(R.string.title_today));
     }
 
@@ -128,9 +130,9 @@ public class HomeFragment extends PlaceholderFragment {
             MenuItem refreshItem = menu.findItem(R.id.action_reload);
             if (refreshItem != null) {
                 if (isLoading) {
-                    refreshItem.setActionView(R.layout.indeterminate_progress_action);
+                    MenuItemCompat.setActionView(refreshItem, R.layout.indeterminate_progress_action);
                 } else {
-                    refreshItem.setActionView(null);
+                    MenuItemCompat.setActionView(refreshItem, null);
                 }
             }
         }
@@ -255,7 +257,12 @@ public class HomeFragment extends PlaceholderFragment {
     @Override
     public void onStart() {
         super.onStart();
-        AnalyticsManager.getInstance().getGaTracker().send(
-                MapBuilder.createAppView().set(Fields.SCREEN_NAME, HomeFragment.class.getName()).build());
+
+        HashMap<String, String> gaParams = new HashMap<String, String>();
+        gaParams.put(Fields.SCREEN_NAME, "Home");
+        gaParams.put(Fields.EVENT_ACTION, "View");
+        gaParams.put(Fields.EVENT_CATEGORY, "Home");
+        gaParams.put(Fields.EVENT_LABEL, "All");
+        AnalyticsManager.getInstance().getGaTracker().send(gaParams);
     }
 }

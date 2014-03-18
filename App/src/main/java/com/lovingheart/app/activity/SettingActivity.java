@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.preference.*;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.Window;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.lovingheart.app.DailyKind;
 import com.lovingheart.app.R;
@@ -32,9 +33,11 @@ public class SettingActivity extends PreferenceActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        ActionBar actionBar = getActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setDisplayUseLogoEnabled(true);
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.HONEYCOMB) {
+            ActionBar actionBar = getActionBar();
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setDisplayUseLogoEnabled(true);
+        }
 
         addPreferencesFromResource(R.xml.settings);
 

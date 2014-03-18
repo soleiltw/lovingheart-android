@@ -135,7 +135,7 @@ public class StoryArrayAdapter extends ParseObjectsAdapter {
                     @Override
                     public void done(final ParseObject categoryObject, ParseException e) {
 
-                        if (categoryObject.has("Name")) {
+                        if (categoryObject!= null && categoryObject.has("Name")) {
                             viewHolder.categoryTextView.setText(categoryObject.getString("Name"));
 
                             viewHolder.categoryTextView.setOnClickListener(new View.OnClickListener() {

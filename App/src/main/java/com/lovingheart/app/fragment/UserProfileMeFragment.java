@@ -1,20 +1,21 @@
 package com.lovingheart.app.fragment;
 
-import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.google.analytics.tracking.android.Fields;
-import com.google.analytics.tracking.android.MapBuilder;
 import com.lovingheart.app.DailyKind;
 import com.lovingheart.app.R;
 import com.lovingheart.app.object.UserImpact;
 import com.lovingheart.app.util.AnalyticsManager;
 import com.lovingheart.app.util.CheckUserLoginUtil;
 import com.parse.*;
+
+import java.util.HashMap;
 
 /**
  * Created by edward_chiang on 2013/11/23.
@@ -33,7 +34,7 @@ public class UserProfileMeFragment extends UserProfileBasicFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        ActionBar actionBar = getActivity().getActionBar();
+        android.support.v7.app.ActionBar actionBar = ((ActionBarActivity)getActivity()).getSupportActionBar();
         actionBar.setTitle(getString(R.string.title_me));
     }
 
@@ -141,7 +142,11 @@ public class UserProfileMeFragment extends UserProfileBasicFragment {
     @Override
     public void onStart() {
         super.onStart();
-        AnalyticsManager.getInstance().getGaTracker().send(
-                MapBuilder.createAppView().set(Fields.SCREEN_NAME, UserProfileMeFragment.class.getName()).build());
+        HashMap<String, String> gaParams = new HashMap<String, String>();
+        gaParams.put(Fields.SCREEN_NAME, "User Profile Me");
+        gaParams.put(Fields.EVENT_ACTION, "View");
+        gaParams.put(Fields.EVENT_CATEGORY, "User Profile Me");
+        gaParams.put(Fields.EVENT_LABEL, "user/" + getUserId());
+        AnalyticsManager.getInstance().getGaTracker().send(gaParams);
     }
 }
