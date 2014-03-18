@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:bootstrapbutton="http://schemas.android.com/apk/res-auto"
+            android:orientation="vertical"
+            android:background="@color/theme_color_5"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+	<LinearLayout
+		android:padding="10dp"
+		android:orientation="vertical"
+		android:layout_width="fill_parent"
+		android:layout_height="fill_parent">
+
+		// Upgrade to Premium
+		<LinearLayout
+			android:padding="5dp"
+			android:orientation="vertical"
+			android:layout_gravity="center_horizontal"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content">
+
+			<TextView
+				android:text="@string/upgrade_premium_title"
+				android:textAppearance="?android:textAppearanceLarge"
+				android:textColor="@color/lovingheart_white"
+				android:layout_gravity="center"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"/>
+
+			<TextView
+
+				android:text="@string/upgrade_premium_description"
+				android:textAppearance="?android:textAppearanceMedium"
+				android:textColor="@color/lovingheart_white"
+				android:layout_gravity="center"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"/>
+
+		</LinearLayout>
+
+		<com.lovingheart.app.view.ExpandableListView
+			android:id="@+id/upgrade_to_premium_list_view"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content" />
+
+		<com.beardedhen.androidbootstrap.BootstrapButton
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_margin="10dp"
+			android:layout_gravity="center"
+			android:id="@+id/upgrade_monthly_billing_button"
+			android:text="/ 1 Month"
+			bootstrapbutton:bb_text_gravity="center"
+			bootstrapbutton:bb_roundedCorners="true"
+			bootstrapbutton:bb_type="warning" />
+
+		<com.beardedhen.androidbootstrap.BootstrapButton
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:layout_margin="10dp"
+			android:layout_gravity="center"
+			android:id="@+id/share_upgrade_monthly_billing_button"
+			android:text="@string/upgrade_to_premium_share_to"
+			android:visibility="gone"
+			bootstrapbutton:bb_text_gravity="center"
+			bootstrapbutton:bb_roundedCorners="true"
+			bootstrapbutton:bb_type="warning" />
+
+	</LinearLayout>
+</ScrollView>

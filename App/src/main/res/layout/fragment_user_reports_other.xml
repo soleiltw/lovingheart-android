@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:bootstrapbutton="http://schemas.android.com/apk/res-auto"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+	<LinearLayout
+		android:padding="5dp"
+		android:orientation="vertical"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content">
+
+	<LinearLayout
+		android:orientation="vertical"
+		android:layout_margin="5dp"
+		android:background="@drawable/layout_background_shadow"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content">
+
+		<LinearLayout
+			android:orientation="vertical"
+			android:padding="5dp"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content">
+
+			<LinearLayout
+				android:orientation="vertical"
+				android:padding="5dp"
+				android:background="@color/theme_color_4"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content">
+
+				<TextView
+					android:text="@string/user_profile_positive_energy_report_title"
+					android:textAppearance="?android:textAppearanceMedium"
+					android:textColor="@color/lovingheart_white"
+					android:layout_width="fill_parent"
+					android:layout_height="wrap_content"/>
+
+				<TextView
+					android:text="@string/user_profile_positive_energy_report_description"
+
+					android:textAppearance="?android:textAppearanceSmall"
+					android:textColor="@color/theme_color_3"
+					android:layout_width="fill_parent"
+					android:layout_height="wrap_content"/>
+
+			</LinearLayout>
+
+			<ProgressBar
+				android:id="@+id/loading_progress_bar"
+				android:visibility="gone"
+				android:layout_margin="5dp"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				style="?android:attr/progressBarStyleSmallInverse"
+				android:layout_gravity="center"/>
+
+			<LinearLayout
+				android:orientation="vertical"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content">
+			<TextView
+				android:padding="5dp"
+				android:id="@+id/premium_lock_text_view"
+				android:text="@string/premium_lock_view_by_self_text"
+				android:visibility="gone"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"/>
+
+			</LinearLayout>
+
+			<com.lovingheart.app.view.ExpandableListView
+				android:id="@+id/personal_report_list_view"
+				android:background="@color/lovingheart_white"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content" />
+
+			<LinearLayout
+				android:orientation="vertical"
+				android:padding="5dp"
+				android:background="@color/theme_color_3"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content">
+
+				<TextView
+					android:text="@string/user_profile_positive_energy_report_bottom"
+
+					android:textAppearance="?android:textAppearanceSmall"
+					android:textColor="@color/lovingheart_white"
+					android:layout_width="fill_parent"
+					android:layout_height="wrap_content"/>
+
+			</LinearLayout>
+
+		</LinearLayout>
+
+
+	</LinearLayout>
+
+		<LinearLayout
+			android:id="@+id/user_profile_billing_layout"
+			android:layout_gravity="center"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content">
+			<com.beardedhen.androidbootstrap.BootstrapButton
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:layout_margin="5dp"
+				android:text="Share"
+				android:layout_gravity="center"
+				android:id="@+id/user_profile_billing_button"
+				bootstrapbutton:bb_roundedCorners="true"
+				bootstrapbutton:bb_text_gravity="center"
+				bootstrapbutton:bb_type="warning" />
+
+		</LinearLayout>
+
+	</LinearLayout>
+
+</ScrollView>

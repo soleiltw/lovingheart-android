@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:bootstrapbutton="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+	<LinearLayout
+		android:layout_gravity="center_horizontal"
+		android:orientation="vertical"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content">
+
+	<com.beardedhen.androidbootstrap.BootstrapButton
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:layout_weight="1"
+		android:layout_margin="5dp"
+		android:text="@string/photo_picker_take_photo"
+		android:id="@+id/post_story_photo_taken_button"
+		bootstrapbutton:bb_roundedCorners="true"
+		bootstrapbutton:bb_icon_left="fa-camera"
+		bootstrapbutton:bb_type="primary" />
+
+	<com.beardedhen.androidbootstrap.BootstrapButton
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:layout_margin="5dp"
+		android:layout_weight="1"
+		android:text="@string/photo_picker_photo_library"
+		android:id="@+id/post_story_photo_picker_button"
+		bootstrapbutton:bb_icon_left="fa-picture-o"
+		bootstrapbutton:bb_roundedCorners="true"
+		bootstrapbutton:bb_type="primary" />
+
+	<com.beardedhen.androidbootstrap.BootstrapButton
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:layout_margin="5dp"
+		android:layout_weight="1"
+		android:text="@string/photo_picker_graphic_gallery"
+		android:id="@+id/post_story_photo_gallery_button"
+		bootstrapbutton:bb_icon_left="fa-th"
+		bootstrapbutton:bb_roundedCorners="true"
+		bootstrapbutton:bb_type="primary" />
+
+	</LinearLayout>
+
+</ScrollView>

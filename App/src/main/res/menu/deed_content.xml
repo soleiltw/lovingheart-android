@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:dailykind="http://schemas.android.com/apk/res-auto"
+	>
+	<item android:id="@+id/action_share"
+	      android:title="@string/menu_share_to_facebook"
+	      android:icon="@drawable/ic_action_share"
+	      android:orderInCategory="81"
+	      dailykind:showAsAction="never" />
+</menu>

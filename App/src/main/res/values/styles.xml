@@ -1,6 +1,25 @@
-<resources>
+<?xml version="1.0" encoding="utf-8"?>
+<!-- File created by the Android Action Bar Style Generator
 
-	<style name="AppTheme" parent="@style/Theme.AppCompat.Light.DarkActionBar">
+     Copyright (C) 2011 The Android Open Source Project
+     Copyright (C) 2012 readyState Software Ltd
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+  
+          http://www.apache.org/licenses/LICENSE-2.0
+  
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+	<style name="AppTheme" parent="@style/Theme.AppCompat.Light">
 		<item name="actionBarItemBackground">@drawable/selectable_background_lovingheart</item>
 		<item name="popupMenuStyle">@style/PopupMenu.Lovingheart</item>
 		<item name="dropDownListViewStyle">@style/DropDownListView.Lovingheart</item>
@@ -11,36 +30,59 @@
 		<item name="actionModeSplitBackground">@drawable/cab_background_bottom_lovingheart</item>
 		<item name="actionModeCloseButtonStyle">@style/ActionButton.CloseMode.Lovingheart</item>
 
-		<!-- Light.DarkActionBar specific -->
-		<item name="actionBarWidgetTheme">@style/Theme.Lovingheart.Widget</item>
-
+		<item name="vpiTabPageIndicatorStyle">@style/TabPageIndicator</item>
 	</style>
 
-	<style name="ActionBar.Solid.Lovingheart" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
+	<style name="TabPageIndicator" parent="Widget.TabPageIndicator">
+		<item name="android:background">@drawable/tab_indicator_ab_lovingheart</item>
+		<item name="android:textColor">@color/story_title_color</item>
+		<item name="android:textSize">14sp</item>
+		<item name="android:minWidth">100dp</item>
+		<item name="android:divider">@drawable/custom_tab_indicator_divider</item>
+		<item name="android:paddingLeft">8dp</item>
+		<item name="android:paddingRight">8dp</item>
+		<item name="android:showDividers" tools:ignore="NewApi">middle</item>
+		<item name="android:dividerPadding" tools:ignore="NewApi">10dp</item>
+		<item name="android:fadingEdge">horizontal</item>
+		<item name="android:fadingEdgeLength">8dp</item>'
+	</style>
+
+	<style name="MyTheme.ActionBar.TitleTextStyle" parent="@android:style/TextAppearance">
+		<item name="android:textColor">@color/lovingheart_white</item>
+	</style>
+
+	<style name="ActionBar.Solid.Lovingheart" parent="@style/Widget.AppCompat.Light.ActionBar.Solid">
+		<item name="android:titleTextStyle">@style/MyTheme.ActionBar.TitleTextStyle</item>
 		<item name="background">@drawable/ab_solid_lovingheart</item>
 		<item name="backgroundStacked">@drawable/ab_stacked_solid_lovingheart</item>
 		<item name="backgroundSplit">@drawable/ab_bottom_solid_lovingheart</item>
 		<item name="progressBarStyle">@style/ProgressBar.Lovingheart</item>
+
 	</style>
 
-	<style name="ActionBar.Transparent.Lovingheart" parent="@style/Widget.AppCompat.ActionBar">
+	<style name="MyTheme.Widget.AppCompat.ActionBar.TabBar.Text" parent="@style/Widget.AppCompat.Light.ActionBar.TabText">
+		<item name="android:textColor">@color/theme_color_1</item>
+	</style>
+
+	<style name="ActionBar.Transparent.Lovingheart" parent="@style/Widget.AppCompat.Light.ActionBar">
 		<item name="background">@drawable/ab_transparent_lovingheart</item>
 		<item name="progressBarStyle">@style/ProgressBar.Lovingheart</item>
 	</style>
 
-	<style name="PopupMenu.Lovingheart" parent="@style/Widget.AppCompat.PopupMenu">
+	<style name="PopupMenu.Lovingheart" parent="@style/Widget.AppCompat.Light.PopupMenu">
 		<item name="android:popupBackground">@drawable/menu_dropdown_panel_lovingheart</item>
 	</style>
 
-	<style name="DropDownListView.Lovingheart" parent="@style/Widget.AppCompat.ListView.DropDown">
+	<style name="DropDownListView.Lovingheart" parent="@style/Widget.AppCompat.Light.ListView.DropDown">
 		<item name="android:listSelector">@drawable/selectable_background_lovingheart</item>
 	</style>
 
-	<style name="ActionBarTabStyle.Lovingheart" parent="@style/Widget.AppCompat.ActionBar.TabView">
+	<style name="ActionBarTabStyle.Lovingheart" parent="@style/Widget.AppCompat.Light.ActionBar.TabView">
 		<item name="android:background">@drawable/tab_indicator_ab_lovingheart</item>
+		<item name="android:actionBarTabTextStyle">@style/MyTheme.Widget.AppCompat.ActionBar.TabBar.Text</item>
 	</style>
 
-	<style name="DropDownNav.Lovingheart" parent="@style/Widget.AppCompat.Spinner.DropDown.ActionBar">
+	<style name="DropDownNav.Lovingheart" parent="@style/Widget.AppCompat.Light.Spinner.DropDown.ActionBar">
 		<item name="android:background">@drawable/spinner_background_ab_lovingheart</item>
 		<item name="android:popupBackground">@drawable/menu_dropdown_panel_lovingheart</item>
 		<item name="android:dropDownSelector">@drawable/selectable_background_lovingheart</item>
@@ -50,7 +92,7 @@
 		<item name="android:progressDrawable">@drawable/progress_horizontal_lovingheart</item>
 	</style>
 
-	<style name="ActionButton.CloseMode.Lovingheart" parent="@style/Widget.AppCompat.ActionButton.CloseMode">
+	<style name="ActionButton.CloseMode.Lovingheart" parent="@style/Widget.AppCompat.Light.ActionButton.CloseMode">
 		<item name="android:background">@drawable/btn_cab_done_lovingheart</item>
 	</style>
 

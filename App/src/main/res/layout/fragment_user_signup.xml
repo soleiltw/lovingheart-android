@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:bootstrapbutton="http://schemas.android.com/apk/res-auto"
             android:orientation="vertical"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent">
@@ -12,6 +13,21 @@
 		android:layout_margin="10dp"
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content">
+
+		<LinearLayout
+			android:layout_marginTop="50dp"
+			android:layout_marginBottom="80dp"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content">
+
+			<TextView
+				android:text="LovingHeart"
+				android:textColor="@color/icon_red"
+				android:textStyle="bold"
+				android:textSize="44dp"
+				android:layout_width="wrap_content"
+				android:layout_height="fill_parent"/>
+		</LinearLayout>
 
 		<EditText
 			android:inputType="textEmailAddress"
@@ -58,17 +74,22 @@
 		<ProgressBar
 			android:id="@+id/user_signup_progressBar"
 			android:visibility="gone"
+			android:layout_margin="5dp"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			style="?android:attr/progressBarStyleSmall"
 			android:layout_centerVertical="true"
 			android:layout_toRightOf="@+id/home_good_deed_random_of_button"/>
 
-		<Button
-			android:text="Sign Up"
+		<com.beardedhen.androidbootstrap.BootstrapButton
+			android:text="@string/user_signup_sign_up"
+			bootstrapbutton:bb_text_gravity="center"
 			android:id="@+id/user_signup_button"
 			android:layout_width="fill_parent"
-			android:layout_height="wrap_content"/>
+			android:layout_height="wrap_content"
+			bootstrapbutton:bb_roundedCorners="true"
+			bootstrapbutton:bb_type="warning"
+			/>
 
 	</LinearLayout>
 </ScrollView>

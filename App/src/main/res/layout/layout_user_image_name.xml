@@ -15,16 +15,15 @@
 		android:background="@drawable/shape_round"
 		android:src="@drawable/ic_action_user"
 		android:id="@+id/user_avatar_image_view"
-		android:layout_margin="5dp"
 		android:layout_width="48dp"
 		android:layout_height="48dp"/>
 
 	<TextView
-		android:layout_width="wrap_content"
+		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
 		android:layout_gravity="center_vertical"
 		android:textAppearance="?android:attr/textAppearanceMedium"
-		android:hint="Name"
+		android:layout_marginLeft="5dp"
 		android:id="@+id/user_name_text_view"/>
 	</LinearLayout>
 </merge>

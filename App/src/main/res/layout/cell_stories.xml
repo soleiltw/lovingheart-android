@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content">
+
+	<LinearLayout
+		android:orientation="vertical"
+		android:layout_margin="5dp"
+		android:background="@drawable/layout_background_shadow"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content">
+
+		<LinearLayout
+			android:orientation="horizontal"
+			android:id="@+id/story_teller_content_layout"
+			android:padding="10dp"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content">
+
+			<include layout="@layout/layout_user_image_name" />
+
+		</LinearLayout>
+
+		<LinearLayout
+			android:orientation="vertical"
+			android:layout_marginLeft="10dp"
+			android:layout_marginRight="10dp"
+			android:layout_marginBottom="10dp"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content">
+
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:textAppearance="?android:textAppearanceMedium"
+				android:hint="Story"
+				android:id="@+id/story_content_text_view"/>
+
+			<include layout="@layout/layout_story_info_group" />
+
+			</LinearLayout>
+
+		<ImageView
+			android:layout_marginBottom="10dp"
+			android:background="@color/background_gray_color"
+			android:id="@+id/story_content_image_view"
+			android:minHeight="50dp"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"/>
+
+		<LinearLayout
+			android:id="@+id/story_idea_group_layout"
+			android:orientation="vertical"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content">
+			<LinearLayout
+				android:layout_marginTop="10dp"
+				android:background="@drawable/layout_background_shadow"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content">
+				<TextView
+					android:textColor="@color/lovingheart_white"
+					android:id="@+id/story_content_category_text_view"
+					android:background="@color/theme_color_2"
+					android:padding="5dp"
+					android:textAlignment="center"
+					android:textAppearance="?android:textAppearanceSmall"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"/>
+			</LinearLayout>
+
+			<LinearLayout
+				android:layout_margin="10dp"
+				android:orientation="vertical"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content">
+				<TextView
+					android:textAppearance="?android:textAppearanceMedium"
+					android:id="@+id/me_stories_last_share_inspired_from_text_view"
+					android:textColor="@color/story_text_color"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"/>
+
+			</LinearLayout>
+
+		</LinearLayout>
+
+
+	</LinearLayout>
+
+	<ImageView
+		android:layout_alignParentRight="true"
+		android:layout_margin="10dp"
+		android:visibility="invisible"
+		android:id="@+id/story_lock_image_view"
+		android:background="@color/background_gray_color"
+		android:src="@drawable/ic_action_lock_closed"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"/>
+
+
+
+</RelativeLayout>

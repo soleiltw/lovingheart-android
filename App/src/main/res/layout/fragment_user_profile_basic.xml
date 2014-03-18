@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+
+              android:id="@+id/user_profile_basic"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+	<ScrollView
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content">
+
+		<LinearLayout
+			android:orientation="vertical"
+			android:padding="5dp"
+			android:id="@+id/me_profile_layout"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content">
+
+			<LinearLayout
+				android:orientation="vertical"
+				android:padding="10dp"
+				android:layout_margin="5dp"
+				android:background="@drawable/layout_background_shadow"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content">
+
+				<include layout="@layout/layout_user_image_name" />
+
+
+
+			</LinearLayout>
+
+			<LinearLayout
+				android:orientation="vertical"
+				android:padding="10dp"
+				android:layout_margin="5dp"
+				android:background="@drawable/layout_background_shadow"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content">
+
+				<LinearLayout
+					android:layout_marginTop="5dp"
+					android:layout_marginBottom="5dp"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content">
+					<include layout="@layout/layout_user_impact_stat" />
+				</LinearLayout>
+
+				<TextView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:textAppearance="?android:attr/textAppearanceSmall"
+					android:hint="Since"
+					android:id="@+id/me_since_text_view"
+					android:layout_gravity="right"/>
+
+			</LinearLayout>
+
+		<LinearLayout
+			android:orientation="vertical"
+			android:padding="10dp"
+			android:layout_margin="5dp"
+			android:id="@+id/user_profile_about_layout"
+			android:background="@drawable/layout_background_shadow"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content">
+			<com.lovingheart.app.view.ExpandableListView
+				android:id="@+id/personal_about_list_view"
+				android:background="@color/lovingheart_white"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content" />
+		</LinearLayout>
+
+		</LinearLayout>
+	</ScrollView>
+</LinearLayout>

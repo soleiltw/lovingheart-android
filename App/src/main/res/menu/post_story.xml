@@ -4,6 +4,9 @@
       xmlns:dailykind="http://schemas.android.com/apk/res-auto">
 	<item android:id="@+id/action_post"
 	      android:title="@string/action_post"
+	      android:icon="@drawable/ic_action_send"
+	      android:visible="false"
 	      android:orderInCategory="80"
-	      dailykind:showAsAction="withText|ifRoom" />
+	      android:showAsAction="ifRoom"
+	      dailykind:showAsAction="ifRoom" />
 </menu>

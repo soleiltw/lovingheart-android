@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+	<PreferenceCategory android:title="@string/setting_setting" >
+
+		<Preference
+			android:key="setting_user_login"
+		    android:summary="Account Info"
+		    android:title="Account" />
+
+		<SwitchPreference
+			android:key="setting_playing_music"
+			android:summary="@string/setting_playing_music_summary"
+			android:title="@string/setting_playing_music_title" />
+
+	</PreferenceCategory>
+
+	<PreferenceCategory android:title="@string/setting_support_languages" >
+
+		<SwitchPreference
+			android:key="setting_support_english"
+		    android:summary="Display English Content"
+		    android:title="Support English" />
+
+		<SwitchPreference
+			android:key="setting_support_chinese"
+			android:summary="顯示中文內容"
+			android:title="支援中文" />
+
+	</PreferenceCategory>
+
+	<PreferenceCategory android:title="@string/setting_feedback" >
+
+		<Preference
+			android:key="setting_feedback_support"
+			android:summary="@string/setting_idea_help_summary"
+			android:title="@string/setting_idea_help_title" />
+
+	</PreferenceCategory>
+
+	<PreferenceCategory android:title="@string/setting_about" >
+
+		<Preference
+			android:key="setting_version_key"
+			android:summary="@string/setting_version_summary"
+			android:title="@string/setting_version_title" />
+
+		<Preference
+			android:key="setting_acknowledgement"
+			android:summary="@string/setting_acknowledgement_summary"
+			android:title="@string/setting_acknowledgement_title" />
+
+		<Preference
+			android:key="setting_terms_of_use"
+			android:summary="@string/setting_terms_of_use_summary"
+			android:title="@string/setting_terms_of_use_title" />
+
+		<Preference
+			android:key="setting_privacy_policy"
+			android:summary="@string/setting_privacy_policy_summary"
+			android:title="@string/setting_privacy_policy_title" />
+
+	</PreferenceCategory>
+
+</PreferenceScreen>

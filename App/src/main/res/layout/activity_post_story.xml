@@ -1,46 +1,102 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:bootstrapbutton="http://schemas.android.com/apk/res-auto"
               android:orientation="vertical"
               android:padding="5dp"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
 
-	<include
-		android:id="@+id/post_story_user_image_layout"
-		layout="@layout/layout_user_image" />
 
-	<LinearLayout android:layout_width="wrap_content"
+
+	<LinearLayout android:layout_width="fill_parent"
 	              android:layout_height="wrap_content"
 	              android:orientation="vertical"
 	              android:id="@+id/idea_linear_layout">
 
-		<EditText
-			android:minLines="5"
-			android:id="@+id/content_edit_text"
-			android:hint="How the story goes."
-			android:gravity="top"
-
+		<LinearLayout
+			android:orientation="horizontal"
 			android:layout_width="fill_parent"
-			android:layout_height="wrap_content"/>
+			android:layout_height="wrap_content">
 
-		<TextView
-			android:id="@+id/content_idea_number_text_view"
-			android:layout_width="fill_parent"
-			android:layout_margin="10dp"
-			android:textAppearance="?android:textAppearanceMedium"
-			android:hint="Inspired from"
-			android:layout_height="wrap_content"/>
+			<ImageView
+				android:background="@drawable/shape_round"
+				android:src="@drawable/ic_action_user"
+				android:id="@+id/user_avatar_image_view"
+				android:layout_margin="3dp"
+				android:layout_width="32dp"
+				android:layout_height="32dp"/>
 
-		<View android:layout_height="1dp"
-		      android:layout_width="fill_parent"
-		      android:background="#A6A6A6"
-		      android:layout_below="@+id/dish_upload_tags_text_view"
-		      android:layout_marginLeft="3dp"
-		      android:layout_marginRight="3dp"/>
+			<LinearLayout
+				android:id="@+id/loading_progress_layout"
+				android:visibility="gone"
+				android:layout_gravity="center"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content">
+				<include layout="@layout/indeterminate_progress_action" />
+			</LinearLayout>
+
+			<EditText
+				android:id="@+id/content_edit_text"
+				android:hint="How the story goes."
+				android:gravity="top"
+				android:inputType="textCapSentences|textMultiLine"
+				android:maxLength="200"
+				android:maxLines="4"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"/>
+
+		</LinearLayout>
 
 		<LinearLayout
-			android:layout_margin="10dp"
+			android:orientation="vertical"
+			android:layout_width="fill_parent"
+			android:gravity="right"
+			android:id="@+id/story_image_layout"
+			android:layout_height="wrap_content">
+
+			<ImageView
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:background="@color/theme_color_3"
+				android:scaleType="centerCrop"
+				android:id="@+id/story_content_image_view"
+				android:layout_gravity="center_horizontal"/>
+
+			<com.beardedhen.androidbootstrap.BootstrapButton
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_margin="8dp"
+				android:id="@+id/post_story_photo_picker_button"
+				bootstrapbutton:bb_icon_left="fa-camera"
+				bootstrapbutton:bb_type="primary" />
+
+		</LinearLayout>
+
+		<LinearLayout
+			android:id="@+id/content_idea_from_layout"
+			android:orientation="horizontal"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content">
+
+			<ImageView
+				android:src="@drawable/ic_action_bulb"
+				android:id="@+id/content_idea_from_image_view"
+				android:padding="3dp"
+				android:layout_width="38dp"
+				android:layout_height="38dp"/>
+
+			<AutoCompleteTextView
+				android:id="@+id/content_idea_from_text_view"
+				android:layout_width="fill_parent"
+				android:textAppearance="?android:textAppearanceMedium"
+				android:hint="Inspired from"
+				android:layout_height="wrap_content"/>
+
+		</LinearLayout>
+
+		<LinearLayout
+			android:id="@+id/content_location_area_layout"
 			android:orientation="horizontal"
 			android:layout_width="fill_parent"
 			android:layout_height="wrap_content">
@@ -65,7 +121,7 @@
 
 			<TextView
 				android:id="@+id/content_location_progress_text_view"
-				android:text="Loading location..."
+				android:text="@string/post_story_loading_location"
 				android:visibility="gone"
 
 				android:layout_gravity="center_vertical"
@@ -83,5 +139,54 @@
 
 		</LinearLayout>
 
+	<LinearLayout
+		android:id="@+id/content_language_area_layout"
+		android:orientation="horizontal"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content">
+
+		<ImageView
+			android:src="@drawable/ic_action_font_smaller"
+			android:id="@+id/content_language_area_image_view"
+			android:padding="3dp"
+			android:layout_width="38dp"
+			android:layout_height="38dp"/>
+
+		<Spinner
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:id="@+id/post_story_language_spinner" />
+
 	</LinearLayout>
-</LinearLayout>
+
+		<LinearLayout
+			android:orientation="horizontal"
+			android:id="@+id/post_story_lock_layout"
+			android:visibility="gone"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content">
+
+			<CheckBox
+				android:layout_marginLeft="15dp"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="Private Story"
+				android:id="@+id/post_story_lock_layout_checkBox"
+				android:layout_gravity="center_horizontal"/>
+
+		</LinearLayout>
+
+
+		<com.beardedhen.androidbootstrap.BootstrapButton
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:layout_margin="8dp"
+			android:text="@string/post_story_post"
+			android:layout_gravity="center"
+			android:id="@+id/post_story_submit_button"
+			bootstrapbutton:bb_text_gravity="center"
+			bootstrapbutton:bb_roundedCorners="true"
+			bootstrapbutton:bb_type="danger" />
+
+	</LinearLayout>
+</ScrollView>

@@ -1,1 +1,1 @@
-include ':App',':Facebook'
+include ':App',':Facebook', ':AndroidBootstrap', ':UserVoiceSDK', ':ViewPagerIndicator'

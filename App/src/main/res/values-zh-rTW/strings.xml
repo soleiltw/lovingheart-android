@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">LovingHeart</string>
+	<string name="app_id">778772072139128</string>
+    <string name="title_today">本日推薦</string>
+    <string name="title_me">成為會員</string>
+    <string name="title_latest_activities">最新故事</string>
+	<string name="title_popular_activities">熱門故事</string>
+	<string name="title_stories">分享的故事</string>
+    <string name="action_settings">設定</string>
+	<string name="action_login">登入</string>
+
+	<string name="action_nearby">附近</string>
+	<string name="action_post">張貼</string>
+	<string name="action_reload">重新整理</string>
+	<string name="button_done">完成</string>
+	<string name="action_ask_for_help">Ask for help</string>
+
+	<string name="story_upload_progress">記錄中...</string>
+	<string name="me_number_of_stories_shared">故事分享</string>
+	<string name="me_since_pre_text">自從</string>
+
+	<string name="deed_of_number_of_people_prefix">這張友善行動卡已經完成了</string>
+	<string name="deed_of_number_of_people_prefix_short">已經完成了</string>
+	<string name="deed_of_number_of_people_post_time">次</string>
+	<string name="deed_of_number_of_people_post_times">次</string>
+
+	<string name="action_facebook_login">Facebook 登入</string>
+	<string name="facebook_login_activity">Facebook 登入</string>
+	<string name="action_facebook_login_loading">Facebook 登入中...</string>
+	<string name="action_facebook_login_success">Facebook 登入成功</string>
+	<string name="action_username_login_success">登入成功</string>
+
+	<string name="space">&#160;</string>
+	<string name="comma">,</string>
+	<string name="deed_content_be_the_first_one">成為第一個</string>
+	<string name="user_login_login">登入</string>
+	
+	<string name="deed_content_done_credit">您還沒有完成這張友善行動卡噢！</string>
+	<string name="stories_last_share_content_text_prefix">最新分享</string>
+	<string name="stories_last_share_date_text_prefix">分享於</string>
+	<string name="stories_last_share_inspired_by_text_prefix">來自</string>
+
+	<string name="login_email_login_email_hint">Email</string>
+	<string name="login_email_login_password_hint">密碼</string>
+	<string name="login_email_login_password_confirm_hint">密碼確認</string>
+	<string name="action_login_form_validate_failure">Email 或者 password 輸入有誤</string>
+
+	<string name="signup_form_username">使用者名稱</string>
+	<string name="idea_caption_feature_idea">本日推薦行動卡</string>
+	<string name="idea_caption_special_idea">好手氣行動卡</string>
+
+	<string name="post_story_content_need_title">故事內容</string>
+	<string name="post_story_content_need_message">請輸入文字內容</string>
+
+	<string name="ask_login_dialog_message">在此之前，需要您先前往登入。</string>
+	
+	<!-- Settings -->
+	<string name="setting_setting">設定</string>
+	<string name="setting_user_login_account_ask_logout">登出</string>
+	<string name="setting_user_login_account_title">帳號</string>
+	<string name="semicolon">：</string>
+	<string name="setting_user_login_account_ask_login">登入</string>
+	<string name="setting_about">關於</string>
+	<string name="setting_support_languages">支援語系</string>
+	<string name="story_impact_views">觀看次數</string>
+
+
+	<string name="idea_cards_browse_more">觀看更多</string>
+	<string name="good_deed_content_remind_me">提醒</string>
+	<string name="good_deed_content_do_it_now">分享您的故事</string>
+	<string name="post_story_post">發佈</string>
+	<string name="me_graphic_gallery">相簿</string>
+	<string name="user_login_or">或</string>
+	<string name="user_login_not_a_member">今天起註冊開始記錄自己正向故事！</string>
+	<string name="user_login_sign_up">Email 註冊</string>
+	<string name="user_login_promise">我們不會未經您允許隨意發佈您的訊息到其他社交平台</string>
+	<string name="user_signup_sign_up">Email 註冊</string>
+	<string name="ask_login_get_your_profile">開始建立個人檔案！</string>
+	<string name="ask_login_take_me_login">前往登入</string>
+	<string name="setting_acknowledgement_summary">特別感謝社群大家的支持，在最最開始就支持我們。</string>
+	<string name="setting_acknowledgement_title">感謝名單</string>
+	<string name="post_story_pick_photo">選取圖片</string>
+	<string name="photo_picker_cancel">取消</string>
+	<string name="photo_picker_graphic_gallery">插畫藝廊</string>
+	<string name="photo_picker_photo_library">選自相簿</string>
+	<string name="photo_picker_take_photo">拍攝照片</string>
+
+	<!-- Activity -->
+	<string name="activity_settings">設定</string>
+	<string name="activity_story">故事</string>
+	<string name="activity_deed_content">日行一善</string>
+	<string name="activity_deed_category">友善行動卡</string>
+	<string name="activity_story_edit">故事編輯</string>
+	<string name="story_content_encourage_ratings">給予鼓勵</string>
+	<string name="submit">送出</string>
+	<string name="loading">請稍後</string>
+	<string name="story_content_story_impacts">影響度</string>
+	<string name="story_content_encourage_yet_empty">成為第一個鼓勵的！</string>
+	<string name="story_ratings_comment_hint">留言</string>
+	<string name="story_content_ask_login_dialog_message">給予鼓勵需要會員登入，帶您前往登入。</string>
+	<string name="idea_caption_latest_idea">最新推薦行動卡</string>
+
+	<string name="setting_version_summary">版本編號</string>
+	<string name="setting_version_title">版本</string>
+
+	<string name="go">前往</string>
+	<string name="cancel">取消</string>
+	<string name="location_area_name_from">來自</string>
+	<string name="story_content_push_give_prefix"> 給了 </string>
+	<string name="story_content_push_give_post"> 顆星，</string>
+	<string name="story_content_push_msg_prefix">說道</string>
+	<string name="story_content_push_msg_post">。</string>
+	<string name="story_content_delete">刪除</string>
+	<string name="story_content_delete_this_story">確定要刪除此篇記錄嗎？</string>
+	<string name="toast_error_message_try_again">沒有完成，稍後再試噢！</string>
+
+	<string name="setting_feedback">說明</string>
+	<string name="setting_bug_feedback_summary">使用上碰到問題？回報給我們。</string>
+	<string name="setting_bug_feedback_title">問題回報</string>
+
+	<string name="setting_idea_feedback_summary">和我們分享你的想法</string>
+	<string name="setting_idea_feedback_title">想法與建議</string>
+	<string name="user_profile_stories_list_header">分享故事</string>
+	<string name="user_profile_graphics_list_header">獲得的圖示</string>
+	<string name="activity_user_profile_label">個人檔案</string>
+	<string name="user_profile_graphics_empty_text">還沒獲得任何圖示</string>
+	<string name="user_profile_stories_empty_text">還沒分享任何故事</string>
+	<string name="post_story_photo_uploading">圖片上傳中</string>
+	<string name="setting_playing_music_summary">在資料回傳後播放音效</string>
+	<string name="setting_playing_music_title">播放音效</string>
+	<string name="user_profile_positive_energy_report_title">正向能量分析</string>
+	<string name="user_profile_positive_energy_report_description">透過故事的分享，讓人閱讀感動，給予回饋等等方面來做分析。</string>
+	<string name="user_profile_positive_energy_report_bottom">讓我們分享友善行動來讓世界變得更美好。</string>
+	<string name="idea_category_select_item_all">全部</string>
+
+	<string name="good_deed_content_stories">閱讀分享故事</string>
+
+	<string name="setting_privacy_policy_title">隱私條款</string>
+	<string name="setting_privacy_policy_summary">閱讀關於隱私條款。</string>
+	<string name="setting_idea_help_title">使用聲音</string>
+	<string name="setting_idea_help_summary">觀看說明文章、聯繫我們、或者回饋任何寶貴想法意見。</string>
+	<string name="upgrade_premium_title">升級到金級會員</string>
+	<string name="upgrade_premium_description">因為您將獲得以下專屬好處：</string>
+	<string name="upgrade_premium_energy_report">正向能量報告</string>
+	<string name="upgrade_premium_write_private">書寫私人故事</string>
+	<string name="upgrade_premium_monthly_button_unit">1 個月</string>
+	<string name="story_content_story_title_share">故事</string>
+	<string name="billing_upgrade_to_premium">升級成金級會員</string>
+	<string name="billing_premium_has_becom_member_thanks">您已經成為金級會員</string>
+	<string name="profile_tab_home">個人檔案</string>
+	<string name="profile_tab_stories">分享的故事</string>
+	<string name="profile_tab_collections">插畫收藏</string>
+	<string name="profile_tab_report">正向能量報告</string>
+	<string name="upgrade_premium_year_button_unit">1 年份</string>
+	<string name="premium_lock_view_by_self_text">升級到金級會員，觀看正向能量累積了多少。</string>
+	<string name="premium_lock_ask_part_1">讓</string>
+	<string name="premium_lock_ask_part_2">成為金級會員，來觀看正向能量報告。</string>
+	<string name="share_billing_push_message">希望能看到你的正向能量報告。</string>
+	<string name="upgrade_premium_no_add_network">支持沒有廣告的網路平台</string>
+	<string name="upgrade_to_premium_share_to">分享給</string>
+	<string name="share_billing_button_sent">送出完畢</string>
+	<string name="idea_content_org_list_title_text">號召的組織</string>
+	<string name="navigation_bottom_settings">設定</string>
+	<string name="navigation_bottom_getting_started">教學提示</string>
+	<string name="close">關閉</string>
+	<string name="getting_started_final_all_done">You are super!</string>
+	<string name="getting_started_final_almost_done">快要完成了。</string>
+
+	<string name="slash">/</string>
+
+	<string name="post_story_loading_location">載入地理資訊...</string>
+	<string name="navigation_drawer_open">打開</string>
+	<string name="navigation_drawer_close">關閉</string>
+	<string name="intent_share_story">Share Story</string>
+	<string name="menu_share_to_facebook">分享到 Facebook</string>
+	<string name="story_facebook_shared">故事分享完成</string>
+	<string name="facebook_share_name_idea_card">- 友善行動卡</string>
+
+	<string name="ok">確定</string>
+
+	<string name="setting_terms_of_use_summary">閱讀關於服務條款。</string>
+	<string name="setting_terms_of_use_title">服務條款</string>
+</resources>

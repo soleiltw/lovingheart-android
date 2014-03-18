@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+	<LinearLayout
+		android:orientation="vertical"
+		android:padding="5dp"
+		android:layout_margin="10dp"
+		android:background="@drawable/layout_background_shadow"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content">
+
+		<TextView
+			android:layout_margin="5dp"
+			android:id="@+id/user_profile_graphics_empty_text_view"
+			android:text="@string/user_profile_graphics_empty_text"
+			android:visibility="gone"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"/>
+
+		<GridView
+			android:id="@+id/me_graphic_gallery_grid_view"
+			android:background="@color/lovingheart_white"
+			android:padding="5dp"
+			android:horizontalSpacing="5dp"
+			android:verticalSpacing="5dp"
+			android:gravity="center"
+			android:layout_width="fill_parent"
+			android:layout_height="fill_parent" />
+
+		</LinearLayout>
+
+</LinearLayout>
