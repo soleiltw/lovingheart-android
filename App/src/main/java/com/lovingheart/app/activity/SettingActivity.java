@@ -9,12 +9,11 @@ import android.os.Bundle;
 import android.preference.*;
 import android.util.Log;
 import android.view.MenuItem;
-import android.view.Window;
+import com.facebook.Session;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.lovingheart.app.DailyKind;
 import com.lovingheart.app.R;
 import com.lovingheart.app.util.CheckUserLoginUtil;
-import com.facebook.Session;
 import com.parse.ParseUser;
 import com.uservoice.uservoicesdk.UserVoice;
 
@@ -146,6 +145,17 @@ public class SettingActivity extends PreferenceActivity {
                 webIntent.putExtra("webUrl", DailyKind.PRIVACY_POLICY_LINK);
                 startActivity(webIntent);
 
+                return true;
+            }
+        });
+
+        Preference termsOfUsePerference = findPreference("setting_terms_of_use");
+        termsOfUsePerference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                Intent webIntent = new Intent(getApplicationContext(), WebViewActivity.class);
+                webIntent.putExtra("webUrl", DailyKind.TERMS_OF_USE_LINK);
+                startActivity(webIntent);
                 return true;
             }
         });
