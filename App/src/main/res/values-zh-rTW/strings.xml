@@ -137,8 +137,8 @@
 
 	<string name="good_deed_content_stories">閱讀分享故事</string>
 
-	<string name="setting_privacy_policy_title">服務條款與隱私權政策</string>
-	<string name="setting_privacy_policy_summary">閱讀關於服務條款與隱私權政策。</string>
+	<string name="setting_privacy_policy_title">隱私條款</string>
+	<string name="setting_privacy_policy_summary">閱讀關於隱私條款。</string>
 	<string name="setting_idea_help_title">使用聲音</string>
 	<string name="setting_idea_help_summary">觀看說明文章、聯繫我們、或者回饋任何寶貴想法意見。</string>
 	<string name="upgrade_premium_title">升級到金級會員</string>
@@ -179,4 +179,7 @@
 	<string name="facebook_share_name_idea_card">- 友善行動卡</string>
 
 	<string name="ok">確定</string>
+
+	<string name="setting_terms_of_use_summary">閱讀關於服務條款。</string>
+	<string name="setting_terms_of_use_title">服務條款</string>
 </resources>

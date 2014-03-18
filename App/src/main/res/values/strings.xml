@@ -142,8 +142,8 @@
 
 	<string name="good_deed_content_stories">Shared Stories</string>
 	
-	<string name="setting_privacy_policy_title">Privacy Policy and Terms of Use</string>
-	<string name="setting_privacy_policy_summary">Read the privacy policy and terms of use.</string>
+	<string name="setting_privacy_policy_title">Privacy Policy</string>
+	<string name="setting_privacy_policy_summary">Read the privacy policy.</string>
 	<string name="setting_idea_help_title">Support</string>
 	<string name="setting_idea_help_summary">Read articles, contact us, or post your idea.</string>
 	<string name="upgrade_premium_title">Upgrade to Premium</string>
@@ -177,5 +177,8 @@
 	<string name="story_facebook_shared">Story published.</string>
 	<string name="facebook_share_name_idea_card">- Kindness Idea Card</string>
 	<string name="ok">OK</string>
+
+	<string name="setting_terms_of_use_summary">Read the terms of use.</string>
+	<string name="setting_terms_of_use_title">Terms of Use</string>
 
 </resources>

@@ -24,7 +24,9 @@ public class DailyKind {
 
     public static String ACKNOWLEDGEMENT_LINK = "http://support.lovingheartapp.com/knowledgebase/articles/333115-acknowledgement#anchor";
 
-    public static String PRIVACY_POLICY_LINK = "http://support.lovingheartapp.com/knowledgebase/articles/333113-privacy-policy-for-lovingheart-app#anchor";
+    public static String PRIVACY_POLICY_LINK = "http://support.lovingheartapp.com/knowledgebase/articles/333113-privacy-policy#anchor";
+
+    public static String TERMS_OF_USE_LINK = "http://support.lovingheartapp.com/knowledgebase/articles/334311-terms-and-conditions-of-use#anchor";
 
     public static final String PARSE_PREMIUM_NOCHECK = "nocheck";
 
