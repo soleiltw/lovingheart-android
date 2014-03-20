@@ -181,4 +181,8 @@
 	<string name="setting_terms_of_use_summary">Read the terms of use.</string>
 	<string name="setting_terms_of_use_title">Terms of Use</string>
 
+	<string name="get_involved_idea_cards_browse">Unlock one from Kindness Idea Cards</string>
+	<string name="graphic_picker_empty_text">You don\'t have any graphic yet, unlock one from kindness idea cards.</string>
+	<string name="post_story_hint">How the story goes.</string>
+
 </resources>

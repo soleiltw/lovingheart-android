@@ -15,6 +15,14 @@
 		style="?android:attr/progressBarStyleSmallInverse"
 		android:layout_gravity="center"/>
 
+	<TextView
+		android:id="@+id/layout_graphic_empty_text_view"
+		android:visibility="visible"
+		android:padding="10dp"
+		android:text="@string/graphic_picker_empty_text"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"/>
+
 	<com.lovingheart.app.view.ExpandableGridView
 		android:id="@+id/graphic_gallery_grid_view"
 		android:horizontalSpacing="5dp"

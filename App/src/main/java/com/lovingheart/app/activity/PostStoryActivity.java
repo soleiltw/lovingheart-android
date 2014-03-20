@@ -722,6 +722,8 @@ public class PostStoryActivity extends ActionBarActivity {
         graphicsEarnedQuery.getFirstInBackground(new GetCallback<ParseObject>() {
             @Override
             public void done(ParseObject parseObject, ParseException e) {
+                dialog.findViewById(R.id.layout_graphic_picker_progressbar).setVisibility(View.GONE);
+
                 if (parseObject!=null) {
                     ParseRelation graphicsRelation = parseObject.getRelation("graphicsEarned");
                     ParseQuery<ParseObject> graphicsEarnedQuery = graphicsRelation.getQuery();
@@ -729,7 +731,6 @@ public class PostStoryActivity extends ActionBarActivity {
                         @Override
                         public void done(List<ParseObject> parseObjects, ParseException e) {
 
-                            dialog.findViewById(R.id.layout_graphic_picker_progressbar).setVisibility(View.GONE);
                             if (parseObjects!=null && !parseObjects.isEmpty()) {
 
                                 userGraphicsList.clear();

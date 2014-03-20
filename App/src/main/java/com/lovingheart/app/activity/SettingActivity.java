@@ -32,7 +32,7 @@ public class SettingActivity extends PreferenceActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.HONEYCOMB) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
             ActionBar actionBar = getActionBar();
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setDisplayUseLogoEnabled(true);

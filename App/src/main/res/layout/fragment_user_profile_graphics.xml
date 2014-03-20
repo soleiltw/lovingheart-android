@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:bootstrapbutton="http://schemas.android.com/apk/res-auto"
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
@@ -10,7 +11,7 @@
 		android:padding="5dp"
 		android:layout_margin="10dp"
 		android:background="@drawable/layout_background_shadow"
-		android:layout_width="match_parent"
+		android:layout_width="fill_parent"
 		android:layout_height="wrap_content">
 
 		<TextView
@@ -20,6 +21,17 @@
 			android:visibility="gone"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"/>
+
+		<com.beardedhen.androidbootstrap.BootstrapButton
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_margin="8dp"
+			android:visibility="gone"
+			android:text="@string/get_involved_idea_cards_browse"
+			android:layout_gravity="center"
+			android:id="@+id/browse_idea_button"
+			bootstrapbutton:bb_icon_right="fa-chevron-circle-right"
+			bootstrapbutton:bb_type="danger" />
 
 		<GridView
 			android:id="@+id/me_graphic_gallery_grid_view"

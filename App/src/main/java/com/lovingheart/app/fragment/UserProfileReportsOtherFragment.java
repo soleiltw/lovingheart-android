@@ -141,9 +141,11 @@ public class UserProfileReportsOtherFragment extends UserProfileReportsFragment 
                                     getString(R.string.space) +
                                     parseUser.getString("name"));
 
+                            billingButton.setVisibility(View.VISIBLE);
                             premiumLockTextView.setVisibility(View.VISIBLE);
                         } else {
                             validPassShowReport(parseUser);
+                            billingButton.setVisibility(View.GONE);
                             premiumLockTextView.setVisibility(View.GONE);
                         }
                     }
