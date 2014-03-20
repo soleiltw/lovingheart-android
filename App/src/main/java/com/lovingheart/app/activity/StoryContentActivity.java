@@ -18,6 +18,7 @@ import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.facebook.FacebookException;
 import com.facebook.Session;
 import com.facebook.SessionState;
+import com.facebook.widget.LoginButton;
 import com.facebook.widget.WebDialog;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.lovingheart.app.DailyKind;
@@ -172,6 +173,8 @@ public class StoryContentActivity extends ActionBarActivity {
         else if (requestCode == ASK_USER_LOGIN && resultCode == RESULT_OK) {
             storyReviewSetup();
         }
+        Session.getActiveSession()
+                .onActivityResult(this, requestCode, resultCode, data);
     }
 
     private void loadRatings() {
@@ -466,7 +469,7 @@ public class StoryContentActivity extends ActionBarActivity {
                 facebookShareParams.putString("link", "http://tw.lovingheartapp.com");
                 facebookShareParams.putString("picture", imageUrl);
 
-                Session.openActiveSession(StoryContentActivity.this, true, new Session.StatusCallback() {
+                Session session = Session.openActiveSession(StoryContentActivity.this, true, new Session.StatusCallback() {
                     @Override
                     public void call(Session session, SessionState state, Exception exception) {
 
@@ -507,7 +510,15 @@ public class StoryContentActivity extends ActionBarActivity {
                         }
                     }
                 });
-
+                session.addCallback(new Session.StatusCallback() {
+                    @Override
+                    public void call(Session session, SessionState state, Exception exception) {
+                        if (state == SessionState.OPENING) {
+                            LoginButton loginButton = new LoginButton(StoryContentActivity.this);
+                            loginButton.performClick();
+                        }
+                    }
+                });
 
 
                 break;
