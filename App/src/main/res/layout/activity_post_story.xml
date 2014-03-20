@@ -38,7 +38,7 @@
 
 			<EditText
 				android:id="@+id/content_edit_text"
-				android:hint="How the story goes."
+				android:hint="@string/post_story_hint"
 				android:gravity="top"
 				android:inputType="textCapSentences|textMultiLine"
 				android:maxLength="200"

@@ -1,14 +1,17 @@
 package com.lovingheart.app.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
+import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.google.analytics.tracking.android.Fields;
 import com.lovingheart.app.DailyKind;
 import com.lovingheart.app.R;
+import com.lovingheart.app.activity.DeedCategoriesActivity;
 import com.lovingheart.app.adapter.GalleryArrayAdapter;
 import com.lovingheart.app.object.Graphic;
 import com.lovingheart.app.util.AnalyticsManager;
@@ -33,6 +36,8 @@ public class UserProfileGraphicsFragment extends UserProfileFragment {
 
     private View emptyTextView;
 
+    private BootstrapButton browseIdeaCardButton;
+
     public UserProfileGraphicsFragment() {
         super();
     }
@@ -55,6 +60,16 @@ public class UserProfileGraphicsFragment extends UserProfileFragment {
 
         emptyTextView = rootView.findViewById(com.lovingheart.app.R.id.user_profile_graphics_empty_text_view);
 
+        browseIdeaCardButton = (BootstrapButton)rootView.findViewById(R.id.browse_idea_button);
+
+        browseIdeaCardButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent deedCategoryListIntent = new Intent(getActivity(), DeedCategoriesActivity.class);
+                startActivity(deedCategoryListIntent);
+            }
+        });
+
         return rootView;
     }
 
@@ -72,6 +87,11 @@ public class UserProfileGraphicsFragment extends UserProfileFragment {
                         public void done(ParseObject parseObject, ParseException e) {
 
                             emptyTextView.setVisibility(View.VISIBLE);
+                            if (ParseUser.getCurrentUser() != null &&
+                                    ParseUser.getCurrentUser().isAuthenticated() &&
+                                    parseUser.getObjectId().equalsIgnoreCase(ParseUser.getCurrentUser().getObjectId())) {
+                                browseIdeaCardButton.setVisibility(View.VISIBLE);
+                            }
 
                             if (parseObject!=null) {
                                 ParseRelation graphicsRelation = parseObject.getRelation("graphicsEarned");
@@ -89,6 +109,7 @@ public class UserProfileGraphicsFragment extends UserProfileFragment {
                                             }
                                             galleryArrayAdapter.notifyDataSetChanged();
                                             emptyTextView.setVisibility(View.GONE);
+                                            browseIdeaCardButton.setVisibility(View.GONE);
                                         }
                                     }
                                 });

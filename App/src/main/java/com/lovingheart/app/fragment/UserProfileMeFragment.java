@@ -34,13 +34,28 @@ public class UserProfileMeFragment extends UserProfileBasicFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        android.support.v7.app.ActionBar actionBar = ((ActionBarActivity)getActivity()).getSupportActionBar();
-        actionBar.setTitle(getString(R.string.title_me));
+        if (getActivity()!= null) {
+            android.support.v7.app.ActionBar actionBar = ((ActionBarActivity) getActivity()).getSupportActionBar();
+            if (actionBar != null) {
+                actionBar.setTitle(getString(R.string.title_me));
+            }
+        }
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        ParseCloud.callFunctionInBackground("updateUserStoriesCount", new HashMap<String, Object>(), new FunctionCallback<String>() {
+            @Override
+            public void done(String result, ParseException e) {
+                if (e == null) {
+                    Log.d(DailyKind.TAG, "ParseCloud.updateUserStoriesCount: " + result);
+                } else {
+                    Log.e(DailyKind.TAG, "Error: " + e.getLocalizedMessage());
+                }
+            }
+        });
     }
 
     @Override
@@ -84,14 +99,14 @@ public class UserProfileMeFragment extends UserProfileBasicFragment {
                     if (userImpactInfo.getStarsReviewCount() > 0){
                         userImpactObject.put("reviewStarsImpact", userImpactInfo.getStarsReviewCount());
                     }
-                    userImpactObject.saveInBackground(new SaveCallback() {
-                        @Override
-                        public void done(ParseException e) {
-                            if  (e==null && getActivity()!=null) {
-                                Log.d(DailyKind.TAG, "User Impact report updated.");
-                            }
-                        }
-                    });
+//                    userImpactObject.saveInBackground(new SaveCallback() {
+//                        @Override
+//                        public void done(ParseException e) {
+//                            if  (e==null && getActivity()!=null) {
+//                                Log.d(DailyKind.TAG, "User Impact report updated.");
+//                            }
+//                        }
+//                    });
                 }
 
 
@@ -126,14 +141,14 @@ public class UserProfileMeFragment extends UserProfileBasicFragment {
                 if (userImpactInfo.getStarsReviewCount() > 0){
                     userImpactObject.put("reviewStarsImpact", userImpactInfo.getStarsReviewCount());
                 }
-                userImpactObject.saveInBackground(new SaveCallback() {
-                    @Override
-                    public void done(ParseException e) {
-                        if  (e==null && getActivity()!=null) {
-                            Log.d(DailyKind.TAG, "User Impact report updated.");
-                        }
-                    }
-                });
+//                userImpactObject.saveInBackground(new SaveCallback() {
+//                    @Override
+//                    public void done(ParseException e) {
+//                        if  (e==null && getActivity()!=null) {
+//                            Log.d(DailyKind.TAG, "User Impact report saved.");
+//                        }
+//                    }
+//                });
 
             }
         });

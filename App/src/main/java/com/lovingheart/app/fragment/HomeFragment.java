@@ -43,6 +43,8 @@ public class HomeFragment extends PlaceholderFragment {
 
     private List<IdeaObject> ideaObjectList;
 
+    private ParseQuery<ParseObject> todayIdeaQuery;
+
     public static HomeFragment newInstance(int sectionNumber) {
         HomeFragment fragment = new HomeFragment();
         Bundle args = new Bundle();
@@ -61,12 +63,16 @@ public class HomeFragment extends PlaceholderFragment {
         ideaObjectList = new ArrayList<IdeaObject>();
 
         ActionBar actionBar = ((ActionBarActivity)getActivity()).getSupportActionBar();
-        actionBar.setTitle(getString(R.string.title_today));
+        if (actionBar!=null) {
+            actionBar.setTitle(getString(R.string.title_today));
+        }
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        todayIdeaQuery = new ParseQuery<ParseObject>("Today");
 
         ideaObjectList.clear();
         ideaCardArrayAdapter.notifyDataSetChanged();
@@ -116,6 +122,8 @@ public class HomeFragment extends PlaceholderFragment {
                 ideaObjectList.clear();
                 ideaCardArrayAdapter.notifyDataSetChanged();
                 queryAllIdea();
+
+                todayIdeaQuery.clearCachedResult();
                 queryTodayIdea();
                 break;
             }
@@ -139,7 +147,6 @@ public class HomeFragment extends PlaceholderFragment {
     }
 
     private void queryTodayIdea() {
-        ParseQuery<ParseObject> todayIdeaQuery = new ParseQuery<ParseObject>("Today");
 
         ArrayList<String> stringCollection = new ArrayList<String>();
         stringCollection.add("Feature Idea");

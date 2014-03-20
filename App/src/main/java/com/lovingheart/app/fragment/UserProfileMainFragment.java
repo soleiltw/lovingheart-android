@@ -126,7 +126,7 @@ public class UserProfileMainFragment extends UserProfileFragment {
 
             switch (position) {
                 case VIEW_PAGER_BASIC:
-                    if (getUserId() == null) {
+                    if (getUserId() == null || getUserId().equalsIgnoreCase(ParseUser.getCurrentUser().getObjectId())) {
                         fragment = UserProfileMeFragment.newInstance(position + 1);
                     } else {
                         fragment = new UserProfileBasicFragment();
