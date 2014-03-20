@@ -52,8 +52,10 @@ public class StoriesFeedsFragment extends PlaceholderFragment {
 
         setHasOptionsMenu(true);
 
-        android.support.v7.app.ActionBar actionBar = ((ActionBarActivity)getActivity()).getSupportActionBar();
-        actionBar.setTitle(getString(R.string.title_stories));
+        if (getActivity()!= null) {
+            android.support.v7.app.ActionBar actionBar = ((ActionBarActivity) getActivity()).getSupportActionBar();
+            actionBar.setTitle(getString(R.string.title_stories));
+        }
     }
 
     @Override
