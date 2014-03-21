@@ -365,30 +365,32 @@ public class StoryContentActivity extends ActionBarActivity {
                         }
                     }
 
-                    final ImageView avatarImageView = (ImageView)findViewById(R.id.user_avatar_image_view);
-                    avatarImageView.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Intent userIntent = new Intent(getApplicationContext(), UserProfileActivity.class);
-                            userIntent.putExtra("userId", story.getStoryTeller().getObjectId());
-                            startActivity(userIntent);
-                        }
-                    });
-
-                    ParseObject avatarObject = story.getStoryTeller().getParseObject("avatar");
-                    if (avatarObject != null) {
-                        avatarObject.fetchIfNeededInBackground(new GetCallback<ParseObject>() {
+                    if (!isAnonymous) {
+                        final ImageView avatarImageView = (ImageView) findViewById(R.id.user_avatar_image_view);
+                        avatarImageView.setOnClickListener(new View.OnClickListener() {
                             @Override
-                            public void done(ParseObject parseObject, ParseException e) {
-                                if (parseObject.getString("imageType").equals("url") && !isAnonymous) {
-                                    Picasso.with(getApplicationContext())
-                                            .load(parseObject.getString("imageUrl"))
-                                            .transform(new CircleTransform())
-                                            .into(avatarImageView);
-                                }
-
+                            public void onClick(View v) {
+                                Intent userIntent = new Intent(getApplicationContext(), UserProfileActivity.class);
+                                userIntent.putExtra("userId", story.getStoryTeller().getObjectId());
+                                startActivity(userIntent);
                             }
                         });
+
+                        ParseObject avatarObject = story.getStoryTeller().getParseObject("avatar");
+                        if (avatarObject != null) {
+                            avatarObject.fetchIfNeededInBackground(new GetCallback<ParseObject>() {
+                                @Override
+                                public void done(ParseObject parseObject, ParseException e) {
+                                    if (parseObject.getString("imageType").equals("url") && !isAnonymous) {
+                                        Picasso.with(getApplicationContext())
+                                                .load(parseObject.getString("imageUrl"))
+                                                .transform(new CircleTransform())
+                                                .into(avatarImageView);
+                                    }
+
+                                }
+                            });
+                        }
                     }
 
                     // Check if have graphic
@@ -468,7 +470,11 @@ public class StoryContentActivity extends ActionBarActivity {
                 }
 
                 final Bundle facebookShareParams = new Bundle();
-                facebookShareParams.putString("name", story.getStoryTeller().getString("name"));
+                if (!isAnonymous) {
+                    facebookShareParams.putString("name", story.getStoryTeller().getString("name"));
+                } else {
+                    facebookShareParams.putString("name", getString(R.string.story_teller_anonymous));
+                }
                 facebookShareParams.putString("caption", storyObject.getString("Content"));
                 if (story.getIdea() != null) {
                     facebookShareParams.putString("description", story.getIdea().getName());

@@ -188,6 +188,6 @@
 	<string name="post_story_hint">How the story goes.</string>
 	<string name="story_teller_anonymous">Anonymous</string>
 	<string name="stories_empty_text">Cant\' find a story yet, be the first one.</string>
-	<string name="post_story_status_anonymous_share">Want to anonymous share</string>
+	<string name="post_story_status_anonymous_share">Anonymous share</string>
 
 </resources>
