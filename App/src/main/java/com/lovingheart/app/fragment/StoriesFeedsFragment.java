@@ -72,6 +72,10 @@ public class StoriesFeedsFragment extends PlaceholderFragment {
                 Intent storyContentIntent = new Intent(getActivity(), StoryContentActivity.class);
                 ParseObject activity = userActivities.get(position);
                 storyContentIntent.putExtra("objectId", activity.getObjectId());
+                boolean isAnonymous = activity.getString("status") != null && activity.getString("status").contains("anonymous");
+                if (isAnonymous) {
+                    storyContentIntent.putStringArrayListExtra("status", DailyKind.getAnonymousStoriesStatusList(getActivity()));
+                }
                 startActivity(storyContentIntent);
             }
         });
