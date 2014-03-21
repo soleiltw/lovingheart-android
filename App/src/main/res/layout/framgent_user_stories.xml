@@ -19,6 +19,7 @@
 		android:layout_margin="5dp"
 		android:id="@+id/user_profile_stories_empty_text_view"
 		android:text="@string/user_profile_stories_empty_text"
+		android:layout_gravity="center_horizontal"
 		android:visibility="gone"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"/>

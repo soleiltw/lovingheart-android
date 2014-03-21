@@ -512,6 +512,11 @@ public class PostStoryActivity extends ActionBarActivity {
             storyParseObject.setACL(parseACL);
         }
 
+        CheckBox anonymousCheckBox = (CheckBox)findViewById(R.id.post_story_status_anonymous_checkBox);
+        if (anonymousCheckBox.isChecked()) {
+            storyParseObject.put("status", "anonymous");
+        }
+
         storyParseObject.put("StoryTeller", ParseUser.getCurrentUser());
         storyParseObject.put("Content", contentEditText.getText().toString());
 
@@ -650,6 +655,10 @@ public class PostStoryActivity extends ActionBarActivity {
                     Intent storyIntent = new Intent(PostStoryActivity.this, StoryContentActivity.class);
                     storyIntent.putExtra("objectId", parseObject.getObjectId());
                     storyIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    CheckBox anonymousCheckBox = (CheckBox)findViewById(R.id.post_story_status_anonymous_checkBox);
+                    if (anonymousCheckBox.isChecked()) {
+                        storyIntent.putStringArrayListExtra("status", DailyKind.getAnonymousStoriesStatusList(getApplication()));
+                    }
                     startActivity(storyIntent);
                     finish();
                 } else {

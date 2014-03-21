@@ -28,11 +28,13 @@ public class StoriesFeedsFragment extends PlaceholderFragment {
 
     protected List<ParseObject> userActivities;
 
-    private StoryArrayAdapter storyArrayAdapter;
+    protected StoryArrayAdapter storyArrayAdapter;
 
     private Menu menu;
 
     private View loadingView;
+
+    protected View emptyTextView;
 
     public static StoriesFeedsFragment newInstance(int sectionNumber) {
         StoriesFeedsFragment fragment = new StoriesFeedsFragment();
@@ -83,6 +85,8 @@ public class StoriesFeedsFragment extends PlaceholderFragment {
         });
 
         loadingView = rootView.findViewById(R.id.loading_progress_bar);
+
+        emptyTextView = rootView.findViewById(R.id.stories_empty_text_view);
 
         return rootView;
     }
@@ -152,6 +156,12 @@ public class StoriesFeedsFragment extends PlaceholderFragment {
             public void done(List<ParseObject> parseObjects, ParseException e) {
 
                 if (parseObjects!=null) {
+
+                    if (parseObjects.isEmpty()) {
+                        emptyTextView.setVisibility(View.VISIBLE);
+                    } else {
+                        emptyTextView.setVisibility(View.GONE);
+                    }
 
                     boolean dataHasChange = false;
                     for (ParseObject eachParseObject : parseObjects) {

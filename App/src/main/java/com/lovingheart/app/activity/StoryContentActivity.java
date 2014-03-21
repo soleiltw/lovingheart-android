@@ -55,6 +55,8 @@ public class StoryContentActivity extends ActionBarActivity {
 
     private ImageView storyContentImageView;
 
+    private boolean isAnonymous;
+
     private int STORY_CONTENT_EDIT = 100;
     private int ASK_USER_LOGIN = 110;
 
@@ -85,6 +87,10 @@ public class StoryContentActivity extends ActionBarActivity {
 
         reviewList = new ArrayList<Review>();
         reviewArrayAdapter = new ReviewArrayAdapter(this, android.R.layout.simple_list_item_1, reviewList);
+
+        if (getIntent().getStringArrayListExtra("status") != null && getIntent().getStringArrayListExtra("status").contains("anonymous")) {
+            isAnonymous = true;
+        }
     }
 
     @Override
@@ -339,7 +345,11 @@ public class StoryContentActivity extends ActionBarActivity {
 
                     TextView userNameTextView = (TextView)findViewById(R.id.user_name_text_view);
                     if (story.getStoryTeller() != null) {
-                        userNameTextView.setText(story.getStoryTeller().getString("name"));
+                        if (!isAnonymous) {
+                            userNameTextView.setText(story.getStoryTeller().getString("name"));
+                        } else {
+                            userNameTextView.setText(getString(R.string.story_teller_anonymous));
+                        }
 
                         // Display edit button
                         if (ParseUser.getCurrentUser() != null &&
@@ -370,7 +380,7 @@ public class StoryContentActivity extends ActionBarActivity {
                         avatarObject.fetchIfNeededInBackground(new GetCallback<ParseObject>() {
                             @Override
                             public void done(ParseObject parseObject, ParseException e) {
-                                if (parseObject.getString("imageType").equals("url")) {
+                                if (parseObject.getString("imageType").equals("url") && !isAnonymous) {
                                     Picasso.with(getApplicationContext())
                                             .load(parseObject.getString("imageUrl"))
                                             .transform(new CircleTransform())

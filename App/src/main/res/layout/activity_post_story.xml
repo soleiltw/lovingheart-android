@@ -176,6 +176,21 @@
 
 		</LinearLayout>
 
+		<LinearLayout
+			android:orientation="horizontal"
+			android:id="@+id/post_story_status_layout"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content">
+
+			<CheckBox
+				android:layout_marginLeft="15dp"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="@string/post_story_status_anonymous_share"
+				android:id="@+id/post_story_status_anonymous_checkBox"
+				android:layout_gravity="center_horizontal"/>
+
+		</LinearLayout>
 
 		<com.beardedhen.androidbootstrap.BootstrapButton
 			android:layout_width="fill_parent"
