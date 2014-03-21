@@ -365,8 +365,9 @@ public class StoryContentActivity extends ActionBarActivity {
                         }
                     }
 
+                    final ImageView avatarImageView = (ImageView) findViewById(R.id.user_avatar_image_view);
+
                     if (!isAnonymous) {
-                        final ImageView avatarImageView = (ImageView) findViewById(R.id.user_avatar_image_view);
                         avatarImageView.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
@@ -391,6 +392,8 @@ public class StoryContentActivity extends ActionBarActivity {
                                 }
                             });
                         }
+                    } else {
+                        avatarImageView.setImageResource(R.drawable.ic_action_emo_cool);
                     }
 
                     // Check if have graphic

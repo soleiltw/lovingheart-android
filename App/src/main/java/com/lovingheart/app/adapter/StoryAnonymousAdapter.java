@@ -13,7 +13,6 @@ import android.widget.TextView;
 import com.lovingheart.app.DailyKind;
 import com.lovingheart.app.R;
 import com.lovingheart.app.activity.DeedContentActivity;
-import com.lovingheart.app.activity.UserProfileActivity;
 import com.lovingheart.app.object.Graphic;
 import com.lovingheart.app.object.Story;
 import com.lovingheart.app.object.User;
@@ -145,16 +144,7 @@ public class StoryAnonymousAdapter extends StoryArrayAdapter {
             );
         }
 
-        if (story.getStoryTeller()!= null) {
-            viewHolder.storyTellerImageView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent userIntent = new Intent(getContext(), UserProfileActivity.class);
-                    userIntent.putExtra("userId", story.getStoryTeller().getObjectId());
-                    getContext().startActivity(userIntent);
-                }
-            });
-        }
+        viewHolder.storyTellerImageView.setImageResource(R.drawable.ic_action_emo_cool);
 
         viewHolder.storyTellerTextView.setText(getContext().getString(R.string.story_teller_anonymous));
         viewHolder.storyContentTextView.setText(story.getContent());

@@ -170,7 +170,7 @@
 				android:layout_marginLeft="15dp"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:text="Private Story"
+				android:text="@string/post_story_status_private_story"
 				android:id="@+id/post_story_lock_layout_checkBox"
 				android:layout_gravity="center_horizontal"/>
 
