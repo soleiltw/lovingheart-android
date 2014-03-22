@@ -62,9 +62,11 @@ public class HomeFragment extends PlaceholderFragment {
 
         ideaObjectList = new ArrayList<IdeaObject>();
 
-        ActionBar actionBar = ((ActionBarActivity)getActivity()).getSupportActionBar();
-        if (actionBar!=null) {
-            actionBar.setTitle(getString(R.string.title_today));
+        if (getActivity()!=null) {
+            ActionBar actionBar = ((ActionBarActivity) getActivity()).getSupportActionBar();
+            if (actionBar != null) {
+                actionBar.setTitle(getString(R.string.title_today));
+            }
         }
     }
 

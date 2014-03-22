@@ -55,6 +55,8 @@ public class StoryContentActivity extends ActionBarActivity {
 
     private ImageView storyContentImageView;
 
+    private boolean isAnonymous;
+
     private int STORY_CONTENT_EDIT = 100;
     private int ASK_USER_LOGIN = 110;
 
@@ -85,6 +87,10 @@ public class StoryContentActivity extends ActionBarActivity {
 
         reviewList = new ArrayList<Review>();
         reviewArrayAdapter = new ReviewArrayAdapter(this, android.R.layout.simple_list_item_1, reviewList);
+
+        if (getIntent().getStringArrayListExtra("status") != null && getIntent().getStringArrayListExtra("status").contains("anonymous")) {
+            isAnonymous = true;
+        }
     }
 
     @Override
@@ -173,8 +179,10 @@ public class StoryContentActivity extends ActionBarActivity {
         else if (requestCode == ASK_USER_LOGIN && resultCode == RESULT_OK) {
             storyReviewSetup();
         }
-        Session.getActiveSession()
-                .onActivityResult(this, requestCode, resultCode, data);
+        if (this != null && data != null) {
+            Session.getActiveSession()
+                    .onActivityResult(this, requestCode, resultCode, data);
+        }
     }
 
     private void loadRatings() {
@@ -268,6 +276,7 @@ public class StoryContentActivity extends ActionBarActivity {
         storyQuery.include("graphicPointer");
         storyQuery.whereEqualTo("objectId", this.objectId);
         storyQuery.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
+        storyQuery.setMaxCacheAge(DailyKind.QUERY_AT_LEAST_CACHE_AGE);
         storyQuery.getFirstInBackground(new GetCallback<ParseObject>() {
             @Override
             public void done(final ParseObject parseObject, ParseException e) {
@@ -299,6 +308,7 @@ public class StoryContentActivity extends ActionBarActivity {
                             ParseQuery<ParseObject> categoryQuery = new ParseQuery<ParseObject>("Category");
                             categoryQuery.whereEqualTo("objectId", categoryObject.getObjectId());
                             categoryQuery.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
+                            categoryQuery.setMaxCacheAge(DailyKind.QUERY_AT_LEAST_CACHE_AGE);
                             categoryQuery.getFirstInBackground(new GetCallback<ParseObject>() {
                                 @Override
                                 public void done(ParseObject parseObject, ParseException e) {
@@ -339,7 +349,11 @@ public class StoryContentActivity extends ActionBarActivity {
 
                     TextView userNameTextView = (TextView)findViewById(R.id.user_name_text_view);
                     if (story.getStoryTeller() != null) {
-                        userNameTextView.setText(story.getStoryTeller().getString("name"));
+                        if (!isAnonymous) {
+                            userNameTextView.setText(story.getStoryTeller().getString("name"));
+                        } else {
+                            userNameTextView.setText(getString(R.string.story_teller_anonymous));
+                        }
 
                         // Display edit button
                         if (ParseUser.getCurrentUser() != null &&
@@ -355,30 +369,35 @@ public class StoryContentActivity extends ActionBarActivity {
                         }
                     }
 
-                    final ImageView avatarImageView = (ImageView)findViewById(R.id.user_avatar_image_view);
-                    avatarImageView.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Intent userIntent = new Intent(getApplicationContext(), UserProfileActivity.class);
-                            userIntent.putExtra("userId", story.getStoryTeller().getObjectId());
-                            startActivity(userIntent);
-                        }
-                    });
+                    final ImageView avatarImageView = (ImageView) findViewById(R.id.user_avatar_image_view);
 
-                    ParseObject avatarObject = story.getStoryTeller().getParseObject("avatar");
-                    if (avatarObject != null) {
-                        avatarObject.fetchIfNeededInBackground(new GetCallback<ParseObject>() {
+                    if (!isAnonymous) {
+                        avatarImageView.setOnClickListener(new View.OnClickListener() {
                             @Override
-                            public void done(ParseObject parseObject, ParseException e) {
-                                if (parseObject.getString("imageType").equals("url")) {
-                                    Picasso.with(getApplicationContext())
-                                            .load(parseObject.getString("imageUrl"))
-                                            .transform(new CircleTransform())
-                                            .into(avatarImageView);
-                                }
-
+                            public void onClick(View v) {
+                                Intent userIntent = new Intent(getApplicationContext(), UserProfileActivity.class);
+                                userIntent.putExtra("userId", story.getStoryTeller().getObjectId());
+                                startActivity(userIntent);
                             }
                         });
+
+                        ParseObject avatarObject = story.getStoryTeller().getParseObject("avatar");
+                        if (avatarObject != null) {
+                            avatarObject.fetchIfNeededInBackground(new GetCallback<ParseObject>() {
+                                @Override
+                                public void done(ParseObject parseObject, ParseException e) {
+                                    if (parseObject.getString("imageType").equals("url") && !isAnonymous) {
+                                        Picasso.with(getApplicationContext())
+                                                .load(parseObject.getString("imageUrl"))
+                                                .transform(new CircleTransform())
+                                                .into(avatarImageView);
+                                    }
+
+                                }
+                            });
+                        }
+                    } else {
+                        avatarImageView.setImageResource(R.drawable.ic_action_emo_cool);
                     }
 
                     // Check if have graphic
@@ -458,7 +477,11 @@ public class StoryContentActivity extends ActionBarActivity {
                 }
 
                 final Bundle facebookShareParams = new Bundle();
-                facebookShareParams.putString("name", story.getStoryTeller().getString("name"));
+                if (!isAnonymous) {
+                    facebookShareParams.putString("name", story.getStoryTeller().getString("name"));
+                } else {
+                    facebookShareParams.putString("name", getString(R.string.story_teller_anonymous));
+                }
                 facebookShareParams.putString("caption", storyObject.getString("Content"));
                 if (story.getIdea() != null) {
                     facebookShareParams.putString("description", story.getIdea().getName());

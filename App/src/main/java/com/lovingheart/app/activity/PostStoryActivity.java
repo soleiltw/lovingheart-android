@@ -512,6 +512,11 @@ public class PostStoryActivity extends ActionBarActivity {
             storyParseObject.setACL(parseACL);
         }
 
+        CheckBox anonymousCheckBox = (CheckBox)findViewById(R.id.post_story_status_anonymous_checkBox);
+        if (anonymousCheckBox.isChecked()) {
+            storyParseObject.put("status", "anonymous");
+        }
+
         storyParseObject.put("StoryTeller", ParseUser.getCurrentUser());
         storyParseObject.put("Content", contentEditText.getText().toString());
 
@@ -642,6 +647,11 @@ public class PostStoryActivity extends ActionBarActivity {
                     ParseObjectManager.userLogDone("C5d3t4JJXa");
                     ParseObjectManager.userLogDone("ZRk7j8kWE9");
 
+                    if (parseObject.has("status") && parseObject.getString("status").equalsIgnoreCase("anonymous")) {
+                        ParseObjectManager.userLogDone("czUsxAaERO");
+                        ParseObjectManager.userLogDone("iaJygtOs0N");
+                    }
+
                     ParseEventTrackingManager.event(ParseUser.getCurrentUser(), parseObject, ParseEventTrackingManager.ACTION_WRITE_STORY, 1);
 
                     if (storyPostingDialog.isShowing()) {
@@ -650,6 +660,10 @@ public class PostStoryActivity extends ActionBarActivity {
                     Intent storyIntent = new Intent(PostStoryActivity.this, StoryContentActivity.class);
                     storyIntent.putExtra("objectId", parseObject.getObjectId());
                     storyIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    CheckBox anonymousCheckBox = (CheckBox)findViewById(R.id.post_story_status_anonymous_checkBox);
+                    if (anonymousCheckBox.isChecked()) {
+                        storyIntent.putStringArrayListExtra("status", DailyKind.getAnonymousStoriesStatusList(getApplication()));
+                    }
                     startActivity(storyIntent);
                     finish();
                 } else {

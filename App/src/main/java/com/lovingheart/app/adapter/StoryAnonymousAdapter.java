@@ -13,25 +13,22 @@ import android.widget.TextView;
 import com.lovingheart.app.DailyKind;
 import com.lovingheart.app.R;
 import com.lovingheart.app.activity.DeedContentActivity;
-import com.lovingheart.app.activity.UserProfileActivity;
 import com.lovingheart.app.object.Graphic;
 import com.lovingheart.app.object.Story;
 import com.lovingheart.app.object.User;
-import com.lovingheart.app.util.CircleTransform;
 import com.lovingheart.app.util.parse.ParseObjectManager;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
-import com.squareup.picasso.Picasso;
 import org.ocpsoft.prettytime.PrettyTime;
 
 import java.util.Date;
 import java.util.List;
 
 /**
- * Created by edward_chiang on 2013/11/23.
+ * Created by edward_chiang on 2014/3/22.
  */
-public class StoryArrayAdapter extends ParseObjectsAdapter {
+public class StoryAnonymousAdapter extends StoryArrayAdapter {
 
     /**
      * Constructor
@@ -41,21 +38,8 @@ public class StoryArrayAdapter extends ParseObjectsAdapter {
      *                 instantiating views.
      * @param objects  The objects to represent in the ListView.
      */
-    public StoryArrayAdapter(Context context, int resource, List<ParseObject> objects) {
+    public StoryAnonymousAdapter(Context context, int resource, List<ParseObject> objects) {
         super(context, resource, objects);
-    }
-
-    protected static class ViewHolder {
-        public ImageView storyContentImageView;
-        public TextView locationAreaNameTextView;
-        public ImageView storyTellerImageView;
-        public TextView storyTellerTextView;
-        public TextView storyContentTextView;
-        public TextView createdAtTextView;
-        public ImageView storyLockedImageView;
-        public View ideaViewGroup;
-        public TextView inspiredFromTextView;
-        public TextView categoryTextView;
     }
 
     @Override
@@ -71,8 +55,6 @@ public class StoryArrayAdapter extends ParseObjectsAdapter {
             Graphic graphic = new ParseObjectManager(storyObject.getParseObject("graphicPointer")).getGraphic();
             story.setGraphic(graphic);
         }
-
-        boolean isAnonymous = storyObject.getString("status") != null && storyObject.getString("status").contains("anonymous");
 
 
         final ViewHolder viewHolder;
@@ -114,9 +96,6 @@ public class StoryArrayAdapter extends ParseObjectsAdapter {
             viewHolder.storyContentImageView.setVisibility(View.VISIBLE);
 
             loadStoryContentImageView(viewHolder, story, storyContentImageViewLayoutParams);
-            if (!isAnonymous) {
-                loadStoryTellerImageView(viewHolder, story);
-            }
 
             convertView.setTag(viewHolder);
         } else {
@@ -126,9 +105,6 @@ public class StoryArrayAdapter extends ParseObjectsAdapter {
 
             LinearLayout.LayoutParams storyContentImageViewLayoutParams = (LinearLayout.LayoutParams)viewHolder.storyContentImageView.getLayoutParams();
             loadStoryContentImageView(viewHolder, story, storyContentImageViewLayoutParams);
-            if (!isAnonymous) {
-                loadStoryTellerImageView(viewHolder, story);
-            }
         }
 
         if (storyObject.has("ideaPointer")) {
@@ -167,22 +143,10 @@ public class StoryArrayAdapter extends ParseObjectsAdapter {
                             story.getLocationAreaName()
             );
         }
-        if (story.getStoryTeller()!= null && !isAnonymous) {
-            viewHolder.storyTellerImageView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent userIntent = new Intent(getContext(), UserProfileActivity.class);
-                    userIntent.putExtra("userId", story.getStoryTeller().getObjectId());
-                    getContext().startActivity(userIntent);
-                }
-            });
 
-            viewHolder.storyTellerTextView.setText(user.getName());
-        } else {
-            viewHolder.storyTellerImageView.setImageResource(R.drawable.ic_action_emo_cool);
-            viewHolder.storyTellerTextView.setText(getContext().getString(R.string.story_teller_anonymous));
-        }
+        viewHolder.storyTellerImageView.setImageResource(R.drawable.ic_action_emo_cool);
 
+        viewHolder.storyTellerTextView.setText(getContext().getString(R.string.story_teller_anonymous));
         viewHolder.storyContentTextView.setText(story.getContent());
 
         PrettyTime prettyTime = new PrettyTime(new Date());
@@ -201,35 +165,4 @@ public class StoryArrayAdapter extends ParseObjectsAdapter {
         return convertView;
     }
 
-    protected void loadStoryContentImageView(ViewHolder viewHolder, Story story, LinearLayout.LayoutParams storyContentImageViewLayoutParams) {
-        if (story.getGraphic() !=null && story.getGraphic().getParseFileUrl() != null) {
-            Picasso.with(getContext())
-                    .load(story.getGraphic().getParseFileUrl())
-                    .placeholder(R.drawable.card_default)
-                    .resize(storyContentImageViewLayoutParams.width, storyContentImageViewLayoutParams.height)
-                    .centerCrop()
-                    .into(viewHolder.storyContentImageView);
-        } else {
-            viewHolder.storyContentImageView.setVisibility(View.GONE);
-        }
-    }
-
-    private void loadStoryTellerImageView(final ViewHolder viewHolder, Story story) {
-        viewHolder.storyTellerImageView.setImageResource(R.drawable.ic_action_user);
-        if (story.getStoryTeller() != null
-                && story.getStoryTeller().has("avatar") && story.getStoryTeller().getParseObject("avatar")!=null) {
-            story.getStoryTeller().getParseObject("avatar").fetchIfNeededInBackground(new GetCallback<ParseObject>() {
-                @Override
-                public void done(ParseObject parseObject, ParseException e) {
-                    if (parseObject != null) {
-                        Picasso.with(getContext())
-                                .load(parseObject.getString("imageUrl"))
-                                .placeholder(R.drawable.ic_action_user)
-                                .transform(new CircleTransform())
-                                .into(viewHolder.storyTellerImageView);
-                    }
-                }
-            });
-        }
-    }
 }

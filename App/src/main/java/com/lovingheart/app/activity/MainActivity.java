@@ -59,6 +59,10 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
 
     private Fragment fragment;
 
+    private static final int STORIES_LATEST_ACTIVITIES = 0;
+    private static final int STORIES_POPULAR_ACTIVITIES = 1;
+    private static final int STORIES_ANONYMOUS_ACTIVITIES = 2;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,7 +75,8 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
 
         storiesDropDownAdapter = new ArrayAdapter<String>(MainActivity.this, R.layout.navigation_spinner_item,
                 new String[]{getString(R.string.title_latest_activities),
-                        getString(R.string.title_popular_activities)
+                        getString(R.string.title_popular_activities),
+                        getString(R.string.title_anonymous_activities)
                 });
         storiesDropDownAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
@@ -273,14 +278,19 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
                         @Override
                         public boolean onNavigationItemSelected(int itemPosition, long itemId) {
                             switch (itemPosition) {
-                                case 0: {
+                                case STORIES_LATEST_ACTIVITIES: {
                                     FragmentManager fragmentManager = getSupportFragmentManager();
                                     fragmentManager.beginTransaction().replace(R.id.container, StoriesLatestFragment.newInstance(itemPosition + 1)).commit();
                                     break;
                                 }
-                                case 1: {
+                                case STORIES_POPULAR_ACTIVITIES: {
                                     FragmentManager fragmentManager = getSupportFragmentManager();
                                     fragmentManager.beginTransaction().replace(R.id.container, StoriesPopularFragment.newInstance(itemPosition + 1)).commit();
+                                    break;
+                                }
+                                case STORIES_ANONYMOUS_ACTIVITIES: {
+                                    FragmentManager fragmentManager = getSupportFragmentManager();
+                                    fragmentManager.beginTransaction().replace(R.id.container, StoriesAnonymousFragment.newInstance(itemPosition + 1)).commit();
                                     break;
                                 }
                             }

@@ -186,4 +186,10 @@
 	<string name="get_involved_idea_cards_browse">參與友善行動卡來獲得</string>
 	<string name="graphic_picker_empty_text">還沒有任何圖示噢，參加友善行動來得到吧！</string>
 	<string name="post_story_hint">述說生活故事</string>
+
+	<string name="title_anonymous_activities">匿名故事</string>
+	<string name="story_teller_anonymous">匿名分享</string>
+	<string name="stories_empty_text">還沒有任何分享故事，快來成為第一個吧！</string>
+	<string name="post_story_status_anonymous_share">想要匿名分享</string>
+	<string name="post_story_status_private_story">不公開的故事</string>
 </resources>

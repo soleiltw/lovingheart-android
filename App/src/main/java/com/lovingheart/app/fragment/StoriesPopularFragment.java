@@ -34,11 +34,16 @@ public class StoriesPopularFragment extends StoriesFeedsFragment {
         parseQuery.orderByDescending("reviewImpact");
         parseQuery.include("ideaPointer");
         parseQuery.include("graphicPointer");
+        parseQuery.whereNotContainedIn("status", DailyKind.getAnonymousStoriesStatusList(getActivity()));
+
         parseQuery.whereContainedIn("language", DailyKind.getLanguageCollection(getActivity()));
         parseQuery.setLimit(10);
         parseQuery.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
+        parseQuery.setMaxCacheAge(DailyKind.QUERY_AT_LEAST_CACHE_AGE);
         if (more) {
             ParseQuery queryStoriesCount = ParseQuery.getQuery("Story");
+            queryStoriesCount.whereNotContainedIn("status", DailyKind.getAnonymousStoriesStatusList(getActivity()));
+            parseQuery.whereContainedIn("language", DailyKind.getLanguageCollection(getActivity()));
             queryStoriesCount.countInBackground(new CountCallback() {
                 @Override
                 public void done(int totalCount, ParseException e) {

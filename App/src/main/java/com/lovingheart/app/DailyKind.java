@@ -38,6 +38,12 @@ public class DailyKind {
 
     public static final int PARSE_QUERY_LIMIT = 10;
 
+    public static ArrayList<String> getAnonymousStoriesStatusList(Context context) {
+        ArrayList<String> publicStatusCollection = new ArrayList<String>();
+        publicStatusCollection.add("anonymous");
+        return publicStatusCollection;
+    }
+
     public static ArrayList<String> getLanguageCollection(Context context) {
         ArrayList<String> languageCollection = new ArrayList<String>();
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);

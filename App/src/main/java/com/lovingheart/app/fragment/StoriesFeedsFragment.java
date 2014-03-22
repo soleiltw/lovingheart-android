@@ -28,11 +28,13 @@ public class StoriesFeedsFragment extends PlaceholderFragment {
 
     protected List<ParseObject> userActivities;
 
-    private StoryArrayAdapter storyArrayAdapter;
+    protected StoryArrayAdapter storyArrayAdapter;
 
     private Menu menu;
 
     private View loadingView;
+
+    protected View emptyTextView;
 
     public static StoriesFeedsFragment newInstance(int sectionNumber) {
         StoriesFeedsFragment fragment = new StoriesFeedsFragment();
@@ -52,8 +54,10 @@ public class StoriesFeedsFragment extends PlaceholderFragment {
 
         setHasOptionsMenu(true);
 
-        android.support.v7.app.ActionBar actionBar = ((ActionBarActivity)getActivity()).getSupportActionBar();
-        actionBar.setTitle(getString(R.string.title_stories));
+        if (getActivity()!= null) {
+            android.support.v7.app.ActionBar actionBar = ((ActionBarActivity) getActivity()).getSupportActionBar();
+            actionBar.setTitle(getString(R.string.title_stories));
+        }
     }
 
     @Override
@@ -68,6 +72,10 @@ public class StoriesFeedsFragment extends PlaceholderFragment {
                 Intent storyContentIntent = new Intent(getActivity(), StoryContentActivity.class);
                 ParseObject activity = userActivities.get(position);
                 storyContentIntent.putExtra("objectId", activity.getObjectId());
+                boolean isAnonymous = activity.getString("status") != null && activity.getString("status").contains("anonymous");
+                if (isAnonymous) {
+                    storyContentIntent.putStringArrayListExtra("status", DailyKind.getAnonymousStoriesStatusList(getActivity()));
+                }
                 startActivity(storyContentIntent);
             }
         });
@@ -81,6 +89,8 @@ public class StoriesFeedsFragment extends PlaceholderFragment {
         });
 
         loadingView = rootView.findViewById(R.id.loading_progress_bar);
+
+        emptyTextView = rootView.findViewById(R.id.stories_empty_text_view);
 
         return rootView;
     }
@@ -150,6 +160,12 @@ public class StoriesFeedsFragment extends PlaceholderFragment {
             public void done(List<ParseObject> parseObjects, ParseException e) {
 
                 if (parseObjects!=null) {
+
+                    if (parseObjects.isEmpty()) {
+                        emptyTextView.setVisibility(View.VISIBLE);
+                    } else {
+                        emptyTextView.setVisibility(View.GONE);
+                    }
 
                     boolean dataHasChange = false;
                     for (ParseObject eachParseObject : parseObjects) {

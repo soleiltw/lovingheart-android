@@ -17,6 +17,8 @@
 	<string name="button_done">Done</string>
 	<string name="action_ask_for_help">Ask for help</string>
 
+	<string name="title_anonymous_activities">Anonymous Stories</string>
+
 	<string name="story_upload_progress">Sending...</string>
 	<string name="me_number_of_stories_shared">stories shared.</string>
 	<string name="me_since_pre_text">Since</string>
@@ -184,5 +186,9 @@
 	<string name="get_involved_idea_cards_browse">Unlock one from Kindness Idea Cards</string>
 	<string name="graphic_picker_empty_text">You don\'t have any graphic yet, unlock one from kindness idea cards.</string>
 	<string name="post_story_hint">How the story goes.</string>
+	<string name="story_teller_anonymous">Anonymous</string>
+	<string name="stories_empty_text">Cant\' find a story yet, be the first one.</string>
+	<string name="post_story_status_anonymous_share">Anonymous share</string>
+	<string name="post_story_status_private_story">Private story</string>
 
 </resources>
