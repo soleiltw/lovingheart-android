@@ -95,6 +95,11 @@ public class UserProfileStoriesFragment extends UserProfileFragment {
                 Intent storyIntent = new Intent(getActivity(), StoryContentActivity.class);
                 storyIntent.putExtra("objectId", storyObject.getObjectId());
 
+                boolean isAnonymous = storyObject.getString("status") != null && storyObject.getString("status").contains("anonymous");
+                if (isAnonymous) {
+                    storyIntent.putStringArrayListExtra("status", DailyKind.getAnonymousStoriesStatusList(getActivity()));
+                }
+
                 getActivity().startActivity(storyIntent);
             }
         });
