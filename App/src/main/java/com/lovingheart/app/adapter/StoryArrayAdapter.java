@@ -72,6 +72,8 @@ public class StoryArrayAdapter extends ParseObjectsAdapter {
             story.setGraphic(graphic);
         }
 
+        boolean isAnonymous = storyObject.getString("status") != null && storyObject.getString("status").contains("anonymous");
+
 
         final ViewHolder viewHolder;
         if (convertView == null) {
@@ -112,7 +114,9 @@ public class StoryArrayAdapter extends ParseObjectsAdapter {
             viewHolder.storyContentImageView.setVisibility(View.VISIBLE);
 
             loadStoryContentImageView(viewHolder, story, storyContentImageViewLayoutParams);
-            loadStoryTellerImageView(viewHolder, story);
+            if (!isAnonymous) {
+                loadStoryTellerImageView(viewHolder, story);
+            }
 
             convertView.setTag(viewHolder);
         } else {
@@ -122,7 +126,9 @@ public class StoryArrayAdapter extends ParseObjectsAdapter {
 
             LinearLayout.LayoutParams storyContentImageViewLayoutParams = (LinearLayout.LayoutParams)viewHolder.storyContentImageView.getLayoutParams();
             loadStoryContentImageView(viewHolder, story, storyContentImageViewLayoutParams);
-            loadStoryTellerImageView(viewHolder, story);
+            if (!isAnonymous) {
+                loadStoryTellerImageView(viewHolder, story);
+            }
         }
 
         if (storyObject.has("ideaPointer")) {
@@ -161,8 +167,7 @@ public class StoryArrayAdapter extends ParseObjectsAdapter {
                             story.getLocationAreaName()
             );
         }
-
-        if (story.getStoryTeller()!= null) {
+        if (story.getStoryTeller()!= null && !isAnonymous) {
             viewHolder.storyTellerImageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -171,9 +176,13 @@ public class StoryArrayAdapter extends ParseObjectsAdapter {
                     getContext().startActivity(userIntent);
                 }
             });
+
+            viewHolder.storyTellerTextView.setText(user.getName());
+        } else {
+            viewHolder.storyTellerImageView.setImageResource(R.drawable.ic_action_emo_cool);
+            viewHolder.storyTellerTextView.setText(getContext().getString(R.string.story_teller_anonymous));
         }
 
-        viewHolder.storyTellerTextView.setText(user.getName());
         viewHolder.storyContentTextView.setText(story.getContent());
 
         PrettyTime prettyTime = new PrettyTime(new Date());

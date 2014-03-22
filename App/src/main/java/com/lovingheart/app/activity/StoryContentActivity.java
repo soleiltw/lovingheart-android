@@ -179,8 +179,10 @@ public class StoryContentActivity extends ActionBarActivity {
         else if (requestCode == ASK_USER_LOGIN && resultCode == RESULT_OK) {
             storyReviewSetup();
         }
-        Session.getActiveSession()
-                .onActivityResult(this, requestCode, resultCode, data);
+        if (this != null && data != null) {
+            Session.getActiveSession()
+                    .onActivityResult(this, requestCode, resultCode, data);
+        }
     }
 
     private void loadRatings() {
@@ -274,6 +276,7 @@ public class StoryContentActivity extends ActionBarActivity {
         storyQuery.include("graphicPointer");
         storyQuery.whereEqualTo("objectId", this.objectId);
         storyQuery.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
+        storyQuery.setMaxCacheAge(DailyKind.QUERY_AT_LEAST_CACHE_AGE);
         storyQuery.getFirstInBackground(new GetCallback<ParseObject>() {
             @Override
             public void done(final ParseObject parseObject, ParseException e) {
@@ -305,6 +308,7 @@ public class StoryContentActivity extends ActionBarActivity {
                             ParseQuery<ParseObject> categoryQuery = new ParseQuery<ParseObject>("Category");
                             categoryQuery.whereEqualTo("objectId", categoryObject.getObjectId());
                             categoryQuery.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
+                            categoryQuery.setMaxCacheAge(DailyKind.QUERY_AT_LEAST_CACHE_AGE);
                             categoryQuery.getFirstInBackground(new GetCallback<ParseObject>() {
                                 @Override
                                 public void done(ParseObject parseObject, ParseException e) {
