@@ -179,8 +179,10 @@ public class StoryContentActivity extends ActionBarActivity {
         else if (requestCode == ASK_USER_LOGIN && resultCode == RESULT_OK) {
             storyReviewSetup();
         }
-        Session.getActiveSession()
-                .onActivityResult(this, requestCode, resultCode, data);
+        if (this != null && data != null) {
+            Session.getActiveSession()
+                    .onActivityResult(this, requestCode, resultCode, data);
+        }
     }
 
     private void loadRatings() {

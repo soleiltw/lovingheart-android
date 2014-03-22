@@ -647,6 +647,11 @@ public class PostStoryActivity extends ActionBarActivity {
                     ParseObjectManager.userLogDone("C5d3t4JJXa");
                     ParseObjectManager.userLogDone("ZRk7j8kWE9");
 
+                    if (parseObject.has("status") && parseObject.getString("status").equalsIgnoreCase("anonymous")) {
+                        ParseObjectManager.userLogDone("czUsxAaERO");
+                        ParseObjectManager.userLogDone("iaJygtOs0N");
+                    }
+
                     ParseEventTrackingManager.event(ParseUser.getCurrentUser(), parseObject, ParseEventTrackingManager.ACTION_WRITE_STORY, 1);
 
                     if (storyPostingDialog.isShowing()) {

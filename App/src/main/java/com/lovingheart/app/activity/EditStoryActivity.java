@@ -40,6 +40,8 @@ public class EditStoryActivity extends PostStoryActivity {
         findViewById(R.id.loading_progress_layout).setVisibility(View.VISIBLE);
         findViewById(R.id.content_edit_text).setVisibility(View.GONE);
 
+        findViewById(R.id.post_story_status_anonymous_checkBox).setVisibility(View.GONE);
+
         ParseQuery<ParseObject> storyQuery = new ParseQuery<ParseObject>("Story");
         storyQuery.whereEqualTo("objectId", story.getObjectId());
         storyQuery.include("ideaPointer");
