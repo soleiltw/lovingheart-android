@@ -180,7 +180,7 @@ public class GettingStartedFragment extends PlaceholderFragment {
 
                         if (doneCount > 0) {
 
-                            if (doneCount >= gettingObjects.size()) {
+                            if (doneCount >= gettingObjects.size() && isAdded()) {
                                 View textViewContent = getActivity().getLayoutInflater().inflate(R.layout.layout_textview, null);
                                 TextView congraTextView = (TextView)textViewContent.findViewById(R.id.textview);
 
