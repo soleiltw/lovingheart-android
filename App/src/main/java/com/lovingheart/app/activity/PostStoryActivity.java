@@ -125,7 +125,7 @@ public class PostStoryActivity extends ActionBarActivity {
                     @Override
                     public void done(ParseObject parseObject, ParseException e) {
                         Picasso.with(getApplicationContext())
-                                .load(parseObject.getString("imageUrl"))
+                                .load(DailyKind.replaceHTTPSFacebookUrl(parseObject.getString("imageUrl")))
                                 .placeholder(R.drawable.ic_action_user)
                                 .transform(new CircleTransform())
                                 .into(storyTellerImageView);
