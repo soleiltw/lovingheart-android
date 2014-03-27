@@ -5,6 +5,8 @@ import com.crashlytics.android.Crashlytics;
 import com.lovingheart.app.activity.MainActivity;
 import com.lovingheart.app.util.AnalyticsManager;
 import com.lovingheart.app.util.parse.ParseObjectManager;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.parse.*;
 import com.uservoice.uservoicesdk.Config;
 import com.uservoice.uservoicesdk.UserVoice;
@@ -28,6 +30,10 @@ public class MainApplication extends Application {
 
         // GA
         AnalyticsManager.getInstance().Initialize(getApplicationContext());
+
+        ImageLoaderConfiguration imageLoaderConfiguration = new ImageLoaderConfiguration.Builder(getApplicationContext())
+            .build();
+        ImageLoader.getInstance().init(imageLoaderConfiguration);
 
         // Parse
         Parse.initialize(this, ParseSettings.PARSE_API_TOKEN, ParseSettings.PARSE_API_TOKEN_2);
