@@ -378,6 +378,16 @@ public class DeedContentActivity extends ActionBarActivity {
                                 .placeholder(R.drawable.card_default)
                                 .resize(contentImageViewLayoutParams.width, contentImageViewLayoutParams.height)
                                 .into(contentImageView);
+
+                        contentImageView.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent imageIntent = new Intent(DeedContentActivity.this, ImageViewActivity.class);
+                                imageIntent.putExtra("imageUrl", idea.getGraphic().getParseFileUrl());
+                                startActivity(imageIntent);
+                            }
+                        });
+
                         loadCheckIfEarnedGraphic(ideaParseObject);
 
 
