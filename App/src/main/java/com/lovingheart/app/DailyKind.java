@@ -38,6 +38,11 @@ public class DailyKind {
 
     public static final int PARSE_QUERY_LIMIT = 10;
 
+    public static String replaceHTTPSFacebookUrl(String oldUrl) {
+
+        return oldUrl.replace("http://graph.facebook.com", "https://graph.facebook.com");
+    }
+
     public static ArrayList<String> getAnonymousStoriesStatusList(Context context) {
         ArrayList<String> publicStatusCollection = new ArrayList<String>();
         publicStatusCollection.add("anonymous");

@@ -95,28 +95,6 @@ public class StoryArrayAdapter extends ParseObjectsAdapter {
             Log.d(DailyKind.TAG, "Story width: " + convertView.getWidth());
 
             Log.d(DailyKind.TAG, "ListView-rec Create new one at " + position);
-            int layoutWidth = convertView.getWidth();
-            LinearLayout.LayoutParams storyContentImageViewLayoutParams = (LinearLayout.LayoutParams)viewHolder.storyContentImageView.getLayoutParams();
-
-            if (layoutWidth > 0) {
-                // We make it as screen width
-                storyContentImageViewLayoutParams.width = layoutWidth;
-                storyContentImageViewLayoutParams.height = layoutWidth;
-
-                notifyDataSetChanged();
-            } else {
-                DisplayMetrics displayMetrics = getContext().getResources().getDisplayMetrics();
-                // We make it as screen width
-                storyContentImageViewLayoutParams.width = displayMetrics.widthPixels;
-                storyContentImageViewLayoutParams.height = displayMetrics.widthPixels;
-            }
-            viewHolder.storyContentImageView.requestLayout();
-            viewHolder.storyContentImageView.setVisibility(View.VISIBLE);
-
-            loadStoryContentImageView(viewHolder, story, storyContentImageViewLayoutParams);
-            if (!isAnonymous) {
-                loadStoryTellerImageView(viewHolder, story);
-            }
 
             convertView.setTag(viewHolder);
         } else {
@@ -124,12 +102,34 @@ public class StoryArrayAdapter extends ParseObjectsAdapter {
 
             Log.d(DailyKind.TAG, "ListView-rec Reuse one at " + position);
 
-            LinearLayout.LayoutParams storyContentImageViewLayoutParams = (LinearLayout.LayoutParams)viewHolder.storyContentImageView.getLayoutParams();
-            loadStoryContentImageView(viewHolder, story, storyContentImageViewLayoutParams);
-            if (!isAnonymous) {
-                loadStoryTellerImageView(viewHolder, story);
-            }
+
         }
+
+        if (!isAnonymous) {
+            loadStoryTellerImageView(viewHolder, story);
+        }
+
+        int layoutWidth = convertView.getWidth();
+        LinearLayout.LayoutParams storyContentImageViewLayoutParams = (LinearLayout.LayoutParams)viewHolder.storyContentImageView.getLayoutParams();
+
+        if (layoutWidth > 0) {
+            // We make it as screen width
+            storyContentImageViewLayoutParams.width = layoutWidth;
+            storyContentImageViewLayoutParams.height = layoutWidth;
+
+            notifyDataSetChanged();
+        } else {
+            DisplayMetrics displayMetrics = getContext().getResources().getDisplayMetrics();
+            // We make it as screen width
+            storyContentImageViewLayoutParams.width = displayMetrics.widthPixels;
+            storyContentImageViewLayoutParams.height = displayMetrics.widthPixels;
+        }
+        viewHolder.storyContentImageView.requestLayout();
+        viewHolder.storyContentImageView.setVisibility(View.VISIBLE);
+
+        loadStoryContentImageView(viewHolder, story, storyContentImageViewLayoutParams);
+
+
 
         if (storyObject.has("ideaPointer")) {
             final ParseObject ideaObject = storyObject.getParseObject("ideaPointer");
@@ -222,8 +222,9 @@ public class StoryArrayAdapter extends ParseObjectsAdapter {
                 @Override
                 public void done(ParseObject parseObject, ParseException e) {
                     if (parseObject != null) {
+                        String httpUrl = parseObject.getString("imageUrl");
                         Picasso.with(getContext())
-                                .load(parseObject.getString("imageUrl"))
+                                .load(DailyKind.replaceHTTPSFacebookUrl(httpUrl))
                                 .placeholder(R.drawable.ic_action_user)
                                 .transform(new CircleTransform())
                                 .into(viewHolder.storyTellerImageView);

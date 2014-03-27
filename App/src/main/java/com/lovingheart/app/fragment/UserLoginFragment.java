@@ -266,7 +266,7 @@ public class UserLoginFragment extends PlaceholderFragment {
                         if (!currentUser.has("avatar")) {
                             ParseObject graphic = new ParseObject("GraphicImage");
                             graphic.put("imageType", "url");
-                            graphic.put("imageUrl", "http://graph.facebook.com/"+graphUser.getId()+"/picture?type=large");
+                            graphic.put("imageUrl", "https://graph.facebook.com/"+graphUser.getId()+"/picture?type=large");
                             try {
                                 graphic.save();
                             } catch (ParseException e1) {

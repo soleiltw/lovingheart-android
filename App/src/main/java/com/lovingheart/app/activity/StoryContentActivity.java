@@ -418,6 +418,15 @@ public class StoryContentActivity extends ActionBarActivity {
                                     .resize(storyContentImageViewLayoutParams.width, storyContentImageViewLayoutParams.height)
                                     .centerCrop()
                                     .into(storyContentImageView);
+
+                            storyContentImageView.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    Intent imageIntent = new Intent(StoryContentActivity.this, ImageViewActivity.class);
+                                    imageIntent.putExtra("imageUrl", story.getGraphic().getParseFileUrl());
+                                    startActivity(imageIntent);
+                                }
+                            });
                         }
                     }
 
