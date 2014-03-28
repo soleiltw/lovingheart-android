@@ -21,16 +21,19 @@ import com.facebook.Session;
 import com.facebook.SessionState;
 import com.facebook.widget.WebDialog;
 import com.google.analytics.tracking.android.EasyTracker;
+import com.google.analytics.tracking.android.Fields;
 import com.lovingheart.app.DailyKind;
 import com.lovingheart.app.R;
 import com.lovingheart.app.adapter.OrgListArrayAdapter;
 import com.lovingheart.app.object.Idea;
+import com.lovingheart.app.util.AnalyticsManager;
 import com.lovingheart.app.util.CheckUserLoginUtil;
 import com.lovingheart.app.util.parse.ParseObjectManager;
 import com.parse.*;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -409,6 +412,28 @@ public class DeedContentActivity extends ActionBarActivity {
                     } else {
                         numberOfPeopleTextView.setText(getString(R.string.deed_content_be_the_first_one));
                         storiesButton.setEnabled(false);
+                    }
+
+                    if (ideaParseObject.has("webUrl")) {
+                        TextView actionUrlView = (TextView)findViewById(R.id.story_content_action_view);
+                        actionUrlView.setVisibility(View.VISIBLE);
+                        actionUrlView.setText(ideaParseObject.getString("webUrlActionCall"));
+                        actionUrlView.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+
+                                HashMap<String, String> gaParams = new HashMap<String, String>();
+                                gaParams.put(Fields.SCREEN_NAME, "Deed Content");
+                                gaParams.put(Fields.EVENT_ACTION, "Web Url Click");
+                                gaParams.put(Fields.EVENT_CATEGORY, "Deed Content/" + idea.getName());
+                                gaParams.put(Fields.EVENT_LABEL, ideaParseObject.getString("webUrl"));
+                                AnalyticsManager.getInstance().getGaTracker().send(gaParams);
+
+                                Intent webUrlActivityIntent = new Intent(DeedContentActivity.this, WebViewActivity.class);
+                                webUrlActivityIntent.putExtra("webUrl", ideaParseObject.getString("webUrl"));
+                                startActivity(webUrlActivityIntent);
+                            }
+                        });
                     }
                 }
             }

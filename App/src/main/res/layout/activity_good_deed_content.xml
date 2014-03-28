@@ -39,6 +39,17 @@
 				</LinearLayout>
 
 				<TextView
+					android:id="@+id/story_content_action_view"
+					android:textColor="@color/pressed_lovingheart"
+					android:layout_marginLeft="10dp"
+					android:textAppearance="?android:textAppearanceMedium"
+					android:layout_marginRight="10dp"
+					android:gravity="right"
+					android:visibility="gone"
+					android:layout_width="fill_parent"
+					android:layout_height="wrap_content"/>
+
+				<TextView
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:layout_marginLeft="10dp"

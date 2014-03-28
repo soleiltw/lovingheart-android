@@ -36,6 +36,7 @@
 					style="?android:attr/progressBarStyleSmall"
 					android:layout_gravity="center"/>
 				<include layout="@layout/layout_story_content" />
+
 			</LinearLayout>
 
 			<LinearLayout
