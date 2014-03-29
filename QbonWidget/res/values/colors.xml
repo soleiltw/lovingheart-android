@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+    <!-- Sign-in Button Colors -->
+    <color name="common_signin_btn_dark_text_default">@android:color/white</color>
+    <color name="common_signin_btn_dark_text_pressed">@android:color/white</color>
+    <color name="common_signin_btn_dark_text_disabled">#FFAAAAAA</color>
+    <color name="common_signin_btn_dark_text_focused">@android:color/white</color>
+    <color name="common_signin_btn_light_text_default">#FF737373</color>
+    <color name="common_signin_btn_light_text_pressed">@android:color/black</color>
+    <color name="common_signin_btn_light_text_disabled">#FFAAAAAA</color>
+    <color name="common_signin_btn_light_text_focused">#FF737373</color>
+    <color name="common_signin_btn_default_background">#FFDD4B39</color>
+    <color name="common_action_bar_splitter">#d2d2d2</color>
+    
+   <color name="color_black">#ffffffff</color>
+    
+    <!-- qr view -->
+      <color name="contents_text">#ff000000</color>
+  <color name="encode_view">#ffffffff</color>
+  <color name="help_button_view">#ffcccccc</color>
+  <color name="help_view">#ff404040</color>
+  <color name="possible_result_points">#c0ffff00</color>  
+  <color name="result_image_border">#ffffffff</color>
+  <color name="result_minor_text">#ffc0c0c0</color>
+  <color name="result_points">#c000ff00</color>
+  <color name="result_text">#ffffffff</color>
+  <color name="result_view">#b0000000</color>
+  <color name="sbc_header_text">#ff808080</color>
+  <color name="sbc_header_view">#ffffffff</color>
+  <color name="sbc_list_item">#fffff0e0</color>
+  <color name="sbc_layout_view">#ffffffff</color>
+  <color name="sbc_page_number_text">#ff000000</color>
+  <color name="sbc_snippet_text">#ff4b4b4b</color>
+  <color name="share_text">#ff000000</color>
+  
+  <color name="share_view">#ffffffff</color>
+  <color name="status_view">#50000000</color>
+  <color name="status_text">#ffffffff</color>
+  <color name="transparent">#00000000</color>
+  <color name="viewfinder_frame">#ff000000</color>
+  <color name="viewfinder_laser">#ffff0000</color>
+  <color name="viewfinder_mask">#60000000</color>
+  <color name="black">#ff000000</color>
+  
+  <color name="light_blue">#550fdbff</color>
+  <color name="orange">#55f05700</color>
+  <color name="pink">#55ff6699</color>
+  <color name="gold">#ffedc901</color>
+  <color name="crystal">#ff00a6d0</color>
+  <color name="transparent_gray">#55000000</color>
+  <color name="half_dark">#ee000000</color>
+  
+  <color name="commodity_owner">#333333</color>
+  <color name="commodity_name">#000000</color>
+  <color name="commodity_price">#ff3300</color>
+  <color name="commodity_time">#999999</color>
+  <color name="commodity_desc">#333333</color>
+  <color name="commodity_username">#333333</color>
+  <color name="commodity_reply">#333333</color>
+  <color name="reply_name">#006699</color>
+  <color name="reply_content">#006699</color>  
+  <color name="commodity_split">#CCCCCC</color>
+    
+    
+    
+</resources>

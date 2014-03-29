@@ -20,6 +20,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import com.google.analytics.tracking.android.EasyTracker;
+import com.hiiir.qbonsdk.Qbon;
 import com.lovingheart.app.DailyKind;
 import com.lovingheart.app.R;
 import com.lovingheart.app.fragment.*;
@@ -40,8 +41,9 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
     public final static int VIEW_PAGER_STORIES_POSITION = 3;
     public final static int VIEW_PAGER_GOOD_DEEDS_POSITION = 2;
 
-    public final static int VIEW_PAGER_GETTING_STARTED = 0;
-    public final static int VIEW_PAGER_SETTINGS = 1;
+    public final static int VIEW_PAGER_GETTING_STARTED = 1;
+    public final static int VIEW_PAGER_SETTINGS = 2;
+    public final static int VIEW_PAGER_QBON = 0;
 
     private NavigationDrawerFragment mNavigationDrawerFragment;
 
@@ -58,6 +60,8 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
     private List<Category> categoryList;
 
     private Fragment fragment;
+
+    private Qbon qbon;
 
     private static final int STORIES_LATEST_ACTIVITIES = 0;
     private static final int STORIES_POPULAR_ACTIVITIES = 1;
@@ -86,6 +90,8 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
         ideaCategoryDropDownAdapter = new ArrayAdapter<String>(MainActivity.this, R.layout.navigation_spinner_item,
                 ideaCategoryList);
         ideaCategoryDropDownAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        qbon = new Qbon(MainActivity.this, true, "757e03249542c5fbbcedefe35b064bca");
     }
 
     @Override
@@ -180,6 +186,9 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
             Log.d(DailyKind.TAG, "Select bottom: " + position);
 
             switch (position) {
+                case VIEW_PAGER_QBON:
+                    qbon.openOfferWall();
+                    break;
                 case VIEW_PAGER_GETTING_STARTED:
 
                     fragment = GettingStartedFragment.newInstance(position + 1);
