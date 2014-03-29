@@ -39,7 +39,7 @@ public class DailyKind {
     public static final int PARSE_QUERY_LIMIT = 10;
 
     public static String replaceHTTPSFacebookUrl(String oldUrl) {
-
+        if (oldUrl == null) return new String();
         return oldUrl.replace("http://graph.facebook.com", "https://graph.facebook.com");
     }
 
