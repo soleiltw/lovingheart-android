@@ -132,7 +132,7 @@ public class NavigationDrawerFragment extends Fragment {
                 getActivity(),
                 android.R.layout.simple_list_item_1,
                 new String[]{
-                        "Qbon",
+                        getString(R.string.navigation_bottom_qbon),
                         getString(R.string.navigation_bottom_getting_started), getString(R.string.navigation_bottom_settings)
                 });
         bottomListView.setAdapter(bottomListAdapter);

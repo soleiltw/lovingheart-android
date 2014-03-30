@@ -191,5 +191,6 @@
 	<string name="stories_empty_text">Cant\' find a story yet, be the first one.</string>
 	<string name="post_story_status_anonymous_share">Anonymous share</string>
 	<string name="post_story_status_private_story">Private story</string>
+	<string name="navigation_bottom_qbon">Qbon</string>
 
 </resources>
