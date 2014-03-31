@@ -224,7 +224,7 @@ public class StoryArrayAdapter extends ParseObjectsAdapter {
                     if (parseObject != null) {
                         String httpUrl = parseObject.getString("imageUrl");
                         Picasso.with(getContext())
-                                .load(DailyKind.replaceHTTPSFacebookUrl(httpUrl))
+                                .load(httpUrl)
                                 .placeholder(R.drawable.ic_action_user)
                                 .transform(new CircleTransform())
                                 .into(viewHolder.storyTellerImageView);

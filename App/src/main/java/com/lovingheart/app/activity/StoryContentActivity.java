@@ -32,11 +32,10 @@ import com.lovingheart.app.util.parse.ParseObjectManager;
 import com.lovingheart.app.view.ExpandableListView;
 import com.parse.*;
 import com.squareup.picasso.Picasso;
+import org.json.JSONObject;
 import org.ocpsoft.prettytime.PrettyTime;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by edward_chiang on 2014/1/1.
@@ -787,6 +786,13 @@ public class StoryContentActivity extends ActionBarActivity {
                                                 + commentText.getText().toString()
                                                 + getString(R.string.story_content_push_msg_post));
                                 push.setMessage(message.toString());
+                                Map<String, String> pushMap = new HashMap<String, String>();
+                                pushMap.put("action", "com.lovingheart.app.PUSH_STORY");
+                                pushMap.put("intent", "StoryContentActivity");
+                                pushMap.put("alert", message.toString());
+                                pushMap.put("objectId", objectId);
+                                JSONObject pushData = new JSONObject(pushMap);
+                                push.setData(pushData);
                                 push.sendInBackground();
                             }
                             loadRatings();
