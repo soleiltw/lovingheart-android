@@ -27,6 +27,8 @@ import com.lovingheart.app.object.Category;
 import com.lovingheart.app.util.CheckUserLoginUtil;
 import com.lovingheart.app.view.DrawerBottomListView;
 import com.parse.*;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -70,6 +72,24 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
 
         if (getIntent()!=null) {
             ParseAnalytics.trackAppOpened(getIntent());
+
+            if (getIntent() != null && getIntent().getExtras() != null && getIntent().getStringExtra("com.parse.Data") != null) {
+                try {
+                    JSONObject jsonObject = new JSONObject(getIntent().getStringExtra(("com.parse.Data")));
+                    if (jsonObject.has("intent") && jsonObject.getString("intent").equals("StoryContentActivity")) {
+                        Intent openStoryContent = new Intent(MainActivity.this, StoryContentActivity.class);
+                        openStoryContent.putExtra("objectId", jsonObject.getString("objectId"));
+                        startActivity(openStoryContent);
+                    } else if (jsonObject.has("intent") && jsonObject.getString("intent").equals("DeedContentActivity")) {
+                        Intent openIdeaContent = new Intent(MainActivity.this, DeedContentActivity.class);
+                        openIdeaContent.putExtra("ideaObjectId", jsonObject.getString("objectId"));
+                        openIdeaContent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(openIdeaContent);
+                    }
+                } catch (JSONException jsonException) {
+                    Log.e(DailyKind.TAG, "JSONException: " + jsonException.getLocalizedMessage());
+                }
+            }
         }
         printPackageInfo();
 
