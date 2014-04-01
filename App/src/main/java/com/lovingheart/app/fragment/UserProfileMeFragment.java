@@ -8,8 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.google.analytics.tracking.android.Fields;
-import com.lovingheart.app.DailyKind;
-import com.lovingheart.app.R;
+import com.lovingheart.app.*;
 import com.lovingheart.app.object.UserImpact;
 import com.lovingheart.app.util.AnalyticsManager;
 import com.lovingheart.app.util.CheckUserLoginUtil;
@@ -33,11 +32,16 @@ public class UserProfileMeFragment extends UserProfileBasicFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
 
         if (getActivity()!= null) {
             android.support.v7.app.ActionBar actionBar = ((ActionBarActivity) getActivity()).getSupportActionBar();
             if (actionBar != null) {
-                actionBar.setTitle(getString(R.string.title_me));
+                actionBar.setTitle(getString(com.lovingheart.app.R.string.title_me));
             }
         }
     }
