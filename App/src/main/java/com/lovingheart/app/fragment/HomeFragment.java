@@ -61,6 +61,11 @@ public class HomeFragment extends PlaceholderFragment {
         preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
         ideaObjectList = new ArrayList<IdeaObject>();
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
 
         if (getActivity()!=null) {
             ActionBar actionBar = ((ActionBarActivity) getActivity()).getSupportActionBar();
