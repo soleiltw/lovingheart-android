@@ -191,7 +191,6 @@ public class StoryContentActivity extends ActionBarActivity {
         ratingsQuery.whereEqualTo("action", ParseEventTrackingManager.ACTION_REVIEW_STORY);
         ratingsQuery.include("user");
         ratingsQuery.addDescendingOrder("createdAt");
-        ratingsQuery.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
         ratingsQuery.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> parseObjects, ParseException e) {
@@ -764,8 +763,7 @@ public class StoryContentActivity extends ActionBarActivity {
                             ParseObjectManager.userLogDone("bmqzUROe44");
                             ParseObjectManager.userLogDone("ftS0XExWCq");
 
-                            if (commentText.getText() != null && commentText.getText().toString().length() > 0) {
-                                ParseQuery pushQuery = ParseInstallation.getQuery();
+                            ParseQuery pushQuery = ParseInstallation.getQuery();
                                 pushQuery.whereEqualTo("user", storyObject.getParseUser("StoryTeller"));
 
                                 ParsePush push = new ParsePush();
@@ -779,12 +777,16 @@ public class StoryContentActivity extends ActionBarActivity {
                                         + finalRatingValue
                                         + getString(R.string.space)
                                         + getString(R.string.story_content_push_give_post));
+                            if (commentText.getText() != null && commentText.getText().toString().length() > 0) {
+
                                 message.append(
                                         getString(R.string.space)
                                                 + getString(R.string.story_content_push_msg_prefix)
                                                 + getString(R.string.space)
                                                 + commentText.getText().toString()
-                                                + getString(R.string.story_content_push_msg_post));
+                                                + getString(R.string.story_content_push_msg_post)
+                                );
+                            }
                                 push.setMessage(message.toString());
                                 Map<String, String> pushMap = new HashMap<String, String>();
                                 pushMap.put("action", "com.lovingheart.app.PUSH_STORY");
@@ -794,7 +796,7 @@ public class StoryContentActivity extends ActionBarActivity {
                                 JSONObject pushData = new JSONObject(pushMap);
                                 push.setData(pushData);
                                 push.sendInBackground();
-                            }
+
                             loadRatings();
                         }
                     }

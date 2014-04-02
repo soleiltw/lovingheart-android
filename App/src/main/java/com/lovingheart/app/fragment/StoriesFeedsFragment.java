@@ -53,10 +53,17 @@ public class StoriesFeedsFragment extends PlaceholderFragment {
         storyArrayAdapter = new StoryArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, userActivities);
 
         setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
 
         if (getActivity()!= null) {
             android.support.v7.app.ActionBar actionBar = ((ActionBarActivity) getActivity()).getSupportActionBar();
-            actionBar.setTitle(getString(R.string.title_stories));
+            if (actionBar != null) {
+                actionBar.setTitle(getString(R.string.title_stories));
+            }
         }
     }
 
