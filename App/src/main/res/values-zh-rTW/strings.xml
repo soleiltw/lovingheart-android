@@ -3,6 +3,7 @@
 
     <string name="app_name">LovingHeart</string>
 	<string name="app_id">778772072139128</string>
+	<string name="map_key">AIzaSyBguhqtGZ3xbzHkTNSh8AI5O3Wa62QXrTw</string>
     <string name="title_today">本日推薦</string>
     <string name="title_me">成為會員</string>
     <string name="title_latest_activities">最新故事</string>
