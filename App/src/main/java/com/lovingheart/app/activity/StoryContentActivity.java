@@ -780,16 +780,17 @@ public class StoryContentActivity extends ActionBarActivity {
                             ArrayList<ParseUser> pushToUsers = new ArrayList<ParseUser>();
 
                             // Add story teller
-                            pushToUsers.add(storyObject.getParseUser("StoryTeller"));
+                            if (!storyObject.getParseUser("StoryTeller").getObjectId().equalsIgnoreCase(ParseUser.getCurrentUser().getObjectId())) {
+                                pushToUsers.add(storyObject.getParseUser("StoryTeller"));
+                            }
 
                             // Add comment
                             for (Review eachReview : reviewList) {
-                                if (!pushToUsers.contains(eachReview.getUser())) {
+                                if (!pushToUsers.contains(eachReview.getUser()) &&
+                                        !eachReview.getUserObject().getObjectId().equalsIgnoreCase(ParseUser.getCurrentUser().getObjectId())) {
                                     pushToUsers.add(eachReview.getUserObject());
                                 }
                             }
-                            // Remove self.
-                            pushToUsers.remove(ParseUser.getCurrentUser());
 //                            pushQuery.whereEqualTo("user", storyObject.getParseUser("StoryTeller"));
 
                             pushQuery.whereContainedIn("user", pushToUsers);
