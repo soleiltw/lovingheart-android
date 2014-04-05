@@ -143,7 +143,12 @@ public class StoryContentActivity extends ActionBarActivity {
                 @Override
                 public void done(ParseObject parseObject, ParseException e) {
                     dialog.dismiss();
-                    openRatingDialog(parseObject);
+                    if (e == null && parseObject!= null) {
+                        openRatingDialog(parseObject);
+                    } else {
+                        openRatingDialog();
+                    }
+
                 }
             });
 
@@ -598,6 +603,10 @@ public class StoryContentActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    private void openRatingDialog() {
+        openRatingDialog(new ParseObject("Event"));
+    }
+
     private void openRatingDialog(final ParseObject parseReviewObject) {
         finalRatingValue = 0;
         if (parseReviewObject!=null && parseReviewObject.has("value")) {
@@ -723,31 +732,28 @@ public class StoryContentActivity extends ActionBarActivity {
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ParseObject eventObject;
 
-                if (parseReviewObject != null && parseReviewObject.getInt("value") > 0) {
-                    eventObject = parseReviewObject;
-                } else {
-                    eventObject = new ParseObject("Event");
+                if (parseReviewObject != null && parseReviewObject.getInt("value") > 0
+                        ) {
 
                     // Maybe user has not login.
                     if (parseUser != null) {
-                        eventObject.put("user", parseUser);
+                        parseReviewObject.put("user", parseUser);
                     }
 
-                    eventObject.put("story", storyObject);
-                    eventObject.put("action", ParseEventTrackingManager.ACTION_REVIEW_STORY);
+                    parseReviewObject.put("story", storyObject);
+                    parseReviewObject.put("action", ParseEventTrackingManager.ACTION_REVIEW_STORY);
                 }
 
-                eventObject.put("value", finalRatingValue);
+                parseReviewObject.put("value", finalRatingValue);
 
                 if (commentText.getText() != null) {
-                    eventObject.put("description", commentText.getText().toString());
+                    parseReviewObject.put("description", commentText.getText().toString());
                 }
                 final ProgressDialog dialog = new ProgressDialog(StoryContentActivity.this);
                 dialog.setMessage(getString(R.string.loading));
                 dialog.show();
-                eventObject.saveInBackground(new SaveCallback() {
+                parseReviewObject.saveInBackground(new SaveCallback() {
                     @Override
                     public void done(ParseException e) {
 
