@@ -732,7 +732,7 @@ public class StoryContentActivity extends ActionBarActivity {
             commentText.setText(parseReviewObject.getString("description"));
         }
 
-        BootstrapButton submitButton = (BootstrapButton)askRatingsDialog.findViewById(R.id.story_ratings_submit_button);
+        final BootstrapButton submitButton = (BootstrapButton)askRatingsDialog.findViewById(R.id.story_ratings_submit_button);
 
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -763,11 +763,11 @@ public class StoryContentActivity extends ActionBarActivity {
                     public void done(ParseException e) {
 
                         dialog.dismiss();
-                        askRatingsDialog.dismiss();
 
                         if (e != null) {
                             Log.e(DailyKind.TAG, e.getLocalizedMessage());
-                            Toast.makeText(StoryContentActivity.this, getString(R.string.toast_error_message_try_again), Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(StoryContentActivity.this, getString(R.string.toast_error_message_try_again), Toast.LENGTH_SHORT).show();
+                            submitButton.performClick();
                         } else {
                             Log.d(DailyKind.TAG, "Parse event saved. " + ParseEventTrackingManager.ACTION_REVIEW_STORY + " on " + storyObject.getObjectId());
 
@@ -806,7 +806,17 @@ public class StoryContentActivity extends ActionBarActivity {
                             pushMap.put("objectId", objectId);
                             JSONObject pushData = new JSONObject(pushMap);
                             push.setData(pushData);
-                            push.sendInBackground();
+                            push.sendInBackground(new SendCallback() {
+                                @Override
+                                public void done(ParseException e) {
+                                    if (e != null) {
+                                        Log.e(DailyKind.TAG, "Send push error: " + e.getLocalizedMessage());
+                                    }
+                                }
+                            });
+
+
+                            askRatingsDialog.dismiss();
 
                             loadRatings();
                         }
