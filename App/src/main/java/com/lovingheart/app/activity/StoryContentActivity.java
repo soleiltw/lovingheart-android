@@ -214,6 +214,7 @@ public class StoryContentActivity extends ActionBarActivity {
 
                         Log.d(DailyKind.TAG, "EachEvent: " + eachEvent.toString());
 
+                        review.setUserObject(eachEvent.getParseUser("user"));
                         review.setValue(eachEvent.getInt("value"));
                         review.setReviewDescription(eachEvent.getString("description"));
                         review.setCreatedAt(eachEvent.getCreatedAt());
@@ -775,7 +776,23 @@ public class StoryContentActivity extends ActionBarActivity {
                             ParseObjectManager.userLogDone("ftS0XExWCq");
 
                             ParseQuery pushQuery = ParseInstallation.getQuery();
-                            pushQuery.whereEqualTo("user", storyObject.getParseUser("StoryTeller"));
+
+                            ArrayList<ParseUser> pushToUsers = new ArrayList<ParseUser>();
+
+                            // Add story teller
+                            pushToUsers.add(storyObject.getParseUser("StoryTeller"));
+
+                            // Add comment
+                            for (Review eachReview : reviewList) {
+                                if (!pushToUsers.contains(eachReview.getUser())) {
+                                    pushToUsers.add(eachReview.getUserObject());
+                                }
+                            }
+                            // Remove self.
+                            pushToUsers.remove(ParseUser.getCurrentUser());
+//                            pushQuery.whereEqualTo("user", storyObject.getParseUser("StoryTeller"));
+
+                            pushQuery.whereContainedIn("user", pushToUsers);
 
                             ParsePush push = new ParsePush();
                             push.setQuery(pushQuery);

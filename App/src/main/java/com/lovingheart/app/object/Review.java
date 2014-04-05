@@ -1,11 +1,15 @@
 package com.lovingheart.app.object;
 
+import com.parse.ParseUser;
+
 import java.util.Date;
 
 /**
  * Created by edward_chiang on 2014/1/27.
  */
 public class Review {
+
+    private ParseUser userObject;
 
     private User user;
 
@@ -14,6 +18,14 @@ public class Review {
     private String reviewDescription;
 
     private Date createdAt;
+
+    public ParseUser getUserObject() {
+        return userObject;
+    }
+
+    public void setUserObject(ParseUser userObject) {
+        this.userObject = userObject;
+    }
 
     public User getUser() {
         return user;
