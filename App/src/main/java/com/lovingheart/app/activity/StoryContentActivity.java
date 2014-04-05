@@ -122,7 +122,6 @@ public class StoryContentActivity extends ActionBarActivity {
 
         ideaViewGroup = findViewById(R.id.story_idea_group_layout);
 
-        storyReviewSetup();
         loadStory();
     }
 
@@ -196,6 +195,7 @@ public class StoryContentActivity extends ActionBarActivity {
         ratingsQuery.whereEqualTo("action", ParseEventTrackingManager.ACTION_REVIEW_STORY);
         ratingsQuery.include("user");
         ratingsQuery.addDescendingOrder("createdAt");
+        ratingsQuery.clearCachedResult();
         ratingsQuery.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> parseObjects, ParseException e) {
@@ -288,6 +288,8 @@ public class StoryContentActivity extends ActionBarActivity {
 
                     storyObject = parseObject;
                     loadRatings();
+
+                    storyReviewSetup();
 
                     findViewById(R.id.story_content_progress_bar).setVisibility(View.GONE);
                     findViewById(R.id.story_content_review_button).setVisibility(View.VISIBLE);
@@ -604,7 +606,10 @@ public class StoryContentActivity extends ActionBarActivity {
     }
 
     private void openRatingDialog() {
-        openRatingDialog(new ParseObject("Event"));
+        ParseObject event = new ParseObject("Event");
+        event.put("user", ParseUser.getCurrentUser());
+
+        openRatingDialog(event);
     }
 
     private void openRatingDialog(final ParseObject parseReviewObject) {
@@ -733,18 +738,18 @@ public class StoryContentActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
 
-                if (parseReviewObject != null && parseReviewObject.getInt("value") > 0
-                        ) {
-
-                    // Maybe user has not login.
-                    if (parseUser != null) {
-                        parseReviewObject.put("user", parseUser);
-                    }
-
-                    parseReviewObject.put("story", storyObject);
-                    parseReviewObject.put("action", ParseEventTrackingManager.ACTION_REVIEW_STORY);
+                // Maybe user has not login.
+                if (parseUser != null) {
+                    parseReviewObject.put("user", parseUser);
                 }
 
+                parseReviewObject.put("story", storyObject);
+                parseReviewObject.put("action", ParseEventTrackingManager.ACTION_REVIEW_STORY);
+
+                ParseACL parseACL = new ParseACL();
+                parseACL.setPublicWriteAccess(true);
+                parseACL.setPublicReadAccess(true);
+                parseReviewObject.setACL(parseACL);
                 parseReviewObject.put("value", finalRatingValue);
 
                 if (commentText.getText() != null) {
@@ -770,19 +775,19 @@ public class StoryContentActivity extends ActionBarActivity {
                             ParseObjectManager.userLogDone("ftS0XExWCq");
 
                             ParseQuery pushQuery = ParseInstallation.getQuery();
-                                pushQuery.whereEqualTo("user", storyObject.getParseUser("StoryTeller"));
+                            pushQuery.whereEqualTo("user", storyObject.getParseUser("StoryTeller"));
 
-                                ParsePush push = new ParsePush();
-                                push.setQuery(pushQuery);
+                            ParsePush push = new ParsePush();
+                            push.setQuery(pushQuery);
 
-                                StringBuffer message = new StringBuffer();
-                                message.append(ParseUser.getCurrentUser().getString("name")
-                                        + getString(R.string.space)
-                                        + getString(R.string.story_content_push_give_prefix)
-                                        + getString(R.string.space)
-                                        + finalRatingValue
-                                        + getString(R.string.space)
-                                        + getString(R.string.story_content_push_give_post));
+                            StringBuffer message = new StringBuffer();
+                            message.append(ParseUser.getCurrentUser().getString("name")
+                                    + getString(R.string.space)
+                                    + getString(R.string.story_content_push_give_prefix)
+                                    + getString(R.string.space)
+                                    + finalRatingValue
+                                    + getString(R.string.space)
+                                    + getString(R.string.story_content_push_give_post));
                             if (commentText.getText() != null && commentText.getText().toString().length() > 0) {
 
                                 message.append(
@@ -793,15 +798,15 @@ public class StoryContentActivity extends ActionBarActivity {
                                                 + getString(R.string.story_content_push_msg_post)
                                 );
                             }
-                                push.setMessage(message.toString());
-                                Map<String, String> pushMap = new HashMap<String, String>();
-                                pushMap.put("action", "com.lovingheart.app.PUSH_STORY");
-                                pushMap.put("intent", "StoryContentActivity");
-                                pushMap.put("alert", message.toString());
-                                pushMap.put("objectId", objectId);
-                                JSONObject pushData = new JSONObject(pushMap);
-                                push.setData(pushData);
-                                push.sendInBackground();
+                            push.setMessage(message.toString());
+                            Map<String, String> pushMap = new HashMap<String, String>();
+                            pushMap.put("action", "com.lovingheart.app.PUSH_STORY");
+                            pushMap.put("intent", "StoryContentActivity");
+                            pushMap.put("alert", message.toString());
+                            pushMap.put("objectId", objectId);
+                            JSONObject pushData = new JSONObject(pushMap);
+                            push.setData(pushData);
+                            push.sendInBackground();
 
                             loadRatings();
                         }
