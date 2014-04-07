@@ -122,7 +122,6 @@ public class StoryContentActivity extends ActionBarActivity {
 
         ideaViewGroup = findViewById(R.id.story_idea_group_layout);
 
-        storyReviewSetup();
         loadStory();
     }
 
@@ -143,7 +142,12 @@ public class StoryContentActivity extends ActionBarActivity {
                 @Override
                 public void done(ParseObject parseObject, ParseException e) {
                     dialog.dismiss();
-                    openRatingDialog(parseObject);
+                    if (e == null && parseObject!= null) {
+                        openRatingDialog(parseObject);
+                    } else {
+                        openRatingDialog();
+                    }
+
                 }
             });
 
@@ -191,6 +195,7 @@ public class StoryContentActivity extends ActionBarActivity {
         ratingsQuery.whereEqualTo("action", ParseEventTrackingManager.ACTION_REVIEW_STORY);
         ratingsQuery.include("user");
         ratingsQuery.addDescendingOrder("createdAt");
+        ratingsQuery.clearCachedResult();
         ratingsQuery.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> parseObjects, ParseException e) {
@@ -209,6 +214,7 @@ public class StoryContentActivity extends ActionBarActivity {
 
                         Log.d(DailyKind.TAG, "EachEvent: " + eachEvent.toString());
 
+                        review.setUserObject(eachEvent.getParseUser("user"));
                         review.setValue(eachEvent.getInt("value"));
                         review.setReviewDescription(eachEvent.getString("description"));
                         review.setCreatedAt(eachEvent.getCreatedAt());
@@ -283,6 +289,8 @@ public class StoryContentActivity extends ActionBarActivity {
 
                     storyObject = parseObject;
                     loadRatings();
+
+                    storyReviewSetup();
 
                     findViewById(R.id.story_content_progress_bar).setVisibility(View.GONE);
                     findViewById(R.id.story_content_review_button).setVisibility(View.VISIBLE);
@@ -598,6 +606,13 @@ public class StoryContentActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    private void openRatingDialog() {
+        ParseObject event = new ParseObject("Event");
+        event.put("user", ParseUser.getCurrentUser());
+
+        openRatingDialog(event);
+    }
+
     private void openRatingDialog(final ParseObject parseReviewObject) {
         finalRatingValue = 0;
         if (parseReviewObject!=null && parseReviewObject.has("value")) {
@@ -718,45 +733,42 @@ public class StoryContentActivity extends ActionBarActivity {
             commentText.setText(parseReviewObject.getString("description"));
         }
 
-        BootstrapButton submitButton = (BootstrapButton)askRatingsDialog.findViewById(R.id.story_ratings_submit_button);
+        final BootstrapButton submitButton = (BootstrapButton)askRatingsDialog.findViewById(R.id.story_ratings_submit_button);
 
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ParseObject eventObject;
 
-                if (parseReviewObject != null && parseReviewObject.getInt("value") > 0) {
-                    eventObject = parseReviewObject;
-                } else {
-                    eventObject = new ParseObject("Event");
-
-                    // Maybe user has not login.
-                    if (parseUser != null) {
-                        eventObject.put("user", parseUser);
-                    }
-
-                    eventObject.put("story", storyObject);
-                    eventObject.put("action", ParseEventTrackingManager.ACTION_REVIEW_STORY);
+                // Maybe user has not login.
+                if (parseUser != null) {
+                    parseReviewObject.put("user", parseUser);
                 }
 
-                eventObject.put("value", finalRatingValue);
+                parseReviewObject.put("story", storyObject);
+                parseReviewObject.put("action", ParseEventTrackingManager.ACTION_REVIEW_STORY);
+
+                ParseACL parseACL = new ParseACL();
+                parseACL.setPublicWriteAccess(true);
+                parseACL.setPublicReadAccess(true);
+                parseReviewObject.setACL(parseACL);
+                parseReviewObject.put("value", finalRatingValue);
 
                 if (commentText.getText() != null) {
-                    eventObject.put("description", commentText.getText().toString());
+                    parseReviewObject.put("description", commentText.getText().toString());
                 }
                 final ProgressDialog dialog = new ProgressDialog(StoryContentActivity.this);
                 dialog.setMessage(getString(R.string.loading));
                 dialog.show();
-                eventObject.saveInBackground(new SaveCallback() {
+                parseReviewObject.saveInBackground(new SaveCallback() {
                     @Override
                     public void done(ParseException e) {
 
                         dialog.dismiss();
-                        askRatingsDialog.dismiss();
 
                         if (e != null) {
                             Log.e(DailyKind.TAG, e.getLocalizedMessage());
-                            Toast.makeText(StoryContentActivity.this, getString(R.string.toast_error_message_try_again), Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(StoryContentActivity.this, getString(R.string.toast_error_message_try_again), Toast.LENGTH_SHORT).show();
+                            submitButton.performClick();
                         } else {
                             Log.d(DailyKind.TAG, "Parse event saved. " + ParseEventTrackingManager.ACTION_REVIEW_STORY + " on " + storyObject.getObjectId());
 
@@ -764,19 +776,36 @@ public class StoryContentActivity extends ActionBarActivity {
                             ParseObjectManager.userLogDone("ftS0XExWCq");
 
                             ParseQuery pushQuery = ParseInstallation.getQuery();
-                                pushQuery.whereEqualTo("user", storyObject.getParseUser("StoryTeller"));
 
-                                ParsePush push = new ParsePush();
-                                push.setQuery(pushQuery);
+                            ArrayList<ParseUser> pushToUsers = new ArrayList<ParseUser>();
 
-                                StringBuffer message = new StringBuffer();
-                                message.append(ParseUser.getCurrentUser().getString("name")
-                                        + getString(R.string.space)
-                                        + getString(R.string.story_content_push_give_prefix)
-                                        + getString(R.string.space)
-                                        + finalRatingValue
-                                        + getString(R.string.space)
-                                        + getString(R.string.story_content_push_give_post));
+                            // Add story teller
+                            if (!storyObject.getParseUser("StoryTeller").getObjectId().equalsIgnoreCase(ParseUser.getCurrentUser().getObjectId())) {
+                                pushToUsers.add(storyObject.getParseUser("StoryTeller"));
+                            }
+
+                            // Add comment
+                            for (Review eachReview : reviewList) {
+                                if (!pushToUsers.contains(eachReview.getUser()) &&
+                                        !eachReview.getUserObject().getObjectId().equalsIgnoreCase(ParseUser.getCurrentUser().getObjectId())) {
+                                    pushToUsers.add(eachReview.getUserObject());
+                                }
+                            }
+//                            pushQuery.whereEqualTo("user", storyObject.getParseUser("StoryTeller"));
+
+                            pushQuery.whereContainedIn("user", pushToUsers);
+
+                            ParsePush push = new ParsePush();
+                            push.setQuery(pushQuery);
+
+                            StringBuffer message = new StringBuffer();
+                            message.append(ParseUser.getCurrentUser().getString("name")
+                                    + getString(R.string.space)
+                                    + getString(R.string.story_content_push_give_prefix)
+                                    + getString(R.string.space)
+                                    + finalRatingValue
+                                    + getString(R.string.space)
+                                    + getString(R.string.story_content_push_give_post));
                             if (commentText.getText() != null && commentText.getText().toString().length() > 0) {
 
                                 message.append(
@@ -787,15 +816,25 @@ public class StoryContentActivity extends ActionBarActivity {
                                                 + getString(R.string.story_content_push_msg_post)
                                 );
                             }
-                                push.setMessage(message.toString());
-                                Map<String, String> pushMap = new HashMap<String, String>();
-                                pushMap.put("action", "com.lovingheart.app.PUSH_STORY");
-                                pushMap.put("intent", "StoryContentActivity");
-                                pushMap.put("alert", message.toString());
-                                pushMap.put("objectId", objectId);
-                                JSONObject pushData = new JSONObject(pushMap);
-                                push.setData(pushData);
-                                push.sendInBackground();
+                            push.setMessage(message.toString());
+                            Map<String, String> pushMap = new HashMap<String, String>();
+                            pushMap.put("action", "com.lovingheart.app.PUSH_STORY");
+                            pushMap.put("intent", "StoryContentActivity");
+                            pushMap.put("alert", message.toString());
+                            pushMap.put("objectId", objectId);
+                            JSONObject pushData = new JSONObject(pushMap);
+                            push.setData(pushData);
+                            push.sendInBackground(new SendCallback() {
+                                @Override
+                                public void done(ParseException e) {
+                                    if (e != null) {
+                                        Log.e(DailyKind.TAG, "Send push error: " + e.getLocalizedMessage());
+                                    }
+                                }
+                            });
+
+
+                            askRatingsDialog.dismiss();
 
                             loadRatings();
                         }

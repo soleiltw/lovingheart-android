@@ -3,6 +3,7 @@ package com.lovingheart.app.fragment;
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -113,7 +114,10 @@ public class NavigationDrawerFragment extends Fragment {
                 view.setSelected(true);
 
                 if (bottomListView != null) {
-                    bottomListView.setItemChecked(position, true);
+                    int currentApiVersion = android.os.Build.VERSION.SDK_INT;
+                    if (currentApiVersion >= Build.VERSION_CODES.HONEYCOMB) {
+                        bottomListView.setItemChecked(position, true);
+                    }
                 }
                 if (mDrawerLayout != null) {
                     mDrawerLayout.closeDrawer(mFragmentContainerView);
