@@ -9,6 +9,11 @@
 	      dailykind:showAsAction="always"
 	      android:title="@string/action_post" />
 
+	<item android:id="@+id/action_getting_started"
+	      android:title="@string/navigation_bottom_getting_started"
+	      android:orderInCategory="95"
+	      android:showAsAction="never" />
+
 	<item android:id="@+id/action_reload"
 	      android:orderInCategory="99"
 	      android:icon="@drawable/ic_action_reload"

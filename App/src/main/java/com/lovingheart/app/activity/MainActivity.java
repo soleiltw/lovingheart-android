@@ -177,6 +177,21 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
             case R.id.action_reload:
                 loadCategories();
                 break;
+            case R.id.action_getting_started:
+
+                GettingStartedFragment fragment = GettingStartedFragment.newInstance(99);
+
+                contentTitle = getString(R.string.navigation_bottom_getting_started);
+                navigationMode = ActionBar.NAVIGATION_MODE_STANDARD;
+                ActionBar actionBar = getSupportActionBar();
+                actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+                actionBar.setDisplayShowTitleEnabled(true);
+                actionBar.setTitle(contentTitle);
+
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                fragmentManager.beginTransaction().replace(R.id.container, fragment).commit();
+
+                break;
             case R.id.action_settings:
                 Intent settingsIntent = new Intent(getApplicationContext(), SettingActivity.class);
                 startActivity(settingsIntent);
