@@ -5,7 +5,9 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.util.DisplayMetrics;
@@ -69,6 +71,8 @@ public class StoryContentActivity extends ActionBarActivity {
 
     private View ideaViewGroup;
 
+    private String openedFrom;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,6 +94,8 @@ public class StoryContentActivity extends ActionBarActivity {
         if (getIntent().getStringArrayListExtra("status") != null && getIntent().getStringArrayListExtra("status").contains("anonymous")) {
             isAnonymous = true;
         }
+
+        openedFrom = getIntent().getStringExtra("OpenedFrom");
     }
 
     @Override
@@ -481,83 +487,7 @@ public class StoryContentActivity extends ActionBarActivity {
             }
             case R.id.action_share: {
 
-                String imageUrl = new String();
-                if (story.getGraphic() != null) {
-
-                    if ("url".equalsIgnoreCase(story.getGraphic().getFileType())) {
-                        imageUrl = story.getGraphic().getImageUrl();
-                    } else if ("file".equalsIgnoreCase(story.getGraphic().getFileType())) {
-                        imageUrl = story.getGraphic().getParseFileUrl();
-                    }
-                }
-
-                final Bundle facebookShareParams = new Bundle();
-                if (!isAnonymous) {
-                    facebookShareParams.putString("name", story.getStoryTeller().getString("name"));
-                } else {
-                    facebookShareParams.putString("name", getString(R.string.story_teller_anonymous));
-                }
-                facebookShareParams.putString("caption", storyObject.getString("Content"));
-                if (story.getIdea() != null) {
-                    facebookShareParams.putString("description", story.getIdea().getName());
-                } else {
-                    facebookShareParams.putString("description", "From LovingHeart for Android.");
-                }
-
-                facebookShareParams.putString("link", "http://tw.lovingheartapp.com");
-                facebookShareParams.putString("picture", imageUrl);
-
-                Session session = Session.openActiveSession(StoryContentActivity.this, true, new Session.StatusCallback() {
-                    @Override
-                    public void call(Session session, SessionState state, Exception exception) {
-
-                        if (session.isOpened()) {
-
-                            // Invoke the dialog
-                            WebDialog feedDialog = (
-                                    new WebDialog.FeedDialogBuilder(StoryContentActivity.this,
-                                            Session.getActiveSession(),
-                                            facebookShareParams))
-                                    .setOnCompleteListener(new WebDialog.OnCompleteListener() {
-                                        @Override
-                                        public void onComplete(Bundle values,
-                                                               FacebookException error) {
-                                            if (error == null) {
-                                                // When the story is posted, echo the success
-                                                // and the post Id.
-                                                final String postId = values.getString("post_id");
-                                                if (postId != null) {
-                                                    Toast.makeText(StoryContentActivity.this,
-                                                            getString(R.string.story_facebook_shared),
-                                                            Toast.LENGTH_SHORT).show();
-                                                }
-                                            } else {
-                                                if (error.getLocalizedMessage() != null && error.getLocalizedMessage().length() > 0) {
-                                                    Toast.makeText(getBaseContext(),
-                                                            error.getLocalizedMessage(),
-                                                            Toast.LENGTH_LONG).show();
-                                                }
-                                            }
-                                        }
-
-                                    })
-                                    .build();
-                            if (!(StoryContentActivity.this).isFinishing()) {
-                                feedDialog.show();
-                            }
-                        }
-                    }
-                });
-                session.addCallback(new Session.StatusCallback() {
-                    @Override
-                    public void call(Session session, SessionState state, Exception exception) {
-                        if (state == SessionState.OPENING) {
-                            LoginButton loginButton = new LoginButton(StoryContentActivity.this);
-                            loginButton.performClick();
-                        }
-                    }
-                });
-
+                shareStory();
 
                 break;
             }
@@ -604,6 +534,85 @@ public class StoryContentActivity extends ActionBarActivity {
             }
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void shareStory() {
+        String imageUrl = new String();
+        if (story.getGraphic() != null) {
+
+            if ("url".equalsIgnoreCase(story.getGraphic().getFileType())) {
+                imageUrl = story.getGraphic().getImageUrl();
+            } else if ("file".equalsIgnoreCase(story.getGraphic().getFileType())) {
+                imageUrl = story.getGraphic().getParseFileUrl();
+            }
+        }
+
+        final Bundle facebookShareParams = new Bundle();
+        if (!isAnonymous) {
+            facebookShareParams.putString("name", story.getStoryTeller().getString("name"));
+        } else {
+            facebookShareParams.putString("name", getString(R.string.story_teller_anonymous));
+        }
+        facebookShareParams.putString("caption", storyObject.getString("Content"));
+        if (story.getIdea() != null) {
+            facebookShareParams.putString("description", story.getIdea().getName());
+        } else {
+            facebookShareParams.putString("description", "From LovingHeart for Android.");
+        }
+
+        facebookShareParams.putString("link", "http://tw.lovingheartapp.com/story/"+story.getObjectId());
+        facebookShareParams.putString("picture", imageUrl);
+
+        Session session = Session.openActiveSession(StoryContentActivity.this, true, new Session.StatusCallback() {
+            @Override
+            public void call(Session session, SessionState state, Exception exception) {
+
+                if (session.isOpened()) {
+
+                    // Invoke the dialog
+                    WebDialog feedDialog = (
+                            new WebDialog.FeedDialogBuilder(StoryContentActivity.this,
+                                    Session.getActiveSession(),
+                                    facebookShareParams))
+                            .setOnCompleteListener(new WebDialog.OnCompleteListener() {
+                                @Override
+                                public void onComplete(Bundle values,
+                                                       FacebookException error) {
+                                    if (error == null) {
+                                        // When the story is posted, echo the success
+                                        // and the post Id.
+                                        final String postId = values.getString("post_id");
+                                        if (postId != null) {
+                                            Toast.makeText(StoryContentActivity.this,
+                                                    getString(R.string.story_facebook_shared),
+                                                    Toast.LENGTH_SHORT).show();
+                                        }
+                                    } else {
+                                        if (error.getLocalizedMessage() != null && error.getLocalizedMessage().length() > 0) {
+                                            Toast.makeText(getBaseContext(),
+                                                    error.getLocalizedMessage(),
+                                                    Toast.LENGTH_LONG).show();
+                                        }
+                                    }
+                                }
+
+                            })
+                            .build();
+                    if (!(StoryContentActivity.this).isFinishing()) {
+                        feedDialog.show();
+                    }
+                }
+            }
+        });
+        session.addCallback(new Session.StatusCallback() {
+            @Override
+            public void call(Session session, SessionState state, Exception exception) {
+                if (state == SessionState.OPENING) {
+                    LoginButton loginButton = new LoginButton(StoryContentActivity.this);
+                    loginButton.performClick();
+                }
+            }
+        });
     }
 
     private void openRatingDialog() {
@@ -836,6 +845,8 @@ public class StoryContentActivity extends ActionBarActivity {
 
                             askRatingsDialog.dismiss();
 
+                            askToShare();
+
                             loadRatings();
                         }
                     }
@@ -848,6 +859,38 @@ public class StoryContentActivity extends ActionBarActivity {
     protected void onStart() {
         super.onStart();
         EasyTracker.getInstance(this).activityStart(this);
+
+        if (openedFrom != null && openedFrom.equalsIgnoreCase("PostStoryActivity")) {
+            askToShare();
+        }
+    }
+
+    private void askToShare() {
+
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean dontAskToShare = sharedPreferences.getBoolean(DailyKind.PREFERENCE_DONT_ASK_TO_SHARE, false);
+        if (dontAskToShare) return;
+
+        // Ask to share
+        AlertDialog alertDialog;
+
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(StoryContentActivity.this);
+        alertDialogBuilder.setMessage(getString(R.string.ask_share_story_dialog_message));
+        alertDialogBuilder.setPositiveButton(getString(R.string.go), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                shareStory();
+            }
+        })
+                .setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+        ;
+        alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
     }
 
     @Override

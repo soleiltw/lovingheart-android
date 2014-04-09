@@ -90,6 +90,28 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
                     Log.e(DailyKind.TAG, "JSONException: " + jsonException.getLocalizedMessage());
                 }
             }
+            Log.d(DailyKind.TAG, "getIntent().getAction: " + getIntent().getAction());
+            if (getIntent() != null && getIntent().getData() != null && getIntent().getAction().startsWith("com.facebook.application")) {
+
+                // Deep linking from facebook
+                String urlText = getIntent().getData().toString();
+                String[] splitedString = urlText.split("/");
+                if (splitedString.length >= 4) {
+                    String resource = splitedString[splitedString.length - 2];
+                    String objectId = splitedString[splitedString.length - 1];
+                    if (resource.equalsIgnoreCase("story")) {
+                        Intent openStoryContent = new Intent(MainActivity.this, StoryContentActivity.class);
+                        openStoryContent.putExtra("objectId", objectId);
+                        startActivity(openStoryContent);
+                    }
+                    if (resource.equalsIgnoreCase("deed")) {
+                        Intent openStoryContent = new Intent(MainActivity.this, DeedContentActivity.class);
+                        openStoryContent.putExtra("objectId", objectId);
+                        startActivity(openStoryContent);
+                    }
+                }
+
+            }
         }
         printPackageInfo();
 

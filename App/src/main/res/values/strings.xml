@@ -191,4 +191,8 @@
 	<string name="post_story_status_anonymous_share">Anonymous share</string>
 	<string name="post_story_status_private_story">Private story</string>
 
+	<string name="ask_share_story_dialog_message">Want to share this story to your Facebook friends?</string>
+	<string name="auto_sharing">Ask to share</string>
+	<string name="no_dont_ask_again">Don\'t ask again.</string>
+
 </resources>

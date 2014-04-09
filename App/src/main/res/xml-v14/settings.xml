@@ -14,6 +14,11 @@
 			android:summary="@string/setting_playing_music_summary"
 			android:title="@string/setting_playing_music_title" />
 
+		<SwitchPreference
+			android:key="setting_dont_ask_to_share"
+			android:title="@string/auto_sharing"
+			android:summary="@string/no_dont_ask_again" />
+
 	</PreferenceCategory>
 
 	<PreferenceCategory android:title="@string/setting_support_languages" >

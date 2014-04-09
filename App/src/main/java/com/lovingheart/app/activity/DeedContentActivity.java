@@ -188,7 +188,7 @@ public class DeedContentActivity extends ActionBarActivity {
                     facebookShareParams.putString("description", "From LovingHeart for Android.");
                 }
 
-                facebookShareParams.putString("link", "http://tw.lovingheartapp.com");
+                facebookShareParams.putString("link", "http://tw.lovingheartapp.com/deed/"+idea.getObjectId());
                 facebookShareParams.putString("picture", imageUrl);
 
                 Session.openActiveSession(DeedContentActivity.this, true, new Session.StatusCallback() {

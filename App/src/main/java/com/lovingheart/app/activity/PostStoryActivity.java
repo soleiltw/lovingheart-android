@@ -664,6 +664,7 @@ public class PostStoryActivity extends ActionBarActivity {
                     if (anonymousCheckBox.isChecked()) {
                         storyIntent.putStringArrayListExtra("status", DailyKind.getAnonymousStoriesStatusList(getApplication()));
                     }
+                    storyIntent.putExtra("OpenedFrom", "PostStoryActivity");
                     startActivity(storyIntent);
                     finish();
                 } else {
