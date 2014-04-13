@@ -106,7 +106,7 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
                     }
                     if (resource.equalsIgnoreCase("deed")) {
                         Intent openStoryContent = new Intent(MainActivity.this, DeedContentActivity.class);
-                        openStoryContent.putExtra("objectId", objectId);
+                        openStoryContent.putExtra("ideaObjectId", objectId);
                         startActivity(openStoryContent);
                     }
                 }
