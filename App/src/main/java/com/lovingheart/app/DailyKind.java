@@ -19,6 +19,7 @@ public class DailyKind {
     public static String PREFERENCE_SUPPORT_CHINESE = "support_chinese";
 
     public static String PREFERENCE_PLAYING_SOUND = "playing_sound";
+    public static String PREFERENCE_DONT_ASK_TO_SHARE = "ask_to_share";
 
     public static String NEED_UPDATE_DRAWER = "need_update_drawer";
 

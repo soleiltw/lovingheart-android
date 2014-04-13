@@ -209,6 +209,20 @@ public class SettingActivity extends PreferenceActivity {
                     return true;
                 }
             });
+
+            SwitchPreference dontAskToSharePreference = (SwitchPreference)findPreference("setting_dont_ask_to_share");
+            dontAskToSharePreference.setDefaultValue(false);
+            dontAskToSharePreference.setChecked(preferences.getBoolean(DailyKind.PREFERENCE_DONT_ASK_TO_SHARE, false));
+            dontAskToSharePreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object newValue) {
+                    SharedPreferences.Editor editor = preference.getEditor();
+                    editor.putBoolean(DailyKind.PREFERENCE_DONT_ASK_TO_SHARE,
+                            Boolean.parseBoolean(newValue.toString()));
+                    editor.commit();
+                    return true;
+                }
+            });
         } else {
             CheckBoxPreference englishSwitchPreference = (CheckBoxPreference)findPreference("setting_support_english");
             englishSwitchPreference.setDefaultValue(preferEnglishSaved);

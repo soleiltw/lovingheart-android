@@ -664,6 +664,7 @@ public class PostStoryActivity extends ActionBarActivity {
                     if (anonymousCheckBox.isChecked()) {
                         storyIntent.putStringArrayListExtra("status", DailyKind.getAnonymousStoriesStatusList(getApplication()));
                     }
+                    storyIntent.putExtra("OpenedFrom", "PostStoryActivity");
                     startActivity(storyIntent);
                     finish();
                 } else {
@@ -746,7 +747,7 @@ public class PostStoryActivity extends ActionBarActivity {
                         public void done(List<ParseObject> parseObjects, ParseException e) {
 
                             if (parseObjects!=null && !parseObjects.isEmpty()) {
-
+                                dialog.findViewById(R.id.layout_graphic_empty_text_view).setVisibility(View.GONE);
                                 userGraphicsList.clear();
                                 for (ParseObject eachGraphicObject : parseObjects) {
                                     Graphic graphic = new ParseObjectManager(eachGraphicObject).getGraphic();
