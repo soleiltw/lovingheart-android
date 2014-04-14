@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.lovingheart.app"
     android:versionName="1.2.0" 
-    android:versionCode="25" >
+    android:versionCode="29" >
 
     <uses-sdk android:minSdkVersion="8" android:targetSdkVersion="19" />
 
@@ -20,7 +20,6 @@
 	<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 	<uses-permission android:name="android.permission.VIBRATE" />
 	<uses-permission android:name="com.android.vending.BILLING" />
-	<uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
 	<uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
 

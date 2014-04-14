@@ -111,7 +111,7 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
                 ideaCategoryList);
         ideaCategoryDropDownAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-        qbon = new Qbon(MainActivity.this, true, "757e03249542c5fbbcedefe35b064bca");
+        qbon = new Qbon(MainActivity.this, true, com.lovingheart.app.Qbon.QBON_KEY);
     }
 
     @Override
