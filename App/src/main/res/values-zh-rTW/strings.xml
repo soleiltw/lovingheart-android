@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">LovingHeart</string>
+    <string name="app_name">樂愛</string>
 	<string name="app_id">778772072139128</string>
 	<string name="map_key">AIzaSyBguhqtGZ3xbzHkTNSh8AI5O3Wa62QXrTw</string>
     <string name="title_today">本日推薦</string>

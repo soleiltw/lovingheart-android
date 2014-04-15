@@ -26,6 +26,7 @@ import com.lovingheart.app.R;
 import com.lovingheart.app.fragment.*;
 import com.lovingheart.app.object.Category;
 import com.lovingheart.app.util.CheckUserLoginUtil;
+import com.lovingheart.app.util.parse.ParseObjectManager;
 import com.lovingheart.app.view.DrawerBottomListView;
 import com.parse.*;
 import org.json.JSONException;
@@ -208,6 +209,7 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
             switch (position) {
                 case VIEW_PAGER_QBON:
                     qbon.openOfferWall();
+                    ParseObjectManager.userLogDone("aT3YgfPivy");
                     break;
                 case VIEW_PAGER_GETTING_STARTED:
 
