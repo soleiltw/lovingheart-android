@@ -1,0 +1,476 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="qbon_app_name">Qbon</string>
+    
+	<!-- 標題設定 -->
+	<string name="qbon_title_set_location">尋找優惠</string>
+	<string name="qbon_title_login">登入Qbon</string>
+	<string name="qbon_title_register">註冊</string>
+	<string name="qbon_title_category">分類設定</string>
+	<string name="qbon_title_wallet_detail">我的口袋</string>
+	<string name="qbon_title_scan">掃描憑證</string>
+	<string name="qbon_title_discount">購物金折抵</string>
+	<string name="qbon_title_voucher_buy">購買商品券</string>
+	<string name="qbon_title_type2_invoice">二聯式發票</string>
+	<string name="qbon_title_type3_invoice">三聯式發票</string>
+	<string name="qbon_title_paid_info">付款資訊</string>
+	<string name="qbon_title_search_map">尋找最近的優惠</string>
+	<string name="qbon_title_fliter_offer">搜尋結果</string>
+	<string name="qbon_title_change_password">設定新密碼</string>
+	<string name="qbon_title_contact_qbon">聯繫Qbon</string>
+	<string name="qbon_title_private_list">隱私權條款</string>
+	<string name="qbon_title_vaild_text">註冊</string>
+	<string name="qbon_title_about_qbon">關於Qbon</string>
+	
+	<!-- 系統文字 -->
+	<string name="qbon_device_not_able_receive_push">此裝置不支援推播服務</string>
+	<string name="qbon_device_not_support_mission">此裝置不支援此任務</string>
+	<string name="qbon_device_not_support_redeem_type">此裝置不支援此種兌換方式</string>
+	
+	
+	<!-- 退出Qbon -->
+	<string name="qbon_dialog_exit_qbon">是否要退出Qbon?</string>
+	
+	
+	
+	<!-- 優惠資訊列表 -->
+	<string name="qbon_map_mode">地圖模式</string>
+	<string name="qbon_add_coupon">立即加入我的口袋</string>
+	<string name="qbon_show_detail">前往觀看詳細內容</string>
+	<string name="qbon_empty_text">領取豐富優惠券\n當聰明消費達人</string>
+	<string name="qbon_add_wallet">加入口袋</string>
+	<string name="qbon_add_favorite">加入追蹤</string>
+	
+	
+	
+	
+	<!-- GPS 提示 -->
+	<string name="qbon_gps_need_open">請開啟定位</string>
+	<string name="qbon_gps_message">請開啟「定位服務」，Qbon才能提供離您最近的優惠資訊唷！</string>
+	<string name="qbon_gps_message_setting">設定</string>
+	
+	
+	
+	<!-- 地區設定 -->
+	<string name="qbon_search_distance_title_text">搜尋距離</string>
+	<string name="qbon_search_distance">搜尋距離</string>
+	<string name="qbon_distance_text">關鍵字搜尋</string>
+	<string name="qbon_choose_area">選擇區域</string>
+	<string name="qbon_choose_category">選擇分類</string>
+	<string name="qbon_search_more_text">搜尋更多</string>
+	<string name="qbon_choose_category_all">所有分類</string>
+	<!--  
+	<string name="qbon_city_text">縣市</string>
+	<string name="qbon_area_text">區域</string>
+	<string name="qbon_search_discount">尋找地區優惠</string>
+	<string name="qbon_kilo_meter_text">公里</string>
+	<string name="qbon_use_current_location">使用目前位置</string>
+	<string name="qbon_locaiton_text">尋找附近優惠</string>
+	-->
+	
+	
+	<!--  地圖頁面 -->
+	<string name="qbon_map_stickies_first_text">放大畫面,瀏覽</string>
+	<string name="qbon_map_stickies_second_text">個優惠</string>
+	<string name="qbon_map_stickies_category_first_text">的優惠 </string>
+	<string name="qbon_map_stickies_category_second_text"> (有 </string>
+	<string name="qbon_map_stickies_category_third_text"> 個結果) </string>
+	<string name="qbon_map_stickies_category_all">全部優惠</string>
+	
+	
+	<!-- 優惠資訊內頁 -->
+	<string name="qbon_offer_qbon_detail_share_text">分享給朋友</string>
+	<string name="qbon_offer_detail_add_favorite">追蹤此優惠</string>
+	<string name="qbon_offer_detail_discount">折扣</string>
+	<string name="qbon_offer_detail_num">剩餘</string>
+	<string name="qbon_offer_detail_distance">離你</string>
+	<string name="qbon_offer_detail_get">立即獲得</string>
+	<string name="qbon_offer_detail_value_about">$</string>
+	<string name="qbon_offer_detail_offer_info">店家資訊</string>
+	<string name="qbon_offer_detail_use_info">使用說明</string>
+	<string name="qbon_offer_detail_address_text">地　　址：</string>
+	<string name="qbon_offer_detail_tel_text">電　　話：</string>
+	<string name="qbon_offer_detail_store_time_text">營業時間：</string>
+	<string name="qbon_offer_detail_web_text">官　　網：</string>
+	<string name="qbon_offer_detail_coupon_value">現省約</string>
+	<string name="qbon_offer_get_voucher">立即購買</string>
+	<string name="qbon_offer_get_coupon">立即獲得</string>
+	<string name="qbon_offer_use_offer">立即兌換</string>
+	<string name="qbon_offer_use_out_date">已過期</string>
+	<string name="qbon_offer_use_not_sale">已下架</string>
+	<string name="qbon_offer_use_no_num">已發完</string>
+	<string name="qbon_offer_used_text">已兌換</string>
+	<string name="qbon_redeem_fail">兌換失敗</string>
+	<string name="qbon_coupon_fail">優惠券取得失敗</string>
+	<string name="qbon_voucher_fail">Voucher取得失敗</string>
+	<string name="qbon_redeem_success">兌換成功</string>
+	<string name="qbon_coupon_success">成功加入我的口袋</string>
+	<string name="qbon_voucher_success">Voucher取得成功</string>
+	<string name="qbon_to_wallet_list">查詢我的口袋</string>
+	<string name="qbon_add_favorite_fail">增加到追蹤清單失敗</string>
+	<string name="qbon_add_favorite_success">成功加入追蹤清單</string>
+	<string name="qbon_to_favorite_list">查詢追蹤清單</string>
+	<string name="qbon_mission_start">開始任務</string>
+	<string name="qbon_mission_call_server_fail">伺服器發生錯誤</string>
+	<string name="qbon_mission_fail">任務失敗</string>
+	<string name="qbon_detail_share_mail">透過Gmail分享</string>
+	<string name="qbon_detail_share_fb">透過FaceBook分享</string>
+	<string name="qbon_detail_share_line">透過Line分享</string>
+	<string name="qbon_detail_share_text_fb_success">分享成功</string>
+	<string name="qbon_detail_share_text_fb_fail">分享失敗</string>
+	<string name="qbon_detail_ticket_full">優惠滿滿</string>
+	<string name="qbon_detail_ticket_not_full">所剩不多</string>
+	<string name="qbon_detail_ticket_last_num">最後幾張</string>
+	<string name="qbon_detail_ticket_next_time">下次請早</string>
+	<string name="qbon_qbon_detail_over_take">很抱歉！此優惠券已無剩餘數量，可以將此優惠加入追蹤清單！</string>
+	<string name="qbon_detail_has_been_favorite">此優惠券已在您的追蹤清單內囉!</string>
+	<string name="qbon_detail_over_used">很抱歉，您領取此優惠的次數已達上限囉！前往優惠牆去看更多優惠吧！</string>
+	<string name="qbon_detail_over_add_favorite">加入追蹤清單</string>
+	<string name="qbon_detail_over_no_add_favorite">暫時不要加入</string>
+	<string name="qbon_detail_over_go_offerlist">返回優惠牆</string>
+	<string name="qbon_detail_offer_title">優惠券</string>
+	<string name="qbon_detail_voucher_title">商品券</string>
+	<string name="qbon_detail_mission_title">任務</string>
+	<string name="qbon_detail_split_text">:</string>
+	
+	
+	
+	
+	<!-- 拍照 任務-->
+	<string name="qbon_share_facebook_photo_mission_hint_text">請觸碰螢幕拍照</string>
+	<string name="qbon_share_facebook_photo_title_text">拍照上傳</string>
+	
+	
+	<!-- 分享文字 -->
+	<string name="qbon_share_abon_app_title">我在Qbon上看到【</string>
+	<string name="qbon_share_get_reward"> 】優惠券，你也一起來領取吧！上面還有眾多其他商品優惠唷，快來Qbon逛逛～</string>
+	<string name="qbon_share_offer_detail">店家優惠內容:</string>
+	<string name="qbon_share_abon_content_title">Qbon 你的隨身優惠口袋！眾多優惠等你拿！</string>
+	
+	
+	
+	<string name="qbon_share_mail_title">Qbon APP送來優惠資訊！</string>
+	<string name="qbon_share_checkin_title">我在『</string>
+	<string name="qbon_share_checkin_string"> 』享受美食還拿到了優惠券!</string>
+	
+	
+	<!-- 登入 -->
+	
+	<string name="qbon_login_account_text">帳號</string>
+	<string name="qbon_password_text">密碼</string>
+	<string name="qbon_login_hint_text">email或手機號碼</string>
+	<string name="qbon_password_hint_text">註冊時使用的密碼</string>
+	<string name="qbon_login_text">使用Hiiir帳號註冊/登入</string>
+	<string name="qbon_facebook_login_text">facebook 登入</string>
+	<string name="qbon_register_remind_title">註冊帳號</string>
+	<string name="qbon_register_new_account">註冊新帳號</string>
+	<string name="qbon_login_fail">登入失敗</string>
+	<string name="qbon_login_success">登入成功</string>
+	<string name="qbon_login_forgot_password">忘記密碼</string>
+	<string name="qbon_login_dialog_fail_title">登入錯誤！</string>
+	<string name="qbon_login_dialog_fail_message">很抱歉,您的登入資料錯誤</string>
+	<string name="qbon_login_dialog_fail_contact">聯絡客服</string>
+	<string name="qbon_login_area_contact">客服</string>
+	<string name="qbon_login_dialog_resend_email_vaild">重新發送認證信</string>
+	<string name="qbon_login_dialog_resend_mobile_vaild">重新發送認證碼</string>
+	<string name="qbon_login_dialog_not_vaild">帳號尚未認證成功，請先通過認證啟用</string>
+	<string name="qbon_login_info_des_text">Qbon採用Hiiir會員管理系統，\n可提供Qbon更多全方位的優質服務。</string>
+	<string name="qbon_login_weburl_fail">目前登入頁面發生錯誤，請稍後再試</string>
+	
+	
+	
+	
+	
+	<!-- 忘記密碼 -->
+	<string name="qbon_forgot_account_not_be_null">帳號不得為空</string>
+	<string name="qbon_forgot_des">請輸入您的帳號（註冊時使用的電子信箱或電話號碼），按下〝請寄認證碼給我！〞,就可以至註冊信箱或簡訊夾收取認證碼。</string>
+	<string name="qbon_forgot_get_text">請寄認證碼給我！</string>
+	<string name="qbon_forgot_receive">認證碼已寄出，請至註冊信箱或簡訊夾收取！</string>
+	
+	<string name="qbon_forgot_to_vaild_page">進入輸入認證碼頁面</string>
+	<string name="qbon_forgot_not_found_user">很抱歉此帳號不存在唷！\n沒有帳號嗎？註冊會員只要兩步驟！</string>
+	<string name="qbon_forgot_register_new_account">註冊新帳號</string>
+	<string name="qbon_forgot_resend_vaild">重新寄送認證碼</string>
+	<string name="qbon_forgot_resend_check_first">請先至註冊信箱或簡訊夾確認有沒有收到認證信唷，並過十分鐘再試試此功能</string>
+	<string name="qbon_forgot_resend_on_limit">很抱歉，今日使用簡訊傳送認證碼的次數已用完囉</string>
+	
+	<!-- 修改密碼 -->
+	<string name="qbon_change_current_password">輸入目前密碼</string>
+	<string name="qbon_change_current_vaild_code">輸入認證碼</string>
+	<string name="qbon_change_new_password">新的密碼</string>
+	<string name="qbon_change_confirm_password">確認密碼</string>
+	<string name="qbon_change_current_vaild_wrong">您輸入的認證碼有誤,請重新輸入！</string>
+	<string name="qbon_change_current_account_empty">目前密碼不得為空</string>
+	<string name="qbon_change_current_new_password_empty">新密碼不得為空</string>
+	<string name="qbon_change_current_password_not_match">您輸入的密碼前後不一致唷！</string>
+	<string name="qbon_change_data_fail">資料處理錯誤,請重新操作</string>
+	<string name="qbon_change_make_sure_leave">請問是否離開此頁面</string>
+	<string name="qbon_change_password_success">您的新密碼已變更完成,請使用新密碼登入！</string>
+	<string name="qbon_change_forgot_password_success">您的新密碼已變更完成,請使用新密碼登入！</string>
+	
+	
+	<!-- 篩選的按鈕文字 -->
+	<string name="qbon_filter_all">所有</string>
+	<string name="qbon_filter_coupon">優惠券</string>
+	<string name="qbon_filter_voucher">商品券</string>
+	<string name="qbon_filter_mission">任務</string>
+	<string name="qbon_filter_redeem">未兌換</string>
+	<string name="qbon_filter_redeemed">已兌換</string>
+	
+	<!-- 帳戶資訊 -->
+	<string name="qbon_accountinfo_useraccount">帳號</string>
+	<string name="qbon_accountinfo_name">姓名</string>
+	<string name="qbon_accountinfo_area">地區</string>
+	<string name="qbon_accountinfo_mobile">行動電話</string>
+	<string name="qbon_accountinfo_notify">通知</string>
+	<string name="qbon_accountinfo_about_solomo">關於Qbon</string>
+	<string name="qbon_accountinfo_privatelist">隱私權條款與個資利用宣告</string>
+	<string name="qbon_accountinfo_tutor_text">新手教學</string>
+	<string name="qbon_accountinfo_changepassword">修改密碼</string>
+	<string name="qbon_accountinfo_contact_us">與我們聯繫</string>
+	<string name="qbon_accountinfo_private">隱私權條款</string>
+	<string name="qbon_accountinfo_userlist">會員條款</string>
+	<string name="qbon_accountinfo_logout">登出</string>
+	<string name="qbon_accountinfo_logout_success">登出完成</string>
+	<string name="qbon_accountinfo_logout_fail">登出失敗,請稍後再試</string>
+	<string name="qbon_accountinfo_logout_confirm">確定要登出嗎?</string>
+	
+	
+	<string name="qbon_delete_confirm">確定要刪除嗎?</string>
+	<string name="qbon_delete_fail">刪除失敗,請稍後再試</string>
+	
+	
+	<!-- 分類 -->
+	<string name="qbon_category_request_fail">取得分類失敗,請稍後再試</string>
+	<string name="qbon_category_save">儲存</string>
+	<string name="qbon_category_all_choose">全選</string>
+	
+	
+	<!-- 搜尋結果 -->
+	<string name="qbon_search_condition_title">搜尋條件  :　</string>
+	<string name="qbon_search_banner_key_word">專屬優惠</string>
+	
+	
+	<!-- 註冊 -->	
+	<string name="qbon_register_confirm_password_fail">密碼不一致,請重新輸入</string>
+	<string name="qbon_register_account_text">帳號</string>
+	<string name="qbon_register_password_text">密碼</string>
+	<string name="qbon_register_hint_text">email或手機號碼</string>
+	<string name="qbon_register_argee">我已詳閱並同意</string>
+	<string name="qbon_register_user_list">使用者條款</string>
+	<string name="qbon_register_account">註冊帳號</string>
+	<string name="qbon_register_fb">使用facebook帳號註冊</string>
+	<string name="qbon_register_not_read">請先同意使用者條款</string>
+	<string name="qbon_register_account_not_empty">帳號不得為空</string>
+	<string name="qbon_register_paddword_not_empty">密碼不得為空</string>
+	<string name="qbon_register_paddword_confirm">確認密碼</string>
+	<string name="qbon_register_use_qbon_title_role">使用條款</string>
+	<string name="qbon_register_confirm_title">請同意此合約內容</string>
+	<string name="qbon_register_confirm_message">我已詳細閱讀並同意此合約內容</string>
+	<string name="qbon_register_receive_vaild">請至信箱收取認證信</string>
+	<string name="qbon_register_have_been_registered">此帳號已經存在囉,若忘記密碼請至忘記密碼頁重新認證,或聯絡客服</string>
+	<string name="qbon_register_forgot_password">我忘記密碼</string>
+	<string name="qbon_register_fail_message">註冊失敗！請輸入正確格式的Email或電話號碼。</string>
+	
+	
+	
+	
+	<!-- 願望清單 -->
+	<string name="qbon_favorite_list_fail">取得願望清單失敗,請稍後再試</string>
+	<!-- 優惠列表 -->
+	<string name="qbon_wallet_list_fail">優惠列表取得失敗,請稍後再試</string>
+	<string name="qbon_wallet_not_sale_text">『本券已下架，是否直接刪除?』</string>
+	<string name="qbon_wallet_no_num_text">『本券已無剩餘數量，是否直接刪除?』</string>
+	
+	
+	<!-- 優惠內頁 -->
+	<string name="qbon_wallet_detail_change_deadline">可兌換天數還剩</string>
+	<string name="qbon_wallet_detail_change_text">由商家點擊兌換</string>
+	<string name="qbon_wallet_detail_des">使用方式：憑本票券至商家店內點擊『點我兌換』，並出示給店家確認，即兌換成功！</string>
+	<string name="qbon_wallet_detail_des_type_6">使用方式:請點擊『點我領取優惠』，即可獲得您專屬的優惠序號！</string>
+	
+	<string name="qbon_wallet_detail_outdeadline_contact">若您不希望轉為購物金\n將來信至客服信箱\n將有專員為您服務\n</string>
+	<string name="qbon_wallet_detail_day_title">天</string>
+	<string name="qbon_wallet_detail_out_deadline">已過期</string>
+	<string name="qbon_wallet_detail_change_shop_cash">轉為購物金</string>
+	<string name="qbon_wallet_detail_changed_shop_cash">已轉為購物金</string>
+	<string name="qbon_wallet_detail_changed">已成功兌換</string>
+	<string name="qbon_wallet_detail_outdeadline_des">因本券超過可兌換期限而未使用,已無優惠價值. 如需取得更多優惠請至優惠牆領取</string>
+	<string name="qbon_wallet_detail_redeem_code_title">優惠券號碼 : </string>
+	<string name="qbon_wallet_detail_confirm_message">請由商家點擊確認鈕進行兌換，如誤觸且兌換成功將不予補發。</string>
+	<string name="qbon_wallet_detail_change_title">兌換截止時間還剩</string>
+	<string name="qbon_wallet_detail_outdate_time_text">截止\n時間</string>
+	<string name="qbon_wallet_detail_change_time_text">兌換\n時間</string>
+	<string name="qbon_wallet_detail_type6_title_text">恭喜您獲得一組優惠序號：</string>
+	<string name="qbon_wallet_detail_type6_remind_text">貼心叮嚀：\n序號本身有使用期限，請注意商家提供的使用說明，並盡快使用唷！</string>
+	<string name="qbon_wallet_detail_type6_reminded_text">使用方式:請點擊『點我領取優惠』，即可獲得您專屬的優惠序號！</string>
+	
+	
+	<!-- 兌換相關 -->
+	<string name="qbon_wallet_detail_wrong_code">優惠代碼不正確</string>
+	<string name="qbon_wallet_detail_redeem_fail">兌換失敗,請重新兌換</string>
+	<string name="qbon_wallet_detail_redeem_success">已成功兌換</string>
+	
+	
+	<!-- 購買商品券 -->
+	<string name="qbon_voucher_buy_num_title">數量</string>
+	<string name="qbon_voucher_buy_cash_title">購物金折抵</string>
+	<string name="qbon_voucher_buy_qbon_invoice_title">發票</string>
+	<string name="qbon_voucher_buy_totalcost_title">應付金額</string>
+	<string name="qbon_voucher_buy_next">下一步</string>
+	<string name="qbon_voucher_cost_type">NTD </string>
+	
+	<!-- 發票相關 -->
+	<string name="qbon_invoice_choose">請選擇</string>
+	<string name="qbon_invoice_2type">二聯</string>
+	<string name="qbon_invoice_3type">三聯</string>
+	<string name="qbon_invoice_2type_mail_hint_text">電子發票將寄送到此信箱</string>
+	<string name="qbon_invoice_2type_mail_qbon_title_text">電子信箱</string>
+	<string name="qbon_invoice_2type_des_text">1.請確認您的電子信箱可確實收到電子發票\n2.如需索取紙本發票,請您與客服人員聯繫
+	    ,紙本發票開立需二至三個工作天,索取後請您耐心等候\n3.本公司將於奇數月26日根據國稅局公佈之統一發票中獎號碼進行電腦對獎,若中獎將於當月底發出e-mail通知並以掛號方式把中獎發票寄給您</string>
+	<string name="qbon_invoice_name_title">名稱</string>
+	<string name="qbon_invoice_tax_title">統一編號</string>
+	<string name="qbon_invoice_address_title">地址</string>
+	<string name="qbon_invoice_tel_title">電話</string>
+	<string name="qbon_invoice_3type_des_text">1.請確認您填寫正確的發票所需資訊\n2.發票開立需二至三個工作天,索取後請您耐心等候</string>
+	<string name="qbon_invoice_email_not_vaild">信箱格式不正確</string>
+	<string name="qbon_invoice_tel_not_vaild">電話格式不正確</string>
+	<string name="qbon_invoice_tax_not_vaild">統一編號格式不正確</string>
+	<string name="qbon_invoice_name_not_vaild">名稱格式不正確</string>
+	<string name="qbon_invoice_address_not_vaild">地址格式不正確</string>
+	
+	
+	
+	<!-- 付款資訊 -->
+	<string name="qbon_paidinfo_date_title">有效年月</string>
+	<string name="qbon_paidinfo_offer_name_title">商品券</string>
+	<string name="qbon_paidinfo_paid_cash_title">應付金額</string>
+	<string name="qbon_paidinfo_creditcard_title">信用卡號</string>
+	<string name="qbon_paidinfo_vaild_title">認證碼</string>
+	<string name="qbon_paidinfo_date_month">MM</string>
+	<string name="qbon_paidinfo_date_year">YYYY</string>
+	<string name="qbon_paidinfo_confirm">確認結帳</string>
+	<string name="qbon_paidinfo_fail">購買失敗,請重新操作</string>
+	<string name="qbon_paidinfo_success">恭喜您成功購買本券\n請至我的口袋查看兌換方式</string>
+	<string name="qbon_paidinfo_towallet">查看我的口袋</string>
+	<string name="qbon_paidinfo_toofferlist">回優惠列表</string>
+	<string name="qbon_paidinfo_setvalue_fail">請輸入正確的資訊</string>
+	
+	<!-- 購物金折抵 -->
+	<string name="qbon_discount_des_title">請輸入本次消費欲使用的購物金金額</string>
+	<string name="qbon_discount_have_cash_title">現有購物金</string>
+	<string name="qbon_discount_use_cash_title">本次使用</string>
+	
+	
+	<!-- 設定密碼 -->
+	<string name="qbon_setting_email">電子郵件</string>
+	<string name="qbon_setting_password">設定密碼</string>
+	<string name="qbon_setting_confirm_password">確認密碼</string>
+	<string name="qbon_register_success">註冊成功</string>
+	<string name="qbon_register_fail">註冊失敗</string>
+	
+	
+	<string name="qbon_progress_text">請稍後</string>
+	<string name="qbon_confirm_text">確定</string>
+	<string name="qbon_delete_text">刪除</string>
+	
+	<string name="qbon_cancel_text">取消</string>
+	<string name="qbon_back_page">上一頁</string>
+	<string name="qbon_all_choose">全選</string>
+	<string name="qbon_search_hint">搜尋關鍵字或店名</string>
+	<string name="qbon_category_all">所有分類</string>
+	<string name="qbon_category_all_check">全部勾選</string>
+	<string name="qbon_category_all_cancel">全部取消</string>
+	<string name="qbon_category_please_choose">請選擇分類</string>
+	<string name="qbon_api_server_data_fail">資料錯誤，請重新連線</string>
+	
+	
+	<!-- 聯繫Qbon -->
+	<string name="qbon_contact_qbon_type_title">請輸入以下資料,讓我們方便連絡您,並能更快速的解決您的問題</string>
+	<string name="qbon_contact_qbon_email_title">電子郵件</string>
+	<string name="qbon_contact_qbon_mobile_title">手機號碼</string>
+	<string name="qbon_contact_qbon_question_type">問題種類</string>
+	<string name="qbon_contact_qbon_content_title">請輸入問題內容</string>
+	<string name="qbon_contact_qbon_mail_mobile_either">請輸入電子郵件或者手機號碼</string>
+	<string name="qbon_contact_qbon_choose_question_type">請選擇問題種類</string>
+	<string name="qbon_contact_qbon_enter_content">請輸入問題內容</string>
+	<string name="qbon_contact_qbon_resposne_success">信件已成功寄出，我們會盡快幫你處理！</string>
+	<string name="qbon_contact_qbon_email_invaild">請輸入正確的信箱號碼</string>
+	
+	
+	
+	
+	
+	<string name="contact_qbon_send">送出</string>
+	
+	
+	<!-- 輸入驗證碼 -->
+	<string name="qbon_input_vaild_des_text">請至簡訊夾收取您的認證碼</string>
+	<string name="qbon_input_vaild_qbon_title_text">認證碼</string>
+	<string name="qbon_input_vaild_typing_text">請輸入認證碼</string>
+	<string name="qbon_input_vaild_resend_text">重新寄送認證碼</string>
+	<string name="qbon_input_vaild_not_used">資料認證錯誤,請重新申請帳號</string>
+	<string name="qbon_input_vaild_check_success">資料認證成功</string>
+	
+	<string name="qbon_contact_type_register_login">註冊/登入問題</string>
+	<string name="qbon_contact_type_mobile_system">手機系統問題</string>
+	<string name="qbon_contact_type_app_use_problem">APP功能使用問題</string>
+	<string name="qbon_contact_type_register_store_info">店家資訊問題</string>
+	<string name="qbon_contact_type_option_suggest">功能建議</string>
+	
+	
+	
+	
+	<!-- 點數清單 -->
+	<string name="qbon_pointlist_getdata_qbon_title_text">取得日期:</string>
+	<string name="qbon_pointlist_duedate_qbon_title_text">到期日期:</string>
+	<string name="qbon_pointlist_point_qbon_title_text">點數:</string>
+	<string name="qbon_pointlist_have_point_text">現有點數</string>
+	<string name="qbon_pointlist_fail">取得點數清單失敗,請稍後再試</string>
+	<string name="qbon_pointlist_remind_text">目前點數功能開放累積，未來將會提供眾多豐富商品作兌換，敬請期待！快到優惠牆領取及兌換優惠券，為自己累積更多點數吧！</string>
+	<!-- 購物金列表 -->
+	<string name="qbon_shopping_list_page">功能即將開放,敬請期待</string>
+	
+		
+	<!-- 連線失敗 -->
+	<string name="qbon_connect_fail">網路連接失敗,請查詢網路是否正常</string>
+	<string name="qbon_connect_parse_fail">伺服器異常，請稍後再試</string>
+	
+	
+	<!-- token過期 -->
+	<string name="qbon_token_expire">登入已過期，請重新登入</string>
+	
+	<!-- popup -->
+	<string name="qbon_popup_offer_title">恭喜你獲得</string>
+	<string name="qbon_popup_offer_get">立即放入口袋</string>
+	<string name="qbon_popup_offer_cancel">不,謝謝</string>
+	<string name="qbon_popup_wallet_title">恭喜你已獲得以下優惠</string>
+	<string name="qbon_popup_wallet_get">查看優惠口袋</string>
+	<string name="qbon_popup_wallet_cancel">返回遊戲</string>
+	<string name="qbon_popup_wallet_login">請先登入才能兌換</string>
+	<string name="qbon_popup_wallet_added">已放入你的優惠口袋</string>
+	
+	<string name="qbon_popup_login_title">是否先登入Qbon帳號</string>
+	<string name="qbon_popup_login_message">暫存優惠仍需登入才能使用</string>
+	<string name="qbon_popup_login_get">立即登入Qbon</string>
+	<string name="qbon_popup_login_cancel">我要暫存</string>
+	
+	
+	<!-- Qbon教學文字 -->
+	<string name="qbon_totur_des_text1">Qbon蒐集了全台食衣住行育樂各類優惠票券與好康，其中不乏多家知名商家，獨家提供超殺優惠券</string>
+	<string name="qbon_totur_des_text2">隨時觀看附近有哪些優惠店家，透過手機就可以直接將優惠券放入口袋，立即領取，隨時使用，簡單當個聰明消費者!</string>
+	<string name="qbon_totur_des_text3">點選叉叉即可\n回到原APP唷！</string>
+	<string name="qbon_totur_des_text4">馬上來領優惠券！</string>
+	
+	
+	
+	<!-- Menu選單的文字 -->
+	<string name="qbon_my_wallet_list">我的口袋</string>
+	<string name="qbon_my_account_info">帳戶資訊</string>
+	<string name="qbon_my_wish_list">追蹤清單</string>
+	<string name="qbon_my_point_list">點數清單</string>
+	<string name="qbon_my_news">最新消息</string>
+	<string name="qbon_my_qbon_list"></string>
+	
+</resources>

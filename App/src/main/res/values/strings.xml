@@ -3,6 +3,7 @@
 
     <string name="app_name">LovingHeart</string>
 	<string name="app_id">778772072139128</string>
+	<string name="map_key">AIzaSyBguhqtGZ3xbzHkTNSh8AI5O3Wa62QXrTw</string>
     <string name="title_today">Today</string>
     <string name="title_me">Me</string>
     <string name="title_latest_activities">Latest Stories</string>
@@ -190,6 +191,7 @@
 	<string name="stories_empty_text">Cant\' find a story yet, be the first one.</string>
 	<string name="post_story_status_anonymous_share">Anonymous share</string>
 	<string name="post_story_status_private_story">Private story</string>
+	<string name="navigation_bottom_qbon">Qbon</string>
 
 	<string name="ask_share_story_dialog_message">Want to share this story to your Facebook friends?</string>
 	<string name="auto_sharing">Ask to share</string>

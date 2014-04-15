@@ -1,1 +1,1 @@
-include ':App',':Facebook', ':AndroidBootstrap', ':UserVoiceSDK', ':ViewPagerIndicator', ':GesturesImageView'
+include ':App',':Facebook', ':AndroidBootstrap', ':UserVoiceSDK', ':ViewPagerIndicator', ':GesturesImageView', ':QbonWidget'
