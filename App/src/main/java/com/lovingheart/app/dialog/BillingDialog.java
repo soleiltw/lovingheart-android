@@ -121,7 +121,6 @@ public class BillingDialog extends Dialog {
 
         final ArrayList<String> skuList = new ArrayList<String>();
         skuList.add(PERSONAL_HAPPINESS_REPORT_MONTHLY);
-        skuList.add(PERSONAL_HAPPINESS_REPORT_YEARLY);
         iabHelper.startSetup(new IabHelper.OnIabSetupFinishedListener() {
             /**
              * Called to notify that setup is complete.
@@ -156,7 +155,7 @@ public class BillingDialog extends Dialog {
                                                     + getContext().getString(R.string.space)
                                                     + getContext().getString(R.string.slash)
                                                     + getContext().getString(R.string.space)
-                                                    + getContext().getString(R.string.upgrade_premium_year_button_unit)
+                                                    + getContext().getString(R.string.upgrade_premium_monthly_button_unit)
 
                                     );
                                     upgradeMonthlyButton.requestLayout();

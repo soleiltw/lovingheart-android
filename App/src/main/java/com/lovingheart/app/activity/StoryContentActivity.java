@@ -803,6 +803,7 @@ public class StoryContentActivity extends ActionBarActivity {
 //                            pushQuery.whereEqualTo("user", storyObject.getParseUser("StoryTeller"));
 
                             pushQuery.whereContainedIn("user", pushToUsers);
+                            pushQuery.whereEqualTo("user", storyObject.getParseUser("StoryTeller"));
 
                             ParsePush push = new ParsePush();
                             push.setQuery(pushQuery);

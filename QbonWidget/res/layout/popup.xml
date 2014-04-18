@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="280dp"
+    android:layout_height="250dp" >
+
+    <RelativeLayout
+        android:id="@+id/rl_popup_layout"
+        android:layout_width="280dp"
+        android:layout_height="235dp" 
+        android:background="@drawable/qbon_popupsdk_bg">
+
+        <TextView
+            android:id="@+id/txt_popup_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:text="恭喜你獲得以下優惠"
+            android:textSize="26sp" >
+        </TextView>
+
+        <RelativeLayout
+            android:id="@+id/rl_content_layout"
+            android:layout_below="@id/txt_popup_title"
+            android:layout_width="227dp"
+            android:layout_height="135dp" 
+            android:layout_centerInParent="true"
+            android:background="@drawable/qbon_popupsdk_bg_white">
+
+            <ImageView
+                android:id="@+id/image_content"
+                android:layout_width="220dp"
+                android:layout_height="83dp" >
+            </ImageView>
+
+            <TextView
+                android:id="@+id/txt_content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/image_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="20dp"
+                android:text="漢堡王A咖勸$189買一送一全台皆可使用"
+                android:textSize="18sp" >
+            </TextView>
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/image_get"
+        android:layout_width="115dp"
+        android:layout_height="30dp"
+        android:layout_alignLeft="@id/rl_popup_layout"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="20dp"
+        android:background="@drawable/qbon_popupsdk_btn_submit" >
+    </ImageView>
+
+    <ImageView
+        android:id="@+id/image_cancel"
+        android:layout_width="115dp"
+        android:layout_height="30dp"
+        android:layout_alignRight="@id/rl_popup_layout"
+         android:layout_alignParentBottom="true"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="15dp"
+        android:background="@drawable/qbon_popupsdk_btn_cancel" >
+    </ImageView>
+
+</RelativeLayout>

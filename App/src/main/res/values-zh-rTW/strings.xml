@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">LovingHeart</string>
+    <string name="app_name">樂愛</string>
 	<string name="app_id">778772072139128</string>
+	<string name="map_key">AIzaSyBguhqtGZ3xbzHkTNSh8AI5O3Wa62QXrTw</string>
     <string name="title_today">本日推薦</string>
     <string name="title_me">成為會員</string>
     <string name="title_latest_activities">最新故事</string>
@@ -196,4 +197,5 @@
 	<string name="ask_share_story_dialog_message">願意分享這則故事到 Facebook 給朋友們嗎？</string>
 	<string name="auto_sharing">社群詢問分享</string>
 	<string name="no_dont_ask_again">先別再問</string>
+	<string name="navigation_bottom_qbon">優惠牆</string>
 </resources>
