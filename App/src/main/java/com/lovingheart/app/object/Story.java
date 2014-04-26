@@ -17,12 +17,10 @@ public class Story implements Serializable {
     private Date createdAt;
     private Date updatedAt;
     private Graphic graphic;
-
     private String language;
-
     private int viewCount;
-
     private String locationAreaName;
+    private String status;
 
 
     public String getObjectId() {
@@ -103,5 +101,17 @@ public class Story implements Serializable {
 
     public void setLanguage(String language) {
         this.language = language;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public boolean isAnonymous() {
+        return getStatus() != null && getStatus().contains("anonymous");
     }
 }

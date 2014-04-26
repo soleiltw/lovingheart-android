@@ -56,8 +56,6 @@ public class StoryContentActivity extends ActionBarActivity {
 
     private ImageView storyContentImageView;
 
-    private boolean isAnonymous;
-
     private int STORY_CONTENT_EDIT = 100;
     private int ASK_USER_LOGIN = 110;
 
@@ -90,10 +88,6 @@ public class StoryContentActivity extends ActionBarActivity {
 
         reviewList = new ArrayList<Review>();
         reviewArrayAdapter = new ReviewArrayAdapter(this, android.R.layout.simple_list_item_1, reviewList);
-
-        if (getIntent().getStringArrayListExtra("status") != null && getIntent().getStringArrayListExtra("status").contains("anonymous")) {
-            isAnonymous = true;
-        }
 
         openedFrom = getIntent().getStringExtra("OpenedFrom");
     }
@@ -361,7 +355,7 @@ public class StoryContentActivity extends ActionBarActivity {
 
                     TextView userNameTextView = (TextView)findViewById(R.id.user_name_text_view);
                     if (story.getStoryTeller() != null) {
-                        if (!isAnonymous) {
+                        if (!story.isAnonymous()) {
                             userNameTextView.setText(story.getStoryTeller().getString("name"));
                         } else {
                             userNameTextView.setText(getString(R.string.story_teller_anonymous));
@@ -383,7 +377,7 @@ public class StoryContentActivity extends ActionBarActivity {
 
                     final ImageView avatarImageView = (ImageView) findViewById(R.id.user_avatar_image_view);
 
-                    if (!isAnonymous) {
+                    if (!story.isAnonymous()) {
                         avatarImageView.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
@@ -398,7 +392,7 @@ public class StoryContentActivity extends ActionBarActivity {
                             avatarObject.fetchIfNeededInBackground(new GetCallback<ParseObject>() {
                                 @Override
                                 public void done(ParseObject parseObject, ParseException e) {
-                                    if (parseObject.getString("imageType").equals("url") && !isAnonymous) {
+                                    if (parseObject.getString("imageType").equals("url") && !story.isAnonymous()) {
                                         Picasso.with(getApplicationContext())
                                                 .load(parseObject.getString("imageUrl"))
                                                 .transform(new CircleTransform())
@@ -537,6 +531,11 @@ public class StoryContentActivity extends ActionBarActivity {
     }
 
     private void shareStory() {
+
+        ParseEventTrackingManager.event(ParseUser.getCurrentUser(),
+                this.storyObject,
+                ParseEventTrackingManager.ACTION_SHARE_STORY_TO_FACEBOOK, 1);
+
         String imageUrl = new String();
         if (story.getGraphic() != null) {
 
@@ -548,7 +547,7 @@ public class StoryContentActivity extends ActionBarActivity {
         }
 
         final Bundle facebookShareParams = new Bundle();
-        if (!isAnonymous) {
+        if (!story.isAnonymous()) {
             facebookShareParams.putString("name", story.getStoryTeller().getString("name"));
         } else {
             facebookShareParams.putString("name", getString(R.string.story_teller_anonymous));
