@@ -13,6 +13,7 @@ import com.lovingheart.app.activity.DeedContentActivity;
 import com.lovingheart.app.adapter.IdeaArrayAdapter;
 import com.lovingheart.app.listener.LoadMoreListener;
 import com.lovingheart.app.object.Category;
+import com.lovingheart.app.object.Graphic;
 import com.lovingheart.app.object.Idea;
 import com.lovingheart.app.util.parse.ParseObjectManager;
 import com.parse.*;
@@ -97,6 +98,7 @@ public class DeedIdeaListFragment extends PlaceholderFragment {
         stringCollection.add("close");
         ideasQuery.whereNotContainedIn("status", stringCollection);
         ideasQuery.include("categoryPointer");
+        ideasQuery.include("graphicPointer");
 
         if (queryCategory != null) {
             ParseObject categoryParseObject = new ParseObject("Category");
@@ -164,6 +166,8 @@ public class DeedIdeaListFragment extends PlaceholderFragment {
 
                         Idea idea = parseObjectManager.getIdea();
                         idea.setCategory(parseObjectManager.getCategory());
+                        Graphic graphic = new ParseObjectManager(parseObject.getParseObject("graphicPointer")).getGraphic();
+                        idea.setGraphic(graphic);
 
                         ideaList.add(idea);
                     }
