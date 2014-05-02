@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.View;
 import com.google.analytics.tracking.android.Fields;
 import com.lovingheart.app.DailyKind;
+import com.lovingheart.app.object.parse.Flag;
 import com.lovingheart.app.util.AnalyticsManager;
 import com.parse.CountCallback;
 import com.parse.ParseException;
@@ -39,6 +40,12 @@ public class StoriesLatestFragment extends StoriesFeedsFragment {
         parseQuery.orderByDescending("createdAt");
         parseQuery.include("ideaPointer");
         parseQuery.include("graphicPointer");
+
+        ParseQuery<Flag> flagQuery = ParseQuery.getQuery(Flag.class);
+        flagQuery.whereEqualTo("Object", "Story");
+        flagQuery.whereEqualTo("Status", "Close");
+
+        parseQuery.whereDoesNotMatchKeyInQuery("objectId", "ObjID", flagQuery);
         parseQuery.whereNotContainedIn("status", DailyKind.getAnonymousStoriesStatusList(getActivity()));
         parseQuery.setLimit(10);
         parseQuery.whereContainedIn("language", DailyKind.getLanguageCollection(getActivity()));

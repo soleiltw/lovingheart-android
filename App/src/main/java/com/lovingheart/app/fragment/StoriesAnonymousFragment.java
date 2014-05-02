@@ -13,6 +13,7 @@ import com.lovingheart.app.DailyKind;
 import com.lovingheart.app.R;
 import com.lovingheart.app.activity.StoryContentActivity;
 import com.lovingheart.app.adapter.StoryAnonymousAdapter;
+import com.lovingheart.app.object.parse.Flag;
 import com.lovingheart.app.util.AnalyticsManager;
 import com.parse.CountCallback;
 import com.parse.ParseException;
@@ -72,6 +73,12 @@ public class StoriesAnonymousFragment extends StoriesFeedsFragment {
         parseQuery.include("graphicPointer");
         parseQuery.whereContainedIn("status", DailyKind.getAnonymousStoriesStatusList(getActivity()));
         parseQuery.whereContainedIn("language", DailyKind.getLanguageCollection(getActivity()));
+        ParseQuery<Flag> flagQuery = ParseQuery.getQuery(Flag.class);
+        flagQuery.whereEqualTo("Object", "Story");
+        flagQuery.whereEqualTo("Status", "Close");
+
+        parseQuery.whereDoesNotMatchKeyInQuery("objectId", "ObjID", flagQuery);
+
         parseQuery.setLimit(10);
         parseQuery.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
         parseQuery.setMaxCacheAge(DailyKind.QUERY_AT_LEAST_CACHE_AGE);
