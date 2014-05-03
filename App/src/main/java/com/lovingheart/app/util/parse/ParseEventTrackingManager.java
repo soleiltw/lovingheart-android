@@ -21,6 +21,8 @@ public class ParseEventTrackingManager {
 
     public static String ACTION_WRITE_STORY = "write_story";
 
+    public static String ACTION_SHARE_STORY_TO_FACEBOOK = "share_to_facebook";
+
     public static void event(ParseUser parseUser, final ParseObject storyObject, final String action, final int value) {
         ParseObject eventObject = new ParseObject("Event");
 

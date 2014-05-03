@@ -6,9 +6,9 @@
 	<string name="map_key">AIzaSyBguhqtGZ3xbzHkTNSh8AI5O3Wa62QXrTw</string>
     <string name="title_today">本日推薦</string>
     <string name="title_me">成為會員</string>
-    <string name="title_latest_activities">最新故事</string>
-	<string name="title_popular_activities">熱門故事</string>
-	<string name="title_stories">分享的故事</string>
+    <string name="title_latest_activities">最新行動</string>
+	<string name="title_popular_activities">熱門行動</string>
+	<string name="title_stories">分享的行動</string>
     <string name="action_settings">設定</string>
 	<string name="action_login">登入</string>
 
@@ -19,7 +19,7 @@
 	<string name="action_ask_for_help">Ask for help</string>
 
 	<string name="story_upload_progress">記錄中...</string>
-	<string name="me_number_of_stories_shared">故事分享</string>
+	<string name="me_number_of_stories_shared">行動分享</string>
 	<string name="me_since_pre_text">自從</string>
 
 	<string name="deed_of_number_of_people_prefix">這張友善行動卡已經完成了</string>
@@ -52,7 +52,7 @@
 	<string name="idea_caption_feature_idea">本日推薦行動卡</string>
 	<string name="idea_caption_special_idea">好手氣行動卡</string>
 
-	<string name="post_story_content_need_title">故事內容</string>
+	<string name="post_story_content_need_title">行動內容</string>
 	<string name="post_story_content_need_message">請輸入文字內容</string>
 
 	<string name="ask_login_dialog_message">在此之前，需要您先前往登入。</string>
@@ -70,11 +70,11 @@
 
 	<string name="idea_cards_browse_more">觀看更多</string>
 	<string name="good_deed_content_remind_me">提醒</string>
-	<string name="good_deed_content_do_it_now">分享您的故事</string>
+	<string name="good_deed_content_do_it_now">分享您的行動</string>
 	<string name="post_story_post">發佈</string>
 	<string name="me_graphic_gallery">相簿</string>
 	<string name="user_login_or">或</string>
-	<string name="user_login_not_a_member">今天起註冊開始記錄自己正向故事！</string>
+	<string name="user_login_not_a_member">今天起註冊開始記錄自己正向行動！</string>
 	<string name="user_login_sign_up">Email 註冊</string>
 	<string name="user_login_promise">我們不會未經您允許隨意發佈您的訊息到其他社交平台</string>
 	<string name="user_signup_sign_up">Email 註冊</string>
@@ -90,10 +90,10 @@
 
 	<!-- Activity -->
 	<string name="activity_settings">設定</string>
-	<string name="activity_story">故事</string>
+	<string name="activity_story">行動</string>
 	<string name="activity_deed_content">友善行動卡</string>
 	<string name="activity_deed_category">友善行動卡</string>
-	<string name="activity_story_edit">故事編輯</string>
+	<string name="activity_story_edit">行動編輯</string>
 	<string name="story_content_encourage_ratings">給予鼓勵</string>
 	<string name="submit">送出</string>
 	<string name="loading">請稍後</string>
@@ -123,20 +123,20 @@
 
 	<string name="setting_idea_feedback_summary">和我們分享你的想法</string>
 	<string name="setting_idea_feedback_title">想法與建議</string>
-	<string name="user_profile_stories_list_header">分享故事</string>
+	<string name="user_profile_stories_list_header">分享行動</string>
 	<string name="user_profile_graphics_list_header">獲得的圖示</string>
 	<string name="activity_user_profile_label">個人檔案</string>
 	<string name="user_profile_graphics_empty_text">還沒獲得任何圖示</string>
-	<string name="user_profile_stories_empty_text">還沒分享任何故事</string>
+	<string name="user_profile_stories_empty_text">還沒分享任何行動</string>
 	<string name="post_story_photo_uploading">圖片上傳中</string>
 	<string name="setting_playing_music_summary">在資料回傳後播放音效</string>
 	<string name="setting_playing_music_title">播放音效</string>
 	<string name="user_profile_positive_energy_report_title">正向能量分析</string>
-	<string name="user_profile_positive_energy_report_description">透過故事的分享，讓人閱讀感動，給予回饋等等方面來做分析。</string>
+	<string name="user_profile_positive_energy_report_description">透過分享，讓人閱讀感動，給予回饋等等方面來做分析。</string>
 	<string name="user_profile_positive_energy_report_bottom">讓我們分享友善行動來讓世界變得更美好。</string>
 	<string name="idea_category_select_item_all">全部</string>
 
-	<string name="good_deed_content_stories">閱讀分享故事</string>
+	<string name="good_deed_content_stories">閱讀分享行動</string>
 
 	<string name="setting_privacy_policy_title">隱私條款</string>
 	<string name="setting_privacy_policy_summary">閱讀關於隱私條款。</string>
@@ -145,13 +145,13 @@
 	<string name="upgrade_premium_title">升級到金級會員</string>
 	<string name="upgrade_premium_description">因為您將獲得以下專屬好處：</string>
 	<string name="upgrade_premium_energy_report">正向能量報告</string>
-	<string name="upgrade_premium_write_private">書寫私人故事</string>
+	<string name="upgrade_premium_write_private">書寫私人行動</string>
 	<string name="upgrade_premium_monthly_button_unit">1 個月</string>
-	<string name="story_content_story_title_share">故事</string>
+	<string name="story_content_story_title_share">行動</string>
 	<string name="billing_upgrade_to_premium">升級成金級會員</string>
 	<string name="billing_premium_has_becom_member_thanks">您已經成為金級會員</string>
 	<string name="profile_tab_home">個人檔案</string>
-	<string name="profile_tab_stories">分享的故事</string>
+	<string name="profile_tab_stories">分享的行動</string>
 	<string name="profile_tab_collections">插畫收藏</string>
 	<string name="profile_tab_report">正向能量報告</string>
 	<string name="upgrade_premium_year_button_unit">1 年份</string>
@@ -176,7 +176,7 @@
 	<string name="navigation_drawer_close">關閉</string>
 	<string name="intent_share_story">Share Story</string>
 	<string name="menu_share_to_facebook">分享到 Facebook</string>
-	<string name="story_facebook_shared">故事分享完成</string>
+	<string name="story_facebook_shared">行動分享完成</string>
 	<string name="facebook_share_name_idea_card">- 友善行動卡</string>
 
 	<string name="ok">確定</string>
@@ -186,15 +186,15 @@
 
 	<string name="get_involved_idea_cards_browse">參與友善行動卡來獲得</string>
 	<string name="graphic_picker_empty_text">還沒有任何圖示噢，參加友善行動來得到吧！</string>
-	<string name="post_story_hint">述說生活故事</string>
+	<string name="post_story_hint">述說生活行動</string>
 
-	<string name="title_anonymous_activities">匿名故事</string>
+	<string name="title_anonymous_activities">匿名行動</string>
 	<string name="story_teller_anonymous">匿名分享</string>
-	<string name="stories_empty_text">還沒有任何分享故事，快來成為第一個吧！</string>
+	<string name="stories_empty_text">還沒有任何分享行動，快來成為第一個吧！</string>
 	<string name="post_story_status_anonymous_share">想要匿名分享</string>
-	<string name="post_story_status_private_story">不公開的故事</string>
+	<string name="post_story_status_private_story">不公開的行動</string>
 
-	<string name="ask_share_story_dialog_message">願意分享這則故事到 Facebook 給朋友們嗎？</string>
+	<string name="ask_share_story_dialog_message">願意分享這則到 Facebook 給朋友們嗎？</string>
 	<string name="auto_sharing">社群詢問分享</string>
 	<string name="no_dont_ask_again">先別再問</string>
 	<string name="navigation_bottom_qbon">優惠牆</string>

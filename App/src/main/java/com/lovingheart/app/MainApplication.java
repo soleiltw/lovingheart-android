@@ -3,6 +3,7 @@ package com.lovingheart.app;
 import android.app.Application;
 import com.crashlytics.android.Crashlytics;
 import com.lovingheart.app.activity.MainActivity;
+import com.lovingheart.app.object.parse.Flag;
 import com.lovingheart.app.util.AnalyticsManager;
 import com.lovingheart.app.util.parse.ParseObjectManager;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -40,6 +41,8 @@ public class MainApplication extends Application {
 
         // Crashlytics
         Crashlytics.start(this);
+
+        ParseObject.registerSubclass(Flag.class);
 
         ParseUser.enableAutomaticUser();
         ParseACL defaultACL = new ParseACL();

@@ -15,6 +15,7 @@ import com.lovingheart.app.DailyKind;
 import com.lovingheart.app.R;
 import com.lovingheart.app.adapter.IdeaArrayAdapter;
 import com.lovingheart.app.object.Category;
+import com.lovingheart.app.object.Graphic;
 import com.lovingheart.app.object.Idea;
 import com.lovingheart.app.util.parse.ParseObjectManager;
 import com.parse.FindCallback;
@@ -100,6 +101,7 @@ public class DeedCategoryIdeaListActivity extends ActionBarActivity {
         stringCollection.add("close");
         ideasQuery.whereNotContainedIn("status", stringCollection);
         ideasQuery.include("categoryPointer");
+        ideasQuery.include("graphicPointer");
 
         ParseObject categoryParseObject = new ParseObject("Category");
         categoryParseObject.setObjectId(queryCategory.getObjectId());
@@ -119,6 +121,10 @@ public class DeedCategoryIdeaListActivity extends ActionBarActivity {
                         ParseObjectManager parseObjectManager = new ParseObjectManager(parseObject);
 
                         Idea idea = parseObjectManager.getIdea();
+
+                        Graphic graphic = new ParseObjectManager(parseObject.getParseObject("graphicPointer")).getGraphic();
+                        idea.setGraphic(graphic);
+
                         idea.setCategory(parseObjectManager.getCategory());
 
                         ideaList.add(idea);

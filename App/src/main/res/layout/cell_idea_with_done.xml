@@ -3,8 +3,19 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
               android:padding="5dp"
+              android:paddingBottom="10dp"
+              android:layout_margin="10dp"
+              android:background="@drawable/layout_background_shadow"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
+
+	<ImageView
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:background="@color/theme_color_3"
+		android:scaleType="centerCrop"
+		android:id="@+id/idea_content_image_view"
+		android:layout_gravity="center_horizontal"/>
 
 	<TextView
 		android:id="@+id/idea_title_text_view"

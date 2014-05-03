@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.util.Log;
 import com.google.analytics.tracking.android.Fields;
 import com.lovingheart.app.DailyKind;
+import com.lovingheart.app.object.parse.Flag;
 import com.lovingheart.app.util.AnalyticsManager;
 import com.parse.CountCallback;
 import com.parse.ParseException;
@@ -34,6 +35,11 @@ public class StoriesPopularFragment extends StoriesFeedsFragment {
         parseQuery.orderByDescending("reviewImpact");
         parseQuery.include("ideaPointer");
         parseQuery.include("graphicPointer");
+        ParseQuery<Flag> flagQuery = ParseQuery.getQuery(Flag.class);
+        flagQuery.whereEqualTo("Object", "Story");
+        flagQuery.whereEqualTo("Status", "Close");
+
+        parseQuery.whereDoesNotMatchKeyInQuery("objectId", "ObjID", flagQuery);
         parseQuery.whereNotContainedIn("status", DailyKind.getAnonymousStoriesStatusList(getActivity()));
 
         parseQuery.whereContainedIn("language", DailyKind.getLanguageCollection(getActivity()));

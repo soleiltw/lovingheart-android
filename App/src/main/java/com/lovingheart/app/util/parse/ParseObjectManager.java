@@ -64,6 +64,7 @@ public class ParseObjectManager {
         story.setUpdatedAt(parseObject.getUpdatedAt());
         story.setLocationAreaName(parseObject.getString("areaName"));
         story.setViewCount(parseObject.getInt("viewCount"));
+        story.setStatus(parseObject.getString("status"));
         return story;
     }
 

@@ -49,7 +49,9 @@ public class StoryAnonymousAdapter extends StoryArrayAdapter {
         ParseObjectManager parseObjectManager = new ParseObjectManager(storyObject);
         final Story story = parseObjectManager.getStory();
         User user = new User();
-        user.setName(story.getStoryTeller().getString("name"));
+        if  (story.getStoryTeller() != null) {
+            user.setName(story.getStoryTeller().getString("name"));
+        }
 
         if (storyObject.getParseObject("graphicPointer") != null) {
             Graphic graphic = new ParseObjectManager(storyObject.getParseObject("graphicPointer")).getGraphic();
