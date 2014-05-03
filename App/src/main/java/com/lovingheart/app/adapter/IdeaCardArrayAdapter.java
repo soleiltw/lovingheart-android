@@ -112,6 +112,23 @@ public class IdeaCardArrayAdapter extends ArrayAdapter<IdeaObject> {
             }
         }
 
+        // idea_done_text_view
+        TextView doneTextView = (TextView)rootView.findViewById(R.id.idea_done_text_view);
+        if (idea.getDoneCount() > 0) {
+            doneTextView.setText(
+                    getContext().getString(R.string.deed_of_number_of_people_prefix_short) +
+                            getContext().getString(R.string.space) +
+                            idea.getDoneCount() +
+                            getContext().getString(R.string.space) +
+                            (idea.getDoneCount() > 1 ?
+                                    getContext().getString(R.string.deed_of_number_of_people_post_times) :
+                                    getContext().getString(R.string.deed_of_number_of_people_post_time))
+            );
+            doneTextView.setVisibility(View.VISIBLE);
+        } else {
+            doneTextView.setVisibility(View.INVISIBLE);
+        }
+
         View groupLayout = rootView.findViewById(R.id.idea_content_org_layout);
         groupLayout.setVisibility(View.GONE);
 
