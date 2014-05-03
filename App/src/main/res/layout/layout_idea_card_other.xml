@@ -35,4 +35,5 @@
 
 	<include layout="@layout/layout_idea_content" />
 
+
 </LinearLayout>
