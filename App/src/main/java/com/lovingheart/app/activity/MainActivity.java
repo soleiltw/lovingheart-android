@@ -19,6 +19,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import com.flurry.android.FlurryAgent;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.hiiir.qbonsdk.Qbon;
 import com.lovingheart.app.DailyKind;
@@ -446,11 +447,15 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
     protected void onStart() {
         super.onStart();
         EasyTracker.getInstance(this).activityStart(this);
+
+        FlurryAgent.onStartSession(this, "Y4FDRZ32XVJ6V264G7XH");
     }
 
     @Override
     protected void onStop() {
         super.onStop();
         EasyTracker.getInstance(this).activityStop(this);
+
+        FlurryAgent.onEndSession(this);
     }
 }

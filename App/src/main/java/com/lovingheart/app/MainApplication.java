@@ -2,6 +2,8 @@ package com.lovingheart.app;
 
 import android.app.Application;
 import com.crashlytics.android.Crashlytics;
+import com.facebook.AppEventsLogger;
+import com.flurry.android.FlurryAgent;
 import com.lovingheart.app.activity.MainActivity;
 import com.lovingheart.app.object.parse.Flag;
 import com.lovingheart.app.util.AnalyticsManager;
@@ -28,6 +30,12 @@ public class MainApplication extends Application {
         config.setForumId(244034);
         config.setTopicId(50280);
         UserVoice.init(config, this);
+
+        // Flurry
+        FlurryAgent.onStartSession(this, "Y4FDRZ32XVJ6V264G7XH");
+
+        // Active App
+        AppEventsLogger.activateApp(getApplicationContext(), getString(R.string.app_id));
 
         // GA
         AnalyticsManager.getInstance().Initialize(getApplicationContext());
