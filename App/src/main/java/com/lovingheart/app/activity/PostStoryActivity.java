@@ -654,6 +654,17 @@ public class PostStoryActivity extends ActionBarActivity {
 
                     ParseEventTrackingManager.event(ParseUser.getCurrentUser(), parseObject, ParseEventTrackingManager.ACTION_WRITE_STORY, 1);
 
+                    ParseCloud.callFunctionInBackground("updateUserStoriesCount", new HashMap<String, Object>(), new FunctionCallback<String>() {
+                        @Override
+                        public void done(String result, ParseException e) {
+                            if (e == null) {
+                                Log.d(DailyKind.TAG, "ParseCloud.updateUserStoriesCount: " + result);
+                            } else {
+                                Log.e(DailyKind.TAG, "Error: " + e.getLocalizedMessage());
+                            }
+                        }
+                    });
+
                     if (storyPostingDialog.isShowing()) {
                         storyPostingDialog.dismiss();
                     }
