@@ -198,4 +198,7 @@
 	<string name="auto_sharing">社群詢問分享</string>
 	<string name="no_dont_ask_again">先別再問</string>
 	<string name="navigation_bottom_qbon">優惠牆</string>
+
+	<string name="action_leaderboard">領先牆</string>
+	<string name="title_top_participate">最高響應榜</string>
 </resources>

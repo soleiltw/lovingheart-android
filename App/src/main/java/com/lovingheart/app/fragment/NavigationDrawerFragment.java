@@ -134,7 +134,7 @@ public class NavigationDrawerFragment extends Fragment {
                 getActivity(),
                 android.R.layout.simple_list_item_1,
                 new String[]{
-                        "Leaderboard",
+                        getString(R.string.action_leaderboard),
                         getString(R.string.navigation_bottom_qbon),
                         getString(R.string.navigation_bottom_getting_started), getString(R.string.navigation_bottom_settings)
                 });

@@ -196,5 +196,8 @@
 	<string name="ask_share_story_dialog_message">Want to share this story to your Facebook friends?</string>
 	<string name="auto_sharing">Ask to share</string>
 	<string name="no_dont_ask_again">Don\'t ask again.</string>
+	
+	<string name="action_leaderboard">Leaderboard</string>
+	<string name="title_top_participate">Top Participate</string>
 
 </resources>

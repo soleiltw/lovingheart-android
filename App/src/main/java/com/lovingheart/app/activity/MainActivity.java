@@ -248,7 +248,7 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
             switch (position) {
                 case VIEW_PAGER_USER_IMPACT: {
                     fragment = UserImpactsFragment.newInstance(position + 1);
-                    contentTitle = "Top Participate";
+                    contentTitle = getString(R.string.title_top_participate);
 
                     navigationMode = ActionBar.NAVIGATION_MODE_STANDARD;
                     actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
