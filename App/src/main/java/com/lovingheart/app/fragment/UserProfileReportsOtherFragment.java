@@ -130,23 +130,25 @@ public class UserProfileReportsOtherFragment extends UserProfileReportsFragment 
                             }
                         }
 
-                        if (showNeedUpgradeWord) {
-                            premiumLockTextView.setText(getResources().getString(R.string.premium_lock_ask_part_1) +
+                        if (isAdded()) {
+                            if (showNeedUpgradeWord) {
+                                premiumLockTextView.setText(getResources().getString(R.string.premium_lock_ask_part_1) +
                                         getResources().getString(R.string.space) +
                                         parseUser.getString("name") +
                                         getString(R.string.space) +
                                         getResources().getString(R.string.premium_lock_ask_part_2));
 
-                            billingButton.setText(getString(R.string.upgrade_to_premium_share_to) +
-                                    getString(R.string.space) +
-                                    parseUser.getString("name"));
+                                billingButton.setText(getString(R.string.upgrade_to_premium_share_to) +
+                                        getString(R.string.space) +
+                                        parseUser.getString("name"));
 
-                            billingButton.setVisibility(View.VISIBLE);
-                            premiumLockTextView.setVisibility(View.VISIBLE);
-                        } else {
-                            validPassShowReport(parseUser);
-                            billingButton.setVisibility(View.GONE);
-                            premiumLockTextView.setVisibility(View.GONE);
+                                billingButton.setVisibility(View.VISIBLE);
+                                premiumLockTextView.setVisibility(View.VISIBLE);
+                            } else {
+                                validPassShowReport(parseUser);
+                                billingButton.setVisibility(View.GONE);
+                                premiumLockTextView.setVisibility(View.GONE);
+                            }
                         }
                     }
                 });
