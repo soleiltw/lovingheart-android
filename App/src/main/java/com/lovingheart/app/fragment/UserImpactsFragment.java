@@ -148,8 +148,27 @@ public class UserImpactsFragment extends PlaceholderFragment {
                 updateRefreshItem(false);
 
                 if  (parseObjects!=null) {
-                    userImpactList.addAll(parseObjects);
-                    userImpactsAdapter.notifyDataSetChanged();
+
+                    boolean dataHasChange = false;
+                    for (ParseObject eachParseObject : parseObjects) {
+                        boolean hasAdd = false;
+                        // If use cache then network, then done will be call 2 times.
+                        for (ParseObject addedParseObject : userImpactList) {
+                            if (eachParseObject.getObjectId().equals(addedParseObject.getObjectId())) {
+                                hasAdd = true;
+                                break;
+                            }
+                        }
+                        if (!hasAdd) {
+                            userImpactList.add(eachParseObject);
+                            dataHasChange = true;
+                        } else {
+                            Log.d(DailyKind.TAG, "CachePolicy Skip object: " + eachParseObject.getObjectId());
+                        }
+                    }
+                    if (dataHasChange) {
+                        userImpactsAdapter.notifyDataSetChanged();
+                    }
                 }
             }
         });
