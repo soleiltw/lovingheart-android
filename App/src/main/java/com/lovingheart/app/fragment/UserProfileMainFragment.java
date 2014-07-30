@@ -28,9 +28,9 @@ public class UserProfileMainFragment extends UserProfileFragment {
     private TabPageIndicator tabPageIndicator;
 
     public static final int VIEW_PAGER_BASIC = 0;
-    public static final int VIEW_PAGER_STORIES = 1;
-    public static final int VIEW_PAGER_COLLECTIONS = 2;
-    public static final int VIEW_PAGER_REPORT = 3;
+    public static final int VIEW_PAGER_STORIES = 2;
+    public static final int VIEW_PAGER_COLLECTIONS = 3;
+    public static final int VIEW_PAGER_REPORT = 1;
 
     public static final int VIEW_PAGER_COUNT = 4;
 

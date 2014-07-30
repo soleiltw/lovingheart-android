@@ -131,6 +131,8 @@ public class UserProfileReportsMeFragment extends UserProfileReportsFragment {
                             }
                         }
 
+                        // TODO Unlock for all user
+                        showNeedUpgradeWord = false;
                         if (showNeedUpgradeWord) {
                             premiumLockTextView.setText(getResources().getString(R.string.premium_lock_view_by_self_text));
                             premiumLockTextView.setVisibility(View.VISIBLE);

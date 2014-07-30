@@ -291,6 +291,7 @@ public class UserProfileBasicFragment extends UserProfileFragment {
 
     protected void saveUserImpact(final UserImpact userImpactInfo) {
         // We don't update user impact
+        // Find user impact
     }
 
     public String getUserId() {

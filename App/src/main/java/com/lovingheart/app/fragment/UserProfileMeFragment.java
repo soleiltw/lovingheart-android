@@ -50,16 +50,7 @@ public class UserProfileMeFragment extends UserProfileBasicFragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        ParseCloud.callFunctionInBackground("updateUserStoriesCount", new HashMap<String, Object>(), new FunctionCallback<String>() {
-            @Override
-            public void done(String result, ParseException e) {
-                if (e == null) {
-                    Log.d(DailyKind.TAG, "ParseCloud.updateUserStoriesCount: " + result);
-                } else {
-                    Log.e(DailyKind.TAG, "Error: " + e.getLocalizedMessage());
-                }
-            }
-        });
+
     }
 
     @Override
@@ -130,30 +121,34 @@ public class UserProfileMeFragment extends UserProfileBasicFragment {
                     Log.e(DailyKind.TAG, e.getLocalizedMessage());
                 }
 
-                ParseObject userImpactObject = new ParseObject("UserImpact");
-                userImpactObject.put("User", ParseUser.getCurrentUser());
-                if (parseObject!=null) {
-                    userImpactObject = parseObject;
+                if (parseObject != null) {
+                    parseObject.put("reviewStarsImpact", userImpactInfo.getStarsReviewCount());
+                    parseObject.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            if (e != null) {
+                                Log.e(DailyKind.TAG, "Save User Impact error: " + e.getLocalizedMessage());
+                            } else {
+                                Log.d(DailyKind.TAG, "User Impact saved.");
+                            }
+                        }
+                    });
+                } else {
+                    ParseObject userImpact = new ParseObject("UserImpact");
+                    userImpact.put("User", ParseUser.getCurrentUser());
+                    userImpact.put("sharedStoriesCount", userImpactInfo.getStoriesSharedCount());
+                    userImpact.put("reviewStarsImpact", userImpactInfo.getStarsReviewCount());
+                    userImpact.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            if (e != null) {
+                                Log.e(DailyKind.TAG, "Save User Impact error: " + e.getLocalizedMessage());
+                            } else {
+                                Log.d(DailyKind.TAG, "User Impact created.");
+                            }
+                        }
+                    });
                 }
-
-                if (userImpactInfo.getStoriesSharedCount() > 0){
-                    userImpactObject.put("sharedStoriesCount", userImpactInfo.getStoriesSharedCount());
-                }
-                if (userImpactInfo.getGraphicEarnedCount() > 0){
-                    userImpactObject.put("graphicsEarnedCount", userImpactInfo.getGraphicEarnedCount());
-                }
-                if (userImpactInfo.getStarsReviewCount() > 0){
-                    userImpactObject.put("reviewStarsImpact", userImpactInfo.getStarsReviewCount());
-                }
-//                userImpactObject.saveInBackground(new SaveCallback() {
-//                    @Override
-//                    public void done(ParseException e) {
-//                        if  (e==null && getActivity()!=null) {
-//                            Log.d(DailyKind.TAG, "User Impact report saved.");
-//                        }
-//                    }
-//                });
-
             }
         });
     }

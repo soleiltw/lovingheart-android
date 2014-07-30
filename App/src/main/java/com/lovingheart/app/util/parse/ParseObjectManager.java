@@ -2,10 +2,7 @@ package com.lovingheart.app.util.parse;
 
 import android.util.Log;
 import com.lovingheart.app.DailyKind;
-import com.lovingheart.app.object.Category;
-import com.lovingheart.app.object.Graphic;
-import com.lovingheart.app.object.Idea;
-import com.lovingheart.app.object.Story;
+import com.lovingheart.app.object.*;
 import com.parse.*;
 
 /**
@@ -93,6 +90,23 @@ public class ParseObjectManager {
             graphic.setObjectId(parseObject.getObjectId());
             graphic.setImageUrl(parseObject.getString("imageUrl"));
             return graphic;
+        }
+        return null;
+    }
+
+    public User getUser() {
+        if (parseObject != null) {
+            try {
+                parseObject.fetchIfNeeded();
+            } catch (ParseException e) {
+                Log.e(DailyKind.TAG, "Fetch if needed" + e.getLocalizedMessage());
+            }
+            User user = new User();
+            user.setUserId(parseObject.getObjectId());
+            user.setName(parseObject.getString("name"));
+            user.setAvatar(parseObject.getParseObject("avatar"));
+
+            return user;
         }
         return null;
     }

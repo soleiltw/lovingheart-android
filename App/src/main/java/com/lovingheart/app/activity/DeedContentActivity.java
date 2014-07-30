@@ -131,6 +131,9 @@ public class DeedContentActivity extends ActionBarActivity {
 
         findViewById(R.id.idea_content_org_layout).setVisibility(View.GONE);
 
+        TextView doneTextView = (TextView)findViewById(R.id.idea_done_text_view);
+        doneTextView.setVisibility(View.GONE);
+
         loadIdea();
     }
 
@@ -391,7 +394,7 @@ public class DeedContentActivity extends ActionBarActivity {
                             }
                         });
 
-                        loadCheckIfEarnedGraphic(ideaParseObject);
+//                        loadCheckIfEarnedGraphic(ideaParseObject);
 
 
                     } else {
@@ -466,10 +469,10 @@ public class DeedContentActivity extends ActionBarActivity {
                                 }
                             }
 
-                            if (!isUserHaveGraphic) {
-                                earnDescribeTextView.setText(getString(R.string.deed_content_done_credit));
-                                earnDescribeTextView.setVisibility(View.VISIBLE);
-                            }
+//                            if (!isUserHaveGraphic) {
+//                                earnDescribeTextView.setText(getString(R.string.deed_content_done_credit));
+//                                earnDescribeTextView.setVisibility(View.VISIBLE);
+//                            }
                         }
                     });
                 }

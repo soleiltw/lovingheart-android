@@ -283,7 +283,12 @@ public class ReportManager {
 
             analyseInfo.setGraphicDirection(Info.GraphicDirection.LEFT);
 
-            reportWordings.add(analyseInfo);
+            if (reportWordings.size() >= 1) {
+                reportWordings.add(1, analyseInfo);
+            } else {
+                reportWordings.add(analyseInfo);
+            }
+
         }
     }
 
