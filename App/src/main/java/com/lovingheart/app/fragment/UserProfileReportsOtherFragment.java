@@ -131,6 +131,9 @@ public class UserProfileReportsOtherFragment extends UserProfileReportsFragment 
                         }
 
                         if (isAdded()) {
+
+                            // TODO Unlock for all user showNeedUpgradeWord
+                            showNeedUpgradeWord = false;
                             if (showNeedUpgradeWord) {
                                 premiumLockTextView.setText(getResources().getString(R.string.premium_lock_ask_part_1) +
                                         getResources().getString(R.string.space) +
