@@ -1,5 +1,6 @@
 package com.lovingheart.app.fragment;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -109,6 +110,7 @@ public class NavigationDrawerFragment extends Fragment {
 
         bottomListView = (DrawerBottomListView)rootView.findViewById(R.id.left_bottom_list_view);
         bottomListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @TargetApi(Build.VERSION_CODES.HONEYCOMB)
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 view.setSelected(true);
@@ -132,6 +134,7 @@ public class NavigationDrawerFragment extends Fragment {
                 getActivity(),
                 android.R.layout.simple_list_item_1,
                 new String[]{
+                        getString(R.string.action_leaderboard),
                         getString(R.string.navigation_bottom_qbon),
                         getString(R.string.navigation_bottom_getting_started), getString(R.string.navigation_bottom_settings)
                 });

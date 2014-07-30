@@ -45,9 +45,10 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
     public final static int VIEW_PAGER_STORIES_POSITION = 3;
     public final static int VIEW_PAGER_GOOD_DEEDS_POSITION = 2;
 
-    public final static int VIEW_PAGER_GETTING_STARTED = 1;
-    public final static int VIEW_PAGER_SETTINGS = 2;
-    public final static int VIEW_PAGER_QBON = 0;
+    public final static int VIEW_PAGER_GETTING_STARTED = 2;
+    public final static int VIEW_PAGER_SETTINGS = 3;
+    public final static int VIEW_PAGER_QBON = 1;
+    public final static int VIEW_PAGER_USER_IMPACT = 0;
 
     private NavigationDrawerFragment mNavigationDrawerFragment;
 
@@ -245,6 +246,19 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
             Log.d(DailyKind.TAG, "Select bottom: " + position);
 
             switch (position) {
+                case VIEW_PAGER_USER_IMPACT: {
+                    fragment = UserImpactsFragment.newInstance(position + 1);
+                    contentTitle = getString(R.string.title_top_participate);
+
+                    navigationMode = ActionBar.NAVIGATION_MODE_STANDARD;
+                    actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+                    actionBar.setDisplayShowTitleEnabled(true);
+
+                    FragmentManager fragmentManager = getSupportFragmentManager();
+                    fragmentManager.beginTransaction().replace(R.id.container, fragment).commit();
+
+                    break;
+                }
                 case VIEW_PAGER_QBON:
                     qbon.openOfferWall();
                     ParseObjectManager.userLogDone("aT3YgfPivy");

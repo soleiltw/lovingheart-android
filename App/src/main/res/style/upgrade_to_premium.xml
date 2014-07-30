@@ -1,5 +1,5 @@
 <resources>
 	<style name="upgradeToPremiumDialog" parent="android:Theme.Dialog">
-		<item name="android:windowBackground">#7cc342</item>
+
 	</style>
 </resources>
